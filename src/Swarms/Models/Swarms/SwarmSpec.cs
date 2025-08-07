@@ -1,0 +1,334 @@
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Swarms.Models.Agent;
+using SwarmSpecProperties = Swarms.Models.Swarms.SwarmSpecProperties;
+
+namespace Swarms.Models.Swarms;
+
+[JsonConverter(typeof(ModelConverter<SwarmSpec>))]
+public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
+{
+    /// <summary>
+    /// A list of agents or specifications that define the agents participating in
+    /// the swarm.
+    /// </summary>
+    public List<AgentSpec>? Agents
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("agents", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<List<AgentSpec>?>(
+                element,
+                ModelBase.SerializerOptions
+            );
+        }
+        set { this.Properties["agents"] = JsonSerializer.SerializeToElement(value); }
+    }
+
+    /// <summary>
+    /// A comprehensive description of the swarm's objectives, capabilities, and
+    /// intended outcomes.
+    /// </summary>
+    public string? Description
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("description", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        set { this.Properties["description"] = JsonSerializer.SerializeToElement(value); }
+    }
+
+    /// <summary>
+    /// The number of loops to run per agent in the heavy swarm.
+    /// </summary>
+    public long? HeavySwarmLoopsPerAgent
+    {
+        get
+        {
+            if (
+                !this.Properties.TryGetValue("heavy_swarm_loops_per_agent", out JsonElement element)
+            )
+                return null;
+
+            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
+        }
+        set
+        {
+            this.Properties["heavy_swarm_loops_per_agent"] = JsonSerializer.SerializeToElement(
+                value
+            );
+        }
+    }
+
+    /// <summary>
+    /// The model name to use for the question agent in the heavy swarm.
+    /// </summary>
+    public string? HeavySwarmQuestionAgentModelName
+    {
+        get
+        {
+            if (
+                !this.Properties.TryGetValue(
+                    "heavy_swarm_question_agent_model_name",
+                    out JsonElement element
+                )
+            )
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        set
+        {
+            this.Properties["heavy_swarm_question_agent_model_name"] =
+                JsonSerializer.SerializeToElement(value);
+        }
+    }
+
+    /// <summary>
+    /// The model name to use for the worker agent in the heavy swarm.
+    /// </summary>
+    public string? HeavySwarmWorkerModelName
+    {
+        get
+        {
+            if (
+                !this.Properties.TryGetValue(
+                    "heavy_swarm_worker_model_name",
+                    out JsonElement element
+                )
+            )
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        set
+        {
+            this.Properties["heavy_swarm_worker_model_name"] = JsonSerializer.SerializeToElement(
+                value
+            );
+        }
+    }
+
+    /// <summary>
+    /// An optional image URL that may be associated with the swarm's task or representation.
+    /// </summary>
+    public string? Img
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("img", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        set { this.Properties["img"] = JsonSerializer.SerializeToElement(value); }
+    }
+
+    /// <summary>
+    /// The maximum number of execution loops allowed for the swarm, enabling repeated
+    /// processing if needed.
+    /// </summary>
+    public long? MaxLoops
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("max_loops", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
+        }
+        set { this.Properties["max_loops"] = JsonSerializer.SerializeToElement(value); }
+    }
+
+    /// <summary>
+    /// A list of messages that the swarm should complete.
+    /// </summary>
+    public SwarmSpecProperties::Messages? Messages
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("messages", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<SwarmSpecProperties::Messages?>(
+                element,
+                ModelBase.SerializerOptions
+            );
+        }
+        set { this.Properties["messages"] = JsonSerializer.SerializeToElement(value); }
+    }
+
+    /// <summary>
+    /// The name of the swarm, which serves as an identifier for the group of agents
+    /// and their collective task.
+    /// </summary>
+    public string? Name
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("name", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        set { this.Properties["name"] = JsonSerializer.SerializeToElement(value); }
+    }
+
+    /// <summary>
+    /// Instructions on how to rearrange the flow of tasks among agents, if applicable.
+    /// </summary>
+    public string? RearrangeFlow
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("rearrange_flow", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        set { this.Properties["rearrange_flow"] = JsonSerializer.SerializeToElement(value); }
+    }
+
+    /// <summary>
+    /// Guidelines or constraints that govern the behavior and interactions of the
+    /// agents within the swarm.
+    /// </summary>
+    public string? Rules
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("rules", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        set { this.Properties["rules"] = JsonSerializer.SerializeToElement(value); }
+    }
+
+    /// <summary>
+    /// The service tier to use for processing. Options: 'standard' (default) or
+    /// 'flex' for lower cost but slower processing.
+    /// </summary>
+    public string? ServiceTier
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("service_tier", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        set { this.Properties["service_tier"] = JsonSerializer.SerializeToElement(value); }
+    }
+
+    /// <summary>
+    /// A flag indicating whether the swarm should stream its output.
+    /// </summary>
+    public bool? Stream
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("stream", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
+        }
+        set { this.Properties["stream"] = JsonSerializer.SerializeToElement(value); }
+    }
+
+    /// <summary>
+    /// The classification of the swarm, indicating its operational style and methodology.
+    /// </summary>
+    public SwarmSpecProperties::SwarmType? SwarmType
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("swarm_type", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<SwarmSpecProperties::SwarmType?>(
+                element,
+                ModelBase.SerializerOptions
+            );
+        }
+        set { this.Properties["swarm_type"] = JsonSerializer.SerializeToElement(value); }
+    }
+
+    /// <summary>
+    /// The specific task or objective that the swarm is designed to accomplish.
+    /// </summary>
+    public string? Task
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("task", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        set { this.Properties["task"] = JsonSerializer.SerializeToElement(value); }
+    }
+
+    /// <summary>
+    /// A list of tasks that the swarm should complete.
+    /// </summary>
+    public List<string>? Tasks
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("tasks", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
+        }
+        set { this.Properties["tasks"] = JsonSerializer.SerializeToElement(value); }
+    }
+
+    public override void Validate()
+    {
+        foreach (var item in this.Agents ?? [])
+        {
+            item.Validate();
+        }
+        _ = this.Description;
+        _ = this.HeavySwarmLoopsPerAgent;
+        _ = this.HeavySwarmQuestionAgentModelName;
+        _ = this.HeavySwarmWorkerModelName;
+        _ = this.Img;
+        _ = this.MaxLoops;
+        this.Messages?.Validate();
+        _ = this.Name;
+        _ = this.RearrangeFlow;
+        _ = this.Rules;
+        _ = this.ServiceTier;
+        _ = this.Stream;
+        this.SwarmType?.Validate();
+        _ = this.Task;
+        foreach (var item in this.Tasks ?? [])
+        {
+            _ = item;
+        }
+    }
+
+    public SwarmSpec() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    SwarmSpec(Dictionary<string, JsonElement> properties)
+    {
+        Properties = properties;
+    }
+#pragma warning restore CS8618
+
+    public static SwarmSpec FromRawUnchecked(Dictionary<string, JsonElement> properties)
+    {
+        return new(properties);
+    }
+}
