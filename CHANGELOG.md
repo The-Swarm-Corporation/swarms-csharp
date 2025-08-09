@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.3 (2025-08-09)
+
+Full Changelog: [v0.0.2...v0.0.3](https://github.com/The-Swarm-Corporation/swarms-csharp/compare/v0.0.2...v0.0.3)
+
+### Chores
+
+* **internal:** update comment in script ([a01b505](https://github.com/The-Swarm-Corporation/swarms-csharp/commit/a01b5058e0baf1c59e71105cbc54cd319446a41e))
+* update @stainless-api/prism-cli to v5.15.0 ([1961fc9](https://github.com/The-Swarm-Corporation/swarms-csharp/commit/1961fc9131e2cdf47bd1c905070ea3e1f7b84d07))
+
 ## 0.0.2 (2025-08-07)
 
 Full Changelog: [v0.0.1...v0.0.2](https://github.com/The-Swarm-Corporation/swarms-csharp/compare/v0.0.1...v0.0.2)
