@@ -6,7 +6,7 @@ namespace Swarms.Tests.Services.Agent.Batch;
 
 public class BatchServiceTest : TestBase
 {
-    [Fact]
+    [Fact(Skip = "Prism tests are disabled")]
     public async Task Run_Works()
     {
         var response = await this.client.Agent.Batch.Run(
