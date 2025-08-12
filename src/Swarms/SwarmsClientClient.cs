@@ -72,10 +72,10 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
 
     public async Task<JsonElement> GetRoot(Models::ClientGetRootParams parameters)
     {
-        using Http::HttpRequestMessage webRequest = new(Http::HttpMethod.Get, parameters.Url(this));
-        parameters.AddHeadersToRequest(webRequest, this);
+        using Http::HttpRequestMessage request = new(Http::HttpMethod.Get, parameters.Url(this));
+        parameters.AddHeadersToRequest(request, this);
         using Http::HttpResponseMessage response = await this
-            .HttpClient.SendAsync(webRequest)
+            .HttpClient.SendAsync(request, Http::HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -84,6 +84,7 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<JsonElement>(
             await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
             ModelBase.SerializerOptions

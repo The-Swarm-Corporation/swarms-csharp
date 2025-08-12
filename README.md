@@ -38,7 +38,7 @@ SwarmsClientClient client = new();
 
 ClientGetRootParams parameters = new();
 
-var response = await client..GetRoot(parameters);
+var response = await client.GetRoot(parameters);
 
 Console.WriteLine(response);
 ```
