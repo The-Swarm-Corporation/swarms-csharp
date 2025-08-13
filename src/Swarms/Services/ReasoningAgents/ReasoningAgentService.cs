@@ -4,14 +4,15 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Swarms.Models.ReasoningAgents;
+using Swarms = Swarms;
 
 namespace Swarms.Services.ReasoningAgents;
 
 public sealed class ReasoningAgentService : IReasoningAgentService
 {
-    readonly ISwarmsClientClient _client;
+    readonly Swarms::ISwarmsClientClient _client;
 
-    public ReasoningAgentService(ISwarmsClientClient client)
+    public ReasoningAgentService(Swarms::ISwarmsClientClient client)
     {
         _client = client;
     }
@@ -30,7 +31,7 @@ public sealed class ReasoningAgentService : IReasoningAgentService
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
-            throw new HttpException(
+            throw new Swarms::HttpException(
                 response.StatusCode,
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
@@ -38,7 +39,7 @@ public sealed class ReasoningAgentService : IReasoningAgentService
 
         return JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
+                Swarms::ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 
@@ -53,7 +54,7 @@ public sealed class ReasoningAgentService : IReasoningAgentService
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
-            throw new HttpException(
+            throw new Swarms::HttpException(
                 response.StatusCode,
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
@@ -61,7 +62,7 @@ public sealed class ReasoningAgentService : IReasoningAgentService
 
         return JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
+                Swarms::ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 }

@@ -4,13 +4,14 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using AgentRunParamsProperties = Swarms.Models.Agent.AgentRunParamsProperties;
+using Swarms = Swarms;
 
 namespace Swarms.Models.Agent;
 
 /// <summary>
 /// Run an agent with the specified task.
 /// </summary>
-public sealed record class AgentRunParams : ParamsBase
+public sealed record class AgentRunParams : Swarms::ParamsBase
 {
     public Dictionary<string, JsonElement> BodyProperties { get; set; } = [];
 
@@ -24,7 +25,10 @@ public sealed record class AgentRunParams : ParamsBase
             if (!this.BodyProperties.TryGetValue("agent_config", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<AgentSpec?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<AgentSpec?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.BodyProperties["agent_config"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -42,7 +46,7 @@ public sealed record class AgentRunParams : ParamsBase
 
             return JsonSerializer.Deserialize<AgentRunParamsProperties::History?>(
                 element,
-                ModelBase.SerializerOptions
+                Swarms::ModelBase.SerializerOptions
             );
         }
         set { this.BodyProperties["history"] = JsonSerializer.SerializeToElement(value); }
@@ -58,7 +62,10 @@ public sealed record class AgentRunParams : ParamsBase
             if (!this.BodyProperties.TryGetValue("img", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<string?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.BodyProperties["img"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -73,7 +80,10 @@ public sealed record class AgentRunParams : ParamsBase
             if (!this.BodyProperties.TryGetValue("imgs", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<List<string>?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.BodyProperties["imgs"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -88,7 +98,7 @@ public sealed record class AgentRunParams : ParamsBase
             if (!this.BodyProperties.TryGetValue("stream", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<bool?>(element, Swarms::ModelBase.SerializerOptions);
         }
         set { this.BodyProperties["stream"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -103,12 +113,15 @@ public sealed record class AgentRunParams : ParamsBase
             if (!this.BodyProperties.TryGetValue("task", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<string?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.BodyProperties["task"] = JsonSerializer.SerializeToElement(value); }
     }
 
-    public override Uri Url(ISwarmsClientClient client)
+    public override Uri Url(Swarms::ISwarmsClientClient client)
     {
         return new UriBuilder(client.BaseUrl.ToString().TrimEnd('/') + "/v1/agent/completions")
         {
@@ -125,12 +138,12 @@ public sealed record class AgentRunParams : ParamsBase
         );
     }
 
-    public void AddHeadersToRequest(HttpRequestMessage request, ISwarmsClientClient client)
+    public void AddHeadersToRequest(HttpRequestMessage request, Swarms::ISwarmsClientClient client)
     {
-        ParamsBase.AddDefaultHeaders(request, client);
+        Swarms::ParamsBase.AddDefaultHeaders(request, client);
         foreach (var item in this.HeaderProperties)
         {
-            ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
+            Swarms::ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
         }
     }
 }

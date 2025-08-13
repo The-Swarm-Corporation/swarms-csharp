@@ -4,14 +4,15 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Swarms.Models.Swarms.Batch;
+using Swarms = Swarms;
 
 namespace Swarms.Services.Swarms.Batch;
 
 public sealed class BatchService : IBatchService
 {
-    readonly ISwarmsClientClient _client;
+    readonly Swarms::ISwarmsClientClient _client;
 
-    public BatchService(ISwarmsClientClient client)
+    public BatchService(Swarms::ISwarmsClientClient client)
     {
         _client = client;
     }
@@ -28,7 +29,7 @@ public sealed class BatchService : IBatchService
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
-            throw new HttpException(
+            throw new Swarms::HttpException(
                 response.StatusCode,
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
@@ -36,7 +37,7 @@ public sealed class BatchService : IBatchService
 
         return JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
+                Swarms::ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 }

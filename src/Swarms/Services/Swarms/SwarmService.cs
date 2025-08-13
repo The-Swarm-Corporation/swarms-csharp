@@ -4,14 +4,15 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Swarms.Models.Swarms;
 using Batch = Swarms.Services.Swarms.Batch;
+using Swarms = Swarms;
 
 namespace Swarms.Services.Swarms;
 
 public sealed class SwarmService : ISwarmService
 {
-    readonly ISwarmsClientClient _client;
+    readonly Swarms::ISwarmsClientClient _client;
 
-    public SwarmService(ISwarmsClientClient client)
+    public SwarmService(Swarms::ISwarmsClientClient client)
     {
         _client = client;
         _batch = new(() => new Batch::BatchService(client));
@@ -34,7 +35,7 @@ public sealed class SwarmService : ISwarmService
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
-            throw new HttpException(
+            throw new Swarms::HttpException(
                 response.StatusCode,
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
@@ -42,7 +43,7 @@ public sealed class SwarmService : ISwarmService
 
         return JsonSerializer.Deserialize<SwarmCheckAvailableResponse>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
+                Swarms::ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 
@@ -55,7 +56,7 @@ public sealed class SwarmService : ISwarmService
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
-            throw new HttpException(
+            throw new Swarms::HttpException(
                 response.StatusCode,
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
@@ -63,7 +64,7 @@ public sealed class SwarmService : ISwarmService
 
         return JsonSerializer.Deserialize<SwarmGetLogsResponse>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
+                Swarms::ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 
@@ -79,7 +80,7 @@ public sealed class SwarmService : ISwarmService
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
-            throw new HttpException(
+            throw new Swarms::HttpException(
                 response.StatusCode,
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
@@ -87,7 +88,7 @@ public sealed class SwarmService : ISwarmService
 
         return JsonSerializer.Deserialize<SwarmRunResponse>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
+                Swarms::ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 }
