@@ -4,14 +4,15 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Swarms.Models.Client.Rate;
+using Swarms = Swarms;
 
 namespace Swarms.Services.Client.Rate;
 
 public sealed class RateService : IRateService
 {
-    readonly ISwarmsClientClient _client;
+    readonly Swarms::ISwarmsClientClient _client;
 
-    public RateService(ISwarmsClientClient client)
+    public RateService(Swarms::ISwarmsClientClient client)
     {
         _client = client;
     }
@@ -25,7 +26,7 @@ public sealed class RateService : IRateService
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
-            throw new HttpException(
+            throw new Swarms::HttpException(
                 response.StatusCode,
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
@@ -33,7 +34,7 @@ public sealed class RateService : IRateService
 
         return JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
+                Swarms::ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 }
