@@ -1,13 +1,14 @@
 using System;
 using System.Text.Json.Serialization;
+using Swarms = Swarms;
 
 namespace Swarms.Models.ReasoningAgents.ReasoningAgentCreateCompletionParamsProperties;
 
 /// <summary>
 /// The type of reasoning swarm to use (e.g., reasoning duo, self-consistency, IRE).
 /// </summary>
-[JsonConverter(typeof(EnumConverter<SwarmType, string>))]
-public sealed record class SwarmType(string value) : IEnum<SwarmType, string>
+[JsonConverter(typeof(Swarms::EnumConverter<SwarmType, string>))]
+public sealed record class SwarmType(string value) : Swarms::IEnum<SwarmType, string>
 {
     public static readonly SwarmType ReasoningDuo = new("reasoning-duo");
 

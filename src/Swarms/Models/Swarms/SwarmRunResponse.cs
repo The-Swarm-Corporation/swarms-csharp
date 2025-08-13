@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms = Swarms;
 
 namespace Swarms.Models.Swarms;
 
-[JsonConverter(typeof(ModelConverter<SwarmRunResponse>))]
-public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunResponse>
+[JsonConverter(typeof(Swarms::ModelConverter<SwarmRunResponse>))]
+public sealed record class SwarmRunResponse : Swarms::ModelBase, Swarms::IFromRaw<SwarmRunResponse>
 {
     /// <summary>
     /// The description of the swarm.
@@ -19,7 +20,10 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
             if (!this.Properties.TryGetValue("description", out JsonElement element))
                 throw new ArgumentOutOfRangeException("description", "Missing required argument");
 
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<string?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["description"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -37,7 +41,10 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
                     "Missing required argument"
                 );
 
-            return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<double?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["execution_time"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -52,7 +59,10 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
             if (!this.Properties.TryGetValue("job_id", out JsonElement element))
                 throw new ArgumentOutOfRangeException("job_id", "Missing required argument");
 
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<string?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["job_id"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -70,7 +80,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
                     "Missing required argument"
                 );
 
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<long?>(element, Swarms::ModelBase.SerializerOptions);
         }
         set { this.Properties["number_of_agents"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -85,7 +95,10 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
             if (!this.Properties.TryGetValue("output", out JsonElement element))
                 throw new ArgumentOutOfRangeException("output", "Missing required argument");
 
-            return JsonSerializer.Deserialize<JsonElement>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<JsonElement>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["output"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -100,7 +113,10 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
             if (!this.Properties.TryGetValue("service_tier", out JsonElement element))
                 throw new ArgumentOutOfRangeException("service_tier", "Missing required argument");
 
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<string?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["service_tier"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -115,7 +131,10 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
             if (!this.Properties.TryGetValue("status", out JsonElement element))
                 throw new ArgumentOutOfRangeException("status", "Missing required argument");
 
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<string?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["status"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -130,7 +149,10 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
             if (!this.Properties.TryGetValue("swarm_name", out JsonElement element))
                 throw new ArgumentOutOfRangeException("swarm_name", "Missing required argument");
 
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<string?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["swarm_name"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -145,7 +167,10 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
             if (!this.Properties.TryGetValue("swarm_type", out JsonElement element))
                 throw new ArgumentOutOfRangeException("swarm_type", "Missing required argument");
 
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<string?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["swarm_type"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -162,7 +187,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
 
             return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
                 element,
-                ModelBase.SerializerOptions
+                Swarms::ModelBase.SerializerOptions
             );
         }
         set { this.Properties["usage"] = JsonSerializer.SerializeToElement(value); }

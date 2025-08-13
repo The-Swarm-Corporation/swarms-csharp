@@ -1,14 +1,15 @@
 using System;
 using System.Net.Http;
+using Swarms = Swarms;
 
 namespace Swarms.Models.ReasoningAgents;
 
 /// <summary>
 /// Get the types of reasoning agents available.
 /// </summary>
-public sealed record class ReasoningAgentListTypesParams : ParamsBase
+public sealed record class ReasoningAgentListTypesParams : Swarms::ParamsBase
 {
-    public override Uri Url(ISwarmsClientClient client)
+    public override Uri Url(Swarms::ISwarmsClientClient client)
     {
         return new UriBuilder(client.BaseUrl.ToString().TrimEnd('/') + "/v1/reasoning-agent/types")
         {
@@ -16,12 +17,12 @@ public sealed record class ReasoningAgentListTypesParams : ParamsBase
         }.Uri;
     }
 
-    public void AddHeadersToRequest(HttpRequestMessage request, ISwarmsClientClient client)
+    public void AddHeadersToRequest(HttpRequestMessage request, Swarms::ISwarmsClientClient client)
     {
-        ParamsBase.AddDefaultHeaders(request, client);
+        Swarms::ParamsBase.AddDefaultHeaders(request, client);
         foreach (var item in this.HeaderProperties)
         {
-            ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
+            Swarms::ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
         }
     }
 }

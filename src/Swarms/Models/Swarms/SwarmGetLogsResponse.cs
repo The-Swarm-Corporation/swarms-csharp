@@ -2,11 +2,14 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms = Swarms;
 
 namespace Swarms.Models.Swarms;
 
-[JsonConverter(typeof(ModelConverter<SwarmGetLogsResponse>))]
-public sealed record class SwarmGetLogsResponse : ModelBase, IFromRaw<SwarmGetLogsResponse>
+[JsonConverter(typeof(Swarms::ModelConverter<SwarmGetLogsResponse>))]
+public sealed record class SwarmGetLogsResponse
+    : Swarms::ModelBase,
+        Swarms::IFromRaw<SwarmGetLogsResponse>
 {
     public long? Count
     {
@@ -15,7 +18,7 @@ public sealed record class SwarmGetLogsResponse : ModelBase, IFromRaw<SwarmGetLo
             if (!this.Properties.TryGetValue("count", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<long?>(element, Swarms::ModelBase.SerializerOptions);
         }
         set { this.Properties["count"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -27,7 +30,10 @@ public sealed record class SwarmGetLogsResponse : ModelBase, IFromRaw<SwarmGetLo
             if (!this.Properties.TryGetValue("logs", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<JsonElement?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["logs"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -39,7 +45,10 @@ public sealed record class SwarmGetLogsResponse : ModelBase, IFromRaw<SwarmGetLo
             if (!this.Properties.TryGetValue("status", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<string?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["status"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -51,7 +60,10 @@ public sealed record class SwarmGetLogsResponse : ModelBase, IFromRaw<SwarmGetLo
             if (!this.Properties.TryGetValue("timestamp", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<string?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["timestamp"] = JsonSerializer.SerializeToElement(value); }
     }

@@ -1,11 +1,12 @@
 using System;
 using Rate = Swarms.Services.Client.Rate;
+using Swarms = Swarms;
 
 namespace Swarms.Services.Client;
 
 public sealed class ClientService : IClientService
 {
-    public ClientService(ISwarmsClientClient client)
+    public ClientService(Swarms::ISwarmsClientClient client)
     {
         _rate = new(() => new Rate::RateService(client));
     }

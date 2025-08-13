@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using Swarms = Swarms;
 
 namespace Swarms.Models.Client.Rate;
 
@@ -7,9 +8,9 @@ namespace Swarms.Models.Client.Rate;
 /// Get the rate limits and current usage for the user associated with the provided
 /// API key.
 /// </summary>
-public sealed record class RateGetLimitsParams : ParamsBase
+public sealed record class RateGetLimitsParams : Swarms::ParamsBase
 {
-    public override Uri Url(ISwarmsClientClient client)
+    public override Uri Url(Swarms::ISwarmsClientClient client)
     {
         return new UriBuilder(client.BaseUrl.ToString().TrimEnd('/') + "/v1/rate/limits")
         {
@@ -17,12 +18,12 @@ public sealed record class RateGetLimitsParams : ParamsBase
         }.Uri;
     }
 
-    public void AddHeadersToRequest(HttpRequestMessage request, ISwarmsClientClient client)
+    public void AddHeadersToRequest(HttpRequestMessage request, Swarms::ISwarmsClientClient client)
     {
-        ParamsBase.AddDefaultHeaders(request, client);
+        Swarms::ParamsBase.AddDefaultHeaders(request, client);
         foreach (var item in this.HeaderProperties)
         {
-            ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
+            Swarms::ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
         }
     }
 }

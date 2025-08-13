@@ -4,7 +4,7 @@ namespace Swarms.Tests.Services.Health;
 
 public class HealthServiceTest : TestBase
 {
-    [Fact]
+    [Fact(Skip = "Prism tests are disabled")]
     public async Task Check_Works()
     {
         var response = await this.client.Health.Check(new());

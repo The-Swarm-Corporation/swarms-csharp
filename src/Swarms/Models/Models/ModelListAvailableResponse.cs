@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms = Swarms;
 
 namespace Swarms.Models.Models;
 
-[JsonConverter(typeof(ModelConverter<ModelListAvailableResponse>))]
+[JsonConverter(typeof(Swarms::ModelConverter<ModelListAvailableResponse>))]
 public sealed record class ModelListAvailableResponse
-    : ModelBase,
-        IFromRaw<ModelListAvailableResponse>
+    : Swarms::ModelBase,
+        Swarms::IFromRaw<ModelListAvailableResponse>
 {
     public JsonElement? Models
     {
@@ -17,7 +18,10 @@ public sealed record class ModelListAvailableResponse
             if (!this.Properties.TryGetValue("models", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<JsonElement?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["models"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -29,7 +33,7 @@ public sealed record class ModelListAvailableResponse
             if (!this.Properties.TryGetValue("success", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<bool?>(element, Swarms::ModelBase.SerializerOptions);
         }
         set { this.Properties["success"] = JsonSerializer.SerializeToElement(value); }
     }

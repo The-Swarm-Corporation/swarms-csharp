@@ -4,14 +4,15 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Swarms.Models.Agent;
 using Batch = Swarms.Services.Agent.Batch;
+using Swarms = Swarms;
 
 namespace Swarms.Services.Agent;
 
 public sealed class AgentService : IAgentService
 {
-    readonly ISwarmsClientClient _client;
+    readonly Swarms::ISwarmsClientClient _client;
 
-    public AgentService(ISwarmsClientClient client)
+    public AgentService(Swarms::ISwarmsClientClient client)
     {
         _client = client;
         _batch = new(() => new Batch::BatchService(client));
@@ -25,24 +26,25 @@ public sealed class AgentService : IAgentService
 
     public async Task<AgentRunResponse> Run(AgentRunParams parameters)
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Post, parameters.Url(this._client))
+        using HttpRequestMessage request = new(HttpMethod.Post, parameters.Url(this._client))
         {
             Content = parameters.BodyContent(),
         };
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
-            throw new HttpException(
+            throw new Swarms::HttpException(
                 response.StatusCode,
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<AgentRunResponse>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
+                Swarms::ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 }

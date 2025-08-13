@@ -29,16 +29,16 @@ This library requires .NET 8 or later.
 See the [`examples`](examples) directory for complete and runnable examples.
 
 ```csharp
+using System;
 using Swarms;
 using Swarms.Models;
-using System;
 
 // Configured using the SWARMS_API_KEY and SWARMS_CLIENT_BASE_URL environment variables
 SwarmsClientClient client = new();
 
 ClientGetRootParams parameters = new();
 
-var response = await client..GetRoot(parameters);
+var response = await client.GetRoot(parameters);
 
 Console.WriteLine(response);
 ```

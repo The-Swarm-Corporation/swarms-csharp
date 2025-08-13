@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms = Swarms;
 
 namespace Swarms.Models.Agent;
 
-[JsonConverter(typeof(ModelConverter<AgentRunResponse>))]
-public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunResponse>
+[JsonConverter(typeof(Swarms::ModelConverter<AgentRunResponse>))]
+public sealed record class AgentRunResponse : Swarms::ModelBase, Swarms::IFromRaw<AgentRunResponse>
 {
     /// <summary>
     /// The unique identifier for the agent completion.
@@ -18,7 +19,10 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
             if (!this.Properties.TryGetValue("id", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<string?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["id"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -33,7 +37,10 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
             if (!this.Properties.TryGetValue("description", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<string?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["description"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -48,7 +55,10 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
             if (!this.Properties.TryGetValue("name", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<string?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["name"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -63,7 +73,10 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
             if (!this.Properties.TryGetValue("outputs", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<JsonElement?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["outputs"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -78,7 +91,7 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
             if (!this.Properties.TryGetValue("success", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<bool?>(element, Swarms::ModelBase.SerializerOptions);
         }
         set { this.Properties["success"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -93,7 +106,10 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
             if (!this.Properties.TryGetValue("temperature", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<double?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["temperature"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -108,7 +124,10 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
             if (!this.Properties.TryGetValue("timestamp", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<string?>(
+                element,
+                Swarms::ModelBase.SerializerOptions
+            );
         }
         set { this.Properties["timestamp"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -125,7 +144,7 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
 
             return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
                 element,
-                ModelBase.SerializerOptions
+                Swarms::ModelBase.SerializerOptions
             );
         }
         set { this.Properties["usage"] = JsonSerializer.SerializeToElement(value); }
