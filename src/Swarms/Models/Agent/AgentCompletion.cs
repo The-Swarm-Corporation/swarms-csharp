@@ -2,13 +2,12 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using AgentCompletionProperties = Swarms.Models.Agent.AgentCompletionProperties;
-using Swarms = Swarms;
+using Swarms.Models.Agent.AgentCompletionProperties;
 
 namespace Swarms.Models.Agent;
 
-[JsonConverter(typeof(Swarms::ModelConverter<AgentCompletion>))]
-public sealed record class AgentCompletion : Swarms::ModelBase, Swarms::IFromRaw<AgentCompletion>
+[JsonConverter(typeof(ModelConverter<AgentCompletion>))]
+public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion>
 {
     /// <summary>
     /// The configuration of the agent to be completed.
@@ -20,10 +19,7 @@ public sealed record class AgentCompletion : Swarms::ModelBase, Swarms::IFromRaw
             if (!this.Properties.TryGetValue("agent_config", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<AgentSpec?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<AgentSpec?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["agent_config"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -32,17 +28,14 @@ public sealed record class AgentCompletion : Swarms::ModelBase, Swarms::IFromRaw
     /// The history of the agent's previous tasks and responses. Can be either a
     /// dictionary or a list of message objects.
     /// </summary>
-    public AgentCompletionProperties::History? History
+    public History? History
     {
         get
         {
             if (!this.Properties.TryGetValue("history", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<AgentCompletionProperties::History?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<History?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["history"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -57,10 +50,7 @@ public sealed record class AgentCompletion : Swarms::ModelBase, Swarms::IFromRaw
             if (!this.Properties.TryGetValue("img", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["img"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -75,10 +65,7 @@ public sealed record class AgentCompletion : Swarms::ModelBase, Swarms::IFromRaw
             if (!this.Properties.TryGetValue("imgs", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<List<string>?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["imgs"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -93,7 +80,7 @@ public sealed record class AgentCompletion : Swarms::ModelBase, Swarms::IFromRaw
             if (!this.Properties.TryGetValue("stream", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<bool?>(element, Swarms::ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["stream"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -108,10 +95,7 @@ public sealed record class AgentCompletion : Swarms::ModelBase, Swarms::IFromRaw
             if (!this.Properties.TryGetValue("task", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["task"] = JsonSerializer.SerializeToElement(value); }
     }

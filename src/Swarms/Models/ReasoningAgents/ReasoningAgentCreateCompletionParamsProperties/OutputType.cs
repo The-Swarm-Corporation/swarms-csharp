@@ -1,14 +1,13 @@
 using System;
 using System.Text.Json.Serialization;
-using Swarms = Swarms;
 
 namespace Swarms.Models.ReasoningAgents.ReasoningAgentCreateCompletionParamsProperties;
 
 /// <summary>
 /// The type of output format for the reasoning agent.
 /// </summary>
-[JsonConverter(typeof(Swarms::EnumConverter<OutputType, string>))]
-public sealed record class OutputType(string value) : Swarms::IEnum<OutputType, string>
+[JsonConverter(typeof(EnumConverter<OutputType, string>))]
+public sealed record class OutputType(string value) : IEnum<OutputType, string>
 {
     public static readonly OutputType List = new("list");
 

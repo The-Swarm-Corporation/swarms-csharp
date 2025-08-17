@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using MessagesVariants = Swarms.Models.Swarms.SwarmSpecProperties.MessagesVariants;
+using Swarms.Models.Swarms.SwarmSpecProperties.MessagesVariants;
 
 namespace Swarms.Models.Swarms.SwarmSpecProperties;
 
@@ -15,10 +15,10 @@ public abstract record class Messages
     internal Messages() { }
 
     public static implicit operator Messages(List<Dictionary<string, JsonElement>> value) =>
-        new MessagesVariants::JsonElements(value);
+        new JsonElements(value);
 
     public static implicit operator Messages(Dictionary<string, JsonElement> value) =>
-        new MessagesVariants::JsonElementsVariant(value);
+        new JsonElementsVariant(value);
 
     public abstract void Validate();
 }
@@ -41,7 +41,7 @@ sealed class MessagesConverter : JsonConverter<Messages?>
             );
             if (deserialized != null)
             {
-                return new MessagesVariants::JsonElements(deserialized);
+                return new JsonElements(deserialized);
             }
         }
         catch (JsonException e)
@@ -57,7 +57,7 @@ sealed class MessagesConverter : JsonConverter<Messages?>
             );
             if (deserialized != null)
             {
-                return new MessagesVariants::JsonElementsVariant(deserialized);
+                return new JsonElementsVariant(deserialized);
             }
         }
         catch (JsonException e)
@@ -77,8 +77,8 @@ sealed class MessagesConverter : JsonConverter<Messages?>
         object? variant = value switch
         {
             null => null,
-            MessagesVariants::JsonElements(var jsonElements) => jsonElements,
-            MessagesVariants::JsonElementsVariant(var jsonElements) => jsonElements,
+            JsonElements(var jsonElements) => jsonElements,
+            JsonElementsVariant(var jsonElements) => jsonElements,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

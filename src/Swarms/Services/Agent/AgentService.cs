@@ -3,23 +3,22 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Swarms.Models.Agent;
-using Batch = Swarms.Services.Agent.Batch;
-using Swarms = Swarms;
+using Swarms.Services.Agent.Batch;
 
 namespace Swarms.Services.Agent;
 
 public sealed class AgentService : IAgentService
 {
-    readonly Swarms::ISwarmsClientClient _client;
+    readonly ISwarmsClientClient _client;
 
-    public AgentService(Swarms::ISwarmsClientClient client)
+    public AgentService(ISwarmsClientClient client)
     {
         _client = client;
-        _batch = new(() => new Batch::BatchService(client));
+        _batch = new(() => new BatchService(client));
     }
 
-    readonly Lazy<Batch::IBatchService> _batch;
-    public Batch::IBatchService Batch
+    readonly Lazy<IBatchService> _batch;
+    public IBatchService Batch
     {
         get { return _batch.Value; }
     }
@@ -36,7 +35,7 @@ public sealed class AgentService : IAgentService
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
-            throw new Swarms::HttpException(
+            throw new HttpException(
                 response.StatusCode,
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
@@ -44,7 +43,7 @@ public sealed class AgentService : IAgentService
 
         return JsonSerializer.Deserialize<AgentRunResponse>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                Swarms::ModelBase.SerializerOptions
+                ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 }

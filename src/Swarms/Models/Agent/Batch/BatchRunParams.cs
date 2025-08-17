@@ -3,34 +3,32 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using Agent = Swarms.Models.Agent;
-using Swarms = Swarms;
 
 namespace Swarms.Models.Agent.Batch;
 
 /// <summary>
 /// Run a batch of agents with the specified tasks using a thread pool.
 /// </summary>
-public sealed record class BatchRunParams : Swarms::ParamsBase
+public sealed record class BatchRunParams : ParamsBase
 {
     public Dictionary<string, JsonElement> BodyProperties { get; set; } = [];
 
-    public required List<Agent::AgentCompletion> Body
+    public required List<AgentCompletion> Body
     {
         get
         {
             if (!this.BodyProperties.TryGetValue("body", out JsonElement element))
                 throw new ArgumentOutOfRangeException("body", "Missing required argument");
 
-            return JsonSerializer.Deserialize<List<Agent::AgentCompletion>>(
+            return JsonSerializer.Deserialize<List<AgentCompletion>>(
                     element,
-                    Swarms::ModelBase.SerializerOptions
+                    ModelBase.SerializerOptions
                 ) ?? throw new ArgumentNullException("body");
         }
         set { this.BodyProperties["body"] = JsonSerializer.SerializeToElement(value); }
     }
 
-    public override Uri Url(Swarms::ISwarmsClientClient client)
+    public override Uri Url(ISwarmsClientClient client)
     {
         return new UriBuilder(
             client.BaseUrl.ToString().TrimEnd('/') + "/v1/agent/batch/completions"
@@ -49,12 +47,12 @@ public sealed record class BatchRunParams : Swarms::ParamsBase
         );
     }
 
-    public void AddHeadersToRequest(HttpRequestMessage request, Swarms::ISwarmsClientClient client)
+    public void AddHeadersToRequest(HttpRequestMessage request, ISwarmsClientClient client)
     {
-        Swarms::ParamsBase.AddDefaultHeaders(request, client);
+        ParamsBase.AddDefaultHeaders(request, client);
         foreach (var item in this.HeaderProperties)
         {
-            Swarms::ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
+            ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
         }
     }
 }

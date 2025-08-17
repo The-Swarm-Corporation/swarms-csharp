@@ -4,15 +4,14 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using Swarms.Models.Agent;
-using SwarmRunParamsProperties = Swarms.Models.Swarms.SwarmRunParamsProperties;
-using Swarms = Swarms;
+using Swarms.Models.Swarms.SwarmRunParamsProperties;
 
 namespace Swarms.Models.Swarms;
 
 /// <summary>
 /// Run a swarm with the specified task.
 /// </summary>
-public sealed record class SwarmRunParams : Swarms::ParamsBase
+public sealed record class SwarmRunParams : ParamsBase
 {
     public Dictionary<string, JsonElement> BodyProperties { get; set; } = [];
 
@@ -29,7 +28,7 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
 
             return JsonSerializer.Deserialize<List<AgentSpec>?>(
                 element,
-                Swarms::ModelBase.SerializerOptions
+                ModelBase.SerializerOptions
             );
         }
         set { this.BodyProperties["agents"] = JsonSerializer.SerializeToElement(value); }
@@ -46,10 +45,7 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
             if (!this.BodyProperties.TryGetValue("description", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.BodyProperties["description"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -69,7 +65,7 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
             )
                 return null;
 
-            return JsonSerializer.Deserialize<long?>(element, Swarms::ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         set
         {
@@ -94,10 +90,7 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
             )
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set
         {
@@ -121,10 +114,7 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
             )
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set
         {
@@ -143,10 +133,7 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
             if (!this.BodyProperties.TryGetValue("img", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.BodyProperties["img"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -162,7 +149,7 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
             if (!this.BodyProperties.TryGetValue("max_loops", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<long?>(element, Swarms::ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         set { this.BodyProperties["max_loops"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -170,17 +157,14 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
     /// <summary>
     /// A list of messages that the swarm should complete.
     /// </summary>
-    public SwarmRunParamsProperties::Messages? Messages
+    public Messages? Messages
     {
         get
         {
             if (!this.BodyProperties.TryGetValue("messages", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<SwarmRunParamsProperties::Messages?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<Messages?>(element, ModelBase.SerializerOptions);
         }
         set { this.BodyProperties["messages"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -196,10 +180,7 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
             if (!this.BodyProperties.TryGetValue("name", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.BodyProperties["name"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -214,10 +195,7 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
             if (!this.BodyProperties.TryGetValue("rearrange_flow", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.BodyProperties["rearrange_flow"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -233,10 +211,7 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
             if (!this.BodyProperties.TryGetValue("rules", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.BodyProperties["rules"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -252,10 +227,7 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
             if (!this.BodyProperties.TryGetValue("service_tier", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.BodyProperties["service_tier"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -270,7 +242,7 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
             if (!this.BodyProperties.TryGetValue("stream", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<bool?>(element, Swarms::ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
         set { this.BodyProperties["stream"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -278,17 +250,14 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
     /// <summary>
     /// The classification of the swarm, indicating its operational style and methodology.
     /// </summary>
-    public SwarmRunParamsProperties::SwarmType? SwarmType
+    public SwarmType? SwarmType
     {
         get
         {
             if (!this.BodyProperties.TryGetValue("swarm_type", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<SwarmRunParamsProperties::SwarmType?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<SwarmType?>(element, ModelBase.SerializerOptions);
         }
         set { this.BodyProperties["swarm_type"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -303,10 +272,7 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
             if (!this.BodyProperties.TryGetValue("task", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.BodyProperties["task"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -321,15 +287,12 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
             if (!this.BodyProperties.TryGetValue("tasks", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<List<string>?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
         set { this.BodyProperties["tasks"] = JsonSerializer.SerializeToElement(value); }
     }
 
-    public override Uri Url(Swarms::ISwarmsClientClient client)
+    public override Uri Url(ISwarmsClientClient client)
     {
         return new UriBuilder(client.BaseUrl.ToString().TrimEnd('/') + "/v1/swarm/completions")
         {
@@ -346,12 +309,12 @@ public sealed record class SwarmRunParams : Swarms::ParamsBase
         );
     }
 
-    public void AddHeadersToRequest(HttpRequestMessage request, Swarms::ISwarmsClientClient client)
+    public void AddHeadersToRequest(HttpRequestMessage request, ISwarmsClientClient client)
     {
-        Swarms::ParamsBase.AddDefaultHeaders(request, client);
+        ParamsBase.AddDefaultHeaders(request, client);
         foreach (var item in this.HeaderProperties)
         {
-            Swarms::ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
+            ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
         }
     }
 }

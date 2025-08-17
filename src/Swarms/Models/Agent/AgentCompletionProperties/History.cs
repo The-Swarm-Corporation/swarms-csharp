@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using HistoryVariants = Swarms.Models.Agent.AgentCompletionProperties.HistoryVariants;
+using Swarms.Models.Agent.AgentCompletionProperties.HistoryVariants;
 
 namespace Swarms.Models.Agent.AgentCompletionProperties;
 
@@ -16,10 +16,10 @@ public abstract record class History
     internal History() { }
 
     public static implicit operator History(Dictionary<string, JsonElement> value) =>
-        new HistoryVariants::JsonElements(value);
+        new JsonElements(value);
 
     public static implicit operator History(List<Dictionary<string, string>> value) =>
-        new HistoryVariants::Strings(value);
+        new Strings(value);
 
     public abstract void Validate();
 }
@@ -42,7 +42,7 @@ sealed class HistoryConverter : JsonConverter<History?>
             );
             if (deserialized != null)
             {
-                return new HistoryVariants::JsonElements(deserialized);
+                return new JsonElements(deserialized);
             }
         }
         catch (JsonException e)
@@ -58,7 +58,7 @@ sealed class HistoryConverter : JsonConverter<History?>
             );
             if (deserialized != null)
             {
-                return new HistoryVariants::Strings(deserialized);
+                return new Strings(deserialized);
             }
         }
         catch (JsonException e)
@@ -74,8 +74,8 @@ sealed class HistoryConverter : JsonConverter<History?>
         object? variant = value switch
         {
             null => null,
-            HistoryVariants::JsonElements(var jsonElements) => jsonElements,
-            HistoryVariants::Strings(var strings) => strings,
+            JsonElements(var jsonElements) => jsonElements,
+            Strings(var strings) => strings,
             _ => throw new ArgumentOutOfRangeException(nameof(value)),
         };
         JsonSerializer.Serialize(writer, variant, options);

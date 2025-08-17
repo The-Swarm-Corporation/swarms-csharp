@@ -1,14 +1,13 @@
 using System;
 using System.Text.Json.Serialization;
-using Swarms = Swarms;
 
 namespace Swarms.Models.Swarms.SwarmRunParamsProperties;
 
 /// <summary>
 /// The classification of the swarm, indicating its operational style and methodology.
 /// </summary>
-[JsonConverter(typeof(Swarms::EnumConverter<SwarmType, string>))]
-public sealed record class SwarmType(string value) : Swarms::IEnum<SwarmType, string>
+[JsonConverter(typeof(EnumConverter<SwarmType, string>))]
+public sealed record class SwarmType(string value) : IEnum<SwarmType, string>
 {
     public static readonly SwarmType AgentRearrange = new("AgentRearrange");
 

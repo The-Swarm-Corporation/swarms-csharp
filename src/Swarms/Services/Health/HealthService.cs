@@ -3,15 +3,14 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Swarms.Models.Health;
-using Swarms = Swarms;
 
 namespace Swarms.Services.Health;
 
 public sealed class HealthService : IHealthService
 {
-    readonly Swarms::ISwarmsClientClient _client;
+    readonly ISwarmsClientClient _client;
 
-    public HealthService(Swarms::ISwarmsClientClient client)
+    public HealthService(ISwarmsClientClient client)
     {
         _client = client;
     }
@@ -25,7 +24,7 @@ public sealed class HealthService : IHealthService
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
-            throw new Swarms::HttpException(
+            throw new HttpException(
                 response.StatusCode,
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
@@ -33,7 +32,7 @@ public sealed class HealthService : IHealthService
 
         return JsonSerializer.Deserialize<HealthCheckResponse>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                Swarms::ModelBase.SerializerOptions
+                ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 }

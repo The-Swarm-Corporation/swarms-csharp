@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
 using Swarms.Models.Swarms;
-using Batch = Swarms.Services.Swarms.Batch;
+using Swarms.Services.Swarms.Batch;
 
 namespace Swarms.Services.Swarms;
 
 public interface ISwarmService
 {
-    Batch::IBatchService Batch { get; }
+    IBatchService Batch { get; }
 
     /// <summary>
     /// Check the available swarm types.

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Swarms = Swarms;
 
 namespace Swarms.Models.Agent;
 
-[JsonConverter(typeof(Swarms::ModelConverter<AgentSpec>))]
-public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<AgentSpec>
+[JsonConverter(typeof(ModelConverter<AgentSpec>))]
+public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
 {
     /// <summary>
     /// The unique name assigned to the agent, which identifies its role and functionality
@@ -21,10 +20,7 @@ public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<Agent
             if (!this.Properties.TryGetValue("agent_name", out JsonElement element))
                 throw new ArgumentOutOfRangeException("agent_name", "Missing required argument");
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["agent_name"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -40,7 +36,7 @@ public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<Agent
             if (!this.Properties.TryGetValue("auto_generate_prompt", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<bool?>(element, Swarms::ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["auto_generate_prompt"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -56,10 +52,7 @@ public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<Agent
             if (!this.Properties.TryGetValue("description", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["description"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -77,7 +70,7 @@ public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<Agent
             )
                 return null;
 
-            return JsonSerializer.Deserialize<bool?>(element, Swarms::ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
         set
         {
@@ -100,7 +93,7 @@ public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<Agent
 
             return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
                 element,
-                Swarms::ModelBase.SerializerOptions
+                ModelBase.SerializerOptions
             );
         }
         set { this.Properties["llm_args"] = JsonSerializer.SerializeToElement(value); }
@@ -117,7 +110,7 @@ public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<Agent
             if (!this.Properties.TryGetValue("max_loops", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<long?>(element, Swarms::ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["max_loops"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -133,7 +126,7 @@ public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<Agent
             if (!this.Properties.TryGetValue("max_tokens", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<long?>(element, Swarms::ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["max_tokens"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -148,10 +141,7 @@ public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<Agent
             if (!this.Properties.TryGetValue("mcp_url", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["mcp_url"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -167,10 +157,7 @@ public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<Agent
             if (!this.Properties.TryGetValue("model_name", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["model_name"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -186,10 +173,7 @@ public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<Agent
             if (!this.Properties.TryGetValue("role", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["role"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -204,7 +188,7 @@ public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<Agent
             if (!this.Properties.TryGetValue("streaming_on", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<bool?>(element, Swarms::ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["streaming_on"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -220,10 +204,7 @@ public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<Agent
             if (!this.Properties.TryGetValue("system_prompt", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["system_prompt"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -239,10 +220,7 @@ public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<Agent
             if (!this.Properties.TryGetValue("temperature", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<double?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["temperature"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -259,7 +237,7 @@ public sealed record class AgentSpec : Swarms::ModelBase, Swarms::IFromRaw<Agent
 
             return JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>?>(
                 element,
-                Swarms::ModelBase.SerializerOptions
+                ModelBase.SerializerOptions
             );
         }
         set { this.Properties["tools_list_dictionary"] = JsonSerializer.SerializeToElement(value); }

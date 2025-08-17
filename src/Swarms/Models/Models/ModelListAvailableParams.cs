@@ -1,15 +1,14 @@
 using System;
 using System.Net.Http;
-using Swarms = Swarms;
 
 namespace Swarms.Models.Models;
 
 /// <summary>
 /// Get all available models.
 /// </summary>
-public sealed record class ModelListAvailableParams : Swarms::ParamsBase
+public sealed record class ModelListAvailableParams : ParamsBase
 {
-    public override Uri Url(Swarms::ISwarmsClientClient client)
+    public override Uri Url(ISwarmsClientClient client)
     {
         return new UriBuilder(client.BaseUrl.ToString().TrimEnd('/') + "/v1/models/available")
         {
@@ -17,12 +16,12 @@ public sealed record class ModelListAvailableParams : Swarms::ParamsBase
         }.Uri;
     }
 
-    public void AddHeadersToRequest(HttpRequestMessage request, Swarms::ISwarmsClientClient client)
+    public void AddHeadersToRequest(HttpRequestMessage request, ISwarmsClientClient client)
     {
-        Swarms::ParamsBase.AddDefaultHeaders(request, client);
+        ParamsBase.AddDefaultHeaders(request, client);
         foreach (var item in this.HeaderProperties)
         {
-            Swarms::ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
+            ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
         }
     }
 }
