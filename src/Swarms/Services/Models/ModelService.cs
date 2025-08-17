@@ -3,15 +3,14 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Swarms.Models.Models;
-using Swarms = Swarms;
 
 namespace Swarms.Services.Models;
 
 public sealed class ModelService : IModelService
 {
-    readonly Swarms::ISwarmsClientClient _client;
+    readonly ISwarmsClientClient _client;
 
-    public ModelService(Swarms::ISwarmsClientClient client)
+    public ModelService(ISwarmsClientClient client)
     {
         _client = client;
     }
@@ -25,7 +24,7 @@ public sealed class ModelService : IModelService
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
-            throw new Swarms::HttpException(
+            throw new HttpException(
                 response.StatusCode,
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
@@ -33,7 +32,7 @@ public sealed class ModelService : IModelService
 
         return JsonSerializer.Deserialize<ModelListAvailableResponse>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                Swarms::ModelBase.SerializerOptions
+                ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 }

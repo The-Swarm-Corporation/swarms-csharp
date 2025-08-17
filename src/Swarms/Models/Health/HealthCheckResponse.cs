@@ -2,14 +2,11 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Swarms = Swarms;
 
 namespace Swarms.Models.Health;
 
-[JsonConverter(typeof(Swarms::ModelConverter<HealthCheckResponse>))]
-public sealed record class HealthCheckResponse
-    : Swarms::ModelBase,
-        Swarms::IFromRaw<HealthCheckResponse>
+[JsonConverter(typeof(ModelConverter<HealthCheckResponse>))]
+public sealed record class HealthCheckResponse : ModelBase, IFromRaw<HealthCheckResponse>
 {
     public string? Status
     {
@@ -18,10 +15,7 @@ public sealed record class HealthCheckResponse
             if (!this.Properties.TryGetValue("status", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<string?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["status"] = JsonSerializer.SerializeToElement(value); }
     }

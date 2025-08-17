@@ -2,14 +2,13 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Swarms = Swarms;
 
 namespace Swarms.Models.Swarms;
 
-[JsonConverter(typeof(Swarms::ModelConverter<SwarmCheckAvailableResponse>))]
+[JsonConverter(typeof(ModelConverter<SwarmCheckAvailableResponse>))]
 public sealed record class SwarmCheckAvailableResponse
-    : Swarms::ModelBase,
-        Swarms::IFromRaw<SwarmCheckAvailableResponse>
+    : ModelBase,
+        IFromRaw<SwarmCheckAvailableResponse>
 {
     public bool? Success
     {
@@ -18,7 +17,7 @@ public sealed record class SwarmCheckAvailableResponse
             if (!this.Properties.TryGetValue("success", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<bool?>(element, Swarms::ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["success"] = JsonSerializer.SerializeToElement(value); }
     }
@@ -30,10 +29,7 @@ public sealed record class SwarmCheckAvailableResponse
             if (!this.Properties.TryGetValue("swarm_types", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<JsonElement?>(
-                element,
-                Swarms::ModelBase.SerializerOptions
-            );
+            return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
         }
         set { this.Properties["swarm_types"] = JsonSerializer.SerializeToElement(value); }
     }
