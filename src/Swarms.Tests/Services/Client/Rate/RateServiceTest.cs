@@ -8,9 +8,6 @@ public class RateServiceTest : TestBase
     public async Task GetLimits_Works()
     {
         var response = await this.client.Client.Rate.GetLimits(new());
-        foreach (var item in response.Values)
-        {
-            _ = item;
-        }
+        response.Validate();
     }
 }
