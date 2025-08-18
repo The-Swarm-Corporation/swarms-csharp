@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -16,7 +15,7 @@ public sealed class RateService : IRateService
         _client = client;
     }
 
-    public async Task<Dictionary<string, JsonElement>> GetLimits(RateGetLimitsParams parameters)
+    public async Task<RateGetLimitsResponse> GetLimits(RateGetLimitsParams parameters)
     {
         using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
         parameters.AddHeadersToRequest(request, this._client);
@@ -31,7 +30,7 @@ public sealed class RateService : IRateService
             );
         }
 
-        return JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
+        return JsonSerializer.Deserialize<RateGetLimitsResponse>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
