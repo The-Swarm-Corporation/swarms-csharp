@@ -24,7 +24,13 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
 
             return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["count"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["count"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -39,7 +45,13 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
 
             return JsonSerializer.Deserialize<bool>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["exceeded"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["exceeded"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -54,7 +66,13 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
 
             return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["limit"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["limit"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -69,7 +87,13 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
 
             return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["remaining"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["remaining"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -85,7 +109,13 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
             return JsonSerializer.Deserialize<string>(element, ModelBase.SerializerOptions)
                 ?? throw new ArgumentNullException("reset_time");
         }
-        set { this.Properties["reset_time"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["reset_time"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()

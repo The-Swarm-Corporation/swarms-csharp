@@ -21,7 +21,13 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
 
             return JsonSerializer.Deserialize<Limits?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["limits"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["limits"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -36,7 +42,13 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
 
             return JsonSerializer.Deserialize<RateLimits?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["rate_limits"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["rate_limits"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -51,7 +63,13 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["tier"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["tier"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -66,7 +84,13 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["timestamp"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["timestamp"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -81,7 +105,13 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["success"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["success"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()

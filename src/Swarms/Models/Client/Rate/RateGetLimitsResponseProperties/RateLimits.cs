@@ -26,7 +26,13 @@ public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
             return JsonSerializer.Deserialize<Day>(element, ModelBase.SerializerOptions)
                 ?? throw new ArgumentNullException("day");
         }
-        set { this.Properties["day"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["day"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -42,7 +48,13 @@ public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
             return JsonSerializer.Deserialize<Hour>(element, ModelBase.SerializerOptions)
                 ?? throw new ArgumentNullException("hour");
         }
-        set { this.Properties["hour"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["hour"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -58,7 +70,13 @@ public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
             return JsonSerializer.Deserialize<Minute>(element, ModelBase.SerializerOptions)
                 ?? throw new ArgumentNullException("minute");
         }
-        set { this.Properties["minute"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["minute"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()

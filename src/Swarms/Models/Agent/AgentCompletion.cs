@@ -21,7 +21,13 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 
             return JsonSerializer.Deserialize<AgentSpec?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["agent_config"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["agent_config"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -37,7 +43,13 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 
             return JsonSerializer.Deserialize<History?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["history"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["history"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -52,7 +64,13 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["img"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["img"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -67,7 +85,13 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["imgs"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["imgs"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -82,7 +106,13 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["stream"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["stream"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -97,7 +127,13 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["task"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["task"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()
