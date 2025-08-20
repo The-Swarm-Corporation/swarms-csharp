@@ -21,7 +21,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["agent_name"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["agent_name"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -37,7 +43,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["auto_generate_prompt"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["auto_generate_prompt"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -53,7 +65,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["description"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["description"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -74,7 +92,8 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
         set
         {
             this.Properties["dynamic_temperature_enabled"] = JsonSerializer.SerializeToElement(
-                value
+                value,
+                ModelBase.SerializerOptions
             );
         }
     }
@@ -95,7 +114,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
                 ModelBase.SerializerOptions
             );
         }
-        set { this.Properties["llm_args"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["llm_args"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -111,7 +136,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["max_loops"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["max_loops"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -127,7 +158,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["max_tokens"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["max_tokens"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -142,7 +179,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["mcp_url"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["mcp_url"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -158,7 +201,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["model_name"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["model_name"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -174,7 +223,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["role"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["role"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -189,7 +244,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["streaming_on"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["streaming_on"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -205,7 +266,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["system_prompt"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["system_prompt"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -221,7 +288,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
 
             return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["temperature"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["temperature"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -239,7 +312,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
                 ModelBase.SerializerOptions
             );
         }
-        set { this.Properties["tools_list_dictionary"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["tools_list_dictionary"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()

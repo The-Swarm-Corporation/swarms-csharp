@@ -26,7 +26,13 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
                 ModelBase.SerializerOptions
             );
         }
-        set { this.Properties["agents"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["agents"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -42,7 +48,13 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["description"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["description"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -62,7 +74,8 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
         set
         {
             this.Properties["heavy_swarm_loops_per_agent"] = JsonSerializer.SerializeToElement(
-                value
+                value,
+                ModelBase.SerializerOptions
             );
         }
     }
@@ -87,7 +100,7 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
         set
         {
             this.Properties["heavy_swarm_question_agent_model_name"] =
-                JsonSerializer.SerializeToElement(value);
+                JsonSerializer.SerializeToElement(value, ModelBase.SerializerOptions);
         }
     }
 
@@ -111,7 +124,8 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
         set
         {
             this.Properties["heavy_swarm_worker_model_name"] = JsonSerializer.SerializeToElement(
-                value
+                value,
+                ModelBase.SerializerOptions
             );
         }
     }
@@ -128,7 +142,13 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["img"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["img"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -144,7 +164,13 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["max_loops"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["max_loops"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -159,7 +185,13 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
 
             return JsonSerializer.Deserialize<Messages?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["messages"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["messages"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -175,7 +207,13 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["name"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["name"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -190,7 +228,13 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["rearrange_flow"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["rearrange_flow"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -206,7 +250,13 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["rules"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["rules"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -222,7 +272,13 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["service_tier"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["service_tier"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -237,22 +293,37 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["stream"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["stream"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
     /// The classification of the swarm, indicating its operational style and methodology.
     /// </summary>
-    public SwarmType? SwarmType
+    public ApiEnum<string, SwarmType>? SwarmType
     {
         get
         {
             if (!this.Properties.TryGetValue("swarm_type", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<SwarmType?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<ApiEnum<string, SwarmType>?>(
+                element,
+                ModelBase.SerializerOptions
+            );
         }
-        set { this.Properties["swarm_type"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["swarm_type"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -267,7 +338,13 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["task"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["task"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -282,7 +359,13 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["tasks"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["tasks"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()

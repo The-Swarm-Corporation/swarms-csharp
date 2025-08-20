@@ -19,7 +19,13 @@ public sealed record class SwarmCheckAvailableResponse
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["success"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["success"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public JsonElement? SwarmTypes
@@ -31,7 +37,13 @@ public sealed record class SwarmCheckAvailableResponse
 
             return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["swarm_types"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["swarm_types"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()

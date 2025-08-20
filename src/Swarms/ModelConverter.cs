@@ -28,21 +28,3 @@ sealed class ModelConverter<TModel> : JsonConverter<TModel>
         JsonSerializer.Serialize(writer, value.Properties, options);
     }
 }
-
-sealed class EnumConverter<TEnum, TValue> : JsonConverter<TEnum>
-    where TEnum : IEnum<TEnum, TValue>
-{
-    public override TEnum Read(
-        ref Utf8JsonReader reader,
-        Type _typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return TEnum.FromRaw(JsonSerializer.Deserialize<TValue>(ref reader, options)!);
-    }
-
-    public override void Write(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
-    {
-        JsonSerializer.Serialize(writer, value.Raw(), options);
-    }
-}

@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Swarms.Models.ReasoningAgents.ReasoningAgentCreateCompletionParamsProperties;
@@ -6,97 +7,86 @@ namespace Swarms.Models.ReasoningAgents.ReasoningAgentCreateCompletionParamsProp
 /// <summary>
 /// The type of output format for the reasoning agent.
 /// </summary>
-[JsonConverter(typeof(EnumConverter<OutputType, string>))]
-public sealed record class OutputType(string value) : IEnum<OutputType, string>
+[JsonConverter(typeof(OutputTypeConverter))]
+public enum OutputType
 {
-    public static readonly OutputType List = new("list");
+    List,
+    Dict,
+    Dictionary,
+    String,
+    Str,
+    Final,
+    Last,
+    Json,
+    All,
+    Yaml,
+    Xml,
+    DictAllExceptFirst,
+    StrAllExceptFirst,
+    Basemodel,
+    DictFinal,
+    ListFinal,
+}
 
-    public static readonly OutputType Dict = new("dict");
-
-    public static readonly OutputType Dictionary = new("dictionary");
-
-    public static readonly OutputType String = new("string");
-
-    public static readonly OutputType Str = new("str");
-
-    public static readonly OutputType Final = new("final");
-
-    public static readonly OutputType Last = new("last");
-
-    public static readonly OutputType Json = new("json");
-
-    public static readonly OutputType All = new("all");
-
-    public static readonly OutputType Yaml = new("yaml");
-
-    public static readonly OutputType Xml = new("xml");
-
-    public static readonly OutputType DictAllExceptFirst = new("dict-all-except-first");
-
-    public static readonly OutputType StrAllExceptFirst = new("str-all-except-first");
-
-    public static readonly OutputType Basemodel = new("basemodel");
-
-    public static readonly OutputType DictFinal = new("dict-final");
-
-    public static readonly OutputType ListFinal = new("list-final");
-
-    readonly string _value = value;
-
-    public enum Value
+sealed class OutputTypeConverter : JsonConverter<OutputType>
+{
+    public override OutputType Read(
+        ref Utf8JsonReader reader,
+        Type _typeToConvert,
+        JsonSerializerOptions options
+    )
     {
-        List,
-        Dict,
-        Dictionary,
-        String,
-        Str,
-        Final,
-        Last,
-        Json,
-        All,
-        Yaml,
-        Xml,
-        DictAllExceptFirst,
-        StrAllExceptFirst,
-        Basemodel,
-        DictFinal,
-        ListFinal,
-    }
-
-    public Value Known() =>
-        _value switch
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "list" => Value.List,
-            "dict" => Value.Dict,
-            "dictionary" => Value.Dictionary,
-            "string" => Value.String,
-            "str" => Value.Str,
-            "final" => Value.Final,
-            "last" => Value.Last,
-            "json" => Value.Json,
-            "all" => Value.All,
-            "yaml" => Value.Yaml,
-            "xml" => Value.Xml,
-            "dict-all-except-first" => Value.DictAllExceptFirst,
-            "str-all-except-first" => Value.StrAllExceptFirst,
-            "basemodel" => Value.Basemodel,
-            "dict-final" => Value.DictFinal,
-            "list-final" => Value.ListFinal,
-            _ => throw new ArgumentOutOfRangeException(nameof(_value)),
+            "list" => OutputType.List,
+            "dict" => OutputType.Dict,
+            "dictionary" => OutputType.Dictionary,
+            "string" => OutputType.String,
+            "str" => OutputType.Str,
+            "final" => OutputType.Final,
+            "last" => OutputType.Last,
+            "json" => OutputType.Json,
+            "all" => OutputType.All,
+            "yaml" => OutputType.Yaml,
+            "xml" => OutputType.Xml,
+            "dict-all-except-first" => OutputType.DictAllExceptFirst,
+            "str-all-except-first" => OutputType.StrAllExceptFirst,
+            "basemodel" => OutputType.Basemodel,
+            "dict-final" => OutputType.DictFinal,
+            "list-final" => OutputType.ListFinal,
+            _ => (OutputType)(-1),
         };
-
-    public string Raw()
-    {
-        return _value;
     }
 
-    public void Validate()
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputType value,
+        JsonSerializerOptions options
+    )
     {
-        Known();
-    }
-
-    public static OutputType FromRaw(string value)
-    {
-        return new(value);
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                OutputType.List => "list",
+                OutputType.Dict => "dict",
+                OutputType.Dictionary => "dictionary",
+                OutputType.String => "string",
+                OutputType.Str => "str",
+                OutputType.Final => "final",
+                OutputType.Last => "last",
+                OutputType.Json => "json",
+                OutputType.All => "all",
+                OutputType.Yaml => "yaml",
+                OutputType.Xml => "xml",
+                OutputType.DictAllExceptFirst => "dict-all-except-first",
+                OutputType.StrAllExceptFirst => "str-all-except-first",
+                OutputType.Basemodel => "basemodel",
+                OutputType.DictFinal => "dict-final",
+                OutputType.ListFinal => "list-final",
+                _ => throw new ArgumentOutOfRangeException(nameof(value)),
+            },
+            options
+        );
     }
 }

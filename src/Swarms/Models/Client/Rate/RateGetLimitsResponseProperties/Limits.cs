@@ -29,7 +29,10 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
         }
         set
         {
-            this.Properties["maximum_requests_per_day"] = JsonSerializer.SerializeToElement(value);
+            this.Properties["maximum_requests_per_day"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
         }
     }
 
@@ -50,7 +53,10 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
         }
         set
         {
-            this.Properties["maximum_requests_per_hour"] = JsonSerializer.SerializeToElement(value);
+            this.Properties["maximum_requests_per_hour"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
         }
     }
 
@@ -74,7 +80,8 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
         set
         {
             this.Properties["maximum_requests_per_minute"] = JsonSerializer.SerializeToElement(
-                value
+                value,
+                ModelBase.SerializerOptions
             );
         }
     }
@@ -94,7 +101,13 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
 
             return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["tokens_per_agent"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["tokens_per_agent"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()

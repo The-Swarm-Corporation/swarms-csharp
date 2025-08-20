@@ -17,7 +17,13 @@ public sealed record class HealthCheckResponse : ModelBase, IFromRaw<HealthCheck
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["status"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["status"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()

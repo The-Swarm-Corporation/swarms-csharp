@@ -19,7 +19,13 @@ public sealed record class ModelListAvailableResponse
 
             return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["models"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["models"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public bool? Success
@@ -31,7 +37,13 @@ public sealed record class ModelListAvailableResponse
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["success"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["success"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()
