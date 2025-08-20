@@ -20,6 +20,46 @@ public abstract record class Messages
     public static implicit operator Messages(Dictionary<string, JsonElement> value) =>
         new JsonElementsVariant(value);
 
+    public bool TryPickJsonElements(out List<Dictionary<string, JsonElement>>? value)
+    {
+        value = (this as JsonElements)?.Value;
+        return value != null;
+    }
+
+    public bool TryPickJsonElementsVariant(out Dictionary<string, JsonElement>? value)
+    {
+        value = (this as JsonElementsVariant)?.Value;
+        return value != null;
+    }
+
+    public void Switch(Action<JsonElements> jsonElements, Action<JsonElementsVariant> jsonElements1)
+    {
+        switch (this)
+        {
+            case JsonElements inner:
+                jsonElements(inner);
+                break;
+            case JsonElementsVariant inner:
+                jsonElements1(inner);
+                break;
+            default:
+                throw new InvalidOperationException();
+        }
+    }
+
+    public T Match<T>(
+        Func<JsonElements, T> jsonElements,
+        Func<JsonElementsVariant, T> jsonElements1
+    )
+    {
+        return this switch
+        {
+            JsonElements inner => jsonElements(inner),
+            JsonElementsVariant inner => jsonElements1(inner),
+            _ => throw new InvalidOperationException(),
+        };
+    }
+
     public abstract void Validate();
 }
 

@@ -21,6 +21,43 @@ public abstract record class History
     public static implicit operator History(List<Dictionary<string, string>> value) =>
         new Strings(value);
 
+    public bool TryPickJsonElements(out Dictionary<string, JsonElement>? value)
+    {
+        value = (this as JsonElements)?.Value;
+        return value != null;
+    }
+
+    public bool TryPickStrings(out List<Dictionary<string, string>>? value)
+    {
+        value = (this as Strings)?.Value;
+        return value != null;
+    }
+
+    public void Switch(Action<JsonElements> jsonElements, Action<Strings> strings)
+    {
+        switch (this)
+        {
+            case JsonElements inner:
+                jsonElements(inner);
+                break;
+            case Strings inner:
+                strings(inner);
+                break;
+            default:
+                throw new InvalidOperationException();
+        }
+    }
+
+    public T Match<T>(Func<JsonElements, T> jsonElements, Func<Strings, T> strings)
+    {
+        return this switch
+        {
+            JsonElements inner => jsonElements(inner),
+            Strings inner => strings(inner),
+            _ => throw new InvalidOperationException(),
+        };
+    }
+
     public abstract void Validate();
 }
 
