@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
@@ -18,7 +17,7 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
         get
         {
             if (!this.Properties.TryGetValue("agent_name", out JsonElement element))
-                throw new ArgumentOutOfRangeException("agent_name", "Missing required argument");
+                return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }

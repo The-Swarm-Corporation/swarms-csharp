@@ -17,7 +17,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
         get
         {
             if (!this.Properties.TryGetValue("description", out JsonElement element))
-                throw new ArgumentOutOfRangeException("description", "Missing required argument");
+                return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
@@ -32,10 +32,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
         get
         {
             if (!this.Properties.TryGetValue("execution_time", out JsonElement element))
-                throw new ArgumentOutOfRangeException(
-                    "execution_time",
-                    "Missing required argument"
-                );
+                return null;
 
             return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
         }
@@ -50,7 +47,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
         get
         {
             if (!this.Properties.TryGetValue("job_id", out JsonElement element))
-                throw new ArgumentOutOfRangeException("job_id", "Missing required argument");
+                return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
@@ -65,10 +62,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
         get
         {
             if (!this.Properties.TryGetValue("number_of_agents", out JsonElement element))
-                throw new ArgumentOutOfRangeException(
-                    "number_of_agents",
-                    "Missing required argument"
-                );
+                return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
@@ -98,7 +92,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
         get
         {
             if (!this.Properties.TryGetValue("service_tier", out JsonElement element))
-                throw new ArgumentOutOfRangeException("service_tier", "Missing required argument");
+                return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
@@ -113,7 +107,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
         get
         {
             if (!this.Properties.TryGetValue("status", out JsonElement element))
-                throw new ArgumentOutOfRangeException("status", "Missing required argument");
+                return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
@@ -128,7 +122,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
         get
         {
             if (!this.Properties.TryGetValue("swarm_name", out JsonElement element))
-                throw new ArgumentOutOfRangeException("swarm_name", "Missing required argument");
+                return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
@@ -143,7 +137,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
         get
         {
             if (!this.Properties.TryGetValue("swarm_type", out JsonElement element))
-                throw new ArgumentOutOfRangeException("swarm_type", "Missing required argument");
+                return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
@@ -158,7 +152,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
         get
         {
             if (!this.Properties.TryGetValue("usage", out JsonElement element))
-                throw new ArgumentOutOfRangeException("usage", "Missing required argument");
+                return null;
 
             return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
                 element,
