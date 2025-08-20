@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
@@ -18,7 +17,7 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
         get
         {
             if (!this.Properties.TryGetValue("limits", out JsonElement element))
-                throw new ArgumentOutOfRangeException("limits", "Missing required argument");
+                return null;
 
             return JsonSerializer.Deserialize<Limits?>(element, ModelBase.SerializerOptions);
         }
@@ -33,7 +32,7 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
         get
         {
             if (!this.Properties.TryGetValue("rate_limits", out JsonElement element))
-                throw new ArgumentOutOfRangeException("rate_limits", "Missing required argument");
+                return null;
 
             return JsonSerializer.Deserialize<RateLimits?>(element, ModelBase.SerializerOptions);
         }
@@ -48,7 +47,7 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
         get
         {
             if (!this.Properties.TryGetValue("tier", out JsonElement element))
-                throw new ArgumentOutOfRangeException("tier", "Missing required argument");
+                return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
@@ -63,7 +62,7 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
         get
         {
             if (!this.Properties.TryGetValue("timestamp", out JsonElement element))
-                throw new ArgumentOutOfRangeException("timestamp", "Missing required argument");
+                return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
