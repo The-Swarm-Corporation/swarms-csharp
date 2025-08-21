@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Models.Swarms.SwarmRunParamsProperties.MessagesVariants;
@@ -20,13 +21,17 @@ public abstract record class Messages
     public static implicit operator Messages(Dictionary<string, JsonElement> value) =>
         new JsonElementsVariant(value);
 
-    public bool TryPickJsonElements(out List<Dictionary<string, JsonElement>>? value)
+    public bool TryPickJsonElements(
+        [NotNullWhen(true)] out List<Dictionary<string, JsonElement>>? value
+    )
     {
         value = (this as JsonElements)?.Value;
         return value != null;
     }
 
-    public bool TryPickJsonElementsVariant(out Dictionary<string, JsonElement>? value)
+    public bool TryPickJsonElementsVariant(
+        [NotNullWhen(true)] out Dictionary<string, JsonElement>? value
+    )
     {
         value = (this as JsonElementsVariant)?.Value;
         return value != null;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Models.Agent.AgentRunParamsProperties.HistoryVariants;
@@ -21,13 +22,13 @@ public abstract record class History
     public static implicit operator History(List<Dictionary<string, string>> value) =>
         new Strings(value);
 
-    public bool TryPickJsonElements(out Dictionary<string, JsonElement>? value)
+    public bool TryPickJsonElements([NotNullWhen(true)] out Dictionary<string, JsonElement>? value)
     {
         value = (this as JsonElements)?.Value;
         return value != null;
     }
 
-    public bool TryPickStrings(out List<Dictionary<string, string>>? value)
+    public bool TryPickStrings([NotNullWhen(true)] out List<Dictionary<string, string>>? value)
     {
         value = (this as Strings)?.Value;
         return value != null;
