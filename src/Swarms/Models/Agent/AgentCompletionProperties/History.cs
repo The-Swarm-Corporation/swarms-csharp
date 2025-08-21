@@ -66,7 +66,7 @@ sealed class HistoryConverter : JsonConverter<History?>
 {
     public override History? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

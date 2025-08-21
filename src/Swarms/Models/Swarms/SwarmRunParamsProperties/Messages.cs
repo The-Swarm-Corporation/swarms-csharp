@@ -72,7 +72,7 @@ sealed class MessagesConverter : JsonConverter<Messages?>
 {
     public override Messages? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {
