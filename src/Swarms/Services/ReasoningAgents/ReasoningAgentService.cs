@@ -17,9 +17,11 @@ public sealed class ReasoningAgentService : IReasoningAgentService
     }
 
     public async Task<Dictionary<string, JsonElement>> CreateCompletion(
-        ReasoningAgentCreateCompletionParams parameters
+        ReasoningAgentCreateCompletionParams? parameters = null
     )
     {
+        parameters ??= new();
+
         using HttpRequestMessage request = new(HttpMethod.Post, parameters.Url(this._client))
         {
             Content = parameters.BodyContent(),
@@ -43,9 +45,11 @@ public sealed class ReasoningAgentService : IReasoningAgentService
     }
 
     public async Task<Dictionary<string, JsonElement>> ListTypes(
-        ReasoningAgentListTypesParams parameters
+        ReasoningAgentListTypesParams? parameters = null
     )
     {
+        parameters ??= new();
+
         using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
         parameters.AddHeadersToRequest(request, this._client);
         using HttpResponseMessage response = await this

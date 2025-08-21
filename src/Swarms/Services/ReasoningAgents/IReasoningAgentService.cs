@@ -11,11 +11,13 @@ public interface IReasoningAgentService
     /// Run a reasoning agent with the specified task.
     /// </summary>
     Task<Dictionary<string, JsonElement>> CreateCompletion(
-        ReasoningAgentCreateCompletionParams parameters
+        ReasoningAgentCreateCompletionParams? parameters = null
     );
 
     /// <summary>
     /// Get the types of reasoning agents available.
     /// </summary>
-    Task<Dictionary<string, JsonElement>> ListTypes(ReasoningAgentListTypesParams parameters);
+    Task<Dictionary<string, JsonElement>> ListTypes(
+        ReasoningAgentListTypesParams? parameters = null
+    );
 }

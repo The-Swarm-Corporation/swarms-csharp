@@ -23,8 +23,10 @@ public sealed class AgentService : IAgentService
         get { return _batch.Value; }
     }
 
-    public async Task<AgentRunResponse> Run(AgentRunParams parameters)
+    public async Task<AgentRunResponse> Run(AgentRunParams? parameters = null)
     {
+        parameters ??= new();
+
         using HttpRequestMessage request = new(HttpMethod.Post, parameters.Url(this._client))
         {
             Content = parameters.BodyContent(),

@@ -24,9 +24,11 @@ public sealed class SwarmService : ISwarmService
     }
 
     public async Task<SwarmCheckAvailableResponse> CheckAvailable(
-        SwarmCheckAvailableParams parameters
+        SwarmCheckAvailableParams? parameters = null
     )
     {
+        parameters ??= new();
+
         using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
         parameters.AddHeadersToRequest(request, this._client);
         using HttpResponseMessage response = await this
@@ -46,8 +48,10 @@ public sealed class SwarmService : ISwarmService
             ) ?? throw new NullReferenceException();
     }
 
-    public async Task<SwarmGetLogsResponse> GetLogs(SwarmGetLogsParams parameters)
+    public async Task<SwarmGetLogsResponse> GetLogs(SwarmGetLogsParams? parameters = null)
     {
+        parameters ??= new();
+
         using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
         parameters.AddHeadersToRequest(request, this._client);
         using HttpResponseMessage response = await this
@@ -67,8 +71,10 @@ public sealed class SwarmService : ISwarmService
             ) ?? throw new NullReferenceException();
     }
 
-    public async Task<SwarmRunResponse> Run(SwarmRunParams parameters)
+    public async Task<SwarmRunResponse> Run(SwarmRunParams? parameters = null)
     {
+        parameters ??= new();
+
         using HttpRequestMessage request = new(HttpMethod.Post, parameters.Url(this._client))
         {
             Content = parameters.BodyContent(),
