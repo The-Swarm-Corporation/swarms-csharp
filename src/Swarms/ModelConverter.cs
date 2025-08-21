@@ -10,7 +10,7 @@ sealed class ModelConverter<TModel> : JsonConverter<TModel>
 {
     public override TModel? Read(
         ref Utf8JsonReader reader,
-        Type _typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {
