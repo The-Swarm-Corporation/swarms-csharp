@@ -8,5 +8,5 @@ public interface IHealthService
     /// <summary>
     /// Health
     /// </summary>
-    Task<HealthCheckResponse> Check(HealthCheckParams parameters);
+    Task<HealthCheckResponse> Check(HealthCheckParams? parameters = null);
 }

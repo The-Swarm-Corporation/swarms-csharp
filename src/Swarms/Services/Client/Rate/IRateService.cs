@@ -9,5 +9,5 @@ public interface IRateService
     /// Get the rate limits and current usage for the user associated with the provided
     /// API key.
     /// </summary>
-    Task<RateGetLimitsResponse> GetLimits(RateGetLimitsParams parameters);
+    Task<RateGetLimitsResponse> GetLimits(RateGetLimitsParams? parameters = null);
 }

@@ -15,8 +15,10 @@ public sealed class HealthService : IHealthService
         _client = client;
     }
 
-    public async Task<HealthCheckResponse> Check(HealthCheckParams parameters)
+    public async Task<HealthCheckResponse> Check(HealthCheckParams? parameters = null)
     {
+        parameters ??= new();
+
         using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
         parameters.AddHeadersToRequest(request, this._client);
         using HttpResponseMessage response = await this

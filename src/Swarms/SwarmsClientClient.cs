@@ -71,8 +71,10 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
         get { return _client.Value; }
     }
 
-    public async Task<JsonElement> GetRoot(ClientGetRootParams parameters)
+    public async Task<JsonElement> GetRoot(ClientGetRootParams? parameters = null)
     {
+        parameters ??= new();
+
         using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this));
         parameters.AddHeadersToRequest(request, this);
         using HttpResponseMessage response = await this

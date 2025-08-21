@@ -7,7 +7,7 @@ public class HealthServiceTest : TestBase
     [Fact(Skip = "Prism tests are disabled")]
     public async Task Check_Works()
     {
-        var response = await this.client.Health.Check(new());
+        var response = await this.client.Health.Check();
         response.Validate();
     }
 }

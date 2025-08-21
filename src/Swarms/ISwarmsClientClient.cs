@@ -35,5 +35,5 @@ public interface ISwarmsClientClient
     /// <summary>
     /// Root
     /// </summary>
-    Task<JsonElement> GetRoot(ClientGetRootParams parameters);
+    Task<JsonElement> GetRoot(ClientGetRootParams? parameters = null);
 }

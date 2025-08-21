@@ -11,5 +11,5 @@ public interface IAgentService
     /// <summary>
     /// Run an agent with the specified task.
     /// </summary>
-    Task<AgentRunResponse> Run(AgentRunParams parameters);
+    Task<AgentRunResponse> Run(AgentRunParams? parameters = null);
 }
