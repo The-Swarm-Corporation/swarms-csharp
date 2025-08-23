@@ -8,5 +8,5 @@ public interface IModelService
     /// <summary>
     /// Get all available models.
     /// </summary>
-    Task<ModelListAvailableResponse> ListAvailable(ModelListAvailableParams parameters);
+    Task<ModelListAvailableResponse> ListAvailable(ModelListAvailableParams? parameters = null);
 }

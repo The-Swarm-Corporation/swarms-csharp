@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using AgentCompletionProperties = Swarms.Models.Agent.AgentCompletionProperties;
+using Swarms.Models.Agent.AgentCompletionProperties;
 
 namespace Swarms.Models.Agent;
 
@@ -21,26 +21,35 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 
             return JsonSerializer.Deserialize<AgentSpec?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["agent_config"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["agent_config"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
     /// The history of the agent's previous tasks and responses. Can be either a
     /// dictionary or a list of message objects.
     /// </summary>
-    public AgentCompletionProperties::History? History
+    public History? History
     {
         get
         {
             if (!this.Properties.TryGetValue("history", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<AgentCompletionProperties::History?>(
-                element,
+            return JsonSerializer.Deserialize<History?>(element, ModelBase.SerializerOptions);
+        }
+        set
+        {
+            this.Properties["history"] = JsonSerializer.SerializeToElement(
+                value,
                 ModelBase.SerializerOptions
             );
         }
-        set { this.Properties["history"] = JsonSerializer.SerializeToElement(value); }
     }
 
     /// <summary>
@@ -55,7 +64,13 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["img"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["img"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -70,7 +85,13 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["imgs"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["imgs"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -85,7 +106,13 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["stream"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["stream"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -100,7 +127,13 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["task"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["task"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()

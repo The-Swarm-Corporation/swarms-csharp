@@ -9,21 +9,6 @@ namespace Swarms.Models.Agent;
 public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunResponse>
 {
     /// <summary>
-    /// The unique identifier for the agent completion.
-    /// </summary>
-    public string? ID
-    {
-        get
-        {
-            if (!this.Properties.TryGetValue("id", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        set { this.Properties["id"] = JsonSerializer.SerializeToElement(value); }
-    }
-
-    /// <summary>
     /// A description of the agent or completion.
     /// </summary>
     public string? Description
@@ -35,7 +20,34 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["description"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["description"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// The unique identifier for the agent completion.
+    /// </summary>
+    public string? JobID
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("job_id", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        set
+        {
+            this.Properties["job_id"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -50,7 +62,13 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["name"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["name"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -65,7 +83,13 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
 
             return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["outputs"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["outputs"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -80,7 +104,13 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["success"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["success"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -95,7 +125,13 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
 
             return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["temperature"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["temperature"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -110,7 +146,13 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["timestamp"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["timestamp"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -128,13 +170,19 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
                 ModelBase.SerializerOptions
             );
         }
-        set { this.Properties["usage"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["usage"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()
     {
-        _ = this.ID;
         _ = this.Description;
+        _ = this.JobID;
         _ = this.Name;
         _ = this.Outputs;
         _ = this.Success;

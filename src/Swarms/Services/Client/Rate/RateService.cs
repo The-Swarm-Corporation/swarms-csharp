@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -16,12 +15,14 @@ public sealed class RateService : IRateService
         _client = client;
     }
 
-    public async Task<Dictionary<string, JsonElement>> GetLimits(RateGetLimitsParams parameters)
+    public async Task<RateGetLimitsResponse> GetLimits(RateGetLimitsParams? parameters = null)
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Get, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        parameters ??= new();
+
+        using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -30,7 +31,8 @@ public sealed class RateService : IRateService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
-        return JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
+
+        return JsonSerializer.Deserialize<RateGetLimitsResponse>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();

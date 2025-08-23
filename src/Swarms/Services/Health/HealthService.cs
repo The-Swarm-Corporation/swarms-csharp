@@ -15,12 +15,14 @@ public sealed class HealthService : IHealthService
         _client = client;
     }
 
-    public async Task<HealthCheckResponse> Check(HealthCheckParams parameters)
+    public async Task<HealthCheckResponse> Check(HealthCheckParams? parameters = null)
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Get, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        parameters ??= new();
+
+        using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -29,6 +31,7 @@ public sealed class HealthService : IHealthService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<HealthCheckResponse>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions

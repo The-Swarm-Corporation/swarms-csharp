@@ -25,7 +25,13 @@ public sealed record class BatchRunParams : ParamsBase
                     ModelBase.SerializerOptions
                 ) ?? throw new ArgumentNullException("body");
         }
-        set { this.BodyProperties["body"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.BodyProperties["body"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override Uri Url(ISwarmsClientClient client)

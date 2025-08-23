@@ -17,16 +17,18 @@ public sealed class ReasoningAgentService : IReasoningAgentService
     }
 
     public async Task<Dictionary<string, JsonElement>> CreateCompletion(
-        ReasoningAgentCreateCompletionParams parameters
+        ReasoningAgentCreateCompletionParams? parameters = null
     )
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Post, parameters.Url(this._client))
+        parameters ??= new();
+
+        using HttpRequestMessage request = new(HttpMethod.Post, parameters.Url(this._client))
         {
             Content = parameters.BodyContent(),
         };
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -35,6 +37,7 @@ public sealed class ReasoningAgentService : IReasoningAgentService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions
@@ -42,13 +45,15 @@ public sealed class ReasoningAgentService : IReasoningAgentService
     }
 
     public async Task<Dictionary<string, JsonElement>> ListTypes(
-        ReasoningAgentListTypesParams parameters
+        ReasoningAgentListTypesParams? parameters = null
     )
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Get, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        parameters ??= new();
+
+        using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -57,6 +62,7 @@ public sealed class ReasoningAgentService : IReasoningAgentService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions

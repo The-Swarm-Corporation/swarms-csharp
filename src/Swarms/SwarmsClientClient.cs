@@ -1,19 +1,20 @@
 using System;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Agent = Swarms.Services.Agent;
-using Client = Swarms.Services.Client;
-using Health = Swarms.Services.Health;
-using Http = System.Net.Http;
-using Models = Swarms.Models;
-using ReasoningAgents = Swarms.Services.ReasoningAgents;
-using Swarms = Swarms.Services.Swarms;
+using Swarms.Models;
+using Swarms.Services.Agent;
+using Swarms.Services.Client;
+using Swarms.Services.Health;
+using Swarms.Services.Models;
+using Swarms.Services.ReasoningAgents;
+using Swarms.Services.Swarms;
 
 namespace Swarms;
 
 public sealed class SwarmsClientClient : ISwarmsClientClient
 {
-    public Http::HttpClient HttpClient { get; init; } = new();
+    public HttpClient HttpClient { get; init; } = new();
 
     Lazy<Uri> _baseUrl = new(() =>
         new Uri(
@@ -34,48 +35,50 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
         init { _apiKey = new(() => value); }
     }
 
-    readonly Lazy<Health::IHealthService> _health;
-    public Health::IHealthService Health
+    readonly Lazy<IHealthService> _health;
+    public IHealthService Health
     {
         get { return _health.Value; }
     }
 
-    readonly Lazy<Agent::IAgentService> _agent;
-    public Agent::IAgentService Agent
+    readonly Lazy<IAgentService> _agent;
+    public IAgentService Agent
     {
         get { return _agent.Value; }
     }
 
-    readonly Lazy<global::Swarms.Services.Models.IModelService> _models;
-    public global::Swarms.Services.Models.IModelService Models
+    readonly Lazy<IModelService> _models;
+    public IModelService Models
     {
         get { return _models.Value; }
     }
 
-    readonly Lazy<Swarms::ISwarmService> _swarms;
-    public Swarms::ISwarmService Swarms
+    readonly Lazy<ISwarmService> _swarms;
+    public ISwarmService Swarms
     {
         get { return _swarms.Value; }
     }
 
-    readonly Lazy<ReasoningAgents::IReasoningAgentService> _reasoningAgents;
-    public ReasoningAgents::IReasoningAgentService ReasoningAgents
+    readonly Lazy<IReasoningAgentService> _reasoningAgents;
+    public IReasoningAgentService ReasoningAgents
     {
         get { return _reasoningAgents.Value; }
     }
 
-    readonly Lazy<Client::IClientService> _client;
-    public Client::IClientService Client
+    readonly Lazy<IClientService> _client;
+    public IClientService Client
     {
         get { return _client.Value; }
     }
 
-    public async Task<JsonElement> GetRoot(Models::ClientGetRootParams parameters)
+    public async Task<JsonElement> GetRoot(ClientGetRootParams? parameters = null)
     {
-        using Http::HttpRequestMessage webRequest = new(Http::HttpMethod.Get, parameters.Url(this));
-        parameters.AddHeadersToRequest(webRequest, this);
-        using Http::HttpResponseMessage response = await this
-            .HttpClient.SendAsync(webRequest)
+        parameters ??= new();
+
+        using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this));
+        parameters.AddHeadersToRequest(request, this);
+        using HttpResponseMessage response = await this
+            .HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -84,6 +87,7 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<JsonElement>(
             await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
             ModelBase.SerializerOptions
@@ -92,11 +96,11 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
 
     public SwarmsClientClient()
     {
-        _health = new(() => new Health::HealthService(this));
-        _agent = new(() => new Agent::AgentService(this));
-        _models = new(() => new global::Swarms.Services.Models.ModelService(this));
-        _swarms = new(() => new Swarms::SwarmService(this));
-        _reasoningAgents = new(() => new ReasoningAgents::ReasoningAgentService(this));
-        _client = new(() => new Client::ClientService(this));
+        _health = new(() => new HealthService(this));
+        _agent = new(() => new AgentService(this));
+        _models = new(() => new ModelService(this));
+        _swarms = new(() => new SwarmService(this));
+        _reasoningAgents = new(() => new ReasoningAgentService(this));
+        _client = new(() => new ClientService(this));
     }
 }

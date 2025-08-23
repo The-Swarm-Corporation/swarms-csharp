@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Swarms.Models.Swarms;
-using Batch = Swarms.Services.Swarms.Batch;
+using Swarms.Services.Swarms.Batch;
 
 namespace Swarms.Services.Swarms;
 
@@ -14,23 +14,25 @@ public sealed class SwarmService : ISwarmService
     public SwarmService(ISwarmsClientClient client)
     {
         _client = client;
-        _batch = new(() => new Batch::BatchService(client));
+        _batch = new(() => new BatchService(client));
     }
 
-    readonly Lazy<Batch::IBatchService> _batch;
-    public Batch::IBatchService Batch
+    readonly Lazy<IBatchService> _batch;
+    public IBatchService Batch
     {
         get { return _batch.Value; }
     }
 
     public async Task<SwarmCheckAvailableResponse> CheckAvailable(
-        SwarmCheckAvailableParams parameters
+        SwarmCheckAvailableParams? parameters = null
     )
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Get, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        parameters ??= new();
+
+        using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -39,18 +41,21 @@ public sealed class SwarmService : ISwarmService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<SwarmCheckAvailableResponse>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 
-    public async Task<SwarmGetLogsResponse> GetLogs(SwarmGetLogsParams parameters)
+    public async Task<SwarmGetLogsResponse> GetLogs(SwarmGetLogsParams? parameters = null)
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Get, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        parameters ??= new();
+
+        using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this._client));
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -59,21 +64,24 @@ public sealed class SwarmService : ISwarmService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<SwarmGetLogsResponse>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions
             ) ?? throw new NullReferenceException();
     }
 
-    public async Task<SwarmRunResponse> Run(SwarmRunParams parameters)
+    public async Task<SwarmRunResponse> Run(SwarmRunParams? parameters = null)
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Post, parameters.Url(this._client))
+        parameters ??= new();
+
+        using HttpRequestMessage request = new(HttpMethod.Post, parameters.Url(this._client))
         {
             Content = parameters.BodyContent(),
         };
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        parameters.AddHeadersToRequest(request, this._client);
+        using HttpResponseMessage response = await this
+            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
             .ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
         {
@@ -82,6 +90,7 @@ public sealed class SwarmService : ISwarmService
                 await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             );
         }
+
         return JsonSerializer.Deserialize<SwarmRunResponse>(
                 await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
                 ModelBase.SerializerOptions

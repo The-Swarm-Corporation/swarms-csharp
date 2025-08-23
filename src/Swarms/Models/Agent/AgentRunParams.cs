@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using AgentRunParamsProperties = Swarms.Models.Agent.AgentRunParamsProperties;
+using Swarms.Models.Agent.AgentRunParamsProperties;
 
 namespace Swarms.Models.Agent;
 
@@ -26,26 +26,35 @@ public sealed record class AgentRunParams : ParamsBase
 
             return JsonSerializer.Deserialize<AgentSpec?>(element, ModelBase.SerializerOptions);
         }
-        set { this.BodyProperties["agent_config"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.BodyProperties["agent_config"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
     /// The history of the agent's previous tasks and responses. Can be either a
     /// dictionary or a list of message objects.
     /// </summary>
-    public AgentRunParamsProperties::History? History
+    public History? History
     {
         get
         {
             if (!this.BodyProperties.TryGetValue("history", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<AgentRunParamsProperties::History?>(
-                element,
+            return JsonSerializer.Deserialize<History?>(element, ModelBase.SerializerOptions);
+        }
+        set
+        {
+            this.BodyProperties["history"] = JsonSerializer.SerializeToElement(
+                value,
                 ModelBase.SerializerOptions
             );
         }
-        set { this.BodyProperties["history"] = JsonSerializer.SerializeToElement(value); }
     }
 
     /// <summary>
@@ -60,7 +69,13 @@ public sealed record class AgentRunParams : ParamsBase
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.BodyProperties["img"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.BodyProperties["img"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -75,7 +90,13 @@ public sealed record class AgentRunParams : ParamsBase
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
-        set { this.BodyProperties["imgs"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.BodyProperties["imgs"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -90,7 +111,13 @@ public sealed record class AgentRunParams : ParamsBase
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.BodyProperties["stream"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.BodyProperties["stream"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -105,7 +132,13 @@ public sealed record class AgentRunParams : ParamsBase
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.BodyProperties["task"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.BodyProperties["task"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override Uri Url(ISwarmsClientClient client)

@@ -20,7 +20,13 @@ public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunRespon
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["batch_id"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["batch_id"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -35,7 +41,13 @@ public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunRespon
 
             return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["execution_time"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["execution_time"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -50,7 +62,13 @@ public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunRespon
 
             return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["results"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["results"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -65,7 +83,13 @@ public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunRespon
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["timestamp"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["timestamp"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -80,7 +104,13 @@ public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunRespon
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["total_requests"] = JsonSerializer.SerializeToElement(value); }
+        set
+        {
+            this.Properties["total_requests"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()
