@@ -29,9 +29,7 @@ public abstract record class Messages
         return value != null;
     }
 
-    public bool TryPickJsonElementsVariant(
-        [NotNullWhen(true)] out Dictionary<string, JsonElement>? value
-    )
+    public bool TryPickJsonElements1([NotNullWhen(true)] out Dictionary<string, JsonElement>? value)
     {
         value = (this as JsonElementsVariant)?.Value;
         return value != null;
