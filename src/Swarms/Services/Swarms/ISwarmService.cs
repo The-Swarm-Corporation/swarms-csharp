@@ -21,7 +21,7 @@ public interface ISwarmService
     Task<SwarmGetLogsResponse> GetLogs(SwarmGetLogsParams? parameters = null);
 
     /// <summary>
-    /// Run a swarm with the specified task.
+    /// Run a swarm with the specified task. Supports streaming when stream=True.
     /// </summary>
     Task<SwarmRunResponse> Run(SwarmRunParams? parameters = null);
 }

@@ -9,7 +9,7 @@ using Swarms.Models.Swarms.SwarmRunParamsProperties;
 namespace Swarms.Models.Swarms;
 
 /// <summary>
-/// Run a swarm with the specified task.
+/// Run a swarm with the specified task. Supports streaming when stream=True.
 /// </summary>
 public sealed record class SwarmRunParams : ParamsBase
 {

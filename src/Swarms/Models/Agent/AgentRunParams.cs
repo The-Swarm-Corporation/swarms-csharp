@@ -8,7 +8,7 @@ using Swarms.Models.Agent.AgentRunParamsProperties;
 namespace Swarms.Models.Agent;
 
 /// <summary>
-/// Run an agent with the specified task.
+/// Run an agent with the specified task. Supports streaming when stream=True.
 /// </summary>
 public sealed record class AgentRunParams : ParamsBase
 {
@@ -100,27 +100,6 @@ public sealed record class AgentRunParams : ParamsBase
     }
 
     /// <summary>
-    /// A flag indicating whether the agent should stream its output.
-    /// </summary>
-    public bool? Stream
-    {
-        get
-        {
-            if (!this.BodyProperties.TryGetValue("stream", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
-        }
-        set
-        {
-            this.BodyProperties["stream"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
-    }
-
-    /// <summary>
     /// The task to be completed by the agent.
     /// </summary>
     public string? Task
@@ -135,6 +114,27 @@ public sealed record class AgentRunParams : ParamsBase
         set
         {
             this.BodyProperties["task"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// A list of tools that the agent should use to complete its task.
+    /// </summary>
+    public List<string>? ToolsEnabled
+    {
+        get
+        {
+            if (!this.BodyProperties.TryGetValue("tools_enabled", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
+        }
+        set
+        {
+            this.BodyProperties["tools_enabled"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );

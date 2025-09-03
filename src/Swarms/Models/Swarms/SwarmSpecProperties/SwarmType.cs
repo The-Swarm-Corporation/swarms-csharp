@@ -12,7 +12,6 @@ public enum SwarmType
 {
     AgentRearrange,
     MixtureOfAgents,
-    SpreadSheetSwarm,
     SequentialWorkflow,
     ConcurrentWorkflow,
     GroupChat,
@@ -40,7 +39,6 @@ sealed class SwarmTypeConverter : JsonConverter<SwarmType>
         {
             "AgentRearrange" => SwarmType.AgentRearrange,
             "MixtureOfAgents" => SwarmType.MixtureOfAgents,
-            "SpreadSheetSwarm" => SwarmType.SpreadSheetSwarm,
             "SequentialWorkflow" => SwarmType.SequentialWorkflow,
             "ConcurrentWorkflow" => SwarmType.ConcurrentWorkflow,
             "GroupChat" => SwarmType.GroupChat,
@@ -70,7 +68,6 @@ sealed class SwarmTypeConverter : JsonConverter<SwarmType>
             {
                 SwarmType.AgentRearrange => "AgentRearrange",
                 SwarmType.MixtureOfAgents => "MixtureOfAgents",
-                SwarmType.SpreadSheetSwarm => "SpreadSheetSwarm",
                 SwarmType.SequentialWorkflow => "SequentialWorkflow",
                 SwarmType.ConcurrentWorkflow => "ConcurrentWorkflow",
                 SwarmType.GroupChat => "GroupChat",
