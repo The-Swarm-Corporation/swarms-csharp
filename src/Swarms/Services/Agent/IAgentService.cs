@@ -9,7 +9,7 @@ public interface IAgentService
     IBatchService Batch { get; }
 
     /// <summary>
-    /// Run an agent with the specified task.
+    /// Run an agent with the specified task. Supports streaming when stream=True.
     /// </summary>
     Task<AgentRunResponse> Run(AgentRunParams? parameters = null);
 }

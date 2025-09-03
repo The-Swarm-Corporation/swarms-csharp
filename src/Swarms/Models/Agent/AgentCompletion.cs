@@ -95,27 +95,6 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     }
 
     /// <summary>
-    /// A flag indicating whether the agent should stream its output.
-    /// </summary>
-    public bool? Stream
-    {
-        get
-        {
-            if (!this.Properties.TryGetValue("stream", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
-        }
-        set
-        {
-            this.Properties["stream"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
-    }
-
-    /// <summary>
     /// The task to be completed by the agent.
     /// </summary>
     public string? Task
@@ -136,6 +115,27 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
         }
     }
 
+    /// <summary>
+    /// A list of tools that the agent should use to complete its task.
+    /// </summary>
+    public List<string>? ToolsEnabled
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("tools_enabled", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
+        }
+        set
+        {
+            this.Properties["tools_enabled"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
     public override void Validate()
     {
         this.AgentConfig?.Validate();
@@ -145,8 +145,11 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
         {
             _ = item;
         }
-        _ = this.Stream;
         _ = this.Task;
+        foreach (var item in this.ToolsEnabled ?? [])
+        {
+            _ = item;
+        }
     }
 
     public AgentCompletion() { }

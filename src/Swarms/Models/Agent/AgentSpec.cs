@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms.Models.Agent.AgentSpecProperties;
 
 namespace Swarms.Models.Agent;
 
@@ -168,6 +169,49 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     }
 
     /// <summary>
+    /// The MCP connection to use for the agent.
+    /// </summary>
+    public McpConfig? McpConfig
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("mcp_config", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<McpConfig?>(element, ModelBase.SerializerOptions);
+        }
+        set
+        {
+            this.Properties["mcp_config"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// The MCP connections to use for the agent. This is a list of MCP connections.
+    /// Includes multiple MCP connections.
+    /// </summary>
+    public McpConfigs? McpConfigs
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("mcp_configs", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<McpConfigs?>(element, ModelBase.SerializerOptions);
+        }
+        set
+        {
+            this.Properties["mcp_configs"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
     /// The URL of the MCP server that the agent can use to complete its task.
     /// </summary>
     public string? McpURL
@@ -204,6 +248,48 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
         set
         {
             this.Properties["model_name"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// The effort to put into reasoning.
+    /// </summary>
+    public string? ReasoningEffort
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("reasoning_effort", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        set
+        {
+            this.Properties["reasoning_effort"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// A parameter enabling an agent to use reasoning.
+    /// </summary>
+    public bool? ReasoningEnabled
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("reasoning_enabled", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
+        }
+        set
+        {
+            this.Properties["reasoning_enabled"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -298,6 +384,48 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     }
 
     /// <summary>
+    /// The number of tokens to use for thinking.
+    /// </summary>
+    public long? ThinkingTokens
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("thinking_tokens", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
+        }
+        set
+        {
+            this.Properties["thinking_tokens"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// A parameter enabling an agent to summarize tool calls.
+    /// </summary>
+    public bool? ToolCallSummary
+    {
+        get
+        {
+            if (!this.Properties.TryGetValue("tool_call_summary", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
+        }
+        set
+        {
+            this.Properties["tool_call_summary"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
     /// A dictionary of tools that the agent can use to complete its task.
     /// </summary>
     public List<Dictionary<string, JsonElement>>? ToolsListDictionary
@@ -336,12 +464,18 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
         }
         _ = this.MaxLoops;
         _ = this.MaxTokens;
+        this.McpConfig?.Validate();
+        this.McpConfigs?.Validate();
         _ = this.McpURL;
         _ = this.ModelName;
+        _ = this.ReasoningEffort;
+        _ = this.ReasoningEnabled;
         _ = this.Role;
         _ = this.StreamingOn;
         _ = this.SystemPrompt;
         _ = this.Temperature;
+        _ = this.ThinkingTokens;
+        _ = this.ToolCallSummary;
         foreach (var item in this.ToolsListDictionary ?? [])
         {
             foreach (var item1 in item.Values)
