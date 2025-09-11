@@ -25,7 +25,7 @@ public class BatchServiceTest : TestBase
                                 AutoGeneratePrompt = true,
                                 Description = "description",
                                 DynamicTemperatureEnabled = true,
-                                LlmArgs = new()
+                                LlmArgs = new Dictionary<string, JsonElement>()
                                 {
                                     { "foo", JsonSerializer.SerializeToElement("bar") },
                                 },
@@ -34,9 +34,12 @@ public class BatchServiceTest : TestBase
                                 McpConfig = new()
                                 {
                                     AuthorizationToken = "authorization_token",
-                                    Headers = new() { { "foo", "string" } },
+                                    Headers = new Dictionary<string, string>()
+                                    {
+                                        { "foo", "string" },
+                                    },
                                     Timeout = 0,
-                                    ToolConfigurations = new()
+                                    ToolConfigurations = new Dictionary<string, JsonElement>()
                                     {
                                         { "foo", JsonSerializer.SerializeToElement("bar") },
                                     },
@@ -49,9 +52,15 @@ public class BatchServiceTest : TestBase
                                         new()
                                         {
                                             AuthorizationToken = "authorization_token",
-                                            Headers = new() { { "foo", "string" } },
+                                            Headers = new Dictionary<string, string>()
+                                            {
+                                                { "foo", "string" },
+                                            },
                                             Timeout = 0,
-                                            ToolConfigurations = new()
+                                            ToolConfigurations = new Dictionary<
+                                                string,
+                                                JsonElement
+                                            >()
                                             {
                                                 { "foo", JsonSerializer.SerializeToElement("bar") },
                                             },
@@ -73,7 +82,10 @@ public class BatchServiceTest : TestBase
                                 ToolCallSummary = true,
                                 ToolsListDictionary =
                                 [
-                                    new() { { "foo", JsonSerializer.SerializeToElement("bar") } },
+                                    new Dictionary<string, JsonElement>()
+                                    {
+                                        { "foo", JsonSerializer.SerializeToElement("bar") },
+                                    },
                                 ],
                             },
                         ],
@@ -85,7 +97,10 @@ public class BatchServiceTest : TestBase
                         MaxLoops = 0,
                         Messages = new List<Dictionary<string, JsonElement>>()
                         {
-                            new() { { "foo", JsonSerializer.SerializeToElement("bar") } },
+                            new Dictionary<string, JsonElement>()
+                            {
+                                { "foo", JsonSerializer.SerializeToElement("bar") },
+                            },
                         },
                         Name = "name",
                         RearrangeFlow = "rearrange_flow",
