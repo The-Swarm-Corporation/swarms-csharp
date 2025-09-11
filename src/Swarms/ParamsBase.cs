@@ -149,6 +149,9 @@ public abstract record class ParamsBase
 
     protected static void AddDefaultHeaders(HttpRequestMessage request, ISwarmsClientClient client)
     {
-        request.Headers.Add("x-api-key", client.APIKey);
+        if (client.APIKey != null)
+        {
+            request.Headers.Add("x-api-key", client.APIKey);
+        }
     }
 }
