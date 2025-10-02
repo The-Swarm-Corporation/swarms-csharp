@@ -1,6 +1,7 @@
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms.Exceptions;
 
 namespace Swarms.Models.ReasoningAgents.ReasoningAgentCreateCompletionParamsProperties;
 
@@ -84,7 +85,9 @@ sealed class OutputTypeConverter : JsonConverter<OutputType>
                 OutputType.Basemodel => "basemodel",
                 OutputType.DictFinal => "dict-final",
                 OutputType.ListFinal => "list-final",
-                _ => throw new ArgumentOutOfRangeException(nameof(value)),
+                _ => throw new SwarmsClientInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
             },
             options
         );

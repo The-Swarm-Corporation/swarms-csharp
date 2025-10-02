@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using Swarms.Core;
+using Swarms.Exceptions;
 
 namespace Swarms.Models.Swarms.Batch;
 
@@ -18,10 +20,16 @@ public sealed record class BatchRunParams : ParamsBase
         get
         {
             if (!this.BodyProperties.TryGetValue("body", out JsonElement element))
-                throw new ArgumentOutOfRangeException("body", "Missing required argument");
+                throw new SwarmsClientInvalidDataException(
+                    "'body' cannot be null",
+                    new ArgumentOutOfRangeException("body", "Missing required argument")
+                );
 
             return JsonSerializer.Deserialize<List<SwarmSpec>>(element, ModelBase.SerializerOptions)
-                ?? throw new ArgumentNullException("body");
+                ?? throw new SwarmsClientInvalidDataException(
+                    "'body' cannot be null",
+                    new ArgumentNullException("body")
+                );
         }
         set
         {
@@ -42,7 +50,7 @@ public sealed record class BatchRunParams : ParamsBase
         }.Uri;
     }
 
-    public StringContent BodyContent()
+    internal override StringContent? BodyContent()
     {
         return new(
             JsonSerializer.Serialize(this.BodyProperties),
@@ -51,7 +59,10 @@ public sealed record class BatchRunParams : ParamsBase
         );
     }
 
-    public void AddHeadersToRequest(HttpRequestMessage request, ISwarmsClientClient client)
+    internal override void AddHeadersToRequest(
+        HttpRequestMessage request,
+        ISwarmsClientClient client
+    )
     {
         ParamsBase.AddDefaultHeaders(request, client);
         foreach (var item in this.HeaderProperties)

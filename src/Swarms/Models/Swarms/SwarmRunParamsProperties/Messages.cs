@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms.Exceptions;
 using Swarms.Models.Swarms.SwarmRunParamsProperties.MessagesVariants;
 
 namespace Swarms.Models.Swarms.SwarmRunParamsProperties;
@@ -46,7 +47,9 @@ public abstract record class Messages
                 jsonElements1(inner);
                 break;
             default:
-                throw new InvalidOperationException();
+                throw new SwarmsClientInvalidDataException(
+                    "Data did not match any variant of Messages"
+                );
         }
     }
 
@@ -59,7 +62,9 @@ public abstract record class Messages
         {
             JsonElements inner => jsonElements(inner),
             JsonElementsVariant inner => jsonElements1(inner),
-            _ => throw new InvalidOperationException(),
+            _ => throw new SwarmsClientInvalidDataException(
+                "Data did not match any variant of Messages"
+            ),
         };
     }
 
@@ -74,7 +79,7 @@ sealed class MessagesConverter : JsonConverter<Messages?>
         JsonSerializerOptions options
     )
     {
-        List<JsonException> exceptions = [];
+        List<SwarmsClientInvalidDataException> exceptions = [];
 
         try
         {
@@ -89,7 +94,12 @@ sealed class MessagesConverter : JsonConverter<Messages?>
         }
         catch (JsonException e)
         {
-            exceptions.Add(e);
+            exceptions.Add(
+                new SwarmsClientInvalidDataException(
+                    "Data does not match union variant JsonElements",
+                    e
+                )
+            );
         }
 
         try
@@ -105,7 +115,12 @@ sealed class MessagesConverter : JsonConverter<Messages?>
         }
         catch (JsonException e)
         {
-            exceptions.Add(e);
+            exceptions.Add(
+                new SwarmsClientInvalidDataException(
+                    "Data does not match union variant JsonElementsVariant",
+                    e
+                )
+            );
         }
 
         throw new AggregateException(exceptions);
@@ -122,7 +137,9 @@ sealed class MessagesConverter : JsonConverter<Messages?>
             null => null,
             JsonElements(var jsonElements) => jsonElements,
             JsonElementsVariant(var jsonElements) => jsonElements,
-            _ => throw new ArgumentOutOfRangeException(nameof(value)),
+            _ => throw new SwarmsClientInvalidDataException(
+                "Data did not match any variant of Messages"
+            ),
         };
         JsonSerializer.Serialize(writer, variant, options);
     }

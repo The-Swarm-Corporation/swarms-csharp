@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using Swarms.Core;
 
 namespace Swarms.Models.Health;
 
@@ -16,7 +17,10 @@ public sealed record class HealthCheckParams : ParamsBase
         }.Uri;
     }
 
-    public void AddHeadersToRequest(HttpRequestMessage request, ISwarmsClientClient client)
+    internal override void AddHeadersToRequest(
+        HttpRequestMessage request,
+        ISwarmsClientClient client
+    )
     {
         ParamsBase.AddDefaultHeaders(request, client);
         foreach (var item in this.HeaderProperties)

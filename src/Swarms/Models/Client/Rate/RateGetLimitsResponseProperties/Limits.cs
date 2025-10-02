@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms.Core;
+using Swarms.Exceptions;
 
 namespace Swarms.Models.Client.Rate.RateGetLimitsResponseProperties;
 
@@ -20,9 +22,12 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
         get
         {
             if (!this.Properties.TryGetValue("maximum_requests_per_day", out JsonElement element))
-                throw new ArgumentOutOfRangeException(
-                    "maximum_requests_per_day",
-                    "Missing required argument"
+                throw new SwarmsClientInvalidDataException(
+                    "'maximum_requests_per_day' cannot be null",
+                    new ArgumentOutOfRangeException(
+                        "maximum_requests_per_day",
+                        "Missing required argument"
+                    )
                 );
 
             return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
@@ -44,9 +49,12 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
         get
         {
             if (!this.Properties.TryGetValue("maximum_requests_per_hour", out JsonElement element))
-                throw new ArgumentOutOfRangeException(
-                    "maximum_requests_per_hour",
-                    "Missing required argument"
+                throw new SwarmsClientInvalidDataException(
+                    "'maximum_requests_per_hour' cannot be null",
+                    new ArgumentOutOfRangeException(
+                        "maximum_requests_per_hour",
+                        "Missing required argument"
+                    )
                 );
 
             return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
@@ -70,9 +78,12 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
             if (
                 !this.Properties.TryGetValue("maximum_requests_per_minute", out JsonElement element)
             )
-                throw new ArgumentOutOfRangeException(
-                    "maximum_requests_per_minute",
-                    "Missing required argument"
+                throw new SwarmsClientInvalidDataException(
+                    "'maximum_requests_per_minute' cannot be null",
+                    new ArgumentOutOfRangeException(
+                        "maximum_requests_per_minute",
+                        "Missing required argument"
+                    )
                 );
 
             return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
@@ -94,9 +105,9 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
         get
         {
             if (!this.Properties.TryGetValue("tokens_per_agent", out JsonElement element))
-                throw new ArgumentOutOfRangeException(
-                    "tokens_per_agent",
-                    "Missing required argument"
+                throw new SwarmsClientInvalidDataException(
+                    "'tokens_per_agent' cannot be null",
+                    new ArgumentOutOfRangeException("tokens_per_agent", "Missing required argument")
                 );
 
             return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);

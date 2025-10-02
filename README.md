@@ -76,6 +76,33 @@ To send a request to the Swarms Client API, build an instance of some `Params` c
 
 For example, `client.GetRoot` should be called with an instance of `ClientGetRootParams`, and it will return an instance of `Task<JsonElement>`.
 
+## Error handling
+
+The SDK throws custom unchecked exception types:
+
+- `SwarmsClientApiException`: Base class for API errors. See this table for which exception subclass is thrown for each HTTP status code:
+
+| Status | Exception                                   |
+| ------ | ------------------------------------------- |
+| 400    | `SwarmsClientBadRequestException`           |
+| 401    | `SwarmsClientUnauthorizedException`         |
+| 403    | `SwarmsClientForbiddenException`            |
+| 404    | `SwarmsClientNotFoundException`             |
+| 422    | `SwarmsClientUnprocessableEntityException`  |
+| 429    | `SwarmsClientRateLimitException`            |
+| 5xx    | `SwarmsClient5xxException`                  |
+| others | `SwarmsClientUnexpectedStatusCodeException` |
+
+Additionally, all 4xx errors inherit from `SwarmsClient4xxException`.
+
+false
+
+- `SwarmsClientIOException`: I/O networking errors.
+
+- `SwarmsClientInvalidDataException`: Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
+
+- `SwarmsClientException`: Base class for all exceptions.
+
 ## Semantic versioning
 
 This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:

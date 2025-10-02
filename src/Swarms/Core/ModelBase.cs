@@ -4,7 +4,7 @@ using Swarms.Models.Swarms.SwarmSpecProperties;
 using ReasoningAgentCreateCompletionParamsProperties = Swarms.Models.ReasoningAgents.ReasoningAgentCreateCompletionParamsProperties;
 using SwarmRunParamsProperties = Swarms.Models.Swarms.SwarmRunParamsProperties;
 
-namespace Swarms;
+namespace Swarms.Core;
 
 public abstract record class ModelBase
 {

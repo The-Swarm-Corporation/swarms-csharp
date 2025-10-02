@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json;
+using Swarms.Core;
 
 namespace Swarms.Models.Agent.AgentRunParamsProperties.HistoryVariants;
 
