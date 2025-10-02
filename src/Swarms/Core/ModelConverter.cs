@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Swarms;
+namespace Swarms.Core;
 
 sealed class ModelConverter<TModel> : JsonConverter<TModel>
     where TModel : ModelBase, IFromRaw<TModel>

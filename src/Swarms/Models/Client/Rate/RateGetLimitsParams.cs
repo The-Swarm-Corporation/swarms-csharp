@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using Swarms.Core;
 
 namespace Swarms.Models.Client.Rate;
 
@@ -17,7 +18,10 @@ public sealed record class RateGetLimitsParams : ParamsBase
         }.Uri;
     }
 
-    public void AddHeadersToRequest(HttpRequestMessage request, ISwarmsClientClient client)
+    internal override void AddHeadersToRequest(
+        HttpRequestMessage request,
+        ISwarmsClientClient client
+    )
     {
         ParamsBase.AddDefaultHeaders(request, client);
         foreach (var item in this.HeaderProperties)

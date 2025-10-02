@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Swarms.Core;
 using Swarms.Models;
 using Swarms.Services.Agent;
 using Swarms.Services.Client;
@@ -36,4 +37,7 @@ public interface ISwarmsClientClient
     /// Root
     /// </summary>
     Task<JsonElement> GetRoot(ClientGetRootParams? parameters = null);
+
+    Task<HttpResponse> Execute<T>(HttpRequest<T> request)
+        where T : ParamsBase;
 }

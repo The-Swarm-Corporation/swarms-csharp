@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms.Core;
+using Swarms.Exceptions;
 using Swarms.Models.Client.Rate.RateGetLimitsResponseProperties.RateLimitsProperties;
 
 namespace Swarms.Models.Client.Rate.RateGetLimitsResponseProperties;
@@ -21,10 +23,16 @@ public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
         get
         {
             if (!this.Properties.TryGetValue("day", out JsonElement element))
-                throw new ArgumentOutOfRangeException("day", "Missing required argument");
+                throw new SwarmsClientInvalidDataException(
+                    "'day' cannot be null",
+                    new ArgumentOutOfRangeException("day", "Missing required argument")
+                );
 
             return JsonSerializer.Deserialize<Day>(element, ModelBase.SerializerOptions)
-                ?? throw new ArgumentNullException("day");
+                ?? throw new SwarmsClientInvalidDataException(
+                    "'day' cannot be null",
+                    new ArgumentNullException("day")
+                );
         }
         set
         {
@@ -43,10 +51,16 @@ public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
         get
         {
             if (!this.Properties.TryGetValue("hour", out JsonElement element))
-                throw new ArgumentOutOfRangeException("hour", "Missing required argument");
+                throw new SwarmsClientInvalidDataException(
+                    "'hour' cannot be null",
+                    new ArgumentOutOfRangeException("hour", "Missing required argument")
+                );
 
             return JsonSerializer.Deserialize<Hour>(element, ModelBase.SerializerOptions)
-                ?? throw new ArgumentNullException("hour");
+                ?? throw new SwarmsClientInvalidDataException(
+                    "'hour' cannot be null",
+                    new ArgumentNullException("hour")
+                );
         }
         set
         {
@@ -65,10 +79,16 @@ public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
         get
         {
             if (!this.Properties.TryGetValue("minute", out JsonElement element))
-                throw new ArgumentOutOfRangeException("minute", "Missing required argument");
+                throw new SwarmsClientInvalidDataException(
+                    "'minute' cannot be null",
+                    new ArgumentOutOfRangeException("minute", "Missing required argument")
+                );
 
             return JsonSerializer.Deserialize<Minute>(element, ModelBase.SerializerOptions)
-                ?? throw new ArgumentNullException("minute");
+                ?? throw new SwarmsClientInvalidDataException(
+                    "'minute' cannot be null",
+                    new ArgumentNullException("minute")
+                );
         }
         set
         {

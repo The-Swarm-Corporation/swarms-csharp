@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms.Core;
+using Swarms.Exceptions;
 
 namespace Swarms.Models.Swarms;
 
@@ -101,7 +103,10 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
         get
         {
             if (!this.Properties.TryGetValue("output", out JsonElement element))
-                throw new ArgumentOutOfRangeException("output", "Missing required argument");
+                throw new SwarmsClientInvalidDataException(
+                    "'output' cannot be null",
+                    new ArgumentOutOfRangeException("output", "Missing required argument")
+                );
 
             return JsonSerializer.Deserialize<JsonElement>(element, ModelBase.SerializerOptions);
         }

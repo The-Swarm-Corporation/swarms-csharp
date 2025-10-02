@@ -2,6 +2,8 @@ using System;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Swarms.Core;
+using Swarms.Exceptions;
 using Swarms.Models;
 using Swarms.Services.Agent;
 using Swarms.Services.Client;
@@ -75,23 +77,53 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
     {
         parameters ??= new();
 
-        using HttpRequestMessage request = new(HttpMethod.Get, parameters.Url(this));
-        parameters.AddHeadersToRequest(request, this);
-        using HttpResponseMessage response = await this
-            .HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
-            .ConfigureAwait(false);
-        if (!response.IsSuccessStatusCode)
+        HttpRequest<ClientGetRootParams> request = new()
         {
-            throw new HttpException(
-                response.StatusCode,
-                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
-            );
-        }
+            Method = HttpMethod.Get,
+            Params = parameters,
+        };
+        using var response = await this.Execute(request).ConfigureAwait(false);
+        return await response.Deserialize<JsonElement>().ConfigureAwait(false);
+    }
 
-        return JsonSerializer.Deserialize<JsonElement>(
-            await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-            ModelBase.SerializerOptions
-        );
+    public async Task<HttpResponse> Execute<T>(HttpRequest<T> request)
+        where T : ParamsBase
+    {
+        using HttpRequestMessage requestMessage = new(request.Method, request.Params.Url(this))
+        {
+            Content = request.Params.BodyContent(),
+        };
+        request.Params.AddHeadersToRequest(requestMessage, this);
+        HttpResponseMessage responseMessage;
+        try
+        {
+            responseMessage = await this
+                .HttpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead)
+                .ConfigureAwait(false);
+        }
+        catch (HttpRequestException e1)
+        {
+            throw new SwarmsClientIOException("I/O exception", e1);
+        }
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            try
+            {
+                throw SwarmsClientExceptionFactory.CreateApiException(
+                    responseMessage.StatusCode,
+                    await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false)
+                );
+            }
+            catch (HttpRequestException e)
+            {
+                throw new SwarmsClientIOException("I/O Exception", e);
+            }
+            finally
+            {
+                responseMessage.Dispose();
+            }
+        }
+        return new() { Message = responseMessage };
     }
 
     public SwarmsClientClient()

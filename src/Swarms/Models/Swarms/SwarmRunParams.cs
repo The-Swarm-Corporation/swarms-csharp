@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.Agent;
 using Swarms.Models.Swarms.SwarmRunParamsProperties;
 
@@ -382,7 +383,7 @@ public sealed record class SwarmRunParams : ParamsBase
         }.Uri;
     }
 
-    public StringContent BodyContent()
+    internal override StringContent? BodyContent()
     {
         return new(
             JsonSerializer.Serialize(this.BodyProperties),
@@ -391,7 +392,10 @@ public sealed record class SwarmRunParams : ParamsBase
         );
     }
 
-    public void AddHeadersToRequest(HttpRequestMessage request, ISwarmsClientClient client)
+    internal override void AddHeadersToRequest(
+        HttpRequestMessage request,
+        ISwarmsClientClient client
+    )
     {
         ParamsBase.AddDefaultHeaders(request, client);
         foreach (var item in this.HeaderProperties)

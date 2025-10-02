@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms.Exceptions;
 using Swarms.Models.Agent.AgentRunParamsProperties.HistoryVariants;
 
 namespace Swarms.Models.Agent.AgentRunParamsProperties;
@@ -45,7 +46,9 @@ public abstract record class History
                 strings(inner);
                 break;
             default:
-                throw new InvalidOperationException();
+                throw new SwarmsClientInvalidDataException(
+                    "Data did not match any variant of History"
+                );
         }
     }
 
@@ -55,7 +58,9 @@ public abstract record class History
         {
             JsonElements inner => jsonElements(inner),
             Strings inner => strings(inner),
-            _ => throw new InvalidOperationException(),
+            _ => throw new SwarmsClientInvalidDataException(
+                "Data did not match any variant of History"
+            ),
         };
     }
 
@@ -70,7 +75,7 @@ sealed class HistoryConverter : JsonConverter<History?>
         JsonSerializerOptions options
     )
     {
-        List<JsonException> exceptions = [];
+        List<SwarmsClientInvalidDataException> exceptions = [];
 
         try
         {
@@ -85,7 +90,12 @@ sealed class HistoryConverter : JsonConverter<History?>
         }
         catch (JsonException e)
         {
-            exceptions.Add(e);
+            exceptions.Add(
+                new SwarmsClientInvalidDataException(
+                    "Data does not match union variant JsonElements",
+                    e
+                )
+            );
         }
 
         try
@@ -101,7 +111,9 @@ sealed class HistoryConverter : JsonConverter<History?>
         }
         catch (JsonException e)
         {
-            exceptions.Add(e);
+            exceptions.Add(
+                new SwarmsClientInvalidDataException("Data does not match union variant Strings", e)
+            );
         }
 
         throw new AggregateException(exceptions);
@@ -114,7 +126,9 @@ sealed class HistoryConverter : JsonConverter<History?>
             null => null,
             JsonElements(var jsonElements) => jsonElements,
             Strings(var strings) => strings,
-            _ => throw new ArgumentOutOfRangeException(nameof(value)),
+            _ => throw new SwarmsClientInvalidDataException(
+                "Data did not match any variant of History"
+            ),
         };
         JsonSerializer.Serialize(writer, variant, options);
     }

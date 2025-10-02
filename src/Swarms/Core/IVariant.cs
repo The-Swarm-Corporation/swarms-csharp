@@ -1,4 +1,4 @@
-namespace Swarms;
+namespace Swarms.Core;
 
 interface IVariant<TVariant, TValue>
     where TVariant : IVariant<TVariant, TValue>

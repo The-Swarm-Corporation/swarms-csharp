@@ -1,7 +1,7 @@
 using System;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
+using Swarms.Core;
 using Swarms.Models.Agent;
 using Swarms.Services.Agent.Batch;
 
@@ -27,25 +27,12 @@ public sealed class AgentService : IAgentService
     {
         parameters ??= new();
 
-        using HttpRequestMessage request = new(HttpMethod.Post, parameters.Url(this._client))
+        HttpRequest<AgentRunParams> request = new()
         {
-            Content = parameters.BodyContent(),
+            Method = HttpMethod.Post,
+            Params = parameters,
         };
-        parameters.AddHeadersToRequest(request, this._client);
-        using HttpResponseMessage response = await this
-            ._client.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
-            .ConfigureAwait(false);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new HttpException(
-                response.StatusCode,
-                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
-            );
-        }
-
-        return JsonSerializer.Deserialize<AgentRunResponse>(
-                await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
-            ) ?? throw new NullReferenceException();
+        using var response = await this._client.Execute(request).ConfigureAwait(false);
+        return await response.Deserialize<AgentRunResponse>().ConfigureAwait(false);
     }
 }

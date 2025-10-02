@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms.Core;
+using Swarms.Exceptions;
 using Swarms.Models.Agent.AgentSpecProperties.McpConfigsProperties;
 
 namespace Swarms.Models.Agent.AgentSpecProperties;
@@ -22,12 +24,19 @@ public sealed record class McpConfigs : ModelBase, IFromRaw<McpConfigs>
         get
         {
             if (!this.Properties.TryGetValue("connections", out JsonElement element))
-                throw new ArgumentOutOfRangeException("connections", "Missing required argument");
+                throw new SwarmsClientInvalidDataException(
+                    "'connections' cannot be null",
+                    new ArgumentOutOfRangeException("connections", "Missing required argument")
+                );
 
             return JsonSerializer.Deserialize<List<Connection>>(
                     element,
                     ModelBase.SerializerOptions
-                ) ?? throw new ArgumentNullException("connections");
+                )
+                ?? throw new SwarmsClientInvalidDataException(
+                    "'connections' cannot be null",
+                    new ArgumentNullException("connections")
+                );
         }
         set
         {

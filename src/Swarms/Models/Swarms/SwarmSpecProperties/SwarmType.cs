@@ -1,6 +1,7 @@
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms.Exceptions;
 
 namespace Swarms.Models.Swarms.SwarmSpecProperties;
 
@@ -81,7 +82,9 @@ sealed class SwarmTypeConverter : JsonConverter<SwarmType>
                 SwarmType.CouncilAsAJudge => "CouncilAsAJudge",
                 SwarmType.InteractiveGroupChat => "InteractiveGroupChat",
                 SwarmType.HeavySwarm => "HeavySwarm",
-                _ => throw new ArgumentOutOfRangeException(nameof(value)),
+                _ => throw new SwarmsClientInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
             },
             options
         );

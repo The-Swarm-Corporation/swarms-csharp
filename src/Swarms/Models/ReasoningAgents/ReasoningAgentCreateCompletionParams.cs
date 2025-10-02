@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.ReasoningAgents.ReasoningAgentCreateCompletionParamsProperties;
 
 namespace Swarms.Models.ReasoningAgents;
@@ -261,7 +262,7 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
         }.Uri;
     }
 
-    public StringContent BodyContent()
+    internal override StringContent? BodyContent()
     {
         return new(
             JsonSerializer.Serialize(this.BodyProperties),
@@ -270,7 +271,10 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
         );
     }
 
-    public void AddHeadersToRequest(HttpRequestMessage request, ISwarmsClientClient client)
+    internal override void AddHeadersToRequest(
+        HttpRequestMessage request,
+        ISwarmsClientClient client
+    )
     {
         ParamsBase.AddDefaultHeaders(request, client);
         foreach (var item in this.HeaderProperties)
