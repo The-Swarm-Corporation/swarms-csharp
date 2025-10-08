@@ -79,10 +79,12 @@ public class BatchServiceTest : TestBase
                                 },
                             ],
                         },
-                        History = new Dictionary<string, JsonElement>()
-                        {
-                            { "foo", JsonSerializer.SerializeToElement("bar") },
-                        },
+                        History = new(
+                            new Dictionary<string, JsonElement>()
+                            {
+                                { "foo", JsonSerializer.SerializeToElement("bar") },
+                            }
+                        ),
                         Img = "img",
                         Imgs = ["string"],
                         Task = "task",

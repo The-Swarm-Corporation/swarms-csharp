@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Exceptions;
-using Swarms.Models.Agent.AgentCompletionProperties.HistoryVariants;
 
 namespace Swarms.Models.Agent.AgentCompletionProperties;
 
@@ -13,37 +12,54 @@ namespace Swarms.Models.Agent.AgentCompletionProperties;
 /// or a list of message objects.
 /// </summary>
 [JsonConverter(typeof(HistoryConverter))]
-public abstract record class History
+public record class History
 {
-    internal History() { }
+    public object Value { get; private init; }
 
-    public static implicit operator History(Dictionary<string, JsonElement> value) =>
-        new JsonElements(value);
+    public History(Dictionary<string, JsonElement> value)
+    {
+        Value = value;
+    }
 
-    public static implicit operator History(List<Dictionary<string, string>> value) =>
-        new Strings(value);
+    public History(List<Dictionary<string, string>> value)
+    {
+        Value = value;
+    }
+
+    History(UnknownVariant value)
+    {
+        Value = value;
+    }
+
+    public static History CreateUnknownVariant(JsonElement value)
+    {
+        return new(new UnknownVariant(value));
+    }
 
     public bool TryPickJsonElements([NotNullWhen(true)] out Dictionary<string, JsonElement>? value)
     {
-        value = (this as JsonElements)?.Value;
+        value = this.Value as Dictionary<string, JsonElement>;
         return value != null;
     }
 
     public bool TryPickStrings([NotNullWhen(true)] out List<Dictionary<string, string>>? value)
     {
-        value = (this as Strings)?.Value;
+        value = this.Value as List<Dictionary<string, string>>;
         return value != null;
     }
 
-    public void Switch(Action<JsonElements> jsonElements, Action<Strings> strings)
+    public void Switch(
+        Action<Dictionary<string, JsonElement>> jsonElements,
+        Action<List<Dictionary<string, string>>> strings
+    )
     {
-        switch (this)
+        switch (this.Value)
         {
-            case JsonElements inner:
-                jsonElements(inner);
+            case Dictionary<string, JsonElement> value:
+                jsonElements(value);
                 break;
-            case Strings inner:
-                strings(inner);
+            case List<Dictionary<string, string>> value:
+                strings(value);
                 break;
             default:
                 throw new SwarmsClientInvalidDataException(
@@ -52,19 +68,30 @@ public abstract record class History
         }
     }
 
-    public T Match<T>(Func<JsonElements, T> jsonElements, Func<Strings, T> strings)
+    public T Match<T>(
+        Func<Dictionary<string, JsonElement>, T> jsonElements,
+        Func<List<Dictionary<string, string>>, T> strings
+    )
     {
-        return this switch
+        return this.Value switch
         {
-            JsonElements inner => jsonElements(inner),
-            Strings inner => strings(inner),
+            Dictionary<string, JsonElement> value => jsonElements(value),
+            List<Dictionary<string, string>> value => strings(value),
             _ => throw new SwarmsClientInvalidDataException(
                 "Data did not match any variant of History"
             ),
         };
     }
 
-    public abstract void Validate();
+    public void Validate()
+    {
+        if (this.Value is not UnknownVariant)
+        {
+            throw new SwarmsClientInvalidDataException("Data did not match any variant of History");
+        }
+    }
+
+    private record struct UnknownVariant(JsonElement value);
 }
 
 sealed class HistoryConverter : JsonConverter<History?>
@@ -85,14 +112,14 @@ sealed class HistoryConverter : JsonConverter<History?>
             );
             if (deserialized != null)
             {
-                return new JsonElements(deserialized);
+                return new History(deserialized);
             }
         }
-        catch (JsonException e)
+        catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
         {
             exceptions.Add(
                 new SwarmsClientInvalidDataException(
-                    "Data does not match union variant JsonElements",
+                    "Data does not match union variant 'Dictionary<string, JsonElement>'",
                     e
                 )
             );
@@ -106,13 +133,16 @@ sealed class HistoryConverter : JsonConverter<History?>
             );
             if (deserialized != null)
             {
-                return new Strings(deserialized);
+                return new History(deserialized);
             }
         }
-        catch (JsonException e)
+        catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
         {
             exceptions.Add(
-                new SwarmsClientInvalidDataException("Data does not match union variant Strings", e)
+                new SwarmsClientInvalidDataException(
+                    "Data does not match union variant 'List<Dictionary<string, string>>'",
+                    e
+                )
             );
         }
 
@@ -121,15 +151,7 @@ sealed class HistoryConverter : JsonConverter<History?>
 
     public override void Write(Utf8JsonWriter writer, History? value, JsonSerializerOptions options)
     {
-        object? variant = value switch
-        {
-            null => null,
-            JsonElements(var jsonElements) => jsonElements,
-            Strings(var strings) => strings,
-            _ => throw new SwarmsClientInvalidDataException(
-                "Data did not match any variant of History"
-            ),
-        };
+        object? variant = value?.Value;
         JsonSerializer.Serialize(writer, variant, options);
     }
 }
