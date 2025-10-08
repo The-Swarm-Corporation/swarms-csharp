@@ -95,13 +95,15 @@ public class BatchServiceTest : TestBase
                         HeavySwarmWorkerModelName = "heavy_swarm_worker_model_name",
                         Img = "img",
                         MaxLoops = 0,
-                        Messages = new List<Dictionary<string, JsonElement>>()
-                        {
-                            new Dictionary<string, JsonElement>()
+                        Messages = new(
+                            new List<Dictionary<string, JsonElement>>()
                             {
-                                { "foo", JsonSerializer.SerializeToElement("bar") },
-                            },
-                        },
+                                new Dictionary<string, JsonElement>()
+                                {
+                                    { "foo", JsonSerializer.SerializeToElement("bar") },
+                                },
+                            }
+                        ),
                         Name = "name",
                         RearrangeFlow = "rearrange_flow",
                         Rules = "rules",
