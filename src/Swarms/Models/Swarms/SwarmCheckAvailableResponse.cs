@@ -29,14 +29,14 @@ public sealed record class SwarmCheckAvailableResponse
         }
     }
 
-    public JsonElement? SwarmTypes
+    public Null? SwarmTypes
     {
         get
         {
             if (!this.Properties.TryGetValue("swarm_types", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<Null?>(element, ModelBase.SerializerOptions);
         }
         set
         {
