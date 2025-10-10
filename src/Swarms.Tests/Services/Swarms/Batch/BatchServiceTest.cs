@@ -96,13 +96,12 @@ public class BatchServiceTest : TestBase
                         Img = "img",
                         MaxLoops = 0,
                         Messages = new(
-                            new List<Dictionary<string, JsonElement>>()
-                            {
+                            [
                                 new Dictionary<string, JsonElement>()
                                 {
                                     { "foo", JsonSerializer.SerializeToElement("bar") },
                                 },
-                            }
+                            ]
                         ),
                         Name = "name",
                         RearrangeFlow = "rearrange_flow",
