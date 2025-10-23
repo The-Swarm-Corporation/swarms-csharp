@@ -29,14 +29,14 @@ public sealed record class SwarmCheckAvailableResponse
         }
     }
 
-    public Null? SwarmTypes
+    public List<string>? SwarmTypes
     {
         get
         {
             if (!this.Properties.TryGetValue("swarm_types", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<Null?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
         set
         {
@@ -50,7 +50,10 @@ public sealed record class SwarmCheckAvailableResponse
     public override void Validate()
     {
         _ = this.Success;
-        _ = this.SwarmTypes;
+        foreach (var item in this.SwarmTypes ?? [])
+        {
+            _ = item;
+        }
     }
 
     public SwarmCheckAvailableResponse() { }
