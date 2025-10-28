@@ -86,7 +86,7 @@ public record class Messages
 
     public void Validate()
     {
-        if (this.Value is not UnknownVariant)
+        if (this.Value is UnknownVariant)
         {
             throw new SwarmsClientInvalidDataException(
                 "Data did not match any variant of Messages"
