@@ -456,13 +456,7 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
         _ = this.AutoGeneratePrompt;
         _ = this.Description;
         _ = this.DynamicTemperatureEnabled;
-        if (this.LlmArgs != null)
-        {
-            foreach (var item in this.LlmArgs.Values)
-            {
-                _ = item;
-            }
-        }
+        _ = this.LlmArgs;
         _ = this.MaxLoops;
         _ = this.MaxTokens;
         this.McpConfig?.Validate();
@@ -477,13 +471,7 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
         _ = this.Temperature;
         _ = this.ThinkingTokens;
         _ = this.ToolCallSummary;
-        foreach (var item in this.ToolsListDictionary ?? [])
-        {
-            foreach (var item1 in item.Values)
-            {
-                _ = item1;
-            }
-        }
+        _ = this.ToolsListDictionary;
     }
 
     public AgentSpec() { }

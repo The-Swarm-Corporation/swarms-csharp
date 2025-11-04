@@ -10,7 +10,7 @@ public class BatchServiceTest : TestBase
     [Fact(Skip = "Prism tests are disabled")]
     public async Task Run_Works()
     {
-        var response = await this.client.Swarms.Batch.Run(
+        await this.client.Swarms.Batch.Run(
             new()
             {
                 Body =
@@ -115,12 +115,5 @@ public class BatchServiceTest : TestBase
                 ],
             }
         );
-        foreach (var item in response)
-        {
-            foreach (var item1 in item.Values)
-            {
-                _ = item1;
-            }
-        }
     }
 }
