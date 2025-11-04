@@ -19,6 +19,8 @@ public interface ISwarmsClientClient
 
     Uri BaseUrl { get; init; }
 
+    TimeSpan Timeout { get; init; }
+
     string? APIKey { get; init; }
 
     IHealthService Health { get; }
