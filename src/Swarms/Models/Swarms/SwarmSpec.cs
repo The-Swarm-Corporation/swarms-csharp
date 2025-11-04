@@ -389,10 +389,7 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
         _ = this.Stream;
         this.SwarmType?.Validate();
         _ = this.Task;
-        foreach (var item in this.Tasks ?? [])
-        {
-            _ = item;
-        }
+        _ = this.Tasks;
     }
 
     public SwarmSpec() { }

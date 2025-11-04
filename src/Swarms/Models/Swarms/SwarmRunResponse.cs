@@ -238,13 +238,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
         _ = this.Status;
         _ = this.SwarmName;
         _ = this.SwarmType;
-        if (this.Usage != null)
-        {
-            foreach (var item in this.Usage.Values)
-            {
-                _ = item;
-            }
-        }
+        _ = this.Usage;
     }
 
     public SwarmRunResponse() { }

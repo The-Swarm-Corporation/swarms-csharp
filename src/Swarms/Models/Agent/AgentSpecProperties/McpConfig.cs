@@ -168,21 +168,9 @@ public sealed record class McpConfig : ModelBase, IFromRaw<McpConfig>
     public override void Validate()
     {
         _ = this.AuthorizationToken;
-        if (this.Headers != null)
-        {
-            foreach (var item in this.Headers.Values)
-            {
-                _ = item;
-            }
-        }
+        _ = this.Headers;
         _ = this.Timeout;
-        if (this.ToolConfigurations != null)
-        {
-            foreach (var item in this.ToolConfigurations.Values)
-            {
-                _ = item;
-            }
-        }
+        _ = this.ToolConfigurations;
         _ = this.Transport;
         _ = this.Type;
         _ = this.URL;

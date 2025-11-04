@@ -35,7 +35,14 @@ public sealed class SwarmService : ISwarmService
             Params = parameters,
         };
         using var response = await this._client.Execute(request).ConfigureAwait(false);
-        return await response.Deserialize<SwarmCheckAvailableResponse>().ConfigureAwait(false);
+        var deserializedResponse = await response
+            .Deserialize<SwarmCheckAvailableResponse>()
+            .ConfigureAwait(false);
+        if (this._client.ResponseValidation)
+        {
+            deserializedResponse.Validate();
+        }
+        return deserializedResponse;
     }
 
     public async Task<SwarmGetLogsResponse> GetLogs(SwarmGetLogsParams? parameters = null)
@@ -48,7 +55,14 @@ public sealed class SwarmService : ISwarmService
             Params = parameters,
         };
         using var response = await this._client.Execute(request).ConfigureAwait(false);
-        return await response.Deserialize<SwarmGetLogsResponse>().ConfigureAwait(false);
+        var deserializedResponse = await response
+            .Deserialize<SwarmGetLogsResponse>()
+            .ConfigureAwait(false);
+        if (this._client.ResponseValidation)
+        {
+            deserializedResponse.Validate();
+        }
+        return deserializedResponse;
     }
 
     public async Task<SwarmRunResponse> Run(SwarmRunParams? parameters = null)
@@ -61,6 +75,13 @@ public sealed class SwarmService : ISwarmService
             Params = parameters,
         };
         using var response = await this._client.Execute(request).ConfigureAwait(false);
-        return await response.Deserialize<SwarmRunResponse>().ConfigureAwait(false);
+        var deserializedResponse = await response
+            .Deserialize<SwarmRunResponse>()
+            .ConfigureAwait(false);
+        if (this._client.ResponseValidation)
+        {
+            deserializedResponse.Validate();
+        }
+        return deserializedResponse;
     }
 }

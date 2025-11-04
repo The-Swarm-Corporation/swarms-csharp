@@ -50,10 +50,7 @@ public sealed record class SwarmCheckAvailableResponse
     public override void Validate()
     {
         _ = this.Success;
-        foreach (var item in this.SwarmTypes ?? [])
-        {
-            _ = item;
-        }
+        _ = this.SwarmTypes;
     }
 
     public SwarmCheckAvailableResponse() { }

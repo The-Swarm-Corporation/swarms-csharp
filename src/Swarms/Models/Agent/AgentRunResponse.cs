@@ -189,13 +189,7 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
         _ = this.Success;
         _ = this.Temperature;
         _ = this.Timestamp;
-        if (this.Usage != null)
-        {
-            foreach (var item in this.Usage.Values)
-            {
-                _ = item;
-            }
-        }
+        _ = this.Usage;
     }
 
     public AgentRunResponse() { }

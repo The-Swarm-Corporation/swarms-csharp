@@ -142,15 +142,9 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
         this.AgentConfig?.Validate();
         this.History?.Validate();
         _ = this.Img;
-        foreach (var item in this.Imgs ?? [])
-        {
-            _ = item;
-        }
+        _ = this.Imgs;
         _ = this.Task;
-        foreach (var item in this.ToolsEnabled ?? [])
-        {
-            _ = item;
-        }
+        _ = this.ToolsEnabled;
     }
 
     public AgentCompletion() { }
