@@ -32,7 +32,6 @@ See the [`examples`](examples) directory for complete and runnable examples.
 using System;
 using Swarms;
 
-// Configured using the SWARMS_API_KEY and SWARMS_CLIENT_BASE_URL environment variables
 SwarmsClientClient client = new();
 
 var response = await client.GetRoot();
@@ -40,7 +39,7 @@ var response = await client.GetRoot();
 Console.WriteLine(response);
 ```
 
-## Client Configuration
+## Client configuration
 
 Configure the client using environment variables:
 
@@ -74,15 +73,18 @@ To temporarily use a modified client configuration, while reusing the same conne
 
 ```csharp
 using System;
-using Swarms;
 
-ISwarmsClientClient clientWithOptions = client.WithOptions(options =>
-    options with
-    {
-        BaseUrl = new("https://example.com"),
-        Timeout = TimeSpan.FromSeconds(42),
-    }
-);
+var response = await client
+    .WithOptions(options =>
+        options with
+        {
+            BaseUrl = new("https://example.com"),
+            Timeout = TimeSpan.FromSeconds(42),
+        }
+    )
+    .GetRoot();
+
+Console.WriteLine(response);
 ```
 
 Using a [`with` expression](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/with-expression) makes it easy to construct the modified options.
@@ -121,6 +123,38 @@ false
 - `SwarmsClientInvalidDataException`: Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
 
 - `SwarmsClientException`: Base class for all exceptions.
+
+## Network options
+
+### Timeouts
+
+Requests time out after 1 minute by default.
+
+To set a custom timeout, configure the client using the `Timeout` option:
+
+```csharp
+using System;
+using Swarms;
+
+SwarmsClientClient client = new() { Timeout = TimeSpan.FromSeconds(42) };
+```
+
+Or configure a single method call using [`WithOptions`](#modifying-configuration):
+
+```csharp
+using System;
+
+var response = await client
+    .WithOptions(options =>
+        options with
+        {
+            Timeout = TimeSpan.FromSeconds(42)
+        }
+    )
+    .GetRoot();
+
+Console.WriteLine(response);
+```
 
 ## Semantic versioning
 
