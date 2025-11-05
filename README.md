@@ -146,12 +146,48 @@ using System;
 
 var response = await client
     .WithOptions(options =>
-        options with
-        {
-            Timeout = TimeSpan.FromSeconds(42)
-        }
+        options with { Timeout = TimeSpan.FromSeconds(42) }
     )
     .GetRoot();
+
+Console.WriteLine(response);
+```
+
+## Undocumented API functionality
+
+The SDK is typed for convenient usage of the documented API. However, it also supports working with undocumented or not yet supported parts of the API.
+
+### Response validation
+
+In rare cases, the API may return a response that doesn't match the expected type. For example, the SDK may expect a property to contain a `string`, but the API could return something else.
+
+By default, the SDK will not throw an exception in this case. It will throw `SwarmsClientInvalidDataException` only if you directly access the property.
+
+If you would prefer to check that the response is completely well-typed upfront, then either call `Validate`:
+
+```csharp
+var response = client.Health.Check();
+response.Validate();
+```
+
+Or configure the client using the `ResponseValidation` option:
+
+```csharp
+using Swarms;
+
+SwarmsClientClient client = new() { ResponseValidation = true };
+```
+
+Or configure a single method call using [`WithOptions`](#modifying-configuration):
+
+```csharp
+using System;
+
+var response = await client
+    .WithOptions(options =>
+        options with { ResponseValidation = true }
+    )
+    .Health.Check();
 
 Console.WriteLine(response);
 ```
