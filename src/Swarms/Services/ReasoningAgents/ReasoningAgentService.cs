@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
@@ -9,6 +10,11 @@ namespace Swarms.Services.ReasoningAgents;
 
 public sealed class ReasoningAgentService : IReasoningAgentService
 {
+    public IReasoningAgentService WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new ReasoningAgentService(this._client.WithOptions(modifier));
+    }
+
     readonly ISwarmsClientClient _client;
 
     public ReasoningAgentService(ISwarmsClientClient client)

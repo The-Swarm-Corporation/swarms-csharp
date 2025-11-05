@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Swarms.Core;
@@ -7,6 +8,11 @@ namespace Swarms.Services.Agent.Batch;
 
 public sealed class BatchService : IBatchService
 {
+    public IBatchService WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new BatchService(this._client.WithOptions(modifier));
+    }
+
     readonly ISwarmsClientClient _client;
 
     public BatchService(ISwarmsClientClient client)

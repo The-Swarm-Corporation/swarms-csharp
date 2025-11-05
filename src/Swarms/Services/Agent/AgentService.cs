@@ -9,6 +9,11 @@ namespace Swarms.Services.Agent;
 
 public sealed class AgentService : IAgentService
 {
+    public IAgentService WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new AgentService(this._client.WithOptions(modifier));
+    }
+
     readonly ISwarmsClientClient _client;
 
     public AgentService(ISwarmsClientClient client)

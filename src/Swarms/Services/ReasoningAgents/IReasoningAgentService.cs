@@ -1,12 +1,16 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Swarms.Core;
 using Swarms.Models.ReasoningAgents;
 
 namespace Swarms.Services.ReasoningAgents;
 
 public interface IReasoningAgentService
 {
+    IReasoningAgentService WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
     /// <summary>
     /// Run a reasoning agent with the specified task.
     /// </summary>

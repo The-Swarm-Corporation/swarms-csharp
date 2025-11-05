@@ -1,4 +1,6 @@
+using System;
 using System.Threading.Tasks;
+using Swarms.Core;
 using Swarms.Models.Swarms;
 using Swarms.Services.Swarms.Batch;
 
@@ -6,6 +8,8 @@ namespace Swarms.Services.Swarms;
 
 public interface ISwarmService
 {
+    ISwarmService WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
     IBatchService Batch { get; }
 
     /// <summary>
