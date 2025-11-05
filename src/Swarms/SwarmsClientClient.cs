@@ -17,7 +17,7 @@ namespace Swarms;
 
 public sealed class SwarmsClientClient : ISwarmsClientClient
 {
-    readonly ClientOptions _options = new();
+    readonly ClientOptions _options;
 
     public HttpClient HttpClient
     {
@@ -47,6 +47,11 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
     {
         get { return this._options.APIKey; }
         init { this._options.APIKey = value; }
+    }
+
+    public ISwarmsClientClient WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new SwarmsClientClient(modifier(this._options));
     }
 
     readonly Lazy<IHealthService> _health;
@@ -145,11 +150,19 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
 
     public SwarmsClientClient()
     {
+        _options = new();
+
         _health = new(() => new HealthService(this));
         _agent = new(() => new AgentService(this));
         _models = new(() => new ModelService(this));
         _swarms = new(() => new SwarmService(this));
         _reasoningAgents = new(() => new ReasoningAgentService(this));
         _client = new(() => new ClientService(this));
+    }
+
+    public SwarmsClientClient(ClientOptions options)
+        : this()
+    {
+        _options = options;
     }
 }

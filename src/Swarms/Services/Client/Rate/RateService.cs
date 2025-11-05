@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Swarms.Core;
@@ -7,6 +8,11 @@ namespace Swarms.Services.Client.Rate;
 
 public sealed class RateService : IRateService
 {
+    public IRateService WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new RateService(this._client.WithOptions(modifier));
+    }
+
     readonly ISwarmsClientClient _client;
 
     public RateService(ISwarmsClientClient client)

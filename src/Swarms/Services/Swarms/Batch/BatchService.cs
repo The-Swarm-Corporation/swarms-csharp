@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
@@ -9,6 +10,11 @@ namespace Swarms.Services.Swarms.Batch;
 
 public sealed class BatchService : IBatchService
 {
+    public IBatchService WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new BatchService(this._client.WithOptions(modifier));
+    }
+
     readonly ISwarmsClientClient _client;
 
     public BatchService(ISwarmsClientClient client)

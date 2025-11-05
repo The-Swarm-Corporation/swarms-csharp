@@ -25,6 +25,8 @@ public interface ISwarmsClientClient
 
     string? APIKey { get; init; }
 
+    ISwarmsClientClient WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
     IHealthService Health { get; }
 
     IAgentService Agent { get; }

@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Swarms.Core;
@@ -7,6 +8,11 @@ namespace Swarms.Services.Models;
 
 public sealed class ModelService : IModelService
 {
+    public IModelService WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new ModelService(this._client.WithOptions(modifier));
+    }
+
     readonly ISwarmsClientClient _client;
 
     public ModelService(ISwarmsClientClient client)

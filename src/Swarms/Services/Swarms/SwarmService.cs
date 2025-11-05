@@ -9,6 +9,11 @@ namespace Swarms.Services.Swarms;
 
 public sealed class SwarmService : ISwarmService
 {
+    public ISwarmService WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new SwarmService(this._client.WithOptions(modifier));
+    }
+
     readonly ISwarmsClientClient _client;
 
     public SwarmService(ISwarmsClientClient client)
