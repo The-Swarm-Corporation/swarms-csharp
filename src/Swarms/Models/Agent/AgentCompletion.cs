@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -18,14 +20,14 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     {
         get
         {
-            if (!this.Properties.TryGetValue("agent_config", out JsonElement element))
+            if (!this._properties.TryGetValue("agent_config", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<AgentSpec?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.Properties["agent_config"] = JsonSerializer.SerializeToElement(
+            this._properties["agent_config"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -40,14 +42,14 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     {
         get
         {
-            if (!this.Properties.TryGetValue("history", out JsonElement element))
+            if (!this._properties.TryGetValue("history", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<HistoryModel?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.Properties["history"] = JsonSerializer.SerializeToElement(
+            this._properties["history"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -61,14 +63,14 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     {
         get
         {
-            if (!this.Properties.TryGetValue("img", out JsonElement element))
+            if (!this._properties.TryGetValue("img", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.Properties["img"] = JsonSerializer.SerializeToElement(
+            this._properties["img"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -82,14 +84,14 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     {
         get
         {
-            if (!this.Properties.TryGetValue("imgs", out JsonElement element))
+            if (!this._properties.TryGetValue("imgs", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.Properties["imgs"] = JsonSerializer.SerializeToElement(
+            this._properties["imgs"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -103,14 +105,14 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     {
         get
         {
-            if (!this.Properties.TryGetValue("task", out JsonElement element))
+            if (!this._properties.TryGetValue("task", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.Properties["task"] = JsonSerializer.SerializeToElement(
+            this._properties["task"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -124,14 +126,14 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     {
         get
         {
-            if (!this.Properties.TryGetValue("tools_enabled", out JsonElement element))
+            if (!this._properties.TryGetValue("tools_enabled", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.Properties["tools_enabled"] = JsonSerializer.SerializeToElement(
+            this._properties["tools_enabled"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -150,17 +152,24 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 
     public AgentCompletion() { }
 
+    public AgentCompletion(IReadOnlyDictionary<string, JsonElement> properties)
+    {
+        this._properties = [.. properties];
+    }
+
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    AgentCompletion(Dictionary<string, JsonElement> properties)
+    AgentCompletion(FrozenDictionary<string, JsonElement> properties)
     {
-        Properties = properties;
+        this._properties = [.. properties];
     }
 #pragma warning restore CS8618
 
-    public static AgentCompletion FromRawUnchecked(Dictionary<string, JsonElement> properties)
+    public static AgentCompletion FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> properties
+    )
     {
-        return new(properties);
+        return new(FrozenDictionary.ToFrozenDictionary(properties));
     }
 }
 
@@ -173,14 +182,14 @@ public record class HistoryModel
 {
     public object Value { get; private init; }
 
-    public HistoryModel(Dictionary<string, JsonElement> value)
+    public HistoryModel(IReadOnlyDictionary<string, JsonElement> value)
     {
-        Value = value;
+        Value = FrozenDictionary.ToFrozenDictionary(value);
     }
 
-    public HistoryModel(List<Dictionary<string, string>> value)
+    public HistoryModel(IReadOnlyList<Dictionary<string, string>> value)
     {
-        Value = value;
+        Value = ImmutableArray.ToImmutableArray(value);
     }
 
     HistoryModel(UnknownVariant value)
@@ -193,21 +202,25 @@ public record class HistoryModel
         return new(new UnknownVariant(value));
     }
 
-    public bool TryPickJsonElements([NotNullWhen(true)] out Dictionary<string, JsonElement>? value)
+    public bool TryPickJsonElements(
+        [NotNullWhen(true)] out IReadOnlyDictionary<string, JsonElement>? value
+    )
     {
-        value = this.Value as Dictionary<string, JsonElement>;
+        value = this.Value as IReadOnlyDictionary<string, JsonElement>;
         return value != null;
     }
 
-    public bool TryPickStrings([NotNullWhen(true)] out List<Dictionary<string, string>>? value)
+    public bool TryPickStrings(
+        [NotNullWhen(true)] out IReadOnlyList<Dictionary<string, string>>? value
+    )
     {
-        value = this.Value as List<Dictionary<string, string>>;
+        value = this.Value as IReadOnlyList<Dictionary<string, string>>;
         return value != null;
     }
 
     public void Switch(
-        Action<Dictionary<string, JsonElement>> jsonElements,
-        Action<List<Dictionary<string, string>>> strings
+        Action<IReadOnlyDictionary<string, JsonElement>> jsonElements,
+        Action<IReadOnlyList<Dictionary<string, string>>> strings
     )
     {
         switch (this.Value)
@@ -226,14 +239,14 @@ public record class HistoryModel
     }
 
     public T Match<T>(
-        Func<Dictionary<string, JsonElement>, T> jsonElements,
-        Func<List<Dictionary<string, string>>, T> strings
+        Func<IReadOnlyDictionary<string, JsonElement>, T> jsonElements,
+        Func<IReadOnlyList<Dictionary<string, string>>, T> strings
     )
     {
         return this.Value switch
         {
-            Dictionary<string, JsonElement> value => jsonElements(value),
-            List<Dictionary<string, string>> value => strings(value),
+            IReadOnlyDictionary<string, JsonElement> value => jsonElements(value),
+            IReadOnlyList<Dictionary<string, string>> value => strings(value),
             _ => throw new SwarmsClientInvalidDataException(
                 "Data did not match any variant of HistoryModel"
             ),
