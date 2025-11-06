@@ -1,10 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Swarms.Core;
-using Swarms.Models.ReasoningAgents.ReasoningAgentCreateCompletionParamsProperties;
+using Swarms.Exceptions;
+using System = System;
 
 namespace Swarms.Models.ReasoningAgents;
 
@@ -252,9 +253,9 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
         }
     }
 
-    public override Uri Url(ISwarmsClientClient client)
+    public override System::Uri Url(ISwarmsClientClient client)
     {
-        return new UriBuilder(
+        return new System::UriBuilder(
             client.BaseUrl.ToString().TrimEnd('/') + "/v1/reasoning-agent/completions"
         )
         {
@@ -281,5 +282,162 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
         {
             ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
         }
+    }
+}
+
+/// <summary>
+/// The type of output format for the reasoning agent.
+/// </summary>
+[JsonConverter(typeof(OutputTypeConverter))]
+public enum OutputType
+{
+    List,
+    Dict,
+    Dictionary,
+    String,
+    Str,
+    Final,
+    Last,
+    Json,
+    All,
+    Yaml,
+    Xml,
+    DictAllExceptFirst,
+    StrAllExceptFirst,
+    Basemodel,
+    DictFinal,
+    ListFinal,
+}
+
+sealed class OutputTypeConverter : JsonConverter<OutputType>
+{
+    public override OutputType Read(
+        ref Utf8JsonReader reader,
+        System::Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "list" => OutputType.List,
+            "dict" => OutputType.Dict,
+            "dictionary" => OutputType.Dictionary,
+            "string" => OutputType.String,
+            "str" => OutputType.Str,
+            "final" => OutputType.Final,
+            "last" => OutputType.Last,
+            "json" => OutputType.Json,
+            "all" => OutputType.All,
+            "yaml" => OutputType.Yaml,
+            "xml" => OutputType.Xml,
+            "dict-all-except-first" => OutputType.DictAllExceptFirst,
+            "str-all-except-first" => OutputType.StrAllExceptFirst,
+            "basemodel" => OutputType.Basemodel,
+            "dict-final" => OutputType.DictFinal,
+            "list-final" => OutputType.ListFinal,
+            _ => (OutputType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                OutputType.List => "list",
+                OutputType.Dict => "dict",
+                OutputType.Dictionary => "dictionary",
+                OutputType.String => "string",
+                OutputType.Str => "str",
+                OutputType.Final => "final",
+                OutputType.Last => "last",
+                OutputType.Json => "json",
+                OutputType.All => "all",
+                OutputType.Yaml => "yaml",
+                OutputType.Xml => "xml",
+                OutputType.DictAllExceptFirst => "dict-all-except-first",
+                OutputType.StrAllExceptFirst => "str-all-except-first",
+                OutputType.Basemodel => "basemodel",
+                OutputType.DictFinal => "dict-final",
+                OutputType.ListFinal => "list-final",
+                _ => throw new SwarmsClientInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// The type of reasoning swarm to use (e.g., reasoning duo, self-consistency, IRE).
+/// </summary>
+[JsonConverter(typeof(SwarmTypeConverter))]
+public enum SwarmType
+{
+    ReasoningDuo,
+    SelfConsistency,
+    Ire,
+    ReasoningAgent,
+    ConsistencyAgent,
+    IreAgent,
+    ReflexionAgent,
+    GkpAgent,
+    AgentJudge,
+}
+
+sealed class SwarmTypeConverter : JsonConverter<SwarmType>
+{
+    public override SwarmType Read(
+        ref Utf8JsonReader reader,
+        System::Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "reasoning-duo" => SwarmType.ReasoningDuo,
+            "self-consistency" => SwarmType.SelfConsistency,
+            "ire" => SwarmType.Ire,
+            "reasoning-agent" => SwarmType.ReasoningAgent,
+            "consistency-agent" => SwarmType.ConsistencyAgent,
+            "ire-agent" => SwarmType.IreAgent,
+            "ReflexionAgent" => SwarmType.ReflexionAgent,
+            "GKPAgent" => SwarmType.GkpAgent,
+            "AgentJudge" => SwarmType.AgentJudge,
+            _ => (SwarmType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        SwarmType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                SwarmType.ReasoningDuo => "reasoning-duo",
+                SwarmType.SelfConsistency => "self-consistency",
+                SwarmType.Ire => "ire",
+                SwarmType.ReasoningAgent => "reasoning-agent",
+                SwarmType.ConsistencyAgent => "consistency-agent",
+                SwarmType.IreAgent => "ire-agent",
+                SwarmType.ReflexionAgent => "ReflexionAgent",
+                SwarmType.GkpAgent => "GKPAgent",
+                SwarmType.AgentJudge => "AgentJudge",
+                _ => throw new SwarmsClientInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
     }
 }

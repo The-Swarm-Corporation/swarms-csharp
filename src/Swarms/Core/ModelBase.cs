@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json;
-using Swarms.Models.Swarms.SwarmSpecProperties;
-using ReasoningAgentCreateCompletionParamsProperties = Swarms.Models.ReasoningAgents.ReasoningAgentCreateCompletionParamsProperties;
-using SwarmRunParamsProperties = Swarms.Models.Swarms.SwarmRunParamsProperties;
+using Swarms.Models.ReasoningAgents;
+using Swarms = Swarms.Models.Swarms;
 
 namespace Swarms.Core;
 
@@ -14,16 +13,10 @@ public abstract record class ModelBase
     {
         Converters =
         {
+            new ApiEnumConverter<string, Swarms::SwarmTypeModel>(),
+            new ApiEnumConverter<string, Swarms::SwarmType>(),
+            new ApiEnumConverter<string, OutputType>(),
             new ApiEnumConverter<string, SwarmType>(),
-            new ApiEnumConverter<string, SwarmRunParamsProperties::SwarmType>(),
-            new ApiEnumConverter<
-                string,
-                ReasoningAgentCreateCompletionParamsProperties::OutputType
-            >(),
-            new ApiEnumConverter<
-                string,
-                ReasoningAgentCreateCompletionParamsProperties::SwarmType
-            >(),
         },
     };
 
