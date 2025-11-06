@@ -1,4 +1,6 @@
+using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -14,7 +16,11 @@ namespace Swarms.Models.ReasoningAgents;
 /// </summary>
 public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
 {
-    public Dictionary<string, JsonElement> BodyProperties { get; set; } = [];
+    readonly FreezableDictionary<string, JsonElement> _bodyProperties = [];
+    public IReadOnlyDictionary<string, JsonElement> BodyProperties
+    {
+        get { return this._bodyProperties.Freeze(); }
+    }
 
     /// <summary>
     /// The unique name assigned to the reasoning agent.
@@ -23,14 +29,14 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("agent_name", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("agent_name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["agent_name"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["agent_name"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -44,14 +50,14 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("description", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("description", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["description"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["description"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -65,14 +71,14 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("max_loops", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("max_loops", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["max_loops"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["max_loops"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -86,14 +92,14 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("memory_capacity", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("memory_capacity", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["memory_capacity"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["memory_capacity"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -107,14 +113,14 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("model_name", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("model_name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["model_name"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["model_name"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -128,14 +134,14 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("num_knowledge_items", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("num_knowledge_items", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["num_knowledge_items"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["num_knowledge_items"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -149,14 +155,14 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("num_samples", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("num_samples", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["num_samples"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["num_samples"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -170,7 +176,7 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("output_type", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("output_type", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<ApiEnum<string, OutputType>?>(
@@ -178,9 +184,9 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
                 ModelBase.SerializerOptions
             );
         }
-        set
+        init
         {
-            this.BodyProperties["output_type"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["output_type"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -194,7 +200,7 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("swarm_type", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("swarm_type", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<ApiEnum<string, SwarmType>?>(
@@ -202,9 +208,9 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
                 ModelBase.SerializerOptions
             );
         }
-        set
+        init
         {
-            this.BodyProperties["swarm_type"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["swarm_type"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -218,14 +224,14 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("system_prompt", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("system_prompt", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["system_prompt"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["system_prompt"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -239,18 +245,58 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("task", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("task", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["task"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["task"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
         }
+    }
+
+    public ReasoningAgentCreateCompletionParams() { }
+
+    public ReasoningAgentCreateCompletionParams(
+        IReadOnlyDictionary<string, JsonElement> headerProperties,
+        IReadOnlyDictionary<string, JsonElement> queryProperties,
+        IReadOnlyDictionary<string, JsonElement> bodyProperties
+    )
+    {
+        this._headerProperties = [.. headerProperties];
+        this._queryProperties = [.. queryProperties];
+        this._bodyProperties = [.. bodyProperties];
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    ReasoningAgentCreateCompletionParams(
+        FrozenDictionary<string, JsonElement> headerProperties,
+        FrozenDictionary<string, JsonElement> queryProperties,
+        FrozenDictionary<string, JsonElement> bodyProperties
+    )
+    {
+        this._headerProperties = [.. headerProperties];
+        this._queryProperties = [.. queryProperties];
+        this._bodyProperties = [.. bodyProperties];
+    }
+#pragma warning restore CS8618
+
+    public static ReasoningAgentCreateCompletionParams FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> headerProperties,
+        IReadOnlyDictionary<string, JsonElement> queryProperties,
+        IReadOnlyDictionary<string, JsonElement> bodyProperties
+    )
+    {
+        return new(
+            FrozenDictionary.ToFrozenDictionary(headerProperties),
+            FrozenDictionary.ToFrozenDictionary(queryProperties),
+            FrozenDictionary.ToFrozenDictionary(bodyProperties)
+        );
     }
 
     public override System::Uri Url(ISwarmsClientClient client)

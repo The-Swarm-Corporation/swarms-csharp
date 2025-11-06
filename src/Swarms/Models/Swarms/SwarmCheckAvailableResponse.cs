@@ -1,3 +1,4 @@
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
@@ -15,14 +16,14 @@ public sealed record class SwarmCheckAvailableResponse
     {
         get
         {
-            if (!this.Properties.TryGetValue("success", out JsonElement element))
+            if (!this._properties.TryGetValue("success", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.Properties["success"] = JsonSerializer.SerializeToElement(
+            this._properties["success"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -33,14 +34,14 @@ public sealed record class SwarmCheckAvailableResponse
     {
         get
         {
-            if (!this.Properties.TryGetValue("swarm_types", out JsonElement element))
+            if (!this._properties.TryGetValue("swarm_types", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.Properties["swarm_types"] = JsonSerializer.SerializeToElement(
+            this._properties["swarm_types"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -55,18 +56,23 @@ public sealed record class SwarmCheckAvailableResponse
 
     public SwarmCheckAvailableResponse() { }
 
+    public SwarmCheckAvailableResponse(IReadOnlyDictionary<string, JsonElement> properties)
+    {
+        this._properties = [.. properties];
+    }
+
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    SwarmCheckAvailableResponse(Dictionary<string, JsonElement> properties)
+    SwarmCheckAvailableResponse(FrozenDictionary<string, JsonElement> properties)
     {
-        Properties = properties;
+        this._properties = [.. properties];
     }
 #pragma warning restore CS8618
 
     public static SwarmCheckAvailableResponse FromRawUnchecked(
-        Dictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> properties
     )
     {
-        return new(properties);
+        return new(FrozenDictionary.ToFrozenDictionary(properties));
     }
 }

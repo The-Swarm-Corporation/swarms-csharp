@@ -1,4 +1,6 @@
+using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text;
@@ -16,7 +18,11 @@ namespace Swarms.Models.Swarms;
 /// </summary>
 public sealed record class SwarmRunParams : ParamsBase
 {
-    public Dictionary<string, JsonElement> BodyProperties { get; set; } = [];
+    readonly FreezableDictionary<string, JsonElement> _bodyProperties = [];
+    public IReadOnlyDictionary<string, JsonElement> BodyProperties
+    {
+        get { return this._bodyProperties.Freeze(); }
+    }
 
     /// <summary>
     /// A list of agents or specifications that define the agents participating in
@@ -26,7 +32,7 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("agents", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("agents", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<AgentSpec>?>(
@@ -34,9 +40,9 @@ public sealed record class SwarmRunParams : ParamsBase
                 ModelBase.SerializerOptions
             );
         }
-        set
+        init
         {
-            this.BodyProperties["agents"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["agents"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -51,14 +57,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("description", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("description", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["description"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["description"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -73,7 +79,7 @@ public sealed record class SwarmRunParams : ParamsBase
         get
         {
             if (
-                !this.BodyProperties.TryGetValue(
+                !this._bodyProperties.TryGetValue(
                     "heavy_swarm_loops_per_agent",
                     out JsonElement element
                 )
@@ -82,9 +88,9 @@ public sealed record class SwarmRunParams : ParamsBase
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["heavy_swarm_loops_per_agent"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["heavy_swarm_loops_per_agent"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -99,7 +105,7 @@ public sealed record class SwarmRunParams : ParamsBase
         get
         {
             if (
-                !this.BodyProperties.TryGetValue(
+                !this._bodyProperties.TryGetValue(
                     "heavy_swarm_question_agent_model_name",
                     out JsonElement element
                 )
@@ -108,9 +114,9 @@ public sealed record class SwarmRunParams : ParamsBase
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["heavy_swarm_question_agent_model_name"] =
+            this._bodyProperties["heavy_swarm_question_agent_model_name"] =
                 JsonSerializer.SerializeToElement(value, ModelBase.SerializerOptions);
         }
     }
@@ -123,7 +129,7 @@ public sealed record class SwarmRunParams : ParamsBase
         get
         {
             if (
-                !this.BodyProperties.TryGetValue(
+                !this._bodyProperties.TryGetValue(
                     "heavy_swarm_worker_model_name",
                     out JsonElement element
                 )
@@ -132,9 +138,9 @@ public sealed record class SwarmRunParams : ParamsBase
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["heavy_swarm_worker_model_name"] =
+            this._bodyProperties["heavy_swarm_worker_model_name"] =
                 JsonSerializer.SerializeToElement(value, ModelBase.SerializerOptions);
         }
     }
@@ -146,14 +152,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("img", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("img", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["img"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["img"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -168,14 +174,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("max_loops", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("max_loops", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["max_loops"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["max_loops"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -189,14 +195,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("messages", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("messages", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<Messages?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["messages"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["messages"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -211,14 +217,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("name", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["name"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["name"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -232,14 +238,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("rearrange_flow", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("rearrange_flow", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["rearrange_flow"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["rearrange_flow"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -254,14 +260,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("rules", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("rules", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["rules"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["rules"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -276,14 +282,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("service_tier", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("service_tier", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["service_tier"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["service_tier"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -297,14 +303,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("stream", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("stream", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["stream"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["stream"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -318,7 +324,7 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("swarm_type", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("swarm_type", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<ApiEnum<string, SwarmType>?>(
@@ -326,9 +332,9 @@ public sealed record class SwarmRunParams : ParamsBase
                 ModelBase.SerializerOptions
             );
         }
-        set
+        init
         {
-            this.BodyProperties["swarm_type"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["swarm_type"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -342,14 +348,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("task", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("task", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["task"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["task"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -363,18 +369,58 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("tasks", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("tasks", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["tasks"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["tasks"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
         }
+    }
+
+    public SwarmRunParams() { }
+
+    public SwarmRunParams(
+        IReadOnlyDictionary<string, JsonElement> headerProperties,
+        IReadOnlyDictionary<string, JsonElement> queryProperties,
+        IReadOnlyDictionary<string, JsonElement> bodyProperties
+    )
+    {
+        this._headerProperties = [.. headerProperties];
+        this._queryProperties = [.. queryProperties];
+        this._bodyProperties = [.. bodyProperties];
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    SwarmRunParams(
+        FrozenDictionary<string, JsonElement> headerProperties,
+        FrozenDictionary<string, JsonElement> queryProperties,
+        FrozenDictionary<string, JsonElement> bodyProperties
+    )
+    {
+        this._headerProperties = [.. headerProperties];
+        this._queryProperties = [.. queryProperties];
+        this._bodyProperties = [.. bodyProperties];
+    }
+#pragma warning restore CS8618
+
+    public static SwarmRunParams FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> headerProperties,
+        IReadOnlyDictionary<string, JsonElement> queryProperties,
+        IReadOnlyDictionary<string, JsonElement> bodyProperties
+    )
+    {
+        return new(
+            FrozenDictionary.ToFrozenDictionary(headerProperties),
+            FrozenDictionary.ToFrozenDictionary(queryProperties),
+            FrozenDictionary.ToFrozenDictionary(bodyProperties)
+        );
     }
 
     public override System::Uri Url(ISwarmsClientClient client)
@@ -417,14 +463,14 @@ public record class Messages
 {
     public object Value { get; private init; }
 
-    public Messages(List<Dictionary<string, JsonElement>> value)
+    public Messages(IReadOnlyList<Dictionary<string, JsonElement>> value)
     {
-        Value = value;
+        Value = ImmutableArray.ToImmutableArray(value);
     }
 
-    public Messages(Dictionary<string, JsonElement> value)
+    public Messages(IReadOnlyDictionary<string, JsonElement> value)
     {
-        Value = value;
+        Value = FrozenDictionary.ToFrozenDictionary(value);
     }
 
     Messages(UnknownVariant value)
@@ -438,22 +484,24 @@ public record class Messages
     }
 
     public bool TryPickJsonElements(
-        [NotNullWhen(true)] out List<Dictionary<string, JsonElement>>? value
+        [NotNullWhen(true)] out IReadOnlyList<Dictionary<string, JsonElement>>? value
     )
     {
-        value = this.Value as List<Dictionary<string, JsonElement>>;
+        value = this.Value as IReadOnlyList<Dictionary<string, JsonElement>>;
         return value != null;
     }
 
-    public bool TryPickJsonElements1([NotNullWhen(true)] out Dictionary<string, JsonElement>? value)
+    public bool TryPickJsonElements1(
+        [NotNullWhen(true)] out IReadOnlyDictionary<string, JsonElement>? value
+    )
     {
-        value = this.Value as Dictionary<string, JsonElement>;
+        value = this.Value as IReadOnlyDictionary<string, JsonElement>;
         return value != null;
     }
 
     public void Switch(
-        System::Action<List<Dictionary<string, JsonElement>>> jsonElements,
-        System::Action<Dictionary<string, JsonElement>> jsonElements1
+        System::Action<IReadOnlyList<Dictionary<string, JsonElement>>> jsonElements,
+        System::Action<IReadOnlyDictionary<string, JsonElement>> jsonElements1
     )
     {
         switch (this.Value)
@@ -472,14 +520,14 @@ public record class Messages
     }
 
     public T Match<T>(
-        System::Func<List<Dictionary<string, JsonElement>>, T> jsonElements,
-        System::Func<Dictionary<string, JsonElement>, T> jsonElements1
+        System::Func<IReadOnlyList<Dictionary<string, JsonElement>>, T> jsonElements,
+        System::Func<IReadOnlyDictionary<string, JsonElement>, T> jsonElements1
     )
     {
         return this.Value switch
         {
-            List<Dictionary<string, JsonElement>> value => jsonElements(value),
-            Dictionary<string, JsonElement> value => jsonElements1(value),
+            IReadOnlyList<Dictionary<string, JsonElement>> value => jsonElements(value),
+            IReadOnlyDictionary<string, JsonElement> value => jsonElements1(value),
             _ => throw new SwarmsClientInvalidDataException(
                 "Data did not match any variant of Messages"
             ),

@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text;
@@ -15,7 +17,11 @@ namespace Swarms.Models.Agent;
 /// </summary>
 public sealed record class AgentRunParams : ParamsBase
 {
-    public Dictionary<string, JsonElement> BodyProperties { get; set; } = [];
+    readonly FreezableDictionary<string, JsonElement> _bodyProperties = [];
+    public IReadOnlyDictionary<string, JsonElement> BodyProperties
+    {
+        get { return this._bodyProperties.Freeze(); }
+    }
 
     /// <summary>
     /// The configuration of the agent to be completed.
@@ -24,14 +30,14 @@ public sealed record class AgentRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("agent_config", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("agent_config", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<AgentSpec?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["agent_config"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["agent_config"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -46,14 +52,14 @@ public sealed record class AgentRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("history", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("history", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<History?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["history"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["history"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -67,14 +73,14 @@ public sealed record class AgentRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("img", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("img", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["img"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["img"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -88,14 +94,14 @@ public sealed record class AgentRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("imgs", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("imgs", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["imgs"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["imgs"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -109,14 +115,14 @@ public sealed record class AgentRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("task", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("task", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["task"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["task"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -130,18 +136,58 @@ public sealed record class AgentRunParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("tools_enabled", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("tools_enabled", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["tools_enabled"] = JsonSerializer.SerializeToElement(
+            this._bodyProperties["tools_enabled"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
         }
+    }
+
+    public AgentRunParams() { }
+
+    public AgentRunParams(
+        IReadOnlyDictionary<string, JsonElement> headerProperties,
+        IReadOnlyDictionary<string, JsonElement> queryProperties,
+        IReadOnlyDictionary<string, JsonElement> bodyProperties
+    )
+    {
+        this._headerProperties = [.. headerProperties];
+        this._queryProperties = [.. queryProperties];
+        this._bodyProperties = [.. bodyProperties];
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    AgentRunParams(
+        FrozenDictionary<string, JsonElement> headerProperties,
+        FrozenDictionary<string, JsonElement> queryProperties,
+        FrozenDictionary<string, JsonElement> bodyProperties
+    )
+    {
+        this._headerProperties = [.. headerProperties];
+        this._queryProperties = [.. queryProperties];
+        this._bodyProperties = [.. bodyProperties];
+    }
+#pragma warning restore CS8618
+
+    public static AgentRunParams FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> headerProperties,
+        IReadOnlyDictionary<string, JsonElement> queryProperties,
+        IReadOnlyDictionary<string, JsonElement> bodyProperties
+    )
+    {
+        return new(
+            FrozenDictionary.ToFrozenDictionary(headerProperties),
+            FrozenDictionary.ToFrozenDictionary(queryProperties),
+            FrozenDictionary.ToFrozenDictionary(bodyProperties)
+        );
     }
 
     public override Uri Url(ISwarmsClientClient client)
@@ -183,14 +229,14 @@ public record class History
 {
     public object Value { get; private init; }
 
-    public History(Dictionary<string, JsonElement> value)
+    public History(IReadOnlyDictionary<string, JsonElement> value)
     {
-        Value = value;
+        Value = FrozenDictionary.ToFrozenDictionary(value);
     }
 
-    public History(List<Dictionary<string, string>> value)
+    public History(IReadOnlyList<Dictionary<string, string>> value)
     {
-        Value = value;
+        Value = ImmutableArray.ToImmutableArray(value);
     }
 
     History(UnknownVariant value)
@@ -203,21 +249,25 @@ public record class History
         return new(new UnknownVariant(value));
     }
 
-    public bool TryPickJsonElements([NotNullWhen(true)] out Dictionary<string, JsonElement>? value)
+    public bool TryPickJsonElements(
+        [NotNullWhen(true)] out IReadOnlyDictionary<string, JsonElement>? value
+    )
     {
-        value = this.Value as Dictionary<string, JsonElement>;
+        value = this.Value as IReadOnlyDictionary<string, JsonElement>;
         return value != null;
     }
 
-    public bool TryPickStrings([NotNullWhen(true)] out List<Dictionary<string, string>>? value)
+    public bool TryPickStrings(
+        [NotNullWhen(true)] out IReadOnlyList<Dictionary<string, string>>? value
+    )
     {
-        value = this.Value as List<Dictionary<string, string>>;
+        value = this.Value as IReadOnlyList<Dictionary<string, string>>;
         return value != null;
     }
 
     public void Switch(
-        Action<Dictionary<string, JsonElement>> jsonElements,
-        Action<List<Dictionary<string, string>>> strings
+        Action<IReadOnlyDictionary<string, JsonElement>> jsonElements,
+        Action<IReadOnlyList<Dictionary<string, string>>> strings
     )
     {
         switch (this.Value)
@@ -236,14 +286,14 @@ public record class History
     }
 
     public T Match<T>(
-        Func<Dictionary<string, JsonElement>, T> jsonElements,
-        Func<List<Dictionary<string, string>>, T> strings
+        Func<IReadOnlyDictionary<string, JsonElement>, T> jsonElements,
+        Func<IReadOnlyList<Dictionary<string, string>>, T> strings
     )
     {
         return this.Value switch
         {
-            Dictionary<string, JsonElement> value => jsonElements(value),
-            List<Dictionary<string, string>> value => strings(value),
+            IReadOnlyDictionary<string, JsonElement> value => jsonElements(value),
+            IReadOnlyList<Dictionary<string, string>> value => strings(value),
             _ => throw new SwarmsClientInvalidDataException(
                 "Data did not match any variant of History"
             ),
