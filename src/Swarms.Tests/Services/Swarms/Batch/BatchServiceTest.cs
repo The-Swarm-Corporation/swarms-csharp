@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Swarms.Models.Swarms.SwarmSpecProperties;
+using Swarms.Models.Swarms;
 
 namespace Swarms.Tests.Services.Swarms.Batch;
 
@@ -108,7 +108,7 @@ public class BatchServiceTest : TestBase
                         Rules = "rules",
                         ServiceTier = "service_tier",
                         Stream = true,
-                        SwarmType = SwarmType.AgentRearrange,
+                        SwarmType = SwarmTypeModel.AgentRearrange,
                         Task = "task",
                         Tasks = ["string"],
                     },

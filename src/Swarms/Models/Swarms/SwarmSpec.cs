@@ -3,8 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Core;
+using Swarms.Exceptions;
 using Swarms.Models.Agent;
-using Swarms.Models.Swarms.SwarmSpecProperties;
+using System = System;
 
 namespace Swarms.Models.Swarms;
 
@@ -177,14 +178,14 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     /// <summary>
     /// A list of messages that the swarm should complete.
     /// </summary>
-    public Messages? Messages
+    public MessagesModel? Messages
     {
         get
         {
             if (!this.Properties.TryGetValue("messages", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<Messages?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<MessagesModel?>(element, ModelBase.SerializerOptions);
         }
         set
         {
@@ -306,14 +307,14 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     /// <summary>
     /// The classification of the swarm, indicating its operational style and methodology.
     /// </summary>
-    public ApiEnum<string, SwarmType>? SwarmType
+    public ApiEnum<string, SwarmTypeModel>? SwarmType
     {
         get
         {
             if (!this.Properties.TryGetValue("swarm_type", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<ApiEnum<string, SwarmType>?>(
+            return JsonSerializer.Deserialize<ApiEnum<string, SwarmTypeModel>?>(
                 element,
                 ModelBase.SerializerOptions
             );
@@ -405,5 +406,249 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     public static SwarmSpec FromRawUnchecked(Dictionary<string, JsonElement> properties)
     {
         return new(properties);
+    }
+}
+
+/// <summary>
+/// A list of messages that the swarm should complete.
+/// </summary>
+[JsonConverter(typeof(MessagesModelConverter))]
+public record class MessagesModel
+{
+    public object Value { get; private init; }
+
+    public MessagesModel(List<Dictionary<string, JsonElement>> value)
+    {
+        Value = value;
+    }
+
+    public MessagesModel(Dictionary<string, JsonElement> value)
+    {
+        Value = value;
+    }
+
+    MessagesModel(UnknownVariant value)
+    {
+        Value = value;
+    }
+
+    public static MessagesModel CreateUnknownVariant(JsonElement value)
+    {
+        return new(new UnknownVariant(value));
+    }
+
+    public bool TryPickJsonElements(
+        [NotNullWhen(true)] out List<Dictionary<string, JsonElement>>? value
+    )
+    {
+        value = this.Value as List<Dictionary<string, JsonElement>>;
+        return value != null;
+    }
+
+    public bool TryPickJsonElements1([NotNullWhen(true)] out Dictionary<string, JsonElement>? value)
+    {
+        value = this.Value as Dictionary<string, JsonElement>;
+        return value != null;
+    }
+
+    public void Switch(
+        System::Action<List<Dictionary<string, JsonElement>>> jsonElements,
+        System::Action<Dictionary<string, JsonElement>> jsonElements1
+    )
+    {
+        switch (this.Value)
+        {
+            case List<Dictionary<string, JsonElement>> value:
+                jsonElements(value);
+                break;
+            case Dictionary<string, JsonElement> value:
+                jsonElements1(value);
+                break;
+            default:
+                throw new SwarmsClientInvalidDataException(
+                    "Data did not match any variant of MessagesModel"
+                );
+        }
+    }
+
+    public T Match<T>(
+        System::Func<List<Dictionary<string, JsonElement>>, T> jsonElements,
+        System::Func<Dictionary<string, JsonElement>, T> jsonElements1
+    )
+    {
+        return this.Value switch
+        {
+            List<Dictionary<string, JsonElement>> value => jsonElements(value),
+            Dictionary<string, JsonElement> value => jsonElements1(value),
+            _ => throw new SwarmsClientInvalidDataException(
+                "Data did not match any variant of MessagesModel"
+            ),
+        };
+    }
+
+    public void Validate()
+    {
+        if (this.Value is UnknownVariant)
+        {
+            throw new SwarmsClientInvalidDataException(
+                "Data did not match any variant of MessagesModel"
+            );
+        }
+    }
+
+    record struct UnknownVariant(JsonElement value);
+}
+
+sealed class MessagesModelConverter : JsonConverter<MessagesModel?>
+{
+    public override MessagesModel? Read(
+        ref Utf8JsonReader reader,
+        System::Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        List<SwarmsClientInvalidDataException> exceptions = [];
+
+        try
+        {
+            var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
+                ref reader,
+                options
+            );
+            if (deserialized != null)
+            {
+                return new MessagesModel(deserialized);
+            }
+        }
+        catch (System::Exception e)
+            when (e is JsonException || e is SwarmsClientInvalidDataException)
+        {
+            exceptions.Add(
+                new SwarmsClientInvalidDataException(
+                    "Data does not match union variant 'List<Dictionary<string, JsonElement>>'",
+                    e
+                )
+            );
+        }
+
+        try
+        {
+            var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
+                ref reader,
+                options
+            );
+            if (deserialized != null)
+            {
+                return new MessagesModel(deserialized);
+            }
+        }
+        catch (System::Exception e)
+            when (e is JsonException || e is SwarmsClientInvalidDataException)
+        {
+            exceptions.Add(
+                new SwarmsClientInvalidDataException(
+                    "Data does not match union variant 'Dictionary<string, JsonElement>'",
+                    e
+                )
+            );
+        }
+
+        throw new System::AggregateException(exceptions);
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        MessagesModel? value,
+        JsonSerializerOptions options
+    )
+    {
+        object? variant = value?.Value;
+        JsonSerializer.Serialize(writer, variant, options);
+    }
+}
+
+/// <summary>
+/// The classification of the swarm, indicating its operational style and methodology.
+/// </summary>
+[JsonConverter(typeof(SwarmTypeModelConverter))]
+public enum SwarmTypeModel
+{
+    AgentRearrange,
+    MixtureOfAgents,
+    SequentialWorkflow,
+    ConcurrentWorkflow,
+    GroupChat,
+    MultiAgentRouter,
+    AutoSwarmBuilder,
+    HiearchicalSwarm,
+    Auto,
+    MajorityVoting,
+    Malt,
+    DeepResearchSwarm,
+    CouncilAsAJudge,
+    InteractiveGroupChat,
+    HeavySwarm,
+}
+
+sealed class SwarmTypeModelConverter : JsonConverter<SwarmTypeModel>
+{
+    public override SwarmTypeModel Read(
+        ref Utf8JsonReader reader,
+        System::Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "AgentRearrange" => SwarmTypeModel.AgentRearrange,
+            "MixtureOfAgents" => SwarmTypeModel.MixtureOfAgents,
+            "SequentialWorkflow" => SwarmTypeModel.SequentialWorkflow,
+            "ConcurrentWorkflow" => SwarmTypeModel.ConcurrentWorkflow,
+            "GroupChat" => SwarmTypeModel.GroupChat,
+            "MultiAgentRouter" => SwarmTypeModel.MultiAgentRouter,
+            "AutoSwarmBuilder" => SwarmTypeModel.AutoSwarmBuilder,
+            "HiearchicalSwarm" => SwarmTypeModel.HiearchicalSwarm,
+            "auto" => SwarmTypeModel.Auto,
+            "MajorityVoting" => SwarmTypeModel.MajorityVoting,
+            "MALT" => SwarmTypeModel.Malt,
+            "DeepResearchSwarm" => SwarmTypeModel.DeepResearchSwarm,
+            "CouncilAsAJudge" => SwarmTypeModel.CouncilAsAJudge,
+            "InteractiveGroupChat" => SwarmTypeModel.InteractiveGroupChat,
+            "HeavySwarm" => SwarmTypeModel.HeavySwarm,
+            _ => (SwarmTypeModel)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        SwarmTypeModel value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                SwarmTypeModel.AgentRearrange => "AgentRearrange",
+                SwarmTypeModel.MixtureOfAgents => "MixtureOfAgents",
+                SwarmTypeModel.SequentialWorkflow => "SequentialWorkflow",
+                SwarmTypeModel.ConcurrentWorkflow => "ConcurrentWorkflow",
+                SwarmTypeModel.GroupChat => "GroupChat",
+                SwarmTypeModel.MultiAgentRouter => "MultiAgentRouter",
+                SwarmTypeModel.AutoSwarmBuilder => "AutoSwarmBuilder",
+                SwarmTypeModel.HiearchicalSwarm => "HiearchicalSwarm",
+                SwarmTypeModel.Auto => "auto",
+                SwarmTypeModel.MajorityVoting => "MajorityVoting",
+                SwarmTypeModel.Malt => "MALT",
+                SwarmTypeModel.DeepResearchSwarm => "DeepResearchSwarm",
+                SwarmTypeModel.CouncilAsAJudge => "CouncilAsAJudge",
+                SwarmTypeModel.InteractiveGroupChat => "InteractiveGroupChat",
+                SwarmTypeModel.HeavySwarm => "HeavySwarm",
+                _ => throw new SwarmsClientInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
     }
 }
