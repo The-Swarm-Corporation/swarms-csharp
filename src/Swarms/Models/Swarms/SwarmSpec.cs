@@ -498,6 +498,12 @@ public record class MessagesModel
         };
     }
 
+    public static implicit operator MessagesModel(List<Dictionary<string, JsonElement>> value) =>
+        new((IReadOnlyList<Dictionary<string, JsonElement>>)value);
+
+    public static implicit operator MessagesModel(Dictionary<string, JsonElement> value) =>
+        new((IReadOnlyDictionary<string, JsonElement>)value);
+
     public void Validate()
     {
         if (this.Value is UnknownVariant)

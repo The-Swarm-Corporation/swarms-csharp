@@ -300,6 +300,12 @@ public record class History
         };
     }
 
+    public static implicit operator History(Dictionary<string, JsonElement> value) =>
+        new((IReadOnlyDictionary<string, JsonElement>)value);
+
+    public static implicit operator History(List<Dictionary<string, string>> value) =>
+        new((IReadOnlyList<Dictionary<string, string>>)value);
+
     public void Validate()
     {
         if (this.Value is UnknownVariant)
