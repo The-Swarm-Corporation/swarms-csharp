@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Swarms.Core;
 using Swarms.Models.Models;
@@ -21,7 +22,8 @@ public sealed class ModelService : IModelService
     }
 
     public async Task<ModelListAvailableResponse> ListAvailable(
-        ModelListAvailableParams? parameters = null
+        ModelListAvailableParams? parameters = null,
+        CancellationToken cancellationToken = default
     )
     {
         parameters ??= new();
@@ -31,9 +33,11 @@ public sealed class ModelService : IModelService
             Method = HttpMethod.Get,
             Params = parameters,
         };
-        using var response = await this._client.Execute(request).ConfigureAwait(false);
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
         var deserializedResponse = await response
-            .Deserialize<ModelListAvailableResponse>()
+            .Deserialize<ModelListAvailableResponse>(cancellationToken)
             .ConfigureAwait(false);
         if (this._client.ResponseValidation)
         {

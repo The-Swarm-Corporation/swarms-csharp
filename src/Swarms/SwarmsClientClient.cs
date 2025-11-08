@@ -90,7 +90,10 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
         get { return _client.Value; }
     }
 
-    public async Task<JsonElement> GetRoot(ClientGetRootParams? parameters = null)
+    public async Task<JsonElement> GetRoot(
+        ClientGetRootParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
     {
         parameters ??= new();
 
@@ -99,11 +102,14 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
             Method = HttpMethod.Get,
             Params = parameters,
         };
-        using var response = await this.Execute(request).ConfigureAwait(false);
-        return await response.Deserialize<JsonElement>().ConfigureAwait(false);
+        using var response = await this.Execute(request, cancellationToken).ConfigureAwait(false);
+        return await response.Deserialize<JsonElement>(cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<HttpResponse> Execute<T>(HttpRequest<T> request)
+    public async Task<HttpResponse> Execute<T>(
+        HttpRequest<T> request,
+        CancellationToken cancellationToken = default
+    )
         where T : ParamsBase
     {
         using HttpRequestMessage requestMessage = new(request.Method, request.Params.Url(this))
@@ -111,7 +117,11 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
             Content = request.Params.BodyContent(),
         };
         request.Params.AddHeadersToRequest(requestMessage, this);
-        using CancellationTokenSource cts = new(this.Timeout);
+        using CancellationTokenSource timeoutCts = new(this.Timeout);
+        using var cts = CancellationTokenSource.CreateLinkedTokenSource(
+            timeoutCts.Token,
+            cancellationToken
+        );
         HttpResponseMessage responseMessage;
         try
         {
@@ -133,7 +143,7 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
             {
                 throw SwarmsClientExceptionFactory.CreateApiException(
                     responseMessage.StatusCode,
-                    await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false)
+                    await responseMessage.Content.ReadAsStringAsync(cts.Token).ConfigureAwait(false)
                 );
             }
             catch (HttpRequestException e)
@@ -145,7 +155,7 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
                 responseMessage.Dispose();
             }
         }
-        return new() { Message = responseMessage };
+        return new() { Message = responseMessage, CancellationToken = cts.Token };
     }
 
     public SwarmsClientClient()

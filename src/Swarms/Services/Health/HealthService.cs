@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Swarms.Core;
 using Swarms.Models.Health;
@@ -20,7 +21,10 @@ public sealed class HealthService : IHealthService
         _client = client;
     }
 
-    public async Task<HealthCheckResponse> Check(HealthCheckParams? parameters = null)
+    public async Task<HealthCheckResponse> Check(
+        HealthCheckParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
     {
         parameters ??= new();
 
@@ -29,9 +33,11 @@ public sealed class HealthService : IHealthService
             Method = HttpMethod.Get,
             Params = parameters,
         };
-        using var response = await this._client.Execute(request).ConfigureAwait(false);
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
         var deserializedResponse = await response
-            .Deserialize<HealthCheckResponse>()
+            .Deserialize<HealthCheckResponse>(cancellationToken)
             .ConfigureAwait(false);
         if (this._client.ResponseValidation)
         {

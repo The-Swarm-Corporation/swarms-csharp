@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Swarms.Core;
 using Swarms.Models.Swarms;
@@ -29,7 +30,8 @@ public sealed class SwarmService : ISwarmService
     }
 
     public async Task<SwarmCheckAvailableResponse> CheckAvailable(
-        SwarmCheckAvailableParams? parameters = null
+        SwarmCheckAvailableParams? parameters = null,
+        CancellationToken cancellationToken = default
     )
     {
         parameters ??= new();
@@ -39,9 +41,11 @@ public sealed class SwarmService : ISwarmService
             Method = HttpMethod.Get,
             Params = parameters,
         };
-        using var response = await this._client.Execute(request).ConfigureAwait(false);
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
         var deserializedResponse = await response
-            .Deserialize<SwarmCheckAvailableResponse>()
+            .Deserialize<SwarmCheckAvailableResponse>(cancellationToken)
             .ConfigureAwait(false);
         if (this._client.ResponseValidation)
         {
@@ -50,7 +54,10 @@ public sealed class SwarmService : ISwarmService
         return deserializedResponse;
     }
 
-    public async Task<SwarmGetLogsResponse> GetLogs(SwarmGetLogsParams? parameters = null)
+    public async Task<SwarmGetLogsResponse> GetLogs(
+        SwarmGetLogsParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
     {
         parameters ??= new();
 
@@ -59,9 +66,11 @@ public sealed class SwarmService : ISwarmService
             Method = HttpMethod.Get,
             Params = parameters,
         };
-        using var response = await this._client.Execute(request).ConfigureAwait(false);
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
         var deserializedResponse = await response
-            .Deserialize<SwarmGetLogsResponse>()
+            .Deserialize<SwarmGetLogsResponse>(cancellationToken)
             .ConfigureAwait(false);
         if (this._client.ResponseValidation)
         {
@@ -70,7 +79,10 @@ public sealed class SwarmService : ISwarmService
         return deserializedResponse;
     }
 
-    public async Task<SwarmRunResponse> Run(SwarmRunParams? parameters = null)
+    public async Task<SwarmRunResponse> Run(
+        SwarmRunParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
     {
         parameters ??= new();
 
@@ -79,9 +91,11 @@ public sealed class SwarmService : ISwarmService
             Method = HttpMethod.Post,
             Params = parameters,
         };
-        using var response = await this._client.Execute(request).ConfigureAwait(false);
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
         var deserializedResponse = await response
-            .Deserialize<SwarmRunResponse>()
+            .Deserialize<SwarmRunResponse>(cancellationToken)
             .ConfigureAwait(false);
         if (this._client.ResponseValidation)
         {

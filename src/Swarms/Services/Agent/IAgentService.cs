@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Swarms.Core;
 using Swarms.Models.Agent;
@@ -15,5 +16,8 @@ public interface IAgentService
     /// <summary>
     /// Run an agent with the specified task. Supports streaming when stream=True.
     /// </summary>
-    Task<AgentRunResponse> Run(AgentRunParams? parameters = null);
+    Task<AgentRunResponse> Run(
+        AgentRunParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
 }

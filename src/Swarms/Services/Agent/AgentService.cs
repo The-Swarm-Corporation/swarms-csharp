@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Swarms.Core;
 using Swarms.Models.Agent;
@@ -28,7 +29,10 @@ public sealed class AgentService : IAgentService
         get { return _batch.Value; }
     }
 
-    public async Task<AgentRunResponse> Run(AgentRunParams? parameters = null)
+    public async Task<AgentRunResponse> Run(
+        AgentRunParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
     {
         parameters ??= new();
 
@@ -37,9 +41,11 @@ public sealed class AgentService : IAgentService
             Method = HttpMethod.Post,
             Params = parameters,
         };
-        using var response = await this._client.Execute(request).ConfigureAwait(false);
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
         var deserializedResponse = await response
-            .Deserialize<AgentRunResponse>()
+            .Deserialize<AgentRunResponse>(cancellationToken)
             .ConfigureAwait(false);
         if (this._client.ResponseValidation)
         {

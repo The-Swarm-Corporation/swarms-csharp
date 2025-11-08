@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Swarms.Core;
 using Swarms.Models.Agent.Batch;
@@ -20,16 +21,21 @@ public sealed class BatchService : IBatchService
         _client = client;
     }
 
-    public async Task<BatchRunResponse> Run(BatchRunParams parameters)
+    public async Task<BatchRunResponse> Run(
+        BatchRunParams parameters,
+        CancellationToken cancellationToken = default
+    )
     {
         HttpRequest<BatchRunParams> request = new()
         {
             Method = HttpMethod.Post,
             Params = parameters,
         };
-        using var response = await this._client.Execute(request).ConfigureAwait(false);
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
         var deserializedResponse = await response
-            .Deserialize<BatchRunResponse>()
+            .Deserialize<BatchRunResponse>(cancellationToken)
             .ConfigureAwait(false);
         if (this._client.ResponseValidation)
         {
