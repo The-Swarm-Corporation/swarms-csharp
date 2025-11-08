@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Swarms.Core;
 using Swarms.Models.Models;
@@ -12,5 +13,8 @@ public interface IModelService
     /// <summary>
     /// Get all available models.
     /// </summary>
-    Task<ModelListAvailableResponse> ListAvailable(ModelListAvailableParams? parameters = null);
+    Task<ModelListAvailableResponse> ListAvailable(
+        ModelListAvailableParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
 }

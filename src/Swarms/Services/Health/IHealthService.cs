@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Swarms.Core;
 using Swarms.Models.Health;
@@ -12,5 +13,8 @@ public interface IHealthService
     /// <summary>
     /// Health
     /// </summary>
-    Task<HealthCheckResponse> Check(HealthCheckParams? parameters = null);
+    Task<HealthCheckResponse> Check(
+        HealthCheckParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
 }

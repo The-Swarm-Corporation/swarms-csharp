@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Swarms.Core;
 using Swarms.Models.Swarms.Batch;
@@ -22,16 +23,21 @@ public sealed class BatchService : IBatchService
         _client = client;
     }
 
-    public async Task<List<Dictionary<string, JsonElement>>> Run(BatchRunParams parameters)
+    public async Task<List<Dictionary<string, JsonElement>>> Run(
+        BatchRunParams parameters,
+        CancellationToken cancellationToken = default
+    )
     {
         HttpRequest<BatchRunParams> request = new()
         {
             Method = HttpMethod.Post,
             Params = parameters,
         };
-        using var response = await this._client.Execute(request).ConfigureAwait(false);
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
         return await response
-            .Deserialize<List<Dictionary<string, JsonElement>>>()
+            .Deserialize<List<Dictionary<string, JsonElement>>>(cancellationToken)
             .ConfigureAwait(false);
     }
 }

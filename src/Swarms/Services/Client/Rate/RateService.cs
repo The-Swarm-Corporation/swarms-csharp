@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Swarms.Core;
 using Swarms.Models.Client.Rate;
@@ -20,7 +21,10 @@ public sealed class RateService : IRateService
         _client = client;
     }
 
-    public async Task<RateGetLimitsResponse> GetLimits(RateGetLimitsParams? parameters = null)
+    public async Task<RateGetLimitsResponse> GetLimits(
+        RateGetLimitsParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
     {
         parameters ??= new();
 
@@ -29,9 +33,11 @@ public sealed class RateService : IRateService
             Method = HttpMethod.Get,
             Params = parameters,
         };
-        using var response = await this._client.Execute(request).ConfigureAwait(false);
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
         var deserializedResponse = await response
-            .Deserialize<RateGetLimitsResponse>()
+            .Deserialize<RateGetLimitsResponse>(cancellationToken)
             .ConfigureAwait(false);
         if (this._client.ResponseValidation)
         {
