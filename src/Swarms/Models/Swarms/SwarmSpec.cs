@@ -40,8 +40,7 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     }
 
     /// <summary>
-    /// A comprehensive description of the swarm's objectives, capabilities, and
-    /// intended outcomes.
+    /// A comprehensive description of the swarm's objectives, capabilities, and intended outcomes.
     /// </summary>
     public string? Description
     {
@@ -267,8 +266,8 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     }
 
     /// <summary>
-    /// The service tier to use for processing. Options: 'standard' (default) or
-    /// 'flex' for lower cost but slower processing.
+    /// The service tier to use for processing. Options: 'standard' (default) or 'flex'
+    /// for lower cost but slower processing.
     /// </summary>
     public string? ServiceTier
     {
