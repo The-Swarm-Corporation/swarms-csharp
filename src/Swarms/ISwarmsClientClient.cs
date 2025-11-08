@@ -24,6 +24,8 @@ public interface ISwarmsClientClient
 
     TimeSpan Timeout { get; init; }
 
+    int MaxRetries { get; init; }
+
     string? APIKey { get; init; }
 
     ISwarmsClientClient WithOptions(Func<ClientOptions, ClientOptions> modifier);
