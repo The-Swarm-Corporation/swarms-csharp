@@ -66,6 +66,11 @@ public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunRespon
         }
         init
         {
+            if (value == null)
+            {
+                return;
+            }
+
             this._properties["results"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions

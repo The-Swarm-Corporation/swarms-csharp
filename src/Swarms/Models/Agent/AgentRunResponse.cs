@@ -87,6 +87,11 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
         }
         init
         {
+            if (value == null)
+            {
+                return;
+            }
+
             this._properties["outputs"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions

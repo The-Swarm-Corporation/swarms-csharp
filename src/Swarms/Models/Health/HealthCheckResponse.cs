@@ -21,6 +21,11 @@ public sealed record class HealthCheckResponse : ModelBase, IFromRaw<HealthCheck
         }
         init
         {
+            if (value == null)
+            {
+                return;
+            }
+
             this._properties["status"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions

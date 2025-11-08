@@ -39,6 +39,11 @@ public sealed record class SwarmGetLogsResponse : ModelBase, IFromRaw<SwarmGetLo
         }
         init
         {
+            if (value == null)
+            {
+                return;
+            }
+
             this._properties["logs"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions

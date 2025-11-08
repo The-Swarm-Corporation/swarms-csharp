@@ -23,6 +23,11 @@ public sealed record class ModelListAvailableResponse
         }
         init
         {
+            if (value == null)
+            {
+                return;
+            }
+
             this._properties["models"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
