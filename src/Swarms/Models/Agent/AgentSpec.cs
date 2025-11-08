@@ -699,8 +699,8 @@ public sealed record class McpConfig : ModelBase, IFromRaw<McpConfig>
 }
 
 /// <summary>
-/// The MCP connections to use for the agent. This is a list of MCP connections.
-/// Includes multiple MCP connections.
+/// The MCP connections to use for the agent. This is a list of MCP connections. Includes
+/// multiple MCP connections.
 /// </summary>
 [JsonConverter(typeof(ModelConverter<McpConfigs>))]
 public sealed record class McpConfigs : ModelBase, IFromRaw<McpConfigs>

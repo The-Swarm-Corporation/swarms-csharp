@@ -35,8 +35,8 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     }
 
     /// <summary>
-    /// The history of the agent's previous tasks and responses. Can be either a
-    /// dictionary or a list of message objects.
+    /// The history of the agent's previous tasks and responses. Can be either a dictionary
+    /// or a list of message objects.
     /// </summary>
     public HistoryModel? History
     {
