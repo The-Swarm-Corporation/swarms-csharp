@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Swarms.Core;
@@ -27,6 +29,26 @@ public sealed class AgentService : IAgentService
     public IBatchService Batch
     {
         get { return _batch.Value; }
+    }
+
+    public async Task<Dictionary<string, JsonElement>> List(
+        AgentListParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        parameters ??= new();
+
+        HttpRequest<AgentListParams> request = new()
+        {
+            Method = HttpMethod.Get,
+            Params = parameters,
+        };
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
+        return await response
+            .Deserialize<Dictionary<string, JsonElement>>(cancellationToken)
+            .ConfigureAwait(false);
     }
 
     public async Task<AgentRunResponse> Run(
