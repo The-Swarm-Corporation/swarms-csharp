@@ -7,11 +7,11 @@
 >
 > **We'd love your feedback!** Please share any suggestions, bug reports, feature requests, or general thoughts by [filing an issue](https://www.github.com/The-Swarm-Corporation/swarms-csharp/issues/new).
 
-The Swarms Client C# SDK provides convenient access to the [Swarms Client REST API](https://docs.swarms.world/en/latest/) from applications written in C#.
+The Swarms Client C# SDK provides convenient access to the [Swarms Client REST API](https://docs.swarms.ai) from applications written in C#.
 
 It is generated with [Stainless](https://www.stainless.com/).
 
-The REST API documentation can be found on [docs.swarms.world](https://docs.swarms.world/en/latest/).
+The REST API documentation can be found on [docs.swarms.ai](https://docs.swarms.ai).
 
 ## Installation
 
@@ -64,10 +64,10 @@ Or using a combination of the two approaches.
 
 See this table for the available options:
 
-| Property  | Environment variable     | Required | Default value                                        |
-| --------- | ------------------------ | -------- | ---------------------------------------------------- |
-| `APIKey`  | `SWARMS_API_KEY`         | false    | -                                                    |
-| `BaseUrl` | `SWARMS_CLIENT_BASE_URL` | true     | `"https://swarms-api-285321057562.us-east1.run.app"` |
+| Property  | Environment variable     | Required | Default value                |
+| --------- | ------------------------ | -------- | ---------------------------- |
+| `APIKey`  | `SWARMS_API_KEY`         | false    | -                            |
+| `BaseUrl` | `SWARMS_CLIENT_BASE_URL` | true     | `"https://api.swarms.world"` |
 
 ### Modifying configuration
 
