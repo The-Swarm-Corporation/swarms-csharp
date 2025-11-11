@@ -1,48 +1,56 @@
 using System;
 using System.Net.Http;
-using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
+using Swarms.Core;
 using Swarms.Models.Agent;
-using Batch = Swarms.Services.Agent.Batch;
+using Swarms.Services.Agent.Batch;
 
 namespace Swarms.Services.Agent;
 
 public sealed class AgentService : IAgentService
 {
+    public IAgentService WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new AgentService(this._client.WithOptions(modifier));
+    }
+
     readonly ISwarmsClientClient _client;
 
     public AgentService(ISwarmsClientClient client)
     {
         _client = client;
-        _batch = new(() => new Batch::BatchService(client));
+        _batch = new(() => new BatchService(client));
     }
 
-    readonly Lazy<Batch::IBatchService> _batch;
-    public Batch::IBatchService Batch
+    readonly Lazy<IBatchService> _batch;
+    public IBatchService Batch
     {
         get { return _batch.Value; }
     }
 
-    public async Task<AgentRunResponse> Run(AgentRunParams parameters)
+    public async Task<AgentRunResponse> Run(
+        AgentRunParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Post, parameters.Url(this._client))
+        parameters ??= new();
+
+        HttpRequest<AgentRunParams> request = new()
         {
-            Content = parameters.BodyContent(),
+            Method = HttpMethod.Post,
+            Params = parameters,
         };
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
             .ConfigureAwait(false);
-        if (!response.IsSuccessStatusCode)
+        var deserializedResponse = await response
+            .Deserialize<AgentRunResponse>(cancellationToken)
+            .ConfigureAwait(false);
+        if (this._client.ResponseValidation)
         {
-            throw new HttpException(
-                response.StatusCode,
-                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
-            );
+            deserializedResponse.Validate();
         }
-        return JsonSerializer.Deserialize<AgentRunResponse>(
-                await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
-            ) ?? throw new NullReferenceException();
+        return deserializedResponse;
     }
 }

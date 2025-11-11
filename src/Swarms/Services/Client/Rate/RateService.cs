@@ -1,14 +1,19 @@
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
+using Swarms.Core;
 using Swarms.Models.Client.Rate;
 
 namespace Swarms.Services.Client.Rate;
 
 public sealed class RateService : IRateService
 {
+    public IRateService WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new RateService(this._client.WithOptions(modifier));
+    }
+
     readonly ISwarmsClientClient _client;
 
     public RateService(ISwarmsClientClient client)
@@ -16,23 +21,28 @@ public sealed class RateService : IRateService
         _client = client;
     }
 
-    public async Task<Dictionary<string, JsonElement>> GetLimits(RateGetLimitsParams parameters)
+    public async Task<RateGetLimitsResponse> GetLimits(
+        RateGetLimitsParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Get, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
-            .ConfigureAwait(false);
-        if (!response.IsSuccessStatusCode)
+        parameters ??= new();
+
+        HttpRequest<RateGetLimitsParams> request = new()
         {
-            throw new HttpException(
-                response.StatusCode,
-                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
-            );
+            Method = HttpMethod.Get,
+            Params = parameters,
+        };
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
+        var deserializedResponse = await response
+            .Deserialize<RateGetLimitsResponse>(cancellationToken)
+            .ConfigureAwait(false);
+        if (this._client.ResponseValidation)
+        {
+            deserializedResponse.Validate();
         }
-        return JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
-                await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
-            ) ?? throw new NullReferenceException();
+        return deserializedResponse;
     }
 }

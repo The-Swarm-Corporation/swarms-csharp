@@ -2,13 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
+using Swarms.Core;
 using Swarms.Models.Swarms.Batch;
 
 namespace Swarms.Services.Swarms.Batch;
 
 public sealed class BatchService : IBatchService
 {
+    public IBatchService WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new BatchService(this._client.WithOptions(modifier));
+    }
+
     readonly ISwarmsClientClient _client;
 
     public BatchService(ISwarmsClientClient client)
@@ -16,26 +23,21 @@ public sealed class BatchService : IBatchService
         _client = client;
     }
 
-    public async Task<List<Dictionary<string, JsonElement>>> Run(BatchRunParams parameters)
+    public async Task<List<Dictionary<string, JsonElement>>> Run(
+        BatchRunParams parameters,
+        CancellationToken cancellationToken = default
+    )
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Post, parameters.Url(this._client))
+        HttpRequest<BatchRunParams> request = new()
         {
-            Content = parameters.BodyContent(),
+            Method = HttpMethod.Post,
+            Params = parameters,
         };
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
             .ConfigureAwait(false);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new HttpException(
-                response.StatusCode,
-                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
-            );
-        }
-        return JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
-                await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
-            ) ?? throw new NullReferenceException();
+        return await response
+            .Deserialize<List<Dictionary<string, JsonElement>>>(cancellationToken)
+            .ConfigureAwait(false);
     }
 }

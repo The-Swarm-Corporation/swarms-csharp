@@ -1,90 +1,106 @@
 using System;
 using System.Net.Http;
-using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
+using Swarms.Core;
 using Swarms.Models.Swarms;
-using Batch = Swarms.Services.Swarms.Batch;
+using Swarms.Services.Swarms.Batch;
 
 namespace Swarms.Services.Swarms;
 
 public sealed class SwarmService : ISwarmService
 {
+    public ISwarmService WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new SwarmService(this._client.WithOptions(modifier));
+    }
+
     readonly ISwarmsClientClient _client;
 
     public SwarmService(ISwarmsClientClient client)
     {
         _client = client;
-        _batch = new(() => new Batch::BatchService(client));
+        _batch = new(() => new BatchService(client));
     }
 
-    readonly Lazy<Batch::IBatchService> _batch;
-    public Batch::IBatchService Batch
+    readonly Lazy<IBatchService> _batch;
+    public IBatchService Batch
     {
         get { return _batch.Value; }
     }
 
     public async Task<SwarmCheckAvailableResponse> CheckAvailable(
-        SwarmCheckAvailableParams parameters
+        SwarmCheckAvailableParams? parameters = null,
+        CancellationToken cancellationToken = default
     )
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Get, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
-            .ConfigureAwait(false);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new HttpException(
-                response.StatusCode,
-                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
-            );
-        }
-        return JsonSerializer.Deserialize<SwarmCheckAvailableResponse>(
-                await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
-            ) ?? throw new NullReferenceException();
-    }
+        parameters ??= new();
 
-    public async Task<SwarmGetLogsResponse> GetLogs(SwarmGetLogsParams parameters)
-    {
-        using HttpRequestMessage webRequest = new(HttpMethod.Get, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
-            .ConfigureAwait(false);
-        if (!response.IsSuccessStatusCode)
+        HttpRequest<SwarmCheckAvailableParams> request = new()
         {
-            throw new HttpException(
-                response.StatusCode,
-                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
-            );
-        }
-        return JsonSerializer.Deserialize<SwarmGetLogsResponse>(
-                await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
-            ) ?? throw new NullReferenceException();
-    }
-
-    public async Task<SwarmRunResponse> Run(SwarmRunParams parameters)
-    {
-        using HttpRequestMessage webRequest = new(HttpMethod.Post, parameters.Url(this._client))
-        {
-            Content = parameters.BodyContent(),
+            Method = HttpMethod.Get,
+            Params = parameters,
         };
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
             .ConfigureAwait(false);
-        if (!response.IsSuccessStatusCode)
+        var deserializedResponse = await response
+            .Deserialize<SwarmCheckAvailableResponse>(cancellationToken)
+            .ConfigureAwait(false);
+        if (this._client.ResponseValidation)
         {
-            throw new HttpException(
-                response.StatusCode,
-                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
-            );
+            deserializedResponse.Validate();
         }
-        return JsonSerializer.Deserialize<SwarmRunResponse>(
-                await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
-            ) ?? throw new NullReferenceException();
+        return deserializedResponse;
+    }
+
+    public async Task<SwarmGetLogsResponse> GetLogs(
+        SwarmGetLogsParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        parameters ??= new();
+
+        HttpRequest<SwarmGetLogsParams> request = new()
+        {
+            Method = HttpMethod.Get,
+            Params = parameters,
+        };
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
+        var deserializedResponse = await response
+            .Deserialize<SwarmGetLogsResponse>(cancellationToken)
+            .ConfigureAwait(false);
+        if (this._client.ResponseValidation)
+        {
+            deserializedResponse.Validate();
+        }
+        return deserializedResponse;
+    }
+
+    public async Task<SwarmRunResponse> Run(
+        SwarmRunParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        parameters ??= new();
+
+        HttpRequest<SwarmRunParams> request = new()
+        {
+            Method = HttpMethod.Post,
+            Params = parameters,
+        };
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
+        var deserializedResponse = await response
+            .Deserialize<SwarmRunResponse>(cancellationToken)
+            .ConfigureAwait(false);
+        if (this._client.ResponseValidation)
+        {
+            deserializedResponse.Validate();
+        }
+        return deserializedResponse;
     }
 }

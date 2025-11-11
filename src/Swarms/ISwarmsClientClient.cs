@@ -1,38 +1,58 @@
 using System;
+using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
-using Agent = Swarms.Services.Agent;
-using Client = Swarms.Services.Client;
-using Health = Swarms.Services.Health;
-using Http = System.Net.Http;
-using Models = Swarms.Services.Models;
-using ReasoningAgents = Swarms.Services.ReasoningAgents;
-using Swarms = Swarms.Services.Swarms;
+using Swarms.Core;
+using Swarms.Models;
+using Swarms.Services.Agent;
+using Swarms.Services.Client;
+using Swarms.Services.Health;
+using Swarms.Services.Models;
+using Swarms.Services.ReasoningAgents;
+using Swarms.Services.Swarms;
 
 namespace Swarms;
 
 public interface ISwarmsClientClient
 {
-    Http::HttpClient HttpClient { get; init; }
+    HttpClient HttpClient { get; init; }
 
     Uri BaseUrl { get; init; }
 
+    bool ResponseValidation { get; init; }
+
+    int MaxRetries { get; init; }
+
+    TimeSpan Timeout { get; init; }
+
     string? APIKey { get; init; }
 
-    Health::IHealthService Health { get; }
+    ISwarmsClientClient WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
-    Agent::IAgentService Agent { get; }
+    IHealthService Health { get; }
 
-    Models::IModelService Models { get; }
+    IAgentService Agent { get; }
 
-    Swarms::ISwarmService Swarms { get; }
+    IModelService Models { get; }
 
-    ReasoningAgents::IReasoningAgentService ReasoningAgents { get; }
+    ISwarmService Swarms { get; }
 
-    Client::IClientService Client { get; }
+    IReasoningAgentService ReasoningAgents { get; }
+
+    IClientService Client { get; }
 
     /// <summary>
     /// Root
     /// </summary>
-    Task<JsonElement> GetRoot(global::Swarms.Models.ClientGetRootParams parameters);
+    Task<JsonElement> GetRoot(
+        ClientGetRootParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
+
+    Task<HttpResponse> Execute<T>(
+        HttpRequest<T> request,
+        CancellationToken cancellationToken = default
+    )
+        where T : ParamsBase;
 }

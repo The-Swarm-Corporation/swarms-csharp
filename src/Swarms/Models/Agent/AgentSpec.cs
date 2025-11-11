@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms.Core;
+using Swarms.Exceptions;
 
 namespace Swarms.Models.Agent;
 
@@ -17,12 +20,18 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("agent_name", out JsonElement element))
-                throw new ArgumentOutOfRangeException("agent_name", "Missing required argument");
+            if (!this._properties.TryGetValue("agent_name", out JsonElement element))
+                return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["agent_name"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["agent_name"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -33,12 +42,18 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("auto_generate_prompt", out JsonElement element))
+            if (!this._properties.TryGetValue("auto_generate_prompt", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["auto_generate_prompt"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["auto_generate_prompt"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -49,12 +64,18 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("description", out JsonElement element))
+            if (!this._properties.TryGetValue("description", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["description"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["description"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -66,16 +87,20 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
         get
         {
             if (
-                !this.Properties.TryGetValue("dynamic_temperature_enabled", out JsonElement element)
+                !this._properties.TryGetValue(
+                    "dynamic_temperature_enabled",
+                    out JsonElement element
+                )
             )
                 return null;
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.Properties["dynamic_temperature_enabled"] = JsonSerializer.SerializeToElement(
-                value
+            this._properties["dynamic_temperature_enabled"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
             );
         }
     }
@@ -88,7 +113,7 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("llm_args", out JsonElement element))
+            if (!this._properties.TryGetValue("llm_args", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
@@ -96,7 +121,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
                 ModelBase.SerializerOptions
             );
         }
-        set { this.Properties["llm_args"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["llm_args"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -107,12 +138,18 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("max_loops", out JsonElement element))
+            if (!this._properties.TryGetValue("max_loops", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["max_loops"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["max_loops"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -123,12 +160,61 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("max_tokens", out JsonElement element))
+            if (!this._properties.TryGetValue("max_tokens", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["max_tokens"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["max_tokens"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// The MCP connection to use for the agent.
+    /// </summary>
+    public McpConfig? McpConfig
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("mcp_config", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<McpConfig?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["mcp_config"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// The MCP connections to use for the agent. This is a list of MCP connections.
+    /// Includes multiple MCP connections.
+    /// </summary>
+    public McpConfigs? McpConfigs
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("mcp_configs", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<McpConfigs?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["mcp_configs"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -138,12 +224,18 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("mcp_url", out JsonElement element))
+            if (!this._properties.TryGetValue("mcp_url", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["mcp_url"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["mcp_url"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -154,12 +246,60 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("model_name", out JsonElement element))
+            if (!this._properties.TryGetValue("model_name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["model_name"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["model_name"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// The effort to put into reasoning.
+    /// </summary>
+    public string? ReasoningEffort
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("reasoning_effort", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["reasoning_effort"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// A parameter enabling an agent to use reasoning.
+    /// </summary>
+    public bool? ReasoningEnabled
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("reasoning_enabled", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["reasoning_enabled"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -170,12 +310,18 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("role", out JsonElement element))
+            if (!this._properties.TryGetValue("role", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["role"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["role"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -185,12 +331,18 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("streaming_on", out JsonElement element))
+            if (!this._properties.TryGetValue("streaming_on", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["streaming_on"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["streaming_on"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -201,12 +353,18 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("system_prompt", out JsonElement element))
+            if (!this._properties.TryGetValue("system_prompt", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["system_prompt"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["system_prompt"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -217,12 +375,60 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("temperature", out JsonElement element))
+            if (!this._properties.TryGetValue("temperature", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["temperature"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["temperature"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// The number of tokens to use for thinking.
+    /// </summary>
+    public long? ThinkingTokens
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("thinking_tokens", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["thinking_tokens"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// A parameter enabling an agent to summarize tool calls.
+    /// </summary>
+    public bool? ToolCallSummary
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("tool_call_summary", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["tool_call_summary"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -232,7 +438,7 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("tools_list_dictionary", out JsonElement element))
+            if (!this._properties.TryGetValue("tools_list_dictionary", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>?>(
@@ -240,7 +446,13 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
                 ModelBase.SerializerOptions
             );
         }
-        set { this.Properties["tools_list_dictionary"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["tools_list_dictionary"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()
@@ -249,43 +461,42 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
         _ = this.AutoGeneratePrompt;
         _ = this.Description;
         _ = this.DynamicTemperatureEnabled;
-        if (this.LlmArgs != null)
-        {
-            foreach (var item in this.LlmArgs.Values)
-            {
-                _ = item;
-            }
-        }
+        _ = this.LlmArgs;
         _ = this.MaxLoops;
         _ = this.MaxTokens;
+        this.McpConfig?.Validate();
+        this.McpConfigs?.Validate();
         _ = this.McpURL;
         _ = this.ModelName;
+        _ = this.ReasoningEffort;
+        _ = this.ReasoningEnabled;
         _ = this.Role;
         _ = this.StreamingOn;
         _ = this.SystemPrompt;
         _ = this.Temperature;
-        foreach (var item in this.ToolsListDictionary ?? [])
-        {
-            foreach (var item1 in item.Values)
-            {
-                _ = item1;
-            }
-        }
+        _ = this.ThinkingTokens;
+        _ = this.ToolCallSummary;
+        _ = this.ToolsListDictionary;
     }
 
     public AgentSpec() { }
 
+    public AgentSpec(IReadOnlyDictionary<string, JsonElement> properties)
+    {
+        this._properties = [.. properties];
+    }
+
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    AgentSpec(Dictionary<string, JsonElement> properties)
+    AgentSpec(FrozenDictionary<string, JsonElement> properties)
     {
-        Properties = properties;
+        this._properties = [.. properties];
     }
 #pragma warning restore CS8618
 
-    public static AgentSpec FromRawUnchecked(Dictionary<string, JsonElement> properties)
+    public static AgentSpec FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> properties)
     {
-        return new(properties);
+        return new(FrozenDictionary.ToFrozenDictionary(properties));
     }
 
     [SetsRequiredMembers]
@@ -293,5 +504,458 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
         : this()
     {
         this.AgentName = agentName;
+    }
+}
+
+/// <summary>
+/// The MCP connection to use for the agent.
+/// </summary>
+[JsonConverter(typeof(ModelConverter<McpConfig>))]
+public sealed record class McpConfig : ModelBase, IFromRaw<McpConfig>
+{
+    /// <summary>
+    /// Authentication token for accessing the MCP server
+    /// </summary>
+    public string? AuthorizationToken
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("authorization_token", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["authorization_token"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// Headers to send to the MCP server
+    /// </summary>
+    public Dictionary<string, string>? Headers
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("headers", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<Dictionary<string, string>?>(
+                element,
+                ModelBase.SerializerOptions
+            );
+        }
+        init
+        {
+            this._properties["headers"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// Timeout for the MCP server
+    /// </summary>
+    public long? Timeout
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("timeout", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["timeout"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// Dictionary containing configuration settings for MCP tools
+    /// </summary>
+    public Dictionary<string, JsonElement>? ToolConfigurations
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("tool_configurations", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
+                element,
+                ModelBase.SerializerOptions
+            );
+        }
+        init
+        {
+            this._properties["tool_configurations"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// The transport protocol to use for the MCP server
+    /// </summary>
+    public string? Transport
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("transport", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["transport"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// The type of connection, defaults to 'mcp'
+    /// </summary>
+    public string? Type
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("type", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["type"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// The URL endpoint for the MCP server
+    /// </summary>
+    public string? URL
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("url", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["url"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    public override void Validate()
+    {
+        _ = this.AuthorizationToken;
+        _ = this.Headers;
+        _ = this.Timeout;
+        _ = this.ToolConfigurations;
+        _ = this.Transport;
+        _ = this.Type;
+        _ = this.URL;
+    }
+
+    public McpConfig() { }
+
+    public McpConfig(IReadOnlyDictionary<string, JsonElement> properties)
+    {
+        this._properties = [.. properties];
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    McpConfig(FrozenDictionary<string, JsonElement> properties)
+    {
+        this._properties = [.. properties];
+    }
+#pragma warning restore CS8618
+
+    public static McpConfig FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> properties)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(properties));
+    }
+}
+
+/// <summary>
+/// The MCP connections to use for the agent. This is a list of MCP connections. Includes
+/// multiple MCP connections.
+/// </summary>
+[JsonConverter(typeof(ModelConverter<McpConfigs>))]
+public sealed record class McpConfigs : ModelBase, IFromRaw<McpConfigs>
+{
+    /// <summary>
+    /// List of MCP connections
+    /// </summary>
+    public required List<Connection> Connections
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("connections", out JsonElement element))
+                throw new SwarmsClientInvalidDataException(
+                    "'connections' cannot be null",
+                    new ArgumentOutOfRangeException("connections", "Missing required argument")
+                );
+
+            return JsonSerializer.Deserialize<List<Connection>>(
+                    element,
+                    ModelBase.SerializerOptions
+                )
+                ?? throw new SwarmsClientInvalidDataException(
+                    "'connections' cannot be null",
+                    new ArgumentNullException("connections")
+                );
+        }
+        init
+        {
+            this._properties["connections"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    public override void Validate()
+    {
+        foreach (var item in this.Connections)
+        {
+            item.Validate();
+        }
+    }
+
+    public McpConfigs() { }
+
+    public McpConfigs(IReadOnlyDictionary<string, JsonElement> properties)
+    {
+        this._properties = [.. properties];
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    McpConfigs(FrozenDictionary<string, JsonElement> properties)
+    {
+        this._properties = [.. properties];
+    }
+#pragma warning restore CS8618
+
+    public static McpConfigs FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> properties)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(properties));
+    }
+
+    [SetsRequiredMembers]
+    public McpConfigs(List<Connection> connections)
+        : this()
+    {
+        this.Connections = connections;
+    }
+}
+
+[JsonConverter(typeof(ModelConverter<Connection>))]
+public sealed record class Connection : ModelBase, IFromRaw<Connection>
+{
+    /// <summary>
+    /// Authentication token for accessing the MCP server
+    /// </summary>
+    public string? AuthorizationToken
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("authorization_token", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["authorization_token"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// Headers to send to the MCP server
+    /// </summary>
+    public Dictionary<string, string>? Headers
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("headers", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<Dictionary<string, string>?>(
+                element,
+                ModelBase.SerializerOptions
+            );
+        }
+        init
+        {
+            this._properties["headers"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// Timeout for the MCP server
+    /// </summary>
+    public long? Timeout
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("timeout", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["timeout"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// Dictionary containing configuration settings for MCP tools
+    /// </summary>
+    public Dictionary<string, JsonElement>? ToolConfigurations
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("tool_configurations", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
+                element,
+                ModelBase.SerializerOptions
+            );
+        }
+        init
+        {
+            this._properties["tool_configurations"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// The transport protocol to use for the MCP server
+    /// </summary>
+    public string? Transport
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("transport", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["transport"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// The type of connection, defaults to 'mcp'
+    /// </summary>
+    public string? Type
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("type", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["type"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// The URL endpoint for the MCP server
+    /// </summary>
+    public string? URL
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("url", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["url"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    public override void Validate()
+    {
+        _ = this.AuthorizationToken;
+        _ = this.Headers;
+        _ = this.Timeout;
+        _ = this.ToolConfigurations;
+        _ = this.Transport;
+        _ = this.Type;
+        _ = this.URL;
+    }
+
+    public Connection() { }
+
+    public Connection(IReadOnlyDictionary<string, JsonElement> properties)
+    {
+        this._properties = [.. properties];
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Connection(FrozenDictionary<string, JsonElement> properties)
+    {
+        this._properties = [.. properties];
+    }
+#pragma warning restore CS8618
+
+    public static Connection FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> properties)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(properties));
     }
 }

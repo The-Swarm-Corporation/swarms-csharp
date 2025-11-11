@@ -1,9 +1,13 @@
+using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms.Core;
+using Swarms.Exceptions;
 using Swarms.Models.Agent;
-using SwarmSpecProperties = Swarms.Models.Swarms.SwarmSpecProperties;
+using System = System;
 
 namespace Swarms.Models.Swarms;
 
@@ -18,7 +22,7 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("agents", out JsonElement element))
+            if (!this._properties.TryGetValue("agents", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<AgentSpec>?>(
@@ -26,23 +30,34 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
                 ModelBase.SerializerOptions
             );
         }
-        set { this.Properties["agents"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["agents"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
-    /// A comprehensive description of the swarm's objectives, capabilities, and
-    /// intended outcomes.
+    /// A comprehensive description of the swarm's objectives, capabilities, and intended outcomes.
     /// </summary>
     public string? Description
     {
         get
         {
-            if (!this.Properties.TryGetValue("description", out JsonElement element))
+            if (!this._properties.TryGetValue("description", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["description"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["description"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -53,16 +68,20 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
         get
         {
             if (
-                !this.Properties.TryGetValue("heavy_swarm_loops_per_agent", out JsonElement element)
+                !this._properties.TryGetValue(
+                    "heavy_swarm_loops_per_agent",
+                    out JsonElement element
+                )
             )
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.Properties["heavy_swarm_loops_per_agent"] = JsonSerializer.SerializeToElement(
-                value
+            this._properties["heavy_swarm_loops_per_agent"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
             );
         }
     }
@@ -75,7 +94,7 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
         get
         {
             if (
-                !this.Properties.TryGetValue(
+                !this._properties.TryGetValue(
                     "heavy_swarm_question_agent_model_name",
                     out JsonElement element
                 )
@@ -84,10 +103,10 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.Properties["heavy_swarm_question_agent_model_name"] =
-                JsonSerializer.SerializeToElement(value);
+            this._properties["heavy_swarm_question_agent_model_name"] =
+                JsonSerializer.SerializeToElement(value, ModelBase.SerializerOptions);
         }
     }
 
@@ -99,7 +118,7 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
         get
         {
             if (
-                !this.Properties.TryGetValue(
+                !this._properties.TryGetValue(
                     "heavy_swarm_worker_model_name",
                     out JsonElement element
                 )
@@ -108,10 +127,11 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.Properties["heavy_swarm_worker_model_name"] = JsonSerializer.SerializeToElement(
-                value
+            this._properties["heavy_swarm_worker_model_name"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
             );
         }
     }
@@ -123,12 +143,18 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("img", out JsonElement element))
+            if (!this._properties.TryGetValue("img", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["img"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["img"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -139,30 +165,39 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("max_loops", out JsonElement element))
+            if (!this._properties.TryGetValue("max_loops", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["max_loops"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["max_loops"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
     /// A list of messages that the swarm should complete.
     /// </summary>
-    public SwarmSpecProperties::Messages? Messages
+    public MessagesModel? Messages
     {
         get
         {
-            if (!this.Properties.TryGetValue("messages", out JsonElement element))
+            if (!this._properties.TryGetValue("messages", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<SwarmSpecProperties::Messages?>(
-                element,
+            return JsonSerializer.Deserialize<MessagesModel?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["messages"] = JsonSerializer.SerializeToElement(
+                value,
                 ModelBase.SerializerOptions
             );
         }
-        set { this.Properties["messages"] = JsonSerializer.SerializeToElement(value); }
     }
 
     /// <summary>
@@ -173,12 +208,18 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("name", out JsonElement element))
+            if (!this._properties.TryGetValue("name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["name"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["name"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -188,12 +229,18 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("rearrange_flow", out JsonElement element))
+            if (!this._properties.TryGetValue("rearrange_flow", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["rearrange_flow"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["rearrange_flow"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -204,28 +251,40 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("rules", out JsonElement element))
+            if (!this._properties.TryGetValue("rules", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["rules"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["rules"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
-    /// The service tier to use for processing. Options: 'standard' (default) or
-    /// 'flex' for lower cost but slower processing.
+    /// The service tier to use for processing. Options: 'standard' (default) or 'flex'
+    /// for lower cost but slower processing.
     /// </summary>
     public string? ServiceTier
     {
         get
         {
-            if (!this.Properties.TryGetValue("service_tier", out JsonElement element))
+            if (!this._properties.TryGetValue("service_tier", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["service_tier"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["service_tier"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -235,30 +294,42 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("stream", out JsonElement element))
+            if (!this._properties.TryGetValue("stream", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["stream"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["stream"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
     /// The classification of the swarm, indicating its operational style and methodology.
     /// </summary>
-    public SwarmSpecProperties::SwarmType? SwarmType
+    public ApiEnum<string, SwarmTypeModel>? SwarmType
     {
         get
         {
-            if (!this.Properties.TryGetValue("swarm_type", out JsonElement element))
+            if (!this._properties.TryGetValue("swarm_type", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<SwarmSpecProperties::SwarmType?>(
+            return JsonSerializer.Deserialize<ApiEnum<string, SwarmTypeModel>?>(
                 element,
                 ModelBase.SerializerOptions
             );
         }
-        set { this.Properties["swarm_type"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["swarm_type"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -268,12 +339,18 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("task", out JsonElement element))
+            if (!this._properties.TryGetValue("task", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["task"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["task"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -283,12 +360,18 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     {
         get
         {
-            if (!this.Properties.TryGetValue("tasks", out JsonElement element))
+            if (!this._properties.TryGetValue("tasks", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["tasks"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["tasks"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()
@@ -311,24 +394,278 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
         _ = this.Stream;
         this.SwarmType?.Validate();
         _ = this.Task;
-        foreach (var item in this.Tasks ?? [])
-        {
-            _ = item;
-        }
+        _ = this.Tasks;
     }
 
     public SwarmSpec() { }
 
+    public SwarmSpec(IReadOnlyDictionary<string, JsonElement> properties)
+    {
+        this._properties = [.. properties];
+    }
+
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    SwarmSpec(Dictionary<string, JsonElement> properties)
+    SwarmSpec(FrozenDictionary<string, JsonElement> properties)
     {
-        Properties = properties;
+        this._properties = [.. properties];
     }
 #pragma warning restore CS8618
 
-    public static SwarmSpec FromRawUnchecked(Dictionary<string, JsonElement> properties)
+    public static SwarmSpec FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> properties)
     {
-        return new(properties);
+        return new(FrozenDictionary.ToFrozenDictionary(properties));
+    }
+}
+
+/// <summary>
+/// A list of messages that the swarm should complete.
+/// </summary>
+[JsonConverter(typeof(MessagesModelConverter))]
+public record class MessagesModel
+{
+    public object Value { get; private init; }
+
+    public MessagesModel(IReadOnlyList<Dictionary<string, JsonElement>> value)
+    {
+        Value = ImmutableArray.ToImmutableArray(value);
+    }
+
+    public MessagesModel(IReadOnlyDictionary<string, JsonElement> value)
+    {
+        Value = FrozenDictionary.ToFrozenDictionary(value);
+    }
+
+    MessagesModel(UnknownVariant value)
+    {
+        Value = value;
+    }
+
+    public static MessagesModel CreateUnknownVariant(JsonElement value)
+    {
+        return new(new UnknownVariant(value));
+    }
+
+    public bool TryPickJsonElements(
+        [NotNullWhen(true)] out IReadOnlyList<Dictionary<string, JsonElement>>? value
+    )
+    {
+        value = this.Value as IReadOnlyList<Dictionary<string, JsonElement>>;
+        return value != null;
+    }
+
+    public bool TryPickJsonElements1(
+        [NotNullWhen(true)] out IReadOnlyDictionary<string, JsonElement>? value
+    )
+    {
+        value = this.Value as IReadOnlyDictionary<string, JsonElement>;
+        return value != null;
+    }
+
+    public void Switch(
+        System::Action<IReadOnlyList<Dictionary<string, JsonElement>>> jsonElements,
+        System::Action<IReadOnlyDictionary<string, JsonElement>> jsonElements1
+    )
+    {
+        switch (this.Value)
+        {
+            case List<Dictionary<string, JsonElement>> value:
+                jsonElements(value);
+                break;
+            case Dictionary<string, JsonElement> value:
+                jsonElements1(value);
+                break;
+            default:
+                throw new SwarmsClientInvalidDataException(
+                    "Data did not match any variant of MessagesModel"
+                );
+        }
+    }
+
+    public T Match<T>(
+        System::Func<IReadOnlyList<Dictionary<string, JsonElement>>, T> jsonElements,
+        System::Func<IReadOnlyDictionary<string, JsonElement>, T> jsonElements1
+    )
+    {
+        return this.Value switch
+        {
+            IReadOnlyList<Dictionary<string, JsonElement>> value => jsonElements(value),
+            IReadOnlyDictionary<string, JsonElement> value => jsonElements1(value),
+            _ => throw new SwarmsClientInvalidDataException(
+                "Data did not match any variant of MessagesModel"
+            ),
+        };
+    }
+
+    public static implicit operator MessagesModel(List<Dictionary<string, JsonElement>> value) =>
+        new((IReadOnlyList<Dictionary<string, JsonElement>>)value);
+
+    public static implicit operator MessagesModel(Dictionary<string, JsonElement> value) =>
+        new((IReadOnlyDictionary<string, JsonElement>)value);
+
+    public void Validate()
+    {
+        if (this.Value is UnknownVariant)
+        {
+            throw new SwarmsClientInvalidDataException(
+                "Data did not match any variant of MessagesModel"
+            );
+        }
+    }
+
+    record struct UnknownVariant(JsonElement value);
+}
+
+sealed class MessagesModelConverter : JsonConverter<MessagesModel?>
+{
+    public override MessagesModel? Read(
+        ref Utf8JsonReader reader,
+        System::Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        List<SwarmsClientInvalidDataException> exceptions = [];
+
+        try
+        {
+            var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
+                ref reader,
+                options
+            );
+            if (deserialized != null)
+            {
+                return new MessagesModel(deserialized);
+            }
+        }
+        catch (System::Exception e)
+            when (e is JsonException || e is SwarmsClientInvalidDataException)
+        {
+            exceptions.Add(
+                new SwarmsClientInvalidDataException(
+                    "Data does not match union variant 'List<Dictionary<string, JsonElement>>'",
+                    e
+                )
+            );
+        }
+
+        try
+        {
+            var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
+                ref reader,
+                options
+            );
+            if (deserialized != null)
+            {
+                return new MessagesModel(deserialized);
+            }
+        }
+        catch (System::Exception e)
+            when (e is JsonException || e is SwarmsClientInvalidDataException)
+        {
+            exceptions.Add(
+                new SwarmsClientInvalidDataException(
+                    "Data does not match union variant 'Dictionary<string, JsonElement>'",
+                    e
+                )
+            );
+        }
+
+        throw new System::AggregateException(exceptions);
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        MessagesModel? value,
+        JsonSerializerOptions options
+    )
+    {
+        object? variant = value?.Value;
+        JsonSerializer.Serialize(writer, variant, options);
+    }
+}
+
+/// <summary>
+/// The classification of the swarm, indicating its operational style and methodology.
+/// </summary>
+[JsonConverter(typeof(SwarmTypeModelConverter))]
+public enum SwarmTypeModel
+{
+    AgentRearrange,
+    MixtureOfAgents,
+    SequentialWorkflow,
+    ConcurrentWorkflow,
+    GroupChat,
+    MultiAgentRouter,
+    AutoSwarmBuilder,
+    HiearchicalSwarm,
+    Auto,
+    MajorityVoting,
+    Malt,
+    DeepResearchSwarm,
+    CouncilAsAJudge,
+    InteractiveGroupChat,
+    HeavySwarm,
+}
+
+sealed class SwarmTypeModelConverter : JsonConverter<SwarmTypeModel>
+{
+    public override SwarmTypeModel Read(
+        ref Utf8JsonReader reader,
+        System::Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "AgentRearrange" => SwarmTypeModel.AgentRearrange,
+            "MixtureOfAgents" => SwarmTypeModel.MixtureOfAgents,
+            "SequentialWorkflow" => SwarmTypeModel.SequentialWorkflow,
+            "ConcurrentWorkflow" => SwarmTypeModel.ConcurrentWorkflow,
+            "GroupChat" => SwarmTypeModel.GroupChat,
+            "MultiAgentRouter" => SwarmTypeModel.MultiAgentRouter,
+            "AutoSwarmBuilder" => SwarmTypeModel.AutoSwarmBuilder,
+            "HiearchicalSwarm" => SwarmTypeModel.HiearchicalSwarm,
+            "auto" => SwarmTypeModel.Auto,
+            "MajorityVoting" => SwarmTypeModel.MajorityVoting,
+            "MALT" => SwarmTypeModel.Malt,
+            "DeepResearchSwarm" => SwarmTypeModel.DeepResearchSwarm,
+            "CouncilAsAJudge" => SwarmTypeModel.CouncilAsAJudge,
+            "InteractiveGroupChat" => SwarmTypeModel.InteractiveGroupChat,
+            "HeavySwarm" => SwarmTypeModel.HeavySwarm,
+            _ => (SwarmTypeModel)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        SwarmTypeModel value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                SwarmTypeModel.AgentRearrange => "AgentRearrange",
+                SwarmTypeModel.MixtureOfAgents => "MixtureOfAgents",
+                SwarmTypeModel.SequentialWorkflow => "SequentialWorkflow",
+                SwarmTypeModel.ConcurrentWorkflow => "ConcurrentWorkflow",
+                SwarmTypeModel.GroupChat => "GroupChat",
+                SwarmTypeModel.MultiAgentRouter => "MultiAgentRouter",
+                SwarmTypeModel.AutoSwarmBuilder => "AutoSwarmBuilder",
+                SwarmTypeModel.HiearchicalSwarm => "HiearchicalSwarm",
+                SwarmTypeModel.Auto => "auto",
+                SwarmTypeModel.MajorityVoting => "MajorityVoting",
+                SwarmTypeModel.Malt => "MALT",
+                SwarmTypeModel.DeepResearchSwarm => "DeepResearchSwarm",
+                SwarmTypeModel.CouncilAsAJudge => "CouncilAsAJudge",
+                SwarmTypeModel.InteractiveGroupChat => "InteractiveGroupChat",
+                SwarmTypeModel.HeavySwarm => "HeavySwarm",
+                _ => throw new SwarmsClientInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
     }
 }

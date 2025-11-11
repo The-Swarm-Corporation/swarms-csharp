@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using Swarms.Core;
+using Swarms.Exceptions;
 
 namespace Swarms.Models.Agent.Batch;
 
@@ -11,34 +15,91 @@ namespace Swarms.Models.Agent.Batch;
 /// </summary>
 public sealed record class BatchRunParams : ParamsBase
 {
-    public Dictionary<string, JsonElement> BodyProperties { get; set; } = [];
+    readonly FreezableDictionary<string, JsonElement> _bodyProperties = [];
+    public IReadOnlyDictionary<string, JsonElement> BodyProperties
+    {
+        get { return this._bodyProperties.Freeze(); }
+    }
 
     public required List<AgentCompletion> Body
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("body", out JsonElement element))
-                throw new ArgumentOutOfRangeException("body", "Missing required argument");
+            if (!this._bodyProperties.TryGetValue("body", out JsonElement element))
+                throw new SwarmsClientInvalidDataException(
+                    "'body' cannot be null",
+                    new ArgumentOutOfRangeException("body", "Missing required argument")
+                );
 
             return JsonSerializer.Deserialize<List<AgentCompletion>>(
                     element,
                     ModelBase.SerializerOptions
-                ) ?? throw new ArgumentNullException("body");
+                )
+                ?? throw new SwarmsClientInvalidDataException(
+                    "'body' cannot be null",
+                    new ArgumentNullException("body")
+                );
         }
-        set { this.BodyProperties["body"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._bodyProperties["body"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
-    public override Uri Url(ISwarmsClientClient client)
+    public BatchRunParams() { }
+
+    public BatchRunParams(
+        IReadOnlyDictionary<string, JsonElement> headerProperties,
+        IReadOnlyDictionary<string, JsonElement> queryProperties,
+        IReadOnlyDictionary<string, JsonElement> bodyProperties
+    )
+    {
+        this._headerProperties = [.. headerProperties];
+        this._queryProperties = [.. queryProperties];
+        this._bodyProperties = [.. bodyProperties];
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    BatchRunParams(
+        FrozenDictionary<string, JsonElement> headerProperties,
+        FrozenDictionary<string, JsonElement> queryProperties,
+        FrozenDictionary<string, JsonElement> bodyProperties
+    )
+    {
+        this._headerProperties = [.. headerProperties];
+        this._queryProperties = [.. queryProperties];
+        this._bodyProperties = [.. bodyProperties];
+    }
+#pragma warning restore CS8618
+
+    public static BatchRunParams FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> headerProperties,
+        IReadOnlyDictionary<string, JsonElement> queryProperties,
+        IReadOnlyDictionary<string, JsonElement> bodyProperties
+    )
+    {
+        return new(
+            FrozenDictionary.ToFrozenDictionary(headerProperties),
+            FrozenDictionary.ToFrozenDictionary(queryProperties),
+            FrozenDictionary.ToFrozenDictionary(bodyProperties)
+        );
+    }
+
+    public override Uri Url(ClientOptions options)
     {
         return new UriBuilder(
-            client.BaseUrl.ToString().TrimEnd('/') + "/v1/agent/batch/completions"
+            options.BaseUrl.ToString().TrimEnd('/') + "/v1/agent/batch/completions"
         )
         {
-            Query = this.QueryString(client),
+            Query = this.QueryString(options),
         }.Uri;
     }
 
-    public StringContent BodyContent()
+    internal override StringContent? BodyContent()
     {
         return new(
             JsonSerializer.Serialize(this.BodyProperties),
@@ -47,9 +108,9 @@ public sealed record class BatchRunParams : ParamsBase
         );
     }
 
-    public void AddHeadersToRequest(HttpRequestMessage request, ISwarmsClientClient client)
+    internal override void AddHeadersToRequest(HttpRequestMessage request, ClientOptions options)
     {
-        ParamsBase.AddDefaultHeaders(request, client);
+        ParamsBase.AddDefaultHeaders(request, options);
         foreach (var item in this.HeaderProperties)
         {
             ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);

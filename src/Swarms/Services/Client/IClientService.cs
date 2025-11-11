@@ -1,8 +1,12 @@
-using Rate = Swarms.Services.Client.Rate;
+using System;
+using Swarms.Core;
+using Swarms.Services.Client.Rate;
 
 namespace Swarms.Services.Client;
 
 public interface IClientService
 {
-    Rate::IRateService Rate { get; }
+    IClientService WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
+    IRateService Rate { get; }
 }

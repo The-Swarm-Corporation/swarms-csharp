@@ -1,7 +1,9 @@
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms.Core;
 
 namespace Swarms.Models.Agent;
 
@@ -9,33 +11,45 @@ namespace Swarms.Models.Agent;
 public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunResponse>
 {
     /// <summary>
-    /// The unique identifier for the agent completion.
-    /// </summary>
-    public string? ID
-    {
-        get
-        {
-            if (!this.Properties.TryGetValue("id", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        set { this.Properties["id"] = JsonSerializer.SerializeToElement(value); }
-    }
-
-    /// <summary>
     /// A description of the agent or completion.
     /// </summary>
     public string? Description
     {
         get
         {
-            if (!this.Properties.TryGetValue("description", out JsonElement element))
+            if (!this._properties.TryGetValue("description", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["description"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["description"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    /// <summary>
+    /// The unique identifier for the agent completion.
+    /// </summary>
+    public string? JobID
+    {
+        get
+        {
+            if (!this._properties.TryGetValue("job_id", out JsonElement element))
+                return null;
+
+            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+        }
+        init
+        {
+            this._properties["job_id"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -45,12 +59,18 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
     {
         get
         {
-            if (!this.Properties.TryGetValue("name", out JsonElement element))
+            if (!this._properties.TryGetValue("name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["name"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["name"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -60,12 +80,23 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
     {
         get
         {
-            if (!this.Properties.TryGetValue("outputs", out JsonElement element))
+            if (!this._properties.TryGetValue("outputs", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["outputs"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._properties["outputs"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -75,12 +106,18 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
     {
         get
         {
-            if (!this.Properties.TryGetValue("success", out JsonElement element))
+            if (!this._properties.TryGetValue("success", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["success"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["success"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -90,12 +127,18 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
     {
         get
         {
-            if (!this.Properties.TryGetValue("temperature", out JsonElement element))
+            if (!this._properties.TryGetValue("temperature", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["temperature"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["temperature"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -105,12 +148,18 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
     {
         get
         {
-            if (!this.Properties.TryGetValue("timestamp", out JsonElement element))
+            if (!this._properties.TryGetValue("timestamp", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["timestamp"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["timestamp"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -120,7 +169,7 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
     {
         get
         {
-            if (!this.Properties.TryGetValue("usage", out JsonElement element))
+            if (!this._properties.TryGetValue("usage", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
@@ -128,39 +177,46 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
                 ModelBase.SerializerOptions
             );
         }
-        set { this.Properties["usage"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["usage"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()
     {
-        _ = this.ID;
         _ = this.Description;
+        _ = this.JobID;
         _ = this.Name;
         _ = this.Outputs;
         _ = this.Success;
         _ = this.Temperature;
         _ = this.Timestamp;
-        if (this.Usage != null)
-        {
-            foreach (var item in this.Usage.Values)
-            {
-                _ = item;
-            }
-        }
+        _ = this.Usage;
     }
 
     public AgentRunResponse() { }
 
+    public AgentRunResponse(IReadOnlyDictionary<string, JsonElement> properties)
+    {
+        this._properties = [.. properties];
+    }
+
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    AgentRunResponse(Dictionary<string, JsonElement> properties)
+    AgentRunResponse(FrozenDictionary<string, JsonElement> properties)
     {
-        Properties = properties;
+        this._properties = [.. properties];
     }
 #pragma warning restore CS8618
 
-    public static AgentRunResponse FromRawUnchecked(Dictionary<string, JsonElement> properties)
+    public static AgentRunResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> properties
+    )
     {
-        return new(properties);
+        return new(FrozenDictionary.ToFrozenDictionary(properties));
     }
 }

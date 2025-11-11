@@ -1,9 +1,13 @@
-using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using ReasoningAgentCreateCompletionParamsProperties = Swarms.Models.ReasoningAgents.ReasoningAgentCreateCompletionParamsProperties;
+using System.Text.Json.Serialization;
+using Swarms.Core;
+using Swarms.Exceptions;
+using System = System;
 
 namespace Swarms.Models.ReasoningAgents;
 
@@ -12,7 +16,11 @@ namespace Swarms.Models.ReasoningAgents;
 /// </summary>
 public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
 {
-    public Dictionary<string, JsonElement> BodyProperties { get; set; } = [];
+    readonly FreezableDictionary<string, JsonElement> _bodyProperties = [];
+    public IReadOnlyDictionary<string, JsonElement> BodyProperties
+    {
+        get { return this._bodyProperties.Freeze(); }
+    }
 
     /// <summary>
     /// The unique name assigned to the reasoning agent.
@@ -21,12 +29,18 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("agent_name", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("agent_name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.BodyProperties["agent_name"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._bodyProperties["agent_name"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -36,12 +50,18 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("description", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("description", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.BodyProperties["description"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._bodyProperties["description"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -51,12 +71,18 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("max_loops", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("max_loops", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set { this.BodyProperties["max_loops"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._bodyProperties["max_loops"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -66,12 +92,18 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("memory_capacity", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("memory_capacity", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set { this.BodyProperties["memory_capacity"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._bodyProperties["memory_capacity"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -81,12 +113,18 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("model_name", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("model_name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.BodyProperties["model_name"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._bodyProperties["model_name"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -96,14 +134,17 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("num_knowledge_items", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("num_knowledge_items", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set
+        init
         {
-            this.BodyProperties["num_knowledge_items"] = JsonSerializer.SerializeToElement(value);
+            this._bodyProperties["num_knowledge_items"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
         }
     }
 
@@ -114,48 +155,66 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("num_samples", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("num_samples", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
-        set { this.BodyProperties["num_samples"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._bodyProperties["num_samples"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
     /// The type of output format for the reasoning agent.
     /// </summary>
-    public ReasoningAgentCreateCompletionParamsProperties::OutputType? OutputType
+    public ApiEnum<string, OutputType>? OutputType
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("output_type", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("output_type", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<ReasoningAgentCreateCompletionParamsProperties::OutputType?>(
+            return JsonSerializer.Deserialize<ApiEnum<string, OutputType>?>(
                 element,
                 ModelBase.SerializerOptions
             );
         }
-        set { this.BodyProperties["output_type"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._bodyProperties["output_type"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
     /// The type of reasoning swarm to use (e.g., reasoning duo, self-consistency, IRE).
     /// </summary>
-    public ReasoningAgentCreateCompletionParamsProperties::SwarmType? SwarmType
+    public ApiEnum<string, SwarmType>? SwarmType
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("swarm_type", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("swarm_type", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<ReasoningAgentCreateCompletionParamsProperties::SwarmType?>(
+            return JsonSerializer.Deserialize<ApiEnum<string, SwarmType>?>(
                 element,
                 ModelBase.SerializerOptions
             );
         }
-        set { this.BodyProperties["swarm_type"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._bodyProperties["swarm_type"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -165,12 +224,18 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("system_prompt", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("system_prompt", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.BodyProperties["system_prompt"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._bodyProperties["system_prompt"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     /// <summary>
@@ -180,25 +245,71 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this.BodyProperties.TryGetValue("task", out JsonElement element))
+            if (!this._bodyProperties.TryGetValue("task", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.BodyProperties["task"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._bodyProperties["task"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
-    public override Uri Url(ISwarmsClientClient client)
+    public ReasoningAgentCreateCompletionParams() { }
+
+    public ReasoningAgentCreateCompletionParams(
+        IReadOnlyDictionary<string, JsonElement> headerProperties,
+        IReadOnlyDictionary<string, JsonElement> queryProperties,
+        IReadOnlyDictionary<string, JsonElement> bodyProperties
+    )
     {
-        return new UriBuilder(
-            client.BaseUrl.ToString().TrimEnd('/') + "/v1/reasoning-agent/completions"
+        this._headerProperties = [.. headerProperties];
+        this._queryProperties = [.. queryProperties];
+        this._bodyProperties = [.. bodyProperties];
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    ReasoningAgentCreateCompletionParams(
+        FrozenDictionary<string, JsonElement> headerProperties,
+        FrozenDictionary<string, JsonElement> queryProperties,
+        FrozenDictionary<string, JsonElement> bodyProperties
+    )
+    {
+        this._headerProperties = [.. headerProperties];
+        this._queryProperties = [.. queryProperties];
+        this._bodyProperties = [.. bodyProperties];
+    }
+#pragma warning restore CS8618
+
+    public static ReasoningAgentCreateCompletionParams FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> headerProperties,
+        IReadOnlyDictionary<string, JsonElement> queryProperties,
+        IReadOnlyDictionary<string, JsonElement> bodyProperties
+    )
+    {
+        return new(
+            FrozenDictionary.ToFrozenDictionary(headerProperties),
+            FrozenDictionary.ToFrozenDictionary(queryProperties),
+            FrozenDictionary.ToFrozenDictionary(bodyProperties)
+        );
+    }
+
+    public override System::Uri Url(ClientOptions options)
+    {
+        return new System::UriBuilder(
+            options.BaseUrl.ToString().TrimEnd('/') + "/v1/reasoning-agent/completions"
         )
         {
-            Query = this.QueryString(client),
+            Query = this.QueryString(options),
         }.Uri;
     }
 
-    public StringContent BodyContent()
+    internal override StringContent? BodyContent()
     {
         return new(
             JsonSerializer.Serialize(this.BodyProperties),
@@ -207,12 +318,169 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
         );
     }
 
-    public void AddHeadersToRequest(HttpRequestMessage request, ISwarmsClientClient client)
+    internal override void AddHeadersToRequest(HttpRequestMessage request, ClientOptions options)
     {
-        ParamsBase.AddDefaultHeaders(request, client);
+        ParamsBase.AddDefaultHeaders(request, options);
         foreach (var item in this.HeaderProperties)
         {
             ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
         }
+    }
+}
+
+/// <summary>
+/// The type of output format for the reasoning agent.
+/// </summary>
+[JsonConverter(typeof(OutputTypeConverter))]
+public enum OutputType
+{
+    List,
+    Dict,
+    Dictionary,
+    String,
+    Str,
+    Final,
+    Last,
+    Json,
+    All,
+    Yaml,
+    Xml,
+    DictAllExceptFirst,
+    StrAllExceptFirst,
+    Basemodel,
+    DictFinal,
+    ListFinal,
+}
+
+sealed class OutputTypeConverter : JsonConverter<OutputType>
+{
+    public override OutputType Read(
+        ref Utf8JsonReader reader,
+        System::Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "list" => OutputType.List,
+            "dict" => OutputType.Dict,
+            "dictionary" => OutputType.Dictionary,
+            "string" => OutputType.String,
+            "str" => OutputType.Str,
+            "final" => OutputType.Final,
+            "last" => OutputType.Last,
+            "json" => OutputType.Json,
+            "all" => OutputType.All,
+            "yaml" => OutputType.Yaml,
+            "xml" => OutputType.Xml,
+            "dict-all-except-first" => OutputType.DictAllExceptFirst,
+            "str-all-except-first" => OutputType.StrAllExceptFirst,
+            "basemodel" => OutputType.Basemodel,
+            "dict-final" => OutputType.DictFinal,
+            "list-final" => OutputType.ListFinal,
+            _ => (OutputType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                OutputType.List => "list",
+                OutputType.Dict => "dict",
+                OutputType.Dictionary => "dictionary",
+                OutputType.String => "string",
+                OutputType.Str => "str",
+                OutputType.Final => "final",
+                OutputType.Last => "last",
+                OutputType.Json => "json",
+                OutputType.All => "all",
+                OutputType.Yaml => "yaml",
+                OutputType.Xml => "xml",
+                OutputType.DictAllExceptFirst => "dict-all-except-first",
+                OutputType.StrAllExceptFirst => "str-all-except-first",
+                OutputType.Basemodel => "basemodel",
+                OutputType.DictFinal => "dict-final",
+                OutputType.ListFinal => "list-final",
+                _ => throw new SwarmsClientInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// The type of reasoning swarm to use (e.g., reasoning duo, self-consistency, IRE).
+/// </summary>
+[JsonConverter(typeof(SwarmTypeConverter))]
+public enum SwarmType
+{
+    ReasoningDuo,
+    SelfConsistency,
+    Ire,
+    ReasoningAgent,
+    ConsistencyAgent,
+    IreAgent,
+    ReflexionAgent,
+    GkpAgent,
+    AgentJudge,
+}
+
+sealed class SwarmTypeConverter : JsonConverter<SwarmType>
+{
+    public override SwarmType Read(
+        ref Utf8JsonReader reader,
+        System::Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "reasoning-duo" => SwarmType.ReasoningDuo,
+            "self-consistency" => SwarmType.SelfConsistency,
+            "ire" => SwarmType.Ire,
+            "reasoning-agent" => SwarmType.ReasoningAgent,
+            "consistency-agent" => SwarmType.ConsistencyAgent,
+            "ire-agent" => SwarmType.IreAgent,
+            "ReflexionAgent" => SwarmType.ReflexionAgent,
+            "GKPAgent" => SwarmType.GkpAgent,
+            "AgentJudge" => SwarmType.AgentJudge,
+            _ => (SwarmType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        SwarmType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                SwarmType.ReasoningDuo => "reasoning-duo",
+                SwarmType.SelfConsistency => "self-consistency",
+                SwarmType.Ire => "ire",
+                SwarmType.ReasoningAgent => "reasoning-agent",
+                SwarmType.ConsistencyAgent => "consistency-agent",
+                SwarmType.IreAgent => "ire-agent",
+                SwarmType.ReflexionAgent => "ReflexionAgent",
+                SwarmType.GkpAgent => "GKPAgent",
+                SwarmType.AgentJudge => "AgentJudge",
+                _ => throw new SwarmsClientInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
     }
 }

@@ -1,13 +1,19 @@
 using System;
 using System.Net.Http;
-using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
+using Swarms.Core;
 using Swarms.Models.Models;
 
 namespace Swarms.Services.Models;
 
 public sealed class ModelService : IModelService
 {
+    public IModelService WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new ModelService(this._client.WithOptions(modifier));
+    }
+
     readonly ISwarmsClientClient _client;
 
     public ModelService(ISwarmsClientClient client)
@@ -15,23 +21,28 @@ public sealed class ModelService : IModelService
         _client = client;
     }
 
-    public async Task<ModelListAvailableResponse> ListAvailable(ModelListAvailableParams parameters)
+    public async Task<ModelListAvailableResponse> ListAvailable(
+        ModelListAvailableParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Get, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
-            .ConfigureAwait(false);
-        if (!response.IsSuccessStatusCode)
+        parameters ??= new();
+
+        HttpRequest<ModelListAvailableParams> request = new()
         {
-            throw new HttpException(
-                response.StatusCode,
-                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
-            );
+            Method = HttpMethod.Get,
+            Params = parameters,
+        };
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
+        var deserializedResponse = await response
+            .Deserialize<ModelListAvailableResponse>(cancellationToken)
+            .ConfigureAwait(false);
+        if (this._client.ResponseValidation)
+        {
+            deserializedResponse.Validate();
         }
-        return JsonSerializer.Deserialize<ModelListAvailableResponse>(
-                await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
-            ) ?? throw new NullReferenceException();
+        return deserializedResponse;
     }
 }

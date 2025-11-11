@@ -1,15 +1,23 @@
+using System;
+using System.Threading;
 using System.Threading.Tasks;
+using Swarms.Core;
 using Swarms.Models.Agent;
-using Batch = Swarms.Services.Agent.Batch;
+using Swarms.Services.Agent.Batch;
 
 namespace Swarms.Services.Agent;
 
 public interface IAgentService
 {
-    Batch::IBatchService Batch { get; }
+    IAgentService WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
+    IBatchService Batch { get; }
 
     /// <summary>
-    /// Run an agent with the specified task.
+    /// Run an agent with the specified task. Supports streaming when stream=True.
     /// </summary>
-    Task<AgentRunResponse> Run(AgentRunParams parameters);
+    Task<AgentRunResponse> Run(
+        AgentRunParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
 }

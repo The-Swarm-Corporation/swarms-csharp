@@ -1,7 +1,9 @@
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms.Core;
 
 namespace Swarms.Models.Models;
 
@@ -14,24 +16,41 @@ public sealed record class ModelListAvailableResponse
     {
         get
         {
-            if (!this.Properties.TryGetValue("models", out JsonElement element))
+            if (!this._properties.TryGetValue("models", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["models"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._properties["models"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public bool? Success
     {
         get
         {
-            if (!this.Properties.TryGetValue("success", out JsonElement element))
+            if (!this._properties.TryGetValue("success", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["success"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            this._properties["success"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()
@@ -42,18 +61,23 @@ public sealed record class ModelListAvailableResponse
 
     public ModelListAvailableResponse() { }
 
+    public ModelListAvailableResponse(IReadOnlyDictionary<string, JsonElement> properties)
+    {
+        this._properties = [.. properties];
+    }
+
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    ModelListAvailableResponse(Dictionary<string, JsonElement> properties)
+    ModelListAvailableResponse(FrozenDictionary<string, JsonElement> properties)
     {
-        Properties = properties;
+        this._properties = [.. properties];
     }
 #pragma warning restore CS8618
 
     public static ModelListAvailableResponse FromRawUnchecked(
-        Dictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> properties
     )
     {
-        return new(properties);
+        return new(FrozenDictionary.ToFrozenDictionary(properties));
     }
 }

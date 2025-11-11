@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Swarms.Models.Swarms.SwarmSpecProperties;
+using Swarms.Models.Swarms;
 
 namespace Swarms.Tests.Services.Swarms.Batch;
 
 public class BatchServiceTest : TestBase
 {
-    [Fact]
+    [Fact(Skip = "Prism tests are disabled")]
     public async Task Run_Works()
     {
-        var response = await this.client.Swarms.Batch.Run(
+        await this.client.Swarms.Batch.Run(
             new()
             {
                 Body =
@@ -25,21 +25,67 @@ public class BatchServiceTest : TestBase
                                 AutoGeneratePrompt = true,
                                 Description = "description",
                                 DynamicTemperatureEnabled = true,
-                                LlmArgs = new()
+                                LlmArgs = new Dictionary<string, JsonElement>()
                                 {
                                     { "foo", JsonSerializer.SerializeToElement("bar") },
                                 },
                                 MaxLoops = 0,
                                 MaxTokens = 0,
+                                McpConfig = new()
+                                {
+                                    AuthorizationToken = "authorization_token",
+                                    Headers = new Dictionary<string, string>()
+                                    {
+                                        { "foo", "string" },
+                                    },
+                                    Timeout = 0,
+                                    ToolConfigurations = new Dictionary<string, JsonElement>()
+                                    {
+                                        { "foo", JsonSerializer.SerializeToElement("bar") },
+                                    },
+                                    Transport = "transport",
+                                    Type = "type",
+                                    URL = "url",
+                                },
+                                McpConfigs = new(
+                                    [
+                                        new()
+                                        {
+                                            AuthorizationToken = "authorization_token",
+                                            Headers = new Dictionary<string, string>()
+                                            {
+                                                { "foo", "string" },
+                                            },
+                                            Timeout = 0,
+                                            ToolConfigurations = new Dictionary<
+                                                string,
+                                                JsonElement
+                                            >()
+                                            {
+                                                { "foo", JsonSerializer.SerializeToElement("bar") },
+                                            },
+                                            Transport = "transport",
+                                            Type = "type",
+                                            URL = "url",
+                                        },
+                                    ]
+                                ),
                                 McpURL = "mcp_url",
                                 ModelName = "model_name",
+                                ReasoningEffort = "reasoning_effort",
+                                ReasoningEnabled = true,
                                 Role = "role",
                                 StreamingOn = true,
                                 SystemPrompt = "system_prompt",
                                 Temperature = 0,
+                                ThinkingTokens = 0,
+                                ToolCallSummary = true,
                                 ToolsListDictionary =
                                 [
-                                    new() { { "foo", JsonSerializer.SerializeToElement("bar") } },
+                                    new Dictionary<string, JsonElement>()
+                                    {
+                                        { "foo", JsonSerializer.SerializeToElement("bar") },
+                                    },
                                 ],
                             },
                         ],
@@ -49,28 +95,25 @@ public class BatchServiceTest : TestBase
                         HeavySwarmWorkerModelName = "heavy_swarm_worker_model_name",
                         Img = "img",
                         MaxLoops = 0,
-                        Messages = new List<Dictionary<string, JsonElement>>()
-                        {
-                            new() { { "foo", JsonSerializer.SerializeToElement("bar") } },
-                        },
+                        Messages = new(
+                            [
+                                new Dictionary<string, JsonElement>()
+                                {
+                                    { "foo", JsonSerializer.SerializeToElement("bar") },
+                                },
+                            ]
+                        ),
                         Name = "name",
                         RearrangeFlow = "rearrange_flow",
                         Rules = "rules",
                         ServiceTier = "service_tier",
                         Stream = true,
-                        SwarmType = SwarmType.AgentRearrange,
+                        SwarmType = SwarmTypeModel.AgentRearrange,
                         Task = "task",
                         Tasks = ["string"],
                     },
                 ],
             }
         );
-        foreach (var item in response)
-        {
-            foreach (var item1 in item.Values)
-            {
-                _ = item1;
-            }
-        }
     }
 }

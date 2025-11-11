@@ -6,7 +6,7 @@ namespace Swarms.Tests.Services.Agent.Batch;
 
 public class BatchServiceTest : TestBase
 {
-    [Fact]
+    [Fact(Skip = "Prism tests are disabled")]
     public async Task Run_Works()
     {
         var response = await this.client.Agent.Batch.Run(
@@ -22,28 +22,73 @@ public class BatchServiceTest : TestBase
                             AutoGeneratePrompt = true,
                             Description = "description",
                             DynamicTemperatureEnabled = true,
-                            LlmArgs = new() { { "foo", JsonSerializer.SerializeToElement("bar") } },
+                            LlmArgs = new Dictionary<string, JsonElement>()
+                            {
+                                { "foo", JsonSerializer.SerializeToElement("bar") },
+                            },
                             MaxLoops = 0,
                             MaxTokens = 0,
+                            McpConfig = new()
+                            {
+                                AuthorizationToken = "authorization_token",
+                                Headers = new Dictionary<string, string>() { { "foo", "string" } },
+                                Timeout = 0,
+                                ToolConfigurations = new Dictionary<string, JsonElement>()
+                                {
+                                    { "foo", JsonSerializer.SerializeToElement("bar") },
+                                },
+                                Transport = "transport",
+                                Type = "type",
+                                URL = "url",
+                            },
+                            McpConfigs = new(
+                                [
+                                    new()
+                                    {
+                                        AuthorizationToken = "authorization_token",
+                                        Headers = new Dictionary<string, string>()
+                                        {
+                                            { "foo", "string" },
+                                        },
+                                        Timeout = 0,
+                                        ToolConfigurations = new Dictionary<string, JsonElement>()
+                                        {
+                                            { "foo", JsonSerializer.SerializeToElement("bar") },
+                                        },
+                                        Transport = "transport",
+                                        Type = "type",
+                                        URL = "url",
+                                    },
+                                ]
+                            ),
                             McpURL = "mcp_url",
                             ModelName = "model_name",
+                            ReasoningEffort = "reasoning_effort",
+                            ReasoningEnabled = true,
                             Role = "role",
                             StreamingOn = true,
                             SystemPrompt = "system_prompt",
                             Temperature = 0,
+                            ThinkingTokens = 0,
+                            ToolCallSummary = true,
                             ToolsListDictionary =
                             [
-                                new() { { "foo", JsonSerializer.SerializeToElement("bar") } },
+                                new Dictionary<string, JsonElement>()
+                                {
+                                    { "foo", JsonSerializer.SerializeToElement("bar") },
+                                },
                             ],
                         },
-                        History = new Dictionary<string, JsonElement>()
-                        {
-                            { "foo", JsonSerializer.SerializeToElement("bar") },
-                        },
+                        History = new(
+                            new Dictionary<string, JsonElement>()
+                            {
+                                { "foo", JsonSerializer.SerializeToElement("bar") },
+                            }
+                        ),
                         Img = "img",
                         Imgs = ["string"],
-                        Stream = true,
                         Task = "task",
+                        ToolsEnabled = ["string"],
                     },
                 ],
             }

@@ -1,7 +1,9 @@
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Swarms.Core;
 
 namespace Swarms.Models.Health;
 
@@ -12,12 +14,23 @@ public sealed record class HealthCheckResponse : ModelBase, IFromRaw<HealthCheck
     {
         get
         {
-            if (!this.Properties.TryGetValue("status", out JsonElement element))
+            if (!this._properties.TryGetValue("status", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
-        set { this.Properties["status"] = JsonSerializer.SerializeToElement(value); }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._properties["status"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public override void Validate()
@@ -27,16 +40,23 @@ public sealed record class HealthCheckResponse : ModelBase, IFromRaw<HealthCheck
 
     public HealthCheckResponse() { }
 
+    public HealthCheckResponse(IReadOnlyDictionary<string, JsonElement> properties)
+    {
+        this._properties = [.. properties];
+    }
+
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    HealthCheckResponse(Dictionary<string, JsonElement> properties)
+    HealthCheckResponse(FrozenDictionary<string, JsonElement> properties)
     {
-        Properties = properties;
+        this._properties = [.. properties];
     }
 #pragma warning restore CS8618
 
-    public static HealthCheckResponse FromRawUnchecked(Dictionary<string, JsonElement> properties)
+    public static HealthCheckResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> properties
+    )
     {
-        return new(properties);
+        return new(FrozenDictionary.ToFrozenDictionary(properties));
     }
 }

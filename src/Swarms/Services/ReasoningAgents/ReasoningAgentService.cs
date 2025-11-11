@@ -2,13 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
+using Swarms.Core;
 using Swarms.Models.ReasoningAgents;
 
 namespace Swarms.Services.ReasoningAgents;
 
 public sealed class ReasoningAgentService : IReasoningAgentService
 {
+    public IReasoningAgentService WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new ReasoningAgentService(this._client.WithOptions(modifier));
+    }
+
     readonly ISwarmsClientClient _client;
 
     public ReasoningAgentService(ISwarmsClientClient client)
@@ -17,49 +24,42 @@ public sealed class ReasoningAgentService : IReasoningAgentService
     }
 
     public async Task<Dictionary<string, JsonElement>> CreateCompletion(
-        ReasoningAgentCreateCompletionParams parameters
+        ReasoningAgentCreateCompletionParams? parameters = null,
+        CancellationToken cancellationToken = default
     )
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Post, parameters.Url(this._client))
+        parameters ??= new();
+
+        HttpRequest<ReasoningAgentCreateCompletionParams> request = new()
         {
-            Content = parameters.BodyContent(),
+            Method = HttpMethod.Post,
+            Params = parameters,
         };
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
             .ConfigureAwait(false);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new HttpException(
-                response.StatusCode,
-                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
-            );
-        }
-        return JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
-                await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
-            ) ?? throw new NullReferenceException();
+        return await response
+            .Deserialize<Dictionary<string, JsonElement>>(cancellationToken)
+            .ConfigureAwait(false);
     }
 
     public async Task<Dictionary<string, JsonElement>> ListTypes(
-        ReasoningAgentListTypesParams parameters
+        ReasoningAgentListTypesParams? parameters = null,
+        CancellationToken cancellationToken = default
     )
     {
-        using HttpRequestMessage webRequest = new(HttpMethod.Get, parameters.Url(this._client));
-        parameters.AddHeadersToRequest(webRequest, this._client);
-        using HttpResponseMessage response = await _client
-            .HttpClient.SendAsync(webRequest)
-            .ConfigureAwait(false);
-        if (!response.IsSuccessStatusCode)
+        parameters ??= new();
+
+        HttpRequest<ReasoningAgentListTypesParams> request = new()
         {
-            throw new HttpException(
-                response.StatusCode,
-                await response.Content.ReadAsStringAsync().ConfigureAwait(false)
-            );
-        }
-        return JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
-                await response.Content.ReadAsStreamAsync().ConfigureAwait(false),
-                ModelBase.SerializerOptions
-            ) ?? throw new NullReferenceException();
+            Method = HttpMethod.Get,
+            Params = parameters,
+        };
+        using var response = await this
+            ._client.Execute(request, cancellationToken)
+            .ConfigureAwait(false);
+        return await response
+            .Deserialize<Dictionary<string, JsonElement>>(cancellationToken)
+            .ConfigureAwait(false);
     }
 }
