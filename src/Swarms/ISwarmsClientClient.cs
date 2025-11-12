@@ -17,9 +17,9 @@ public interface ISwarmsClientClient
 
     bool ResponseValidation { get; init; }
 
-    int MaxRetries { get; init; }
+    int? MaxRetries { get; init; }
 
-    TimeSpan Timeout { get; init; }
+    TimeSpan? Timeout { get; init; }
 
     string? APIKey { get; init; }
 
