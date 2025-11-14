@@ -108,7 +108,7 @@ public class BatchServiceTest : TestBase
                         Rules = "rules",
                         ServiceTier = "service_tier",
                         Stream = true,
-                        SwarmType = SwarmTypeModel.AgentRearrange,
+                        SwarmType = SwarmSpecSwarmType.AgentRearrange,
                         Task = "task",
                         Tasks = ["string"],
                     },
