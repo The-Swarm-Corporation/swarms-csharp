@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json;
-using Swarms.Models.ReasoningAgents;
-using Swarms = Swarms.Models.Swarms;
+using Swarms.Models.Swarms;
+using ReasoningAgents = Swarms.Models.ReasoningAgents;
 
 namespace Swarms.Core;
 
@@ -18,10 +18,10 @@ public abstract record class ModelBase
     {
         Converters =
         {
-            new ApiEnumConverter<string, Swarms::SwarmTypeModel>(),
-            new ApiEnumConverter<string, Swarms::SwarmType>(),
-            new ApiEnumConverter<string, OutputType>(),
+            new ApiEnumConverter<string, SwarmSpecSwarmType>(),
             new ApiEnumConverter<string, SwarmType>(),
+            new ApiEnumConverter<string, ReasoningAgents::OutputType>(),
+            new ApiEnumConverter<string, ReasoningAgents::SwarmType>(),
         },
     };
 

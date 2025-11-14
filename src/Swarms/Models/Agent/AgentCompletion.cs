@@ -38,14 +38,17 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     /// The history of the agent's previous tasks and responses. Can be either a dictionary
     /// or a list of message objects.
     /// </summary>
-    public HistoryModel? History
+    public AgentCompletionHistory? History
     {
         get
         {
             if (!this._properties.TryGetValue("history", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<HistoryModel?>(element, ModelBase.SerializerOptions);
+            return JsonSerializer.Deserialize<AgentCompletionHistory?>(
+                element,
+                ModelBase.SerializerOptions
+            );
         }
         init
         {
@@ -177,27 +180,27 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 /// The history of the agent's previous tasks and responses. Can be either a dictionary
 /// or a list of message objects.
 /// </summary>
-[JsonConverter(typeof(HistoryModelConverter))]
-public record class HistoryModel
+[JsonConverter(typeof(AgentCompletionHistoryConverter))]
+public record class AgentCompletionHistory
 {
     public object Value { get; private init; }
 
-    public HistoryModel(IReadOnlyDictionary<string, JsonElement> value)
+    public AgentCompletionHistory(IReadOnlyDictionary<string, JsonElement> value)
     {
         Value = FrozenDictionary.ToFrozenDictionary(value);
     }
 
-    public HistoryModel(IReadOnlyList<Dictionary<string, string>> value)
+    public AgentCompletionHistory(IReadOnlyList<Dictionary<string, string>> value)
     {
         Value = ImmutableArray.ToImmutableArray(value);
     }
 
-    HistoryModel(UnknownVariant value)
+    AgentCompletionHistory(UnknownVariant value)
     {
         Value = value;
     }
 
-    public static HistoryModel CreateUnknownVariant(JsonElement value)
+    public static AgentCompletionHistory CreateUnknownVariant(JsonElement value)
     {
         return new(new UnknownVariant(value));
     }
@@ -233,7 +236,7 @@ public record class HistoryModel
                 break;
             default:
                 throw new SwarmsClientInvalidDataException(
-                    "Data did not match any variant of HistoryModel"
+                    "Data did not match any variant of AgentCompletionHistory"
                 );
         }
     }
@@ -248,23 +251,24 @@ public record class HistoryModel
             IReadOnlyDictionary<string, JsonElement> value => jsonElements(value),
             IReadOnlyList<Dictionary<string, string>> value => strings(value),
             _ => throw new SwarmsClientInvalidDataException(
-                "Data did not match any variant of HistoryModel"
+                "Data did not match any variant of AgentCompletionHistory"
             ),
         };
     }
 
-    public static implicit operator HistoryModel(Dictionary<string, JsonElement> value) =>
+    public static implicit operator AgentCompletionHistory(Dictionary<string, JsonElement> value) =>
         new((IReadOnlyDictionary<string, JsonElement>)value);
 
-    public static implicit operator HistoryModel(List<Dictionary<string, string>> value) =>
-        new((IReadOnlyList<Dictionary<string, string>>)value);
+    public static implicit operator AgentCompletionHistory(
+        List<Dictionary<string, string>> value
+    ) => new((IReadOnlyList<Dictionary<string, string>>)value);
 
     public void Validate()
     {
         if (this.Value is UnknownVariant)
         {
             throw new SwarmsClientInvalidDataException(
-                "Data did not match any variant of HistoryModel"
+                "Data did not match any variant of AgentCompletionHistory"
             );
         }
     }
@@ -272,9 +276,9 @@ public record class HistoryModel
     record struct UnknownVariant(JsonElement value);
 }
 
-sealed class HistoryModelConverter : JsonConverter<HistoryModel?>
+sealed class AgentCompletionHistoryConverter : JsonConverter<AgentCompletionHistory?>
 {
-    public override HistoryModel? Read(
+    public override AgentCompletionHistory? Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -290,7 +294,7 @@ sealed class HistoryModelConverter : JsonConverter<HistoryModel?>
             );
             if (deserialized != null)
             {
-                return new HistoryModel(deserialized);
+                return new AgentCompletionHistory(deserialized);
             }
         }
         catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
@@ -311,7 +315,7 @@ sealed class HistoryModelConverter : JsonConverter<HistoryModel?>
             );
             if (deserialized != null)
             {
-                return new HistoryModel(deserialized);
+                return new AgentCompletionHistory(deserialized);
             }
         }
         catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
@@ -329,7 +333,7 @@ sealed class HistoryModelConverter : JsonConverter<HistoryModel?>
 
     public override void Write(
         Utf8JsonWriter writer,
-        HistoryModel? value,
+        AgentCompletionHistory? value,
         JsonSerializerOptions options
     )
     {
