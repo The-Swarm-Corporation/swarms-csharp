@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json;
+using Swarms.Models.Client.AutoSwarmBuilder;
 using Swarms.Models.Swarms;
 using ReasoningAgents = Swarms.Models.ReasoningAgents;
 
@@ -22,6 +23,7 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, SwarmType>(),
             new ApiEnumConverter<string, ReasoningAgents::OutputType>(),
             new ApiEnumConverter<string, ReasoningAgents::SwarmType>(),
+            new ApiEnumConverter<string, ExecutionType>(),
         },
     };
 

@@ -1,11 +1,13 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Swarms.Core;
+using Swarms.Exceptions;
+using System = System;
 
 namespace Swarms.Models.Client.AutoSwarmBuilder;
 
@@ -45,14 +47,14 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     /// <summary>
     /// The type of execution to perform.
     /// </summary>
-    public List<JsonElement>? ExecutionType
+    public ApiEnum<string, ExecutionType>? ExecutionType
     {
         get
         {
             if (!this._bodyProperties.TryGetValue("execution_type", out JsonElement element))
                 return null;
 
-            return JsonSerializer.Deserialize<List<JsonElement>?>(
+            return JsonSerializer.Deserialize<ApiEnum<string, ExecutionType>?>(
                 element,
                 ModelBase.SerializerOptions
             );
@@ -211,9 +213,9 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
         );
     }
 
-    public override Uri Url(ClientOptions options)
+    public override System::Uri Url(ClientOptions options)
     {
-        return new UriBuilder(
+        return new System::UriBuilder(
             options.BaseUrl.ToString().TrimEnd('/') + "/v1/auto-swarm-builder/completions"
         )
         {
@@ -237,5 +239,58 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
         {
             ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
         }
+    }
+}
+
+/// <summary>
+/// The type of execution to perform.
+/// </summary>
+[JsonConverter(typeof(ExecutionTypeConverter))]
+public enum ExecutionType
+{
+    ReturnAgents,
+    ExecuteSwarmRouter,
+    ReturnSwarmRouterConfig,
+    ReturnAgentsObjects,
+}
+
+sealed class ExecutionTypeConverter : JsonConverter<ExecutionType>
+{
+    public override ExecutionType Read(
+        ref Utf8JsonReader reader,
+        System::Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "return-agents" => ExecutionType.ReturnAgents,
+            "execute-swarm-router" => ExecutionType.ExecuteSwarmRouter,
+            "return-swarm-router-config" => ExecutionType.ReturnSwarmRouterConfig,
+            "return-agents-objects" => ExecutionType.ReturnAgentsObjects,
+            _ => (ExecutionType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        ExecutionType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                ExecutionType.ReturnAgents => "return-agents",
+                ExecutionType.ExecuteSwarmRouter => "execute-swarm-router",
+                ExecutionType.ReturnSwarmRouterConfig => "return-swarm-router-config",
+                ExecutionType.ReturnAgentsObjects => "return-agents-objects",
+                _ => throw new SwarmsClientInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
     }
 }
