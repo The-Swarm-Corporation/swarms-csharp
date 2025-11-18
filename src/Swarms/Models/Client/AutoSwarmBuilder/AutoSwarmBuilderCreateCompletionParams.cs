@@ -249,7 +249,6 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
 public enum ExecutionType
 {
     ReturnAgents,
-    ExecuteSwarmRouter,
     ReturnSwarmRouterConfig,
     ReturnAgentsObjects,
 }
@@ -265,7 +264,6 @@ sealed class ExecutionTypeConverter : JsonConverter<ExecutionType>
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
             "return-agents" => ExecutionType.ReturnAgents,
-            "execute-swarm-router" => ExecutionType.ExecuteSwarmRouter,
             "return-swarm-router-config" => ExecutionType.ReturnSwarmRouterConfig,
             "return-agents-objects" => ExecutionType.ReturnAgentsObjects,
             _ => (ExecutionType)(-1),
@@ -283,7 +281,6 @@ sealed class ExecutionTypeConverter : JsonConverter<ExecutionType>
             value switch
             {
                 ExecutionType.ReturnAgents => "return-agents",
-                ExecutionType.ExecuteSwarmRouter => "execute-swarm-router",
                 ExecutionType.ReturnSwarmRouterConfig => "return-swarm-router-config",
                 ExecutionType.ReturnAgentsObjects => "return-agents-objects",
                 _ => throw new SwarmsClientInvalidDataException(
