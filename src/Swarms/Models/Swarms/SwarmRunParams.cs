@@ -457,26 +457,30 @@ public sealed record class SwarmRunParams : ParamsBase
 [JsonConverter(typeof(MessagesConverter))]
 public record class Messages
 {
-    public object Value { get; private init; }
+    public object? Value { get; } = null;
 
-    public Messages(IReadOnlyList<Dictionary<string, JsonElement>> value)
+    JsonElement? _json = null;
+
+    public JsonElement Json
     {
-        Value = ImmutableArray.ToImmutableArray(value);
+        get { return this._json ??= JsonSerializer.SerializeToElement(this.Value); }
     }
 
-    public Messages(IReadOnlyDictionary<string, JsonElement> value)
+    public Messages(IReadOnlyList<Dictionary<string, JsonElement>> value, JsonElement? json = null)
     {
-        Value = FrozenDictionary.ToFrozenDictionary(value);
+        this.Value = ImmutableArray.ToImmutableArray(value);
+        this._json = json;
     }
 
-    Messages(UnknownVariant value)
+    public Messages(IReadOnlyDictionary<string, JsonElement> value, JsonElement? json = null)
     {
-        Value = value;
+        this.Value = FrozenDictionary.ToFrozenDictionary(value);
+        this._json = json;
     }
 
-    public static Messages CreateUnknownVariant(JsonElement value)
+    public Messages(JsonElement json)
     {
-        return new(new UnknownVariant(value));
+        this._json = json;
     }
 
     public bool TryPickJsonElements(
@@ -538,15 +542,13 @@ public record class Messages
 
     public void Validate()
     {
-        if (this.Value is UnknownVariant)
+        if (this.Value == null)
         {
             throw new SwarmsClientInvalidDataException(
                 "Data did not match any variant of Messages"
             );
         }
     }
-
-    record struct UnknownVariant(JsonElement value);
 }
 
 sealed class MessagesConverter : JsonConverter<Messages?>
@@ -557,53 +559,42 @@ sealed class MessagesConverter : JsonConverter<Messages?>
         JsonSerializerOptions options
     )
     {
-        List<SwarmsClientInvalidDataException> exceptions = [];
-
+        var json = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
             var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
-                ref reader,
+                json,
                 options
             );
             if (deserialized != null)
             {
-                return new Messages(deserialized);
+                return new(deserialized, json);
             }
         }
         catch (System::Exception e)
             when (e is JsonException || e is SwarmsClientInvalidDataException)
         {
-            exceptions.Add(
-                new SwarmsClientInvalidDataException(
-                    "Data does not match union variant 'List<Dictionary<string, JsonElement>>'",
-                    e
-                )
-            );
+            // ignore
         }
 
         try
         {
             var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
-                ref reader,
+                json,
                 options
             );
             if (deserialized != null)
             {
-                return new Messages(deserialized);
+                return new(deserialized, json);
             }
         }
         catch (System::Exception e)
             when (e is JsonException || e is SwarmsClientInvalidDataException)
         {
-            exceptions.Add(
-                new SwarmsClientInvalidDataException(
-                    "Data does not match union variant 'Dictionary<string, JsonElement>'",
-                    e
-                )
-            );
+            // ignore
         }
 
-        throw new System::AggregateException(exceptions);
+        return new(json);
     }
 
     public override void Write(
@@ -612,8 +603,7 @@ sealed class MessagesConverter : JsonConverter<Messages?>
         JsonSerializerOptions options
     )
     {
-        object? variant = value?.Value;
-        JsonSerializer.Serialize(writer, variant, options);
+        JsonSerializer.Serialize(writer, value?.Json, options);
     }
 }
 

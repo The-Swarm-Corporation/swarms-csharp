@@ -224,26 +224,30 @@ public sealed record class AgentRunParams : ParamsBase
 [JsonConverter(typeof(HistoryConverter))]
 public record class History
 {
-    public object Value { get; private init; }
+    public object? Value { get; } = null;
 
-    public History(IReadOnlyDictionary<string, JsonElement> value)
+    JsonElement? _json = null;
+
+    public JsonElement Json
     {
-        Value = FrozenDictionary.ToFrozenDictionary(value);
+        get { return this._json ??= JsonSerializer.SerializeToElement(this.Value); }
     }
 
-    public History(IReadOnlyList<Dictionary<string, string>> value)
+    public History(IReadOnlyDictionary<string, JsonElement> value, JsonElement? json = null)
     {
-        Value = ImmutableArray.ToImmutableArray(value);
+        this.Value = FrozenDictionary.ToFrozenDictionary(value);
+        this._json = json;
     }
 
-    History(UnknownVariant value)
+    public History(IReadOnlyList<Dictionary<string, string>> value, JsonElement? json = null)
     {
-        Value = value;
+        this.Value = ImmutableArray.ToImmutableArray(value);
+        this._json = json;
     }
 
-    public static History CreateUnknownVariant(JsonElement value)
+    public History(JsonElement json)
     {
-        return new(new UnknownVariant(value));
+        this._json = json;
     }
 
     public bool TryPickJsonElements(
@@ -305,13 +309,11 @@ public record class History
 
     public void Validate()
     {
-        if (this.Value is UnknownVariant)
+        if (this.Value == null)
         {
             throw new SwarmsClientInvalidDataException("Data did not match any variant of History");
         }
     }
-
-    record struct UnknownVariant(JsonElement value);
 }
 
 sealed class HistoryConverter : JsonConverter<History?>
@@ -322,56 +324,44 @@ sealed class HistoryConverter : JsonConverter<History?>
         JsonSerializerOptions options
     )
     {
-        List<SwarmsClientInvalidDataException> exceptions = [];
-
+        var json = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
             var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
-                ref reader,
+                json,
                 options
             );
             if (deserialized != null)
             {
-                return new History(deserialized);
+                return new(deserialized, json);
             }
         }
         catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
         {
-            exceptions.Add(
-                new SwarmsClientInvalidDataException(
-                    "Data does not match union variant 'Dictionary<string, JsonElement>'",
-                    e
-                )
-            );
+            // ignore
         }
 
         try
         {
             var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, string>>>(
-                ref reader,
+                json,
                 options
             );
             if (deserialized != null)
             {
-                return new History(deserialized);
+                return new(deserialized, json);
             }
         }
         catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
         {
-            exceptions.Add(
-                new SwarmsClientInvalidDataException(
-                    "Data does not match union variant 'List<Dictionary<string, string>>'",
-                    e
-                )
-            );
+            // ignore
         }
 
-        throw new AggregateException(exceptions);
+        return new(json);
     }
 
     public override void Write(Utf8JsonWriter writer, History? value, JsonSerializerOptions options)
     {
-        object? variant = value?.Value;
-        JsonSerializer.Serialize(writer, variant, options);
+        JsonSerializer.Serialize(writer, value?.Json, options);
     }
 }
