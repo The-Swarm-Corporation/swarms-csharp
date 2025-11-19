@@ -183,26 +183,36 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 [JsonConverter(typeof(AgentCompletionHistoryConverter))]
 public record class AgentCompletionHistory
 {
-    public object Value { get; private init; }
+    public object? Value { get; } = null;
 
-    public AgentCompletionHistory(IReadOnlyDictionary<string, JsonElement> value)
+    JsonElement? _json = null;
+
+    public JsonElement Json
     {
-        Value = FrozenDictionary.ToFrozenDictionary(value);
+        get { return this._json ??= JsonSerializer.SerializeToElement(this.Value); }
     }
 
-    public AgentCompletionHistory(IReadOnlyList<Dictionary<string, string>> value)
+    public AgentCompletionHistory(
+        IReadOnlyDictionary<string, JsonElement> value,
+        JsonElement? json = null
+    )
     {
-        Value = ImmutableArray.ToImmutableArray(value);
+        this.Value = FrozenDictionary.ToFrozenDictionary(value);
+        this._json = json;
     }
 
-    AgentCompletionHistory(UnknownVariant value)
+    public AgentCompletionHistory(
+        IReadOnlyList<Dictionary<string, string>> value,
+        JsonElement? json = null
+    )
     {
-        Value = value;
+        this.Value = ImmutableArray.ToImmutableArray(value);
+        this._json = json;
     }
 
-    public static AgentCompletionHistory CreateUnknownVariant(JsonElement value)
+    public AgentCompletionHistory(JsonElement json)
     {
-        return new(new UnknownVariant(value));
+        this._json = json;
     }
 
     public bool TryPickJsonElements(
@@ -265,15 +275,13 @@ public record class AgentCompletionHistory
 
     public void Validate()
     {
-        if (this.Value is UnknownVariant)
+        if (this.Value == null)
         {
             throw new SwarmsClientInvalidDataException(
                 "Data did not match any variant of AgentCompletionHistory"
             );
         }
     }
-
-    record struct UnknownVariant(JsonElement value);
 }
 
 sealed class AgentCompletionHistoryConverter : JsonConverter<AgentCompletionHistory?>
@@ -284,51 +292,40 @@ sealed class AgentCompletionHistoryConverter : JsonConverter<AgentCompletionHist
         JsonSerializerOptions options
     )
     {
-        List<SwarmsClientInvalidDataException> exceptions = [];
-
+        var json = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
             var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
-                ref reader,
+                json,
                 options
             );
             if (deserialized != null)
             {
-                return new AgentCompletionHistory(deserialized);
+                return new(deserialized, json);
             }
         }
         catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
         {
-            exceptions.Add(
-                new SwarmsClientInvalidDataException(
-                    "Data does not match union variant 'Dictionary<string, JsonElement>'",
-                    e
-                )
-            );
+            // ignore
         }
 
         try
         {
             var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, string>>>(
-                ref reader,
+                json,
                 options
             );
             if (deserialized != null)
             {
-                return new AgentCompletionHistory(deserialized);
+                return new(deserialized, json);
             }
         }
         catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
         {
-            exceptions.Add(
-                new SwarmsClientInvalidDataException(
-                    "Data does not match union variant 'List<Dictionary<string, string>>'",
-                    e
-                )
-            );
+            // ignore
         }
 
-        throw new AggregateException(exceptions);
+        return new(json);
     }
 
     public override void Write(
@@ -337,7 +334,6 @@ sealed class AgentCompletionHistoryConverter : JsonConverter<AgentCompletionHist
         JsonSerializerOptions options
     )
     {
-        object? variant = value?.Value;
-        JsonSerializer.Serialize(writer, variant, options);
+        JsonSerializer.Serialize(writer, value?.Json, options);
     }
 }
