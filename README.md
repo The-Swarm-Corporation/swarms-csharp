@@ -33,10 +33,13 @@ See the [`examples`](examples) directory for complete and runnable examples.
 ```csharp
 using System;
 using Swarms;
+using Swarms.Models;
 
 SwarmsClientClient client = new();
 
-var response = await client.GetRoot();
+ClientGetRootParams parameters = new();
+
+var response = await client.GetRoot(parameters);
 
 Console.WriteLine(response);
 ```
@@ -84,7 +87,7 @@ var response = await client
             Timeout = TimeSpan.FromSeconds(42),
         }
     )
-    .GetRoot();
+    .GetRoot(parameters);
 
 Console.WriteLine(response);
 ```
@@ -159,7 +162,7 @@ var response = await client
     .WithOptions(options =>
         options with { MaxRetries = 3 }
     )
-    .GetRoot();
+    .GetRoot(parameters);
 
 Console.WriteLine(response);
 ```
@@ -186,7 +189,7 @@ var response = await client
     .WithOptions(options =>
         options with { Timeout = TimeSpan.FromSeconds(42) }
     )
-    .GetRoot();
+    .GetRoot(parameters);
 
 Console.WriteLine(response);
 ```
@@ -225,7 +228,7 @@ var response = await client
     .WithOptions(options =>
         options with { ResponseValidation = true }
     )
-    .Health.Check();
+    .Health.Check(parameters);
 
 Console.WriteLine(response);
 ```
