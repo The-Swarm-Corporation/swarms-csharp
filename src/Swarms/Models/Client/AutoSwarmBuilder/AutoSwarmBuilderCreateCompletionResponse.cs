@@ -30,7 +30,7 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("success", out JsonElement element))
+            if (!this._rawData.TryGetValue("success", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'success' cannot be null",
                     new ArgumentOutOfRangeException("success", "Missing required argument")
@@ -40,7 +40,7 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse
         }
         init
         {
-            this._properties["success"] = JsonSerializer.SerializeToElement(
+            this._rawData["success"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -54,14 +54,14 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("job_id", out JsonElement element))
+            if (!this._rawData.TryGetValue("job_id", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["job_id"] = JsonSerializer.SerializeToElement(
+            this._rawData["job_id"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -75,7 +75,7 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("outputs", out JsonElement element))
+            if (!this._rawData.TryGetValue("outputs", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
@@ -85,7 +85,7 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse
         }
         init
         {
-            this._properties["outputs"] = JsonSerializer.SerializeToElement(
+            this._rawData["outputs"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -99,14 +99,14 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("timestamp", out JsonElement element))
+            if (!this._rawData.TryGetValue("timestamp", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["timestamp"] = JsonSerializer.SerializeToElement(
+            this._rawData["timestamp"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -120,14 +120,14 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("type", out JsonElement element))
+            if (!this._rawData.TryGetValue("type", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["type"] = JsonSerializer.SerializeToElement(
+            this._rawData["type"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -141,7 +141,7 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("usage", out JsonElement element))
+            if (!this._rawData.TryGetValue("usage", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
@@ -151,7 +151,7 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse
         }
         init
         {
-            this._properties["usage"] = JsonSerializer.SerializeToElement(
+            this._rawData["usage"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -171,25 +171,25 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse
     public AutoSwarmBuilderCreateCompletionResponse() { }
 
     public AutoSwarmBuilderCreateCompletionResponse(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    AutoSwarmBuilderCreateCompletionResponse(FrozenDictionary<string, JsonElement> properties)
+    AutoSwarmBuilderCreateCompletionResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
     public static AutoSwarmBuilderCreateCompletionResponse FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 
     [SetsRequiredMembers]

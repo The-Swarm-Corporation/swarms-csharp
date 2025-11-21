@@ -16,10 +16,10 @@ namespace Swarms.Models.Client.AdvancedResearch.Batch;
 /// </summary>
 public sealed record class BatchCreateCompletionParams : ParamsBase
 {
-    readonly FreezableDictionary<string, JsonElement> _bodyProperties = [];
-    public IReadOnlyDictionary<string, JsonElement> BodyProperties
+    readonly FreezableDictionary<string, JsonElement> _rawBodyData = [];
+    public IReadOnlyDictionary<string, JsonElement> RawBodyData
     {
-        get { return this._bodyProperties.Freeze(); }
+        get { return this._rawBodyData.Freeze(); }
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("input_schemas", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("input_schemas", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<InputSchema>?>(
@@ -39,7 +39,7 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
         }
         init
         {
-            this._bodyProperties["input_schemas"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["input_schemas"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -49,40 +49,40 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
     public BatchCreateCompletionParams() { }
 
     public BatchCreateCompletionParams(
-        IReadOnlyDictionary<string, JsonElement> headerProperties,
-        IReadOnlyDictionary<string, JsonElement> queryProperties,
-        IReadOnlyDictionary<string, JsonElement> bodyProperties
+        IReadOnlyDictionary<string, JsonElement> rawHeaderData,
+        IReadOnlyDictionary<string, JsonElement> rawQueryData,
+        IReadOnlyDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._headerProperties = [.. headerProperties];
-        this._queryProperties = [.. queryProperties];
-        this._bodyProperties = [.. bodyProperties];
+        this._rawHeaderData = [.. rawHeaderData];
+        this._rawQueryData = [.. rawQueryData];
+        this._rawBodyData = [.. rawBodyData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     BatchCreateCompletionParams(
-        FrozenDictionary<string, JsonElement> headerProperties,
-        FrozenDictionary<string, JsonElement> queryProperties,
-        FrozenDictionary<string, JsonElement> bodyProperties
+        FrozenDictionary<string, JsonElement> rawHeaderData,
+        FrozenDictionary<string, JsonElement> rawQueryData,
+        FrozenDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._headerProperties = [.. headerProperties];
-        this._queryProperties = [.. queryProperties];
-        this._bodyProperties = [.. bodyProperties];
+        this._rawHeaderData = [.. rawHeaderData];
+        this._rawQueryData = [.. rawQueryData];
+        this._rawBodyData = [.. rawBodyData];
     }
 #pragma warning restore CS8618
 
     public static BatchCreateCompletionParams FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> headerProperties,
-        IReadOnlyDictionary<string, JsonElement> queryProperties,
-        IReadOnlyDictionary<string, JsonElement> bodyProperties
+        IReadOnlyDictionary<string, JsonElement> rawHeaderData,
+        IReadOnlyDictionary<string, JsonElement> rawQueryData,
+        IReadOnlyDictionary<string, JsonElement> rawBodyData
     )
     {
         return new(
-            FrozenDictionary.ToFrozenDictionary(headerProperties),
-            FrozenDictionary.ToFrozenDictionary(queryProperties),
-            FrozenDictionary.ToFrozenDictionary(bodyProperties)
+            FrozenDictionary.ToFrozenDictionary(rawHeaderData),
+            FrozenDictionary.ToFrozenDictionary(rawQueryData),
+            FrozenDictionary.ToFrozenDictionary(rawBodyData)
         );
     }
 
@@ -98,17 +98,13 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
 
     internal override StringContent? BodyContent()
     {
-        return new(
-            JsonSerializer.Serialize(this.BodyProperties),
-            Encoding.UTF8,
-            "application/json"
-        );
+        return new(JsonSerializer.Serialize(this.RawBodyData), Encoding.UTF8, "application/json");
     }
 
     internal override void AddHeadersToRequest(HttpRequestMessage request, ClientOptions options)
     {
         ParamsBase.AddDefaultHeaders(request, options);
-        foreach (var item in this.HeaderProperties)
+        foreach (var item in this.RawHeaderData)
         {
             ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
         }
@@ -125,7 +121,7 @@ public sealed record class InputSchema : ModelBase, IFromRaw<InputSchema>
     {
         get
         {
-            if (!this._properties.TryGetValue("config", out JsonElement element))
+            if (!this._rawData.TryGetValue("config", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<global::Swarms.Models.Client.AdvancedResearch.Batch.Config?>(
@@ -135,7 +131,7 @@ public sealed record class InputSchema : ModelBase, IFromRaw<InputSchema>
         }
         init
         {
-            this._properties["config"] = JsonSerializer.SerializeToElement(
+            this._rawData["config"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -149,14 +145,14 @@ public sealed record class InputSchema : ModelBase, IFromRaw<InputSchema>
     {
         get
         {
-            if (!this._properties.TryGetValue("task", out JsonElement element))
+            if (!this._rawData.TryGetValue("task", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["task"] = JsonSerializer.SerializeToElement(
+            this._rawData["task"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -170,14 +166,14 @@ public sealed record class InputSchema : ModelBase, IFromRaw<InputSchema>
     {
         get
         {
-            if (!this._properties.TryGetValue("img", out JsonElement element))
+            if (!this._rawData.TryGetValue("img", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["img"] = JsonSerializer.SerializeToElement(
+            this._rawData["img"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -193,22 +189,22 @@ public sealed record class InputSchema : ModelBase, IFromRaw<InputSchema>
 
     public InputSchema() { }
 
-    public InputSchema(IReadOnlyDictionary<string, JsonElement> properties)
+    public InputSchema(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    InputSchema(FrozenDictionary<string, JsonElement> properties)
+    InputSchema(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
-    public static InputSchema FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> properties)
+    public static InputSchema FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
@@ -227,14 +223,14 @@ public sealed record class Config
     {
         get
         {
-            if (!this._properties.TryGetValue("description", out JsonElement element))
+            if (!this._rawData.TryGetValue("description", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["description"] = JsonSerializer.SerializeToElement(
+            this._rawData["description"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -248,14 +244,14 @@ public sealed record class Config
     {
         get
         {
-            if (!this._properties.TryGetValue("director_agent_name", out JsonElement element))
+            if (!this._rawData.TryGetValue("director_agent_name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["director_agent_name"] = JsonSerializer.SerializeToElement(
+            this._rawData["director_agent_name"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -269,14 +265,14 @@ public sealed record class Config
     {
         get
         {
-            if (!this._properties.TryGetValue("director_max_loops", out JsonElement element))
+            if (!this._rawData.TryGetValue("director_max_loops", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["director_max_loops"] = JsonSerializer.SerializeToElement(
+            this._rawData["director_max_loops"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -290,14 +286,14 @@ public sealed record class Config
     {
         get
         {
-            if (!this._properties.TryGetValue("director_max_tokens", out JsonElement element))
+            if (!this._rawData.TryGetValue("director_max_tokens", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["director_max_tokens"] = JsonSerializer.SerializeToElement(
+            this._rawData["director_max_tokens"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -311,14 +307,14 @@ public sealed record class Config
     {
         get
         {
-            if (!this._properties.TryGetValue("director_model_name", out JsonElement element))
+            if (!this._rawData.TryGetValue("director_model_name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["director_model_name"] = JsonSerializer.SerializeToElement(
+            this._rawData["director_model_name"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -332,14 +328,14 @@ public sealed record class Config
     {
         get
         {
-            if (!this._properties.TryGetValue("exa_search_max_characters", out JsonElement element))
+            if (!this._rawData.TryGetValue("exa_search_max_characters", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["exa_search_max_characters"] = JsonSerializer.SerializeToElement(
+            this._rawData["exa_search_max_characters"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -353,14 +349,14 @@ public sealed record class Config
     {
         get
         {
-            if (!this._properties.TryGetValue("exa_search_num_results", out JsonElement element))
+            if (!this._rawData.TryGetValue("exa_search_num_results", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["exa_search_num_results"] = JsonSerializer.SerializeToElement(
+            this._rawData["exa_search_num_results"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -374,14 +370,14 @@ public sealed record class Config
     {
         get
         {
-            if (!this._properties.TryGetValue("max_loops", out JsonElement element))
+            if (!this._rawData.TryGetValue("max_loops", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["max_loops"] = JsonSerializer.SerializeToElement(
+            this._rawData["max_loops"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -395,14 +391,14 @@ public sealed record class Config
     {
         get
         {
-            if (!this._properties.TryGetValue("name", out JsonElement element))
+            if (!this._rawData.TryGetValue("name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["name"] = JsonSerializer.SerializeToElement(
+            this._rawData["name"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -416,14 +412,14 @@ public sealed record class Config
     {
         get
         {
-            if (!this._properties.TryGetValue("worker_model_name", out JsonElement element))
+            if (!this._rawData.TryGetValue("worker_model_name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["worker_model_name"] = JsonSerializer.SerializeToElement(
+            this._rawData["worker_model_name"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -446,23 +442,23 @@ public sealed record class Config
 
     public Config() { }
 
-    public Config(IReadOnlyDictionary<string, JsonElement> properties)
+    public Config(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Config(FrozenDictionary<string, JsonElement> properties)
+    Config(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
     public static global::Swarms.Models.Client.AdvancedResearch.Batch.Config FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }

@@ -16,14 +16,14 @@ public sealed record class SwarmCheckAvailableResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("success", out JsonElement element))
+            if (!this._rawData.TryGetValue("success", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["success"] = JsonSerializer.SerializeToElement(
+            this._rawData["success"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -34,14 +34,14 @@ public sealed record class SwarmCheckAvailableResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("swarm_types", out JsonElement element))
+            if (!this._rawData.TryGetValue("swarm_types", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["swarm_types"] = JsonSerializer.SerializeToElement(
+            this._rawData["swarm_types"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -56,23 +56,23 @@ public sealed record class SwarmCheckAvailableResponse
 
     public SwarmCheckAvailableResponse() { }
 
-    public SwarmCheckAvailableResponse(IReadOnlyDictionary<string, JsonElement> properties)
+    public SwarmCheckAvailableResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    SwarmCheckAvailableResponse(FrozenDictionary<string, JsonElement> properties)
+    SwarmCheckAvailableResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
     public static SwarmCheckAvailableResponse FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }

@@ -16,7 +16,7 @@ public sealed record class ModelListAvailableResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("models", out JsonElement element))
+            if (!this._rawData.TryGetValue("models", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
@@ -28,7 +28,7 @@ public sealed record class ModelListAvailableResponse
                 return;
             }
 
-            this._properties["models"] = JsonSerializer.SerializeToElement(
+            this._rawData["models"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -39,14 +39,14 @@ public sealed record class ModelListAvailableResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("success", out JsonElement element))
+            if (!this._rawData.TryGetValue("success", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["success"] = JsonSerializer.SerializeToElement(
+            this._rawData["success"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -61,23 +61,23 @@ public sealed record class ModelListAvailableResponse
 
     public ModelListAvailableResponse() { }
 
-    public ModelListAvailableResponse(IReadOnlyDictionary<string, JsonElement> properties)
+    public ModelListAvailableResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    ModelListAvailableResponse(FrozenDictionary<string, JsonElement> properties)
+    ModelListAvailableResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
     public static ModelListAvailableResponse FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }

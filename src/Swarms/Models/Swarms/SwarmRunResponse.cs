@@ -19,14 +19,14 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("description", out JsonElement element))
+            if (!this._rawData.TryGetValue("description", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["description"] = JsonSerializer.SerializeToElement(
+            this._rawData["description"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -40,14 +40,14 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("execution_time", out JsonElement element))
+            if (!this._rawData.TryGetValue("execution_time", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["execution_time"] = JsonSerializer.SerializeToElement(
+            this._rawData["execution_time"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -61,14 +61,14 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("job_id", out JsonElement element))
+            if (!this._rawData.TryGetValue("job_id", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["job_id"] = JsonSerializer.SerializeToElement(
+            this._rawData["job_id"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -82,14 +82,14 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("number_of_agents", out JsonElement element))
+            if (!this._rawData.TryGetValue("number_of_agents", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["number_of_agents"] = JsonSerializer.SerializeToElement(
+            this._rawData["number_of_agents"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -103,7 +103,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("output", out JsonElement element))
+            if (!this._rawData.TryGetValue("output", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'output' cannot be null",
                     new ArgumentOutOfRangeException("output", "Missing required argument")
@@ -113,7 +113,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
         }
         init
         {
-            this._properties["output"] = JsonSerializer.SerializeToElement(
+            this._rawData["output"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -127,14 +127,14 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("service_tier", out JsonElement element))
+            if (!this._rawData.TryGetValue("service_tier", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["service_tier"] = JsonSerializer.SerializeToElement(
+            this._rawData["service_tier"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -148,14 +148,14 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("status", out JsonElement element))
+            if (!this._rawData.TryGetValue("status", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["status"] = JsonSerializer.SerializeToElement(
+            this._rawData["status"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -169,14 +169,14 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("swarm_name", out JsonElement element))
+            if (!this._rawData.TryGetValue("swarm_name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["swarm_name"] = JsonSerializer.SerializeToElement(
+            this._rawData["swarm_name"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -190,14 +190,14 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("swarm_type", out JsonElement element))
+            if (!this._rawData.TryGetValue("swarm_type", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["swarm_type"] = JsonSerializer.SerializeToElement(
+            this._rawData["swarm_type"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -211,7 +211,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("usage", out JsonElement element))
+            if (!this._rawData.TryGetValue("usage", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
@@ -221,7 +221,7 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
         }
         init
         {
-            this._properties["usage"] = JsonSerializer.SerializeToElement(
+            this._rawData["usage"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -244,23 +244,23 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
 
     public SwarmRunResponse() { }
 
-    public SwarmRunResponse(IReadOnlyDictionary<string, JsonElement> properties)
+    public SwarmRunResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    SwarmRunResponse(FrozenDictionary<string, JsonElement> properties)
+    SwarmRunResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
     public static SwarmRunResponse FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
