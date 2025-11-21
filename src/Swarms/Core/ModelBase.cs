@@ -8,11 +8,11 @@ namespace Swarms.Core;
 
 public abstract record class ModelBase
 {
-    private protected FreezableDictionary<string, JsonElement> _properties = [];
+    private protected FreezableDictionary<string, JsonElement> _rawData = [];
 
-    public IReadOnlyDictionary<string, JsonElement> Properties
+    public IReadOnlyDictionary<string, JsonElement> RawData
     {
-        get { return this._properties.Freeze(); }
+        get { return this._rawData.Freeze(); }
     }
 
     internal static readonly JsonSerializerOptions SerializerOptions = new()
@@ -34,7 +34,7 @@ public abstract record class ModelBase
 
     public sealed override string? ToString()
     {
-        return JsonSerializer.Serialize(this.Properties, _toStringSerializerOptions);
+        return JsonSerializer.Serialize(this.RawData, _toStringSerializerOptions);
     }
 
     public abstract void Validate();
@@ -47,5 +47,5 @@ public abstract record class ModelBase
 /// </summary>
 interface IFromRaw<T>
 {
-    static abstract T FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> properties);
+    static abstract T FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData);
 }

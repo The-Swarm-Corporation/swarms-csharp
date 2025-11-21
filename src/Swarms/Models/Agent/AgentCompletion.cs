@@ -20,14 +20,14 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     {
         get
         {
-            if (!this._properties.TryGetValue("agent_config", out JsonElement element))
+            if (!this._rawData.TryGetValue("agent_config", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<AgentSpec?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["agent_config"] = JsonSerializer.SerializeToElement(
+            this._rawData["agent_config"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -42,7 +42,7 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     {
         get
         {
-            if (!this._properties.TryGetValue("history", out JsonElement element))
+            if (!this._rawData.TryGetValue("history", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<AgentCompletionHistory?>(
@@ -52,7 +52,7 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
         }
         init
         {
-            this._properties["history"] = JsonSerializer.SerializeToElement(
+            this._rawData["history"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -66,14 +66,14 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     {
         get
         {
-            if (!this._properties.TryGetValue("img", out JsonElement element))
+            if (!this._rawData.TryGetValue("img", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["img"] = JsonSerializer.SerializeToElement(
+            this._rawData["img"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -87,14 +87,14 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     {
         get
         {
-            if (!this._properties.TryGetValue("imgs", out JsonElement element))
+            if (!this._rawData.TryGetValue("imgs", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["imgs"] = JsonSerializer.SerializeToElement(
+            this._rawData["imgs"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -108,14 +108,14 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     {
         get
         {
-            if (!this._properties.TryGetValue("task", out JsonElement element))
+            if (!this._rawData.TryGetValue("task", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["task"] = JsonSerializer.SerializeToElement(
+            this._rawData["task"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -129,14 +129,14 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     {
         get
         {
-            if (!this._properties.TryGetValue("tools_enabled", out JsonElement element))
+            if (!this._rawData.TryGetValue("tools_enabled", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["tools_enabled"] = JsonSerializer.SerializeToElement(
+            this._rawData["tools_enabled"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -155,24 +155,22 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
 
     public AgentCompletion() { }
 
-    public AgentCompletion(IReadOnlyDictionary<string, JsonElement> properties)
+    public AgentCompletion(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    AgentCompletion(FrozenDictionary<string, JsonElement> properties)
+    AgentCompletion(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
-    public static AgentCompletion FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> properties
-    )
+    public static AgentCompletion FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 

@@ -19,14 +19,14 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
     {
         get
         {
-            if (!this._properties.TryGetValue("limits", out JsonElement element))
+            if (!this._rawData.TryGetValue("limits", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<Limits?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["limits"] = JsonSerializer.SerializeToElement(
+            this._rawData["limits"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -40,14 +40,14 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
     {
         get
         {
-            if (!this._properties.TryGetValue("rate_limits", out JsonElement element))
+            if (!this._rawData.TryGetValue("rate_limits", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<RateLimits?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["rate_limits"] = JsonSerializer.SerializeToElement(
+            this._rawData["rate_limits"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -61,14 +61,14 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
     {
         get
         {
-            if (!this._properties.TryGetValue("tier", out JsonElement element))
+            if (!this._rawData.TryGetValue("tier", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["tier"] = JsonSerializer.SerializeToElement(
+            this._rawData["tier"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -82,14 +82,14 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
     {
         get
         {
-            if (!this._properties.TryGetValue("timestamp", out JsonElement element))
+            if (!this._rawData.TryGetValue("timestamp", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["timestamp"] = JsonSerializer.SerializeToElement(
+            this._rawData["timestamp"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -103,14 +103,14 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
     {
         get
         {
-            if (!this._properties.TryGetValue("success", out JsonElement element))
+            if (!this._rawData.TryGetValue("success", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["success"] = JsonSerializer.SerializeToElement(
+            this._rawData["success"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -128,24 +128,24 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
 
     public RateGetLimitsResponse() { }
 
-    public RateGetLimitsResponse(IReadOnlyDictionary<string, JsonElement> properties)
+    public RateGetLimitsResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    RateGetLimitsResponse(FrozenDictionary<string, JsonElement> properties)
+    RateGetLimitsResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
     public static RateGetLimitsResponse FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
@@ -162,7 +162,7 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
     {
         get
         {
-            if (!this._properties.TryGetValue("maximum_requests_per_day", out JsonElement element))
+            if (!this._rawData.TryGetValue("maximum_requests_per_day", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'maximum_requests_per_day' cannot be null",
                     new ArgumentOutOfRangeException(
@@ -175,7 +175,7 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
         }
         init
         {
-            this._properties["maximum_requests_per_day"] = JsonSerializer.SerializeToElement(
+            this._rawData["maximum_requests_per_day"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -189,7 +189,7 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
     {
         get
         {
-            if (!this._properties.TryGetValue("maximum_requests_per_hour", out JsonElement element))
+            if (!this._rawData.TryGetValue("maximum_requests_per_hour", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'maximum_requests_per_hour' cannot be null",
                     new ArgumentOutOfRangeException(
@@ -202,7 +202,7 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
         }
         init
         {
-            this._properties["maximum_requests_per_hour"] = JsonSerializer.SerializeToElement(
+            this._rawData["maximum_requests_per_hour"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -216,12 +216,7 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
     {
         get
         {
-            if (
-                !this._properties.TryGetValue(
-                    "maximum_requests_per_minute",
-                    out JsonElement element
-                )
-            )
+            if (!this._rawData.TryGetValue("maximum_requests_per_minute", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'maximum_requests_per_minute' cannot be null",
                     new ArgumentOutOfRangeException(
@@ -234,7 +229,7 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
         }
         init
         {
-            this._properties["maximum_requests_per_minute"] = JsonSerializer.SerializeToElement(
+            this._rawData["maximum_requests_per_minute"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -248,7 +243,7 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
     {
         get
         {
-            if (!this._properties.TryGetValue("tokens_per_agent", out JsonElement element))
+            if (!this._rawData.TryGetValue("tokens_per_agent", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'tokens_per_agent' cannot be null",
                     new ArgumentOutOfRangeException("tokens_per_agent", "Missing required argument")
@@ -258,7 +253,7 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
         }
         init
         {
-            this._properties["tokens_per_agent"] = JsonSerializer.SerializeToElement(
+            this._rawData["tokens_per_agent"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -275,22 +270,22 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
 
     public Limits() { }
 
-    public Limits(IReadOnlyDictionary<string, JsonElement> properties)
+    public Limits(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Limits(FrozenDictionary<string, JsonElement> properties)
+    Limits(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
-    public static Limits FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> properties)
+    public static Limits FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
@@ -307,7 +302,7 @@ public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
     {
         get
         {
-            if (!this._properties.TryGetValue("day", out JsonElement element))
+            if (!this._rawData.TryGetValue("day", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'day' cannot be null",
                     new ArgumentOutOfRangeException("day", "Missing required argument")
@@ -321,7 +316,7 @@ public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
         }
         init
         {
-            this._properties["day"] = JsonSerializer.SerializeToElement(
+            this._rawData["day"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -335,7 +330,7 @@ public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
     {
         get
         {
-            if (!this._properties.TryGetValue("hour", out JsonElement element))
+            if (!this._rawData.TryGetValue("hour", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'hour' cannot be null",
                     new ArgumentOutOfRangeException("hour", "Missing required argument")
@@ -349,7 +344,7 @@ public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
         }
         init
         {
-            this._properties["hour"] = JsonSerializer.SerializeToElement(
+            this._rawData["hour"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -363,7 +358,7 @@ public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
     {
         get
         {
-            if (!this._properties.TryGetValue("minute", out JsonElement element))
+            if (!this._rawData.TryGetValue("minute", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'minute' cannot be null",
                     new ArgumentOutOfRangeException("minute", "Missing required argument")
@@ -377,7 +372,7 @@ public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
         }
         init
         {
-            this._properties["minute"] = JsonSerializer.SerializeToElement(
+            this._rawData["minute"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -393,22 +388,22 @@ public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
 
     public RateLimits() { }
 
-    public RateLimits(IReadOnlyDictionary<string, JsonElement> properties)
+    public RateLimits(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    RateLimits(FrozenDictionary<string, JsonElement> properties)
+    RateLimits(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
-    public static RateLimits FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> properties)
+    public static RateLimits FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
@@ -425,7 +420,7 @@ public sealed record class Day : ModelBase, IFromRaw<Day>
     {
         get
         {
-            if (!this._properties.TryGetValue("count", out JsonElement element))
+            if (!this._rawData.TryGetValue("count", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'count' cannot be null",
                     new ArgumentOutOfRangeException("count", "Missing required argument")
@@ -435,7 +430,7 @@ public sealed record class Day : ModelBase, IFromRaw<Day>
         }
         init
         {
-            this._properties["count"] = JsonSerializer.SerializeToElement(
+            this._rawData["count"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -449,7 +444,7 @@ public sealed record class Day : ModelBase, IFromRaw<Day>
     {
         get
         {
-            if (!this._properties.TryGetValue("exceeded", out JsonElement element))
+            if (!this._rawData.TryGetValue("exceeded", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'exceeded' cannot be null",
                     new ArgumentOutOfRangeException("exceeded", "Missing required argument")
@@ -459,7 +454,7 @@ public sealed record class Day : ModelBase, IFromRaw<Day>
         }
         init
         {
-            this._properties["exceeded"] = JsonSerializer.SerializeToElement(
+            this._rawData["exceeded"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -473,7 +468,7 @@ public sealed record class Day : ModelBase, IFromRaw<Day>
     {
         get
         {
-            if (!this._properties.TryGetValue("limit", out JsonElement element))
+            if (!this._rawData.TryGetValue("limit", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'limit' cannot be null",
                     new ArgumentOutOfRangeException("limit", "Missing required argument")
@@ -483,7 +478,7 @@ public sealed record class Day : ModelBase, IFromRaw<Day>
         }
         init
         {
-            this._properties["limit"] = JsonSerializer.SerializeToElement(
+            this._rawData["limit"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -497,7 +492,7 @@ public sealed record class Day : ModelBase, IFromRaw<Day>
     {
         get
         {
-            if (!this._properties.TryGetValue("remaining", out JsonElement element))
+            if (!this._rawData.TryGetValue("remaining", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'remaining' cannot be null",
                     new ArgumentOutOfRangeException("remaining", "Missing required argument")
@@ -507,7 +502,7 @@ public sealed record class Day : ModelBase, IFromRaw<Day>
         }
         init
         {
-            this._properties["remaining"] = JsonSerializer.SerializeToElement(
+            this._rawData["remaining"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -521,7 +516,7 @@ public sealed record class Day : ModelBase, IFromRaw<Day>
     {
         get
         {
-            if (!this._properties.TryGetValue("reset_time", out JsonElement element))
+            if (!this._rawData.TryGetValue("reset_time", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'reset_time' cannot be null",
                     new ArgumentOutOfRangeException("reset_time", "Missing required argument")
@@ -535,7 +530,7 @@ public sealed record class Day : ModelBase, IFromRaw<Day>
         }
         init
         {
-            this._properties["reset_time"] = JsonSerializer.SerializeToElement(
+            this._rawData["reset_time"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -553,22 +548,22 @@ public sealed record class Day : ModelBase, IFromRaw<Day>
 
     public Day() { }
 
-    public Day(IReadOnlyDictionary<string, JsonElement> properties)
+    public Day(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Day(FrozenDictionary<string, JsonElement> properties)
+    Day(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
-    public static Day FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> properties)
+    public static Day FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
@@ -585,7 +580,7 @@ public sealed record class Hour : ModelBase, IFromRaw<Hour>
     {
         get
         {
-            if (!this._properties.TryGetValue("count", out JsonElement element))
+            if (!this._rawData.TryGetValue("count", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'count' cannot be null",
                     new ArgumentOutOfRangeException("count", "Missing required argument")
@@ -595,7 +590,7 @@ public sealed record class Hour : ModelBase, IFromRaw<Hour>
         }
         init
         {
-            this._properties["count"] = JsonSerializer.SerializeToElement(
+            this._rawData["count"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -609,7 +604,7 @@ public sealed record class Hour : ModelBase, IFromRaw<Hour>
     {
         get
         {
-            if (!this._properties.TryGetValue("exceeded", out JsonElement element))
+            if (!this._rawData.TryGetValue("exceeded", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'exceeded' cannot be null",
                     new ArgumentOutOfRangeException("exceeded", "Missing required argument")
@@ -619,7 +614,7 @@ public sealed record class Hour : ModelBase, IFromRaw<Hour>
         }
         init
         {
-            this._properties["exceeded"] = JsonSerializer.SerializeToElement(
+            this._rawData["exceeded"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -633,7 +628,7 @@ public sealed record class Hour : ModelBase, IFromRaw<Hour>
     {
         get
         {
-            if (!this._properties.TryGetValue("limit", out JsonElement element))
+            if (!this._rawData.TryGetValue("limit", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'limit' cannot be null",
                     new ArgumentOutOfRangeException("limit", "Missing required argument")
@@ -643,7 +638,7 @@ public sealed record class Hour : ModelBase, IFromRaw<Hour>
         }
         init
         {
-            this._properties["limit"] = JsonSerializer.SerializeToElement(
+            this._rawData["limit"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -657,7 +652,7 @@ public sealed record class Hour : ModelBase, IFromRaw<Hour>
     {
         get
         {
-            if (!this._properties.TryGetValue("remaining", out JsonElement element))
+            if (!this._rawData.TryGetValue("remaining", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'remaining' cannot be null",
                     new ArgumentOutOfRangeException("remaining", "Missing required argument")
@@ -667,7 +662,7 @@ public sealed record class Hour : ModelBase, IFromRaw<Hour>
         }
         init
         {
-            this._properties["remaining"] = JsonSerializer.SerializeToElement(
+            this._rawData["remaining"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -681,7 +676,7 @@ public sealed record class Hour : ModelBase, IFromRaw<Hour>
     {
         get
         {
-            if (!this._properties.TryGetValue("reset_time", out JsonElement element))
+            if (!this._rawData.TryGetValue("reset_time", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'reset_time' cannot be null",
                     new ArgumentOutOfRangeException("reset_time", "Missing required argument")
@@ -695,7 +690,7 @@ public sealed record class Hour : ModelBase, IFromRaw<Hour>
         }
         init
         {
-            this._properties["reset_time"] = JsonSerializer.SerializeToElement(
+            this._rawData["reset_time"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -713,22 +708,22 @@ public sealed record class Hour : ModelBase, IFromRaw<Hour>
 
     public Hour() { }
 
-    public Hour(IReadOnlyDictionary<string, JsonElement> properties)
+    public Hour(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Hour(FrozenDictionary<string, JsonElement> properties)
+    Hour(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
-    public static Hour FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> properties)
+    public static Hour FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
@@ -745,7 +740,7 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
     {
         get
         {
-            if (!this._properties.TryGetValue("count", out JsonElement element))
+            if (!this._rawData.TryGetValue("count", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'count' cannot be null",
                     new ArgumentOutOfRangeException("count", "Missing required argument")
@@ -755,7 +750,7 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
         }
         init
         {
-            this._properties["count"] = JsonSerializer.SerializeToElement(
+            this._rawData["count"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -769,7 +764,7 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
     {
         get
         {
-            if (!this._properties.TryGetValue("exceeded", out JsonElement element))
+            if (!this._rawData.TryGetValue("exceeded", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'exceeded' cannot be null",
                     new ArgumentOutOfRangeException("exceeded", "Missing required argument")
@@ -779,7 +774,7 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
         }
         init
         {
-            this._properties["exceeded"] = JsonSerializer.SerializeToElement(
+            this._rawData["exceeded"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -793,7 +788,7 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
     {
         get
         {
-            if (!this._properties.TryGetValue("limit", out JsonElement element))
+            if (!this._rawData.TryGetValue("limit", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'limit' cannot be null",
                     new ArgumentOutOfRangeException("limit", "Missing required argument")
@@ -803,7 +798,7 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
         }
         init
         {
-            this._properties["limit"] = JsonSerializer.SerializeToElement(
+            this._rawData["limit"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -817,7 +812,7 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
     {
         get
         {
-            if (!this._properties.TryGetValue("remaining", out JsonElement element))
+            if (!this._rawData.TryGetValue("remaining", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'remaining' cannot be null",
                     new ArgumentOutOfRangeException("remaining", "Missing required argument")
@@ -827,7 +822,7 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
         }
         init
         {
-            this._properties["remaining"] = JsonSerializer.SerializeToElement(
+            this._rawData["remaining"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -841,7 +836,7 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
     {
         get
         {
-            if (!this._properties.TryGetValue("reset_time", out JsonElement element))
+            if (!this._rawData.TryGetValue("reset_time", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'reset_time' cannot be null",
                     new ArgumentOutOfRangeException("reset_time", "Missing required argument")
@@ -855,7 +850,7 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
         }
         init
         {
-            this._properties["reset_time"] = JsonSerializer.SerializeToElement(
+            this._rawData["reset_time"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -873,21 +868,21 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
 
     public Minute() { }
 
-    public Minute(IReadOnlyDictionary<string, JsonElement> properties)
+    public Minute(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Minute(FrozenDictionary<string, JsonElement> properties)
+    Minute(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
-    public static Minute FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> properties)
+    public static Minute FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }

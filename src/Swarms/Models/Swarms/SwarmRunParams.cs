@@ -18,10 +18,10 @@ namespace Swarms.Models.Swarms;
 /// </summary>
 public sealed record class SwarmRunParams : ParamsBase
 {
-    readonly FreezableDictionary<string, JsonElement> _bodyProperties = [];
-    public IReadOnlyDictionary<string, JsonElement> BodyProperties
+    readonly FreezableDictionary<string, JsonElement> _rawBodyData = [];
+    public IReadOnlyDictionary<string, JsonElement> RawBodyData
     {
-        get { return this._bodyProperties.Freeze(); }
+        get { return this._rawBodyData.Freeze(); }
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("agents", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("agents", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<AgentSpec>?>(
@@ -42,7 +42,7 @@ public sealed record class SwarmRunParams : ParamsBase
         }
         init
         {
-            this._bodyProperties["agents"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["agents"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -56,14 +56,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("description", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("description", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._bodyProperties["description"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["description"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -78,7 +78,7 @@ public sealed record class SwarmRunParams : ParamsBase
         get
         {
             if (
-                !this._bodyProperties.TryGetValue(
+                !this._rawBodyData.TryGetValue(
                     "heavy_swarm_loops_per_agent",
                     out JsonElement element
                 )
@@ -89,7 +89,7 @@ public sealed record class SwarmRunParams : ParamsBase
         }
         init
         {
-            this._bodyProperties["heavy_swarm_loops_per_agent"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["heavy_swarm_loops_per_agent"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -104,7 +104,7 @@ public sealed record class SwarmRunParams : ParamsBase
         get
         {
             if (
-                !this._bodyProperties.TryGetValue(
+                !this._rawBodyData.TryGetValue(
                     "heavy_swarm_question_agent_model_name",
                     out JsonElement element
                 )
@@ -115,7 +115,7 @@ public sealed record class SwarmRunParams : ParamsBase
         }
         init
         {
-            this._bodyProperties["heavy_swarm_question_agent_model_name"] =
+            this._rawBodyData["heavy_swarm_question_agent_model_name"] =
                 JsonSerializer.SerializeToElement(value, ModelBase.SerializerOptions);
         }
     }
@@ -128,7 +128,7 @@ public sealed record class SwarmRunParams : ParamsBase
         get
         {
             if (
-                !this._bodyProperties.TryGetValue(
+                !this._rawBodyData.TryGetValue(
                     "heavy_swarm_worker_model_name",
                     out JsonElement element
                 )
@@ -139,8 +139,10 @@ public sealed record class SwarmRunParams : ParamsBase
         }
         init
         {
-            this._bodyProperties["heavy_swarm_worker_model_name"] =
-                JsonSerializer.SerializeToElement(value, ModelBase.SerializerOptions);
+            this._rawBodyData["heavy_swarm_worker_model_name"] = JsonSerializer.SerializeToElement(
+                value,
+                ModelBase.SerializerOptions
+            );
         }
     }
 
@@ -151,14 +153,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("img", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("img", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._bodyProperties["img"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["img"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -173,14 +175,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("max_loops", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("max_loops", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._bodyProperties["max_loops"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["max_loops"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -194,14 +196,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("messages", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("messages", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<Messages?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._bodyProperties["messages"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["messages"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -216,14 +218,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("name", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._bodyProperties["name"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["name"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -237,14 +239,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("rearrange_flow", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("rearrange_flow", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._bodyProperties["rearrange_flow"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["rearrange_flow"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -259,14 +261,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("rules", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("rules", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._bodyProperties["rules"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["rules"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -281,14 +283,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("service_tier", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("service_tier", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._bodyProperties["service_tier"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["service_tier"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -302,14 +304,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("stream", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("stream", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._bodyProperties["stream"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["stream"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -323,7 +325,7 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("swarm_type", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("swarm_type", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<ApiEnum<string, SwarmType>?>(
@@ -333,7 +335,7 @@ public sealed record class SwarmRunParams : ParamsBase
         }
         init
         {
-            this._bodyProperties["swarm_type"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["swarm_type"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -347,14 +349,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("task", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("task", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._bodyProperties["task"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["task"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -368,14 +370,14 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            if (!this._bodyProperties.TryGetValue("tasks", out JsonElement element))
+            if (!this._rawBodyData.TryGetValue("tasks", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._bodyProperties["tasks"] = JsonSerializer.SerializeToElement(
+            this._rawBodyData["tasks"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -385,40 +387,40 @@ public sealed record class SwarmRunParams : ParamsBase
     public SwarmRunParams() { }
 
     public SwarmRunParams(
-        IReadOnlyDictionary<string, JsonElement> headerProperties,
-        IReadOnlyDictionary<string, JsonElement> queryProperties,
-        IReadOnlyDictionary<string, JsonElement> bodyProperties
+        IReadOnlyDictionary<string, JsonElement> rawHeaderData,
+        IReadOnlyDictionary<string, JsonElement> rawQueryData,
+        IReadOnlyDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._headerProperties = [.. headerProperties];
-        this._queryProperties = [.. queryProperties];
-        this._bodyProperties = [.. bodyProperties];
+        this._rawHeaderData = [.. rawHeaderData];
+        this._rawQueryData = [.. rawQueryData];
+        this._rawBodyData = [.. rawBodyData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     SwarmRunParams(
-        FrozenDictionary<string, JsonElement> headerProperties,
-        FrozenDictionary<string, JsonElement> queryProperties,
-        FrozenDictionary<string, JsonElement> bodyProperties
+        FrozenDictionary<string, JsonElement> rawHeaderData,
+        FrozenDictionary<string, JsonElement> rawQueryData,
+        FrozenDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._headerProperties = [.. headerProperties];
-        this._queryProperties = [.. queryProperties];
-        this._bodyProperties = [.. bodyProperties];
+        this._rawHeaderData = [.. rawHeaderData];
+        this._rawQueryData = [.. rawQueryData];
+        this._rawBodyData = [.. rawBodyData];
     }
 #pragma warning restore CS8618
 
     public static SwarmRunParams FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> headerProperties,
-        IReadOnlyDictionary<string, JsonElement> queryProperties,
-        IReadOnlyDictionary<string, JsonElement> bodyProperties
+        IReadOnlyDictionary<string, JsonElement> rawHeaderData,
+        IReadOnlyDictionary<string, JsonElement> rawQueryData,
+        IReadOnlyDictionary<string, JsonElement> rawBodyData
     )
     {
         return new(
-            FrozenDictionary.ToFrozenDictionary(headerProperties),
-            FrozenDictionary.ToFrozenDictionary(queryProperties),
-            FrozenDictionary.ToFrozenDictionary(bodyProperties)
+            FrozenDictionary.ToFrozenDictionary(rawHeaderData),
+            FrozenDictionary.ToFrozenDictionary(rawQueryData),
+            FrozenDictionary.ToFrozenDictionary(rawBodyData)
         );
     }
 
@@ -434,17 +436,13 @@ public sealed record class SwarmRunParams : ParamsBase
 
     internal override StringContent? BodyContent()
     {
-        return new(
-            JsonSerializer.Serialize(this.BodyProperties),
-            Encoding.UTF8,
-            "application/json"
-        );
+        return new(JsonSerializer.Serialize(this.RawBodyData), Encoding.UTF8, "application/json");
     }
 
     internal override void AddHeadersToRequest(HttpRequestMessage request, ClientOptions options)
     {
         ParamsBase.AddDefaultHeaders(request, options);
-        foreach (var item in this.HeaderProperties)
+        foreach (var item in this.RawHeaderData)
         {
             ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
         }

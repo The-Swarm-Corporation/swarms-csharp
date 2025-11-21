@@ -21,7 +21,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("description", out JsonElement element))
+            if (!this._rawData.TryGetValue("description", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'description' cannot be null",
                     new ArgumentOutOfRangeException("description", "Missing required argument")
@@ -35,7 +35,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
         }
         init
         {
-            this._properties["description"] = JsonSerializer.SerializeToElement(
+            this._rawData["description"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -49,7 +49,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("job_id", out JsonElement element))
+            if (!this._rawData.TryGetValue("job_id", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'job_id' cannot be null",
                     new ArgumentOutOfRangeException("job_id", "Missing required argument")
@@ -63,7 +63,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
         }
         init
         {
-            this._properties["job_id"] = JsonSerializer.SerializeToElement(
+            this._rawData["job_id"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -77,7 +77,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("name", out JsonElement element))
+            if (!this._rawData.TryGetValue("name", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'name' cannot be null",
                     new ArgumentOutOfRangeException("name", "Missing required argument")
@@ -91,7 +91,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
         }
         init
         {
-            this._properties["name"] = JsonSerializer.SerializeToElement(
+            this._rawData["name"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -105,7 +105,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("outputs", out JsonElement element))
+            if (!this._rawData.TryGetValue("outputs", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'outputs' cannot be null",
                     new ArgumentOutOfRangeException("outputs", "Missing required argument")
@@ -115,7 +115,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
         }
         init
         {
-            this._properties["outputs"] = JsonSerializer.SerializeToElement(
+            this._rawData["outputs"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -129,7 +129,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("status", out JsonElement element))
+            if (!this._rawData.TryGetValue("status", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'status' cannot be null",
                     new ArgumentOutOfRangeException("status", "Missing required argument")
@@ -143,7 +143,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
         }
         init
         {
-            this._properties["status"] = JsonSerializer.SerializeToElement(
+            this._rawData["status"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -157,7 +157,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("timestamp", out JsonElement element))
+            if (!this._rawData.TryGetValue("timestamp", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'timestamp' cannot be null",
                     new ArgumentOutOfRangeException("timestamp", "Missing required argument")
@@ -171,7 +171,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
         }
         init
         {
-            this._properties["timestamp"] = JsonSerializer.SerializeToElement(
+            this._rawData["timestamp"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -185,7 +185,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("usage", out JsonElement element))
+            if (!this._rawData.TryGetValue("usage", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'usage' cannot be null",
                     new ArgumentOutOfRangeException("usage", "Missing required argument")
@@ -199,7 +199,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
         }
         init
         {
-            this._properties["usage"] = JsonSerializer.SerializeToElement(
+            this._rawData["usage"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -220,25 +220,25 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
     public BatchedGridWorkflowCompleteWorkflowResponse() { }
 
     public BatchedGridWorkflowCompleteWorkflowResponse(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    BatchedGridWorkflowCompleteWorkflowResponse(FrozenDictionary<string, JsonElement> properties)
+    BatchedGridWorkflowCompleteWorkflowResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
     public static BatchedGridWorkflowCompleteWorkflowResponse FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
@@ -255,7 +255,7 @@ public sealed record class Usage : ModelBase, IFromRaw<Usage>
     {
         get
         {
-            if (!this._properties.TryGetValue("cost_per_agent", out JsonElement element))
+            if (!this._rawData.TryGetValue("cost_per_agent", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'cost_per_agent' cannot be null",
                     new ArgumentOutOfRangeException("cost_per_agent", "Missing required argument")
@@ -265,7 +265,7 @@ public sealed record class Usage : ModelBase, IFromRaw<Usage>
         }
         init
         {
-            this._properties["cost_per_agent"] = JsonSerializer.SerializeToElement(
+            this._rawData["cost_per_agent"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -279,7 +279,7 @@ public sealed record class Usage : ModelBase, IFromRaw<Usage>
     {
         get
         {
-            if (!this._properties.TryGetValue("input_tokens", out JsonElement element))
+            if (!this._rawData.TryGetValue("input_tokens", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'input_tokens' cannot be null",
                     new ArgumentOutOfRangeException("input_tokens", "Missing required argument")
@@ -289,7 +289,7 @@ public sealed record class Usage : ModelBase, IFromRaw<Usage>
         }
         init
         {
-            this._properties["input_tokens"] = JsonSerializer.SerializeToElement(
+            this._rawData["input_tokens"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -303,7 +303,7 @@ public sealed record class Usage : ModelBase, IFromRaw<Usage>
     {
         get
         {
-            if (!this._properties.TryGetValue("output_tokens", out JsonElement element))
+            if (!this._rawData.TryGetValue("output_tokens", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'output_tokens' cannot be null",
                     new ArgumentOutOfRangeException("output_tokens", "Missing required argument")
@@ -313,7 +313,7 @@ public sealed record class Usage : ModelBase, IFromRaw<Usage>
         }
         init
         {
-            this._properties["output_tokens"] = JsonSerializer.SerializeToElement(
+            this._rawData["output_tokens"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -327,7 +327,7 @@ public sealed record class Usage : ModelBase, IFromRaw<Usage>
     {
         get
         {
-            if (!this._properties.TryGetValue("token_cost", out JsonElement element))
+            if (!this._rawData.TryGetValue("token_cost", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'token_cost' cannot be null",
                     new ArgumentOutOfRangeException("token_cost", "Missing required argument")
@@ -337,7 +337,7 @@ public sealed record class Usage : ModelBase, IFromRaw<Usage>
         }
         init
         {
-            this._properties["token_cost"] = JsonSerializer.SerializeToElement(
+            this._rawData["token_cost"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -351,7 +351,7 @@ public sealed record class Usage : ModelBase, IFromRaw<Usage>
     {
         get
         {
-            if (!this._properties.TryGetValue("total_tokens", out JsonElement element))
+            if (!this._rawData.TryGetValue("total_tokens", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'total_tokens' cannot be null",
                     new ArgumentOutOfRangeException("total_tokens", "Missing required argument")
@@ -361,7 +361,7 @@ public sealed record class Usage : ModelBase, IFromRaw<Usage>
         }
         init
         {
-            this._properties["total_tokens"] = JsonSerializer.SerializeToElement(
+            this._rawData["total_tokens"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -379,21 +379,21 @@ public sealed record class Usage : ModelBase, IFromRaw<Usage>
 
     public Usage() { }
 
-    public Usage(IReadOnlyDictionary<string, JsonElement> properties)
+    public Usage(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Usage(FrozenDictionary<string, JsonElement> properties)
+    Usage(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
-    public static Usage FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> properties)
+    public static Usage FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }

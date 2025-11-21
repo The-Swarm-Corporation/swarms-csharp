@@ -17,14 +17,14 @@ public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("batch_id", out JsonElement element))
+            if (!this._rawData.TryGetValue("batch_id", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["batch_id"] = JsonSerializer.SerializeToElement(
+            this._rawData["batch_id"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -38,14 +38,14 @@ public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("execution_time", out JsonElement element))
+            if (!this._rawData.TryGetValue("execution_time", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["execution_time"] = JsonSerializer.SerializeToElement(
+            this._rawData["execution_time"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -59,7 +59,7 @@ public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("results", out JsonElement element))
+            if (!this._rawData.TryGetValue("results", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
@@ -71,7 +71,7 @@ public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunRespon
                 return;
             }
 
-            this._properties["results"] = JsonSerializer.SerializeToElement(
+            this._rawData["results"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -85,14 +85,14 @@ public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("timestamp", out JsonElement element))
+            if (!this._rawData.TryGetValue("timestamp", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["timestamp"] = JsonSerializer.SerializeToElement(
+            this._rawData["timestamp"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -106,14 +106,14 @@ public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunRespon
     {
         get
         {
-            if (!this._properties.TryGetValue("total_requests", out JsonElement element))
+            if (!this._rawData.TryGetValue("total_requests", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["total_requests"] = JsonSerializer.SerializeToElement(
+            this._rawData["total_requests"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -131,23 +131,23 @@ public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunRespon
 
     public BatchRunResponse() { }
 
-    public BatchRunResponse(IReadOnlyDictionary<string, JsonElement> properties)
+    public BatchRunResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    BatchRunResponse(FrozenDictionary<string, JsonElement> properties)
+    BatchRunResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
     public static BatchRunResponse FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }

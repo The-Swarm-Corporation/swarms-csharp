@@ -14,7 +14,7 @@ public sealed record class HealthCheckResponse : ModelBase, IFromRaw<HealthCheck
     {
         get
         {
-            if (!this._properties.TryGetValue("status", out JsonElement element))
+            if (!this._rawData.TryGetValue("status", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
@@ -26,7 +26,7 @@ public sealed record class HealthCheckResponse : ModelBase, IFromRaw<HealthCheck
                 return;
             }
 
-            this._properties["status"] = JsonSerializer.SerializeToElement(
+            this._rawData["status"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -40,23 +40,23 @@ public sealed record class HealthCheckResponse : ModelBase, IFromRaw<HealthCheck
 
     public HealthCheckResponse() { }
 
-    public HealthCheckResponse(IReadOnlyDictionary<string, JsonElement> properties)
+    public HealthCheckResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    HealthCheckResponse(FrozenDictionary<string, JsonElement> properties)
+    HealthCheckResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
     public static HealthCheckResponse FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }

@@ -21,14 +21,14 @@ public sealed record class AdvancedResearchCreateCompletionResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("id", out JsonElement element))
+            if (!this._rawData.TryGetValue("id", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["id"] = JsonSerializer.SerializeToElement(
+            this._rawData["id"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -42,14 +42,14 @@ public sealed record class AdvancedResearchCreateCompletionResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("characters_per_source", out JsonElement element))
+            if (!this._rawData.TryGetValue("characters_per_source", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["characters_per_source"] = JsonSerializer.SerializeToElement(
+            this._rawData["characters_per_source"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -63,14 +63,14 @@ public sealed record class AdvancedResearchCreateCompletionResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("description", out JsonElement element))
+            if (!this._rawData.TryGetValue("description", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["description"] = JsonSerializer.SerializeToElement(
+            this._rawData["description"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -84,14 +84,14 @@ public sealed record class AdvancedResearchCreateCompletionResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("name", out JsonElement element))
+            if (!this._rawData.TryGetValue("name", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["name"] = JsonSerializer.SerializeToElement(
+            this._rawData["name"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -105,7 +105,7 @@ public sealed record class AdvancedResearchCreateCompletionResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("outputs", out JsonElement element))
+            if (!this._rawData.TryGetValue("outputs", out JsonElement element))
                 throw new SwarmsClientInvalidDataException(
                     "'outputs' cannot be null",
                     new ArgumentOutOfRangeException("outputs", "Missing required argument")
@@ -115,7 +115,7 @@ public sealed record class AdvancedResearchCreateCompletionResponse
         }
         init
         {
-            this._properties["outputs"] = JsonSerializer.SerializeToElement(
+            this._rawData["outputs"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -129,14 +129,14 @@ public sealed record class AdvancedResearchCreateCompletionResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("sources", out JsonElement element))
+            if (!this._rawData.TryGetValue("sources", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["sources"] = JsonSerializer.SerializeToElement(
+            this._rawData["sources"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -150,14 +150,14 @@ public sealed record class AdvancedResearchCreateCompletionResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("timestamp", out JsonElement element))
+            if (!this._rawData.TryGetValue("timestamp", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
         }
         init
         {
-            this._properties["timestamp"] = JsonSerializer.SerializeToElement(
+            this._rawData["timestamp"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -171,7 +171,7 @@ public sealed record class AdvancedResearchCreateCompletionResponse
     {
         get
         {
-            if (!this._properties.TryGetValue("usage", out JsonElement element))
+            if (!this._rawData.TryGetValue("usage", out JsonElement element))
                 return null;
 
             return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
@@ -181,7 +181,7 @@ public sealed record class AdvancedResearchCreateCompletionResponse
         }
         init
         {
-            this._properties["usage"] = JsonSerializer.SerializeToElement(
+            this._rawData["usage"] = JsonSerializer.SerializeToElement(
                 value,
                 ModelBase.SerializerOptions
             );
@@ -203,24 +203,24 @@ public sealed record class AdvancedResearchCreateCompletionResponse
     public AdvancedResearchCreateCompletionResponse() { }
 
     public AdvancedResearchCreateCompletionResponse(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    AdvancedResearchCreateCompletionResponse(FrozenDictionary<string, JsonElement> properties)
+    AdvancedResearchCreateCompletionResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._properties = [.. properties];
+        this._rawData = [.. rawData];
     }
 #pragma warning restore CS8618
 
     public static AdvancedResearchCreateCompletionResponse FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> properties
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        return new(FrozenDictionary.ToFrozenDictionary(properties));
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
