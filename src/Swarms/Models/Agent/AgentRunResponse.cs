@@ -7,8 +7,8 @@ using Swarms.Core;
 
 namespace Swarms.Models.Agent;
 
-[JsonConverter(typeof(ModelConverter<AgentRunResponse>))]
-public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunResponse>
+[JsonConverter(typeof(ModelConverter<AgentRunResponse, AgentRunResponseFromRaw>))]
+public sealed record class AgentRunResponse : ModelBase
 {
     /// <summary>
     /// A description of the agent or completion.
@@ -219,4 +219,10 @@ public sealed record class AgentRunResponse : ModelBase, IFromRaw<AgentRunRespon
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class AgentRunResponseFromRaw : IFromRaw<AgentRunResponse>
+{
+    public AgentRunResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        AgentRunResponse.FromRawUnchecked(rawData);
 }

@@ -9,10 +9,10 @@ using Swarms.Exceptions;
 
 namespace Swarms.Models.Client.AdvancedResearch.Batch;
 
-[JsonConverter(typeof(ModelConverter<BatchCreateCompletionResponse>))]
-public sealed record class BatchCreateCompletionResponse
-    : ModelBase,
-        IFromRaw<BatchCreateCompletionResponse>
+[JsonConverter(
+    typeof(ModelConverter<BatchCreateCompletionResponse, BatchCreateCompletionResponseFromRaw>)
+)]
+public sealed record class BatchCreateCompletionResponse : ModelBase
 {
     /// <summary>
     /// The id of the advanced research session
@@ -221,4 +221,11 @@ public sealed record class BatchCreateCompletionResponse
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class BatchCreateCompletionResponseFromRaw : IFromRaw<BatchCreateCompletionResponse>
+{
+    public BatchCreateCompletionResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => BatchCreateCompletionResponse.FromRawUnchecked(rawData);
 }

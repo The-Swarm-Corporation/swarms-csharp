@@ -7,8 +7,8 @@ using Swarms.Core;
 
 namespace Swarms.Models.Swarms;
 
-[JsonConverter(typeof(ModelConverter<SwarmGetLogsResponse>))]
-public sealed record class SwarmGetLogsResponse : ModelBase, IFromRaw<SwarmGetLogsResponse>
+[JsonConverter(typeof(ModelConverter<SwarmGetLogsResponse, SwarmGetLogsResponseFromRaw>))]
+public sealed record class SwarmGetLogsResponse : ModelBase
 {
     public long? Count
     {
@@ -116,4 +116,11 @@ public sealed record class SwarmGetLogsResponse : ModelBase, IFromRaw<SwarmGetLo
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class SwarmGetLogsResponseFromRaw : IFromRaw<SwarmGetLogsResponse>
+{
+    public SwarmGetLogsResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => SwarmGetLogsResponse.FromRawUnchecked(rawData);
 }

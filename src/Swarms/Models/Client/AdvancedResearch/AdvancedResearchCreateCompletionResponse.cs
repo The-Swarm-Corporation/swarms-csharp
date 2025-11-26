@@ -9,10 +9,13 @@ using Swarms.Exceptions;
 
 namespace Swarms.Models.Client.AdvancedResearch;
 
-[JsonConverter(typeof(ModelConverter<AdvancedResearchCreateCompletionResponse>))]
-public sealed record class AdvancedResearchCreateCompletionResponse
-    : ModelBase,
-        IFromRaw<AdvancedResearchCreateCompletionResponse>
+[JsonConverter(
+    typeof(ModelConverter<
+        AdvancedResearchCreateCompletionResponse,
+        AdvancedResearchCreateCompletionResponseFromRaw
+    >)
+)]
+public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
 {
     /// <summary>
     /// The id of the advanced research session
@@ -223,4 +226,12 @@ public sealed record class AdvancedResearchCreateCompletionResponse
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class AdvancedResearchCreateCompletionResponseFromRaw
+    : IFromRaw<AdvancedResearchCreateCompletionResponse>
+{
+    public AdvancedResearchCreateCompletionResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => AdvancedResearchCreateCompletionResponse.FromRawUnchecked(rawData);
 }

@@ -9,8 +9,8 @@ using Swarms.Exceptions;
 
 namespace Swarms.Models.Swarms;
 
-[JsonConverter(typeof(ModelConverter<SwarmRunResponse>))]
-public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunResponse>
+[JsonConverter(typeof(ModelConverter<SwarmRunResponse, SwarmRunResponseFromRaw>))]
+public sealed record class SwarmRunResponse : ModelBase
 {
     /// <summary>
     /// The description of the swarm.
@@ -263,4 +263,10 @@ public sealed record class SwarmRunResponse : ModelBase, IFromRaw<SwarmRunRespon
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class SwarmRunResponseFromRaw : IFromRaw<SwarmRunResponse>
+{
+    public SwarmRunResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        SwarmRunResponse.FromRawUnchecked(rawData);
 }

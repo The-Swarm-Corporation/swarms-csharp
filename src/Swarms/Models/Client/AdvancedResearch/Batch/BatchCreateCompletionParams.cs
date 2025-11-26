@@ -111,8 +111,8 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
     }
 }
 
-[JsonConverter(typeof(ModelConverter<InputSchema>))]
-public sealed record class InputSchema : ModelBase, IFromRaw<InputSchema>
+[JsonConverter(typeof(ModelConverter<InputSchema, InputSchemaFromRaw>))]
+public sealed record class InputSchema : ModelBase
 {
     /// <summary>
     /// The configuration for the advanced research
@@ -208,13 +208,22 @@ public sealed record class InputSchema : ModelBase, IFromRaw<InputSchema>
     }
 }
 
+class InputSchemaFromRaw : IFromRaw<InputSchema>
+{
+    public InputSchema FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        InputSchema.FromRawUnchecked(rawData);
+}
+
 /// <summary>
 /// The configuration for the advanced research
 /// </summary>
-[JsonConverter(typeof(ModelConverter<global::Swarms.Models.Client.AdvancedResearch.Batch.Config>))]
-public sealed record class Config
-    : ModelBase,
-        IFromRaw<global::Swarms.Models.Client.AdvancedResearch.Batch.Config>
+[JsonConverter(
+    typeof(ModelConverter<
+        global::Swarms.Models.Client.AdvancedResearch.Batch.Config,
+        global::Swarms.Models.Client.AdvancedResearch.Batch.ConfigFromRaw
+    >)
+)]
+public sealed record class Config : ModelBase
 {
     /// <summary>
     /// Description of the advanced research session
@@ -461,4 +470,11 @@ public sealed record class Config
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class ConfigFromRaw : IFromRaw<global::Swarms.Models.Client.AdvancedResearch.Batch.Config>
+{
+    public global::Swarms.Models.Client.AdvancedResearch.Batch.Config FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => global::Swarms.Models.Client.AdvancedResearch.Batch.Config.FromRawUnchecked(rawData);
 }

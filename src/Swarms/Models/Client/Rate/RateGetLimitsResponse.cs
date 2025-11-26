@@ -9,8 +9,8 @@ using Swarms.Exceptions;
 
 namespace Swarms.Models.Client.Rate;
 
-[JsonConverter(typeof(ModelConverter<RateGetLimitsResponse>))]
-public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLimitsResponse>
+[JsonConverter(typeof(ModelConverter<RateGetLimitsResponse, RateGetLimitsResponseFromRaw>))]
+public sealed record class RateGetLimitsResponse : ModelBase
 {
     /// <summary>
     /// The configured rate limits based on the user's subscription tier.
@@ -149,11 +149,18 @@ public sealed record class RateGetLimitsResponse : ModelBase, IFromRaw<RateGetLi
     }
 }
 
+class RateGetLimitsResponseFromRaw : IFromRaw<RateGetLimitsResponse>
+{
+    public RateGetLimitsResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => RateGetLimitsResponse.FromRawUnchecked(rawData);
+}
+
 /// <summary>
 /// The configured rate limits based on the user's subscription tier.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<Limits>))]
-public sealed record class Limits : ModelBase, IFromRaw<Limits>
+[JsonConverter(typeof(ModelConverter<Limits, LimitsFromRaw>))]
+public sealed record class Limits : ModelBase
 {
     /// <summary>
     /// The maximum number of requests allowed per day.
@@ -289,11 +296,17 @@ public sealed record class Limits : ModelBase, IFromRaw<Limits>
     }
 }
 
+class LimitsFromRaw : IFromRaw<Limits>
+{
+    public Limits FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Limits.FromRawUnchecked(rawData);
+}
+
 /// <summary>
 /// Current rate limit usage information for different time windows.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<RateLimits>))]
-public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
+[JsonConverter(typeof(ModelConverter<RateLimits, RateLimitsFromRaw>))]
+public sealed record class RateLimits : ModelBase
 {
     /// <summary>
     /// Rate limit information for the last day.
@@ -407,11 +420,17 @@ public sealed record class RateLimits : ModelBase, IFromRaw<RateLimits>
     }
 }
 
+class RateLimitsFromRaw : IFromRaw<RateLimits>
+{
+    public RateLimits FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        RateLimits.FromRawUnchecked(rawData);
+}
+
 /// <summary>
 /// Rate limit information for the last day.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<Day>))]
-public sealed record class Day : ModelBase, IFromRaw<Day>
+[JsonConverter(typeof(ModelConverter<Day, DayFromRaw>))]
+public sealed record class Day : ModelBase
 {
     /// <summary>
     /// The number of requests made in this time window.
@@ -567,11 +586,17 @@ public sealed record class Day : ModelBase, IFromRaw<Day>
     }
 }
 
+class DayFromRaw : IFromRaw<Day>
+{
+    public Day FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Day.FromRawUnchecked(rawData);
+}
+
 /// <summary>
 /// Rate limit information for the last hour.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<Hour>))]
-public sealed record class Hour : ModelBase, IFromRaw<Hour>
+[JsonConverter(typeof(ModelConverter<Hour, HourFromRaw>))]
+public sealed record class Hour : ModelBase
 {
     /// <summary>
     /// The number of requests made in this time window.
@@ -727,11 +752,17 @@ public sealed record class Hour : ModelBase, IFromRaw<Hour>
     }
 }
 
+class HourFromRaw : IFromRaw<Hour>
+{
+    public Hour FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Hour.FromRawUnchecked(rawData);
+}
+
 /// <summary>
 /// Rate limit information for the last minute.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<Minute>))]
-public sealed record class Minute : ModelBase, IFromRaw<Minute>
+[JsonConverter(typeof(ModelConverter<Minute, MinuteFromRaw>))]
+public sealed record class Minute : ModelBase
 {
     /// <summary>
     /// The number of requests made in this time window.
@@ -885,4 +916,10 @@ public sealed record class Minute : ModelBase, IFromRaw<Minute>
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class MinuteFromRaw : IFromRaw<Minute>
+{
+    public Minute FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Minute.FromRawUnchecked(rawData);
 }

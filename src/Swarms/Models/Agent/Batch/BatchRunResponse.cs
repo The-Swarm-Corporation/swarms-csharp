@@ -7,8 +7,8 @@ using Swarms.Core;
 
 namespace Swarms.Models.Agent.Batch;
 
-[JsonConverter(typeof(ModelConverter<BatchRunResponse>))]
-public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunResponse>
+[JsonConverter(typeof(ModelConverter<BatchRunResponse, BatchRunResponseFromRaw>))]
+public sealed record class BatchRunResponse : ModelBase
 {
     /// <summary>
     /// The unique identifier for the agent batch completion.
@@ -150,4 +150,10 @@ public sealed record class BatchRunResponse : ModelBase, IFromRaw<BatchRunRespon
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class BatchRunResponseFromRaw : IFromRaw<BatchRunResponse>
+{
+    public BatchRunResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        BatchRunResponse.FromRawUnchecked(rawData);
 }

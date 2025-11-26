@@ -7,10 +7,10 @@ using Swarms.Core;
 
 namespace Swarms.Models.Models;
 
-[JsonConverter(typeof(ModelConverter<ModelListAvailableResponse>))]
-public sealed record class ModelListAvailableResponse
-    : ModelBase,
-        IFromRaw<ModelListAvailableResponse>
+[JsonConverter(
+    typeof(ModelConverter<ModelListAvailableResponse, ModelListAvailableResponseFromRaw>)
+)]
+public sealed record class ModelListAvailableResponse : ModelBase
 {
     public JsonElement? Models
     {
@@ -80,4 +80,11 @@ public sealed record class ModelListAvailableResponse
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class ModelListAvailableResponseFromRaw : IFromRaw<ModelListAvailableResponse>
+{
+    public ModelListAvailableResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => ModelListAvailableResponse.FromRawUnchecked(rawData);
 }

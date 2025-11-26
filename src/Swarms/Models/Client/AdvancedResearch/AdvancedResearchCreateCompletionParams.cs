@@ -153,8 +153,8 @@ public sealed record class AdvancedResearchCreateCompletionParams : ParamsBase
 /// <summary>
 /// The configuration for the advanced research
 /// </summary>
-[JsonConverter(typeof(ModelConverter<Config>))]
-public sealed record class Config : ModelBase, IFromRaw<Config>
+[JsonConverter(typeof(ModelConverter<Config, ConfigFromRaw>))]
+public sealed record class Config : ModelBase
 {
     /// <summary>
     /// Description of the advanced research session
@@ -399,4 +399,10 @@ public sealed record class Config : ModelBase, IFromRaw<Config>
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class ConfigFromRaw : IFromRaw<Config>
+{
+    public Config FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Config.FromRawUnchecked(rawData);
 }

@@ -11,8 +11,8 @@ using System = System;
 
 namespace Swarms.Models.Swarms;
 
-[JsonConverter(typeof(ModelConverter<SwarmSpec>))]
-public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
+[JsonConverter(typeof(ModelConverter<SwarmSpec, SwarmSpecFromRaw>))]
+public sealed record class SwarmSpec : ModelBase
 {
     /// <summary>
     /// A list of agents or specifications that define the agents participating in
@@ -411,6 +411,12 @@ public sealed record class SwarmSpec : ModelBase, IFromRaw<SwarmSpec>
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class SwarmSpecFromRaw : IFromRaw<SwarmSpec>
+{
+    public SwarmSpec FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        SwarmSpec.FromRawUnchecked(rawData);
 }
 
 /// <summary>

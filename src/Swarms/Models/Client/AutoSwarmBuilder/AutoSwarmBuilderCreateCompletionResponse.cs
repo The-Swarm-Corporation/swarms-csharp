@@ -18,10 +18,13 @@ namespace Swarms.Models.Client.AutoSwarmBuilder;
 /// the swarm execution.     timestamp (Optional[str]): The timestamp of the swarm
 /// execution.     usage (Optional[dict]): The usage statistics of the swarm execution.</para>
 /// </summary>
-[JsonConverter(typeof(ModelConverter<AutoSwarmBuilderCreateCompletionResponse>))]
-public sealed record class AutoSwarmBuilderCreateCompletionResponse
-    : ModelBase,
-        IFromRaw<AutoSwarmBuilderCreateCompletionResponse>
+[JsonConverter(
+    typeof(ModelConverter<
+        AutoSwarmBuilderCreateCompletionResponse,
+        AutoSwarmBuilderCreateCompletionResponseFromRaw
+    >)
+)]
+public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
 {
     /// <summary>
     /// Whether the swarm was built successfully.
@@ -198,4 +201,12 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse
     {
         this.Success = success;
     }
+}
+
+class AutoSwarmBuilderCreateCompletionResponseFromRaw
+    : IFromRaw<AutoSwarmBuilderCreateCompletionResponse>
+{
+    public AutoSwarmBuilderCreateCompletionResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => AutoSwarmBuilderCreateCompletionResponse.FromRawUnchecked(rawData);
 }

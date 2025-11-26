@@ -7,10 +7,10 @@ using Swarms.Core;
 
 namespace Swarms.Models.Swarms;
 
-[JsonConverter(typeof(ModelConverter<SwarmCheckAvailableResponse>))]
-public sealed record class SwarmCheckAvailableResponse
-    : ModelBase,
-        IFromRaw<SwarmCheckAvailableResponse>
+[JsonConverter(
+    typeof(ModelConverter<SwarmCheckAvailableResponse, SwarmCheckAvailableResponseFromRaw>)
+)]
+public sealed record class SwarmCheckAvailableResponse : ModelBase
 {
     public bool? Success
     {
@@ -75,4 +75,11 @@ public sealed record class SwarmCheckAvailableResponse
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class SwarmCheckAvailableResponseFromRaw : IFromRaw<SwarmCheckAvailableResponse>
+{
+    public SwarmCheckAvailableResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => SwarmCheckAvailableResponse.FromRawUnchecked(rawData);
 }

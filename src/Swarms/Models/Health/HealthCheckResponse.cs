@@ -7,8 +7,8 @@ using Swarms.Core;
 
 namespace Swarms.Models.Health;
 
-[JsonConverter(typeof(ModelConverter<HealthCheckResponse>))]
-public sealed record class HealthCheckResponse : ModelBase, IFromRaw<HealthCheckResponse>
+[JsonConverter(typeof(ModelConverter<HealthCheckResponse, HealthCheckResponseFromRaw>))]
+public sealed record class HealthCheckResponse : ModelBase
 {
     public string? Status
     {
@@ -59,4 +59,10 @@ public sealed record class HealthCheckResponse : ModelBase, IFromRaw<HealthCheck
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class HealthCheckResponseFromRaw : IFromRaw<HealthCheckResponse>
+{
+    public HealthCheckResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        HealthCheckResponse.FromRawUnchecked(rawData);
 }

@@ -9,8 +9,8 @@ using Swarms.Exceptions;
 
 namespace Swarms.Models.Agent;
 
-[JsonConverter(typeof(ModelConverter<AgentSpec>))]
-public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
+[JsonConverter(typeof(ModelConverter<AgentSpec, AgentSpecFromRaw>))]
+public sealed record class AgentSpec : ModelBase
 {
     /// <summary>
     /// The unique name assigned to the agent, which identifies its role and functionality
@@ -502,11 +502,17 @@ public sealed record class AgentSpec : ModelBase, IFromRaw<AgentSpec>
     }
 }
 
+class AgentSpecFromRaw : IFromRaw<AgentSpec>
+{
+    public AgentSpec FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        AgentSpec.FromRawUnchecked(rawData);
+}
+
 /// <summary>
 /// The MCP connection to use for the agent.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<McpConfig>))]
-public sealed record class McpConfig : ModelBase, IFromRaw<McpConfig>
+[JsonConverter(typeof(ModelConverter<McpConfig, McpConfigFromRaw>))]
+public sealed record class McpConfig : ModelBase
 {
     /// <summary>
     /// Authentication token for accessing the MCP server
@@ -693,12 +699,18 @@ public sealed record class McpConfig : ModelBase, IFromRaw<McpConfig>
     }
 }
 
+class McpConfigFromRaw : IFromRaw<McpConfig>
+{
+    public McpConfig FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        McpConfig.FromRawUnchecked(rawData);
+}
+
 /// <summary>
 /// The MCP connections to use for the agent. This is a list of MCP connections. Includes
 /// multiple MCP connections.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<McpConfigs>))]
-public sealed record class McpConfigs : ModelBase, IFromRaw<McpConfigs>
+[JsonConverter(typeof(ModelConverter<McpConfigs, McpConfigsFromRaw>))]
+public sealed record class McpConfigs : ModelBase
 {
     /// <summary>
     /// List of MCP connections
@@ -767,8 +779,14 @@ public sealed record class McpConfigs : ModelBase, IFromRaw<McpConfigs>
     }
 }
 
-[JsonConverter(typeof(ModelConverter<Connection>))]
-public sealed record class Connection : ModelBase, IFromRaw<Connection>
+class McpConfigsFromRaw : IFromRaw<McpConfigs>
+{
+    public McpConfigs FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        McpConfigs.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(ModelConverter<Connection, ConnectionFromRaw>))]
+public sealed record class Connection : ModelBase
 {
     /// <summary>
     /// Authentication token for accessing the MCP server
@@ -953,4 +971,10 @@ public sealed record class Connection : ModelBase, IFromRaw<Connection>
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class ConnectionFromRaw : IFromRaw<Connection>
+{
+    public Connection FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Connection.FromRawUnchecked(rawData);
 }

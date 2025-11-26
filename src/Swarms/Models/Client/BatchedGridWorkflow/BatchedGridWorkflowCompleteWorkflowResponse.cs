@@ -9,10 +9,13 @@ using Swarms.Exceptions;
 
 namespace Swarms.Models.Client.BatchedGridWorkflow;
 
-[JsonConverter(typeof(ModelConverter<BatchedGridWorkflowCompleteWorkflowResponse>))]
-public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
-    : ModelBase,
-        IFromRaw<BatchedGridWorkflowCompleteWorkflowResponse>
+[JsonConverter(
+    typeof(ModelConverter<
+        BatchedGridWorkflowCompleteWorkflowResponse,
+        BatchedGridWorkflowCompleteWorkflowResponseFromRaw
+    >)
+)]
+public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBase
 {
     /// <summary>
     /// The description of the batched grid workflow.
@@ -242,11 +245,19 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse
     }
 }
 
+class BatchedGridWorkflowCompleteWorkflowResponseFromRaw
+    : IFromRaw<BatchedGridWorkflowCompleteWorkflowResponse>
+{
+    public BatchedGridWorkflowCompleteWorkflowResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => BatchedGridWorkflowCompleteWorkflowResponse.FromRawUnchecked(rawData);
+}
+
 /// <summary>
 /// The usage of the batched grid workflow.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<Usage>))]
-public sealed record class Usage : ModelBase, IFromRaw<Usage>
+[JsonConverter(typeof(ModelConverter<Usage, UsageFromRaw>))]
+public sealed record class Usage : ModelBase
 {
     /// <summary>
     /// The cost in credits for the agents.
@@ -396,4 +407,10 @@ public sealed record class Usage : ModelBase, IFromRaw<Usage>
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class UsageFromRaw : IFromRaw<Usage>
+{
+    public Usage FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Usage.FromRawUnchecked(rawData);
 }

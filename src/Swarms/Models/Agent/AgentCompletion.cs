@@ -10,8 +10,8 @@ using Swarms.Exceptions;
 
 namespace Swarms.Models.Agent;
 
-[JsonConverter(typeof(ModelConverter<AgentCompletion>))]
-public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion>
+[JsonConverter(typeof(ModelConverter<AgentCompletion, AgentCompletionFromRaw>))]
+public sealed record class AgentCompletion : ModelBase
 {
     /// <summary>
     /// The configuration of the agent to be completed.
@@ -172,6 +172,12 @@ public sealed record class AgentCompletion : ModelBase, IFromRaw<AgentCompletion
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class AgentCompletionFromRaw : IFromRaw<AgentCompletion>
+{
+    public AgentCompletion FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        AgentCompletion.FromRawUnchecked(rawData);
 }
 
 /// <summary>

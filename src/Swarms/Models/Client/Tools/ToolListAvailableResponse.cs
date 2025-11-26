@@ -7,10 +7,8 @@ using Swarms.Core;
 
 namespace Swarms.Models.Client.Tools;
 
-[JsonConverter(typeof(ModelConverter<ToolListAvailableResponse>))]
-public sealed record class ToolListAvailableResponse
-    : ModelBase,
-        IFromRaw<ToolListAvailableResponse>
+[JsonConverter(typeof(ModelConverter<ToolListAvailableResponse, ToolListAvailableResponseFromRaw>))]
+public sealed record class ToolListAvailableResponse : ModelBase
 {
     /// <summary>
     /// The status of the available tools.
@@ -81,4 +79,11 @@ public sealed record class ToolListAvailableResponse
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
+}
+
+class ToolListAvailableResponseFromRaw : IFromRaw<ToolListAvailableResponse>
+{
+    public ToolListAvailableResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => ToolListAvailableResponse.FromRawUnchecked(rawData);
 }
