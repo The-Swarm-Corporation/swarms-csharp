@@ -10,5 +10,10 @@ namespace Swarms.Services.Client;
 /// </summary>
 public interface IMarketplaceService
 {
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
     IMarketplaceService WithOptions(Func<ClientOptions, ClientOptions> modifier);
 }

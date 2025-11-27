@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -9,7 +10,6 @@ using System.Text.Json.Serialization;
 using Swarms.Core;
 using Swarms.Exceptions;
 using Swarms.Models.Agent;
-using System = System;
 
 namespace Swarms.Models.Swarms;
 
@@ -28,7 +28,7 @@ public sealed record class SwarmRunParams : ParamsBase
     /// A list of agents or specifications that define the agents participating in
     /// the swarm.
     /// </summary>
-    public List<AgentSpec>? Agents
+    public IReadOnlyList<AgentSpec>? Agents
     {
         get
         {
@@ -366,7 +366,7 @@ public sealed record class SwarmRunParams : ParamsBase
     /// <summary>
     /// A list of tasks that the swarm should complete.
     /// </summary>
-    public List<string>? Tasks
+    public IReadOnlyList<string>? Tasks
     {
         get
         {
@@ -424,11 +424,9 @@ public sealed record class SwarmRunParams : ParamsBase
         );
     }
 
-    public override System::Uri Url(ClientOptions options)
+    public override Uri Url(ClientOptions options)
     {
-        return new System::UriBuilder(
-            options.BaseUrl.ToString().TrimEnd('/') + "/v1/swarm/completions"
-        )
+        return new UriBuilder(options.BaseUrl.ToString().TrimEnd('/') + "/v1/swarm/completions")
         {
             Query = this.QueryString(options),
         }.Uri;
@@ -498,8 +496,8 @@ public record class Messages
     }
 
     public void Switch(
-        System::Action<IReadOnlyList<Dictionary<string, JsonElement>>> jsonElements,
-        System::Action<IReadOnlyDictionary<string, JsonElement>> jsonElements1
+        Action<IReadOnlyList<Dictionary<string, JsonElement>>> jsonElements,
+        Action<IReadOnlyDictionary<string, JsonElement>> jsonElements1
     )
     {
         switch (this.Value)
@@ -518,8 +516,8 @@ public record class Messages
     }
 
     public T Match<T>(
-        System::Func<IReadOnlyList<Dictionary<string, JsonElement>>, T> jsonElements,
-        System::Func<IReadOnlyDictionary<string, JsonElement>, T> jsonElements1
+        Func<IReadOnlyList<Dictionary<string, JsonElement>>, T> jsonElements,
+        Func<IReadOnlyDictionary<string, JsonElement>, T> jsonElements1
     )
     {
         return this.Value switch
@@ -553,7 +551,7 @@ sealed class MessagesConverter : JsonConverter<Messages?>
 {
     public override Messages? Read(
         ref Utf8JsonReader reader,
-        System::Type typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {
@@ -569,8 +567,7 @@ sealed class MessagesConverter : JsonConverter<Messages?>
                 return new(deserialized, json);
             }
         }
-        catch (System::Exception e)
-            when (e is JsonException || e is SwarmsClientInvalidDataException)
+        catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
         {
             // ignore
         }
@@ -586,8 +583,7 @@ sealed class MessagesConverter : JsonConverter<Messages?>
                 return new(deserialized, json);
             }
         }
-        catch (System::Exception e)
-            when (e is JsonException || e is SwarmsClientInvalidDataException)
+        catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
         {
             // ignore
         }
@@ -632,7 +628,7 @@ sealed class SwarmTypeConverter : JsonConverter<SwarmType>
 {
     public override SwarmType Read(
         ref Utf8JsonReader reader,
-        System::Type typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

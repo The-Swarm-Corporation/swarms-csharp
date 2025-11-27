@@ -7,8 +7,10 @@ using Swarms.Models.Models;
 
 namespace Swarms.Services;
 
+/// <inheritdoc />
 public sealed class ModelService : IModelService
 {
+    /// <inheritdoc/>
     public IModelService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new ModelService(this._client.WithOptions(modifier));
@@ -21,6 +23,7 @@ public sealed class ModelService : IModelService
         _client = client;
     }
 
+    /// <inheritdoc/>
     public async Task<ModelListAvailableResponse> ListAvailable(
         ModelListAvailableParams? parameters = null,
         CancellationToken cancellationToken = default

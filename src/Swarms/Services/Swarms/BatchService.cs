@@ -9,8 +9,10 @@ using Swarms.Models.Swarms.Batch;
 
 namespace Swarms.Services.Swarms;
 
+/// <inheritdoc />
 public sealed class BatchService : IBatchService
 {
+    /// <inheritdoc/>
     public IBatchService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new BatchService(this._client.WithOptions(modifier));
@@ -23,6 +25,7 @@ public sealed class BatchService : IBatchService
         _client = client;
     }
 
+    /// <inheritdoc/>
     public async Task<List<Dictionary<string, JsonElement>>> Run(
         BatchRunParams parameters,
         CancellationToken cancellationToken = default

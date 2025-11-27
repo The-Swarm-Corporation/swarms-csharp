@@ -83,7 +83,7 @@ public sealed record class AgentCompletion : ModelBase
     /// <summary>
     /// A list of image URLs that may be associated with the agent's task or representation.
     /// </summary>
-    public List<string>? Imgs
+    public IReadOnlyList<string>? Imgs
     {
         get
         {
@@ -125,7 +125,7 @@ public sealed record class AgentCompletion : ModelBase
     /// <summary>
     /// A list of tools that the agent should use to complete its task.
     /// </summary>
-    public List<string>? ToolsEnabled
+    public IReadOnlyList<string>? ToolsEnabled
     {
         get
         {

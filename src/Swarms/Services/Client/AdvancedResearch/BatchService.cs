@@ -8,8 +8,10 @@ using Swarms.Models.Client.AdvancedResearch.Batch;
 
 namespace Swarms.Services.Client.AdvancedResearch;
 
+/// <inheritdoc />
 public sealed class BatchService : IBatchService
 {
+    /// <inheritdoc/>
     public IBatchService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new BatchService(this._client.WithOptions(modifier));
@@ -22,6 +24,7 @@ public sealed class BatchService : IBatchService
         _client = client;
     }
 
+    /// <inheritdoc/>
     public async Task<List<BatchCreateCompletionResponse>> CreateCompletion(
         BatchCreateCompletionParams parameters,
         CancellationToken cancellationToken = default

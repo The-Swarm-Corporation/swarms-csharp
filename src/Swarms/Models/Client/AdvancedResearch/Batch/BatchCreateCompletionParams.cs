@@ -25,7 +25,7 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
     /// <summary>
     /// The input schemas for the advanced research
     /// </summary>
-    public required List<InputSchema>? InputSchemas
+    public required IReadOnlyList<InputSchema>? InputSchemas
     {
         get
         {

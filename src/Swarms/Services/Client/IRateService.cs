@@ -13,6 +13,11 @@ namespace Swarms.Services.Client;
 /// </summary>
 public interface IRateService
 {
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
     IRateService WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
     /// <summary>

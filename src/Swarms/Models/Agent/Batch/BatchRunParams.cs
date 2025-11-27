@@ -21,7 +21,7 @@ public sealed record class BatchRunParams : ParamsBase
         get { return this._rawBodyData.Freeze(); }
     }
 
-    public required List<AgentCompletion> Body
+    public required IReadOnlyList<AgentCompletion> Body
     {
         get
         {

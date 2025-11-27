@@ -9,8 +9,10 @@ using Swarms.Models.ReasoningAgents;
 
 namespace Swarms.Services;
 
+/// <inheritdoc />
 public sealed class ReasoningAgentService : IReasoningAgentService
 {
+    /// <inheritdoc/>
     public IReasoningAgentService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new ReasoningAgentService(this._client.WithOptions(modifier));
@@ -23,6 +25,7 @@ public sealed class ReasoningAgentService : IReasoningAgentService
         _client = client;
     }
 
+    /// <inheritdoc/>
     public async Task<Dictionary<string, JsonElement>> CreateCompletion(
         ReasoningAgentCreateCompletionParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -43,6 +46,7 @@ public sealed class ReasoningAgentService : IReasoningAgentService
             .ConfigureAwait(false);
     }
 
+    /// <inheritdoc/>
     public async Task<Dictionary<string, JsonElement>> ListTypes(
         ReasoningAgentListTypesParams? parameters = null,
         CancellationToken cancellationToken = default

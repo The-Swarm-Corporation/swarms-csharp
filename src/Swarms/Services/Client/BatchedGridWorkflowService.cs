@@ -7,8 +7,10 @@ using Swarms.Models.Client.BatchedGridWorkflow;
 
 namespace Swarms.Services.Client;
 
+/// <inheritdoc />
 public sealed class BatchedGridWorkflowService : IBatchedGridWorkflowService
 {
+    /// <inheritdoc/>
     public IBatchedGridWorkflowService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new BatchedGridWorkflowService(this._client.WithOptions(modifier));
@@ -21,6 +23,7 @@ public sealed class BatchedGridWorkflowService : IBatchedGridWorkflowService
         _client = client;
     }
 
+    /// <inheritdoc/>
     public async Task<BatchedGridWorkflowCompleteWorkflowResponse> CompleteWorkflow(
         BatchedGridWorkflowCompleteWorkflowParams? parameters = null,
         CancellationToken cancellationToken = default

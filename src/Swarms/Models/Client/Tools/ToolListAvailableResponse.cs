@@ -34,7 +34,7 @@ public sealed record class ToolListAvailableResponse : ModelBase
     /// <summary>
     /// The list of available tools.
     /// </summary>
-    public List<string>? Tools
+    public IReadOnlyList<string>? Tools
     {
         get
         {

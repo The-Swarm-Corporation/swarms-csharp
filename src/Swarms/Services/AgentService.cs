@@ -10,8 +10,10 @@ using Swarms.Services.Agent;
 
 namespace Swarms.Services;
 
+/// <inheritdoc />
 public sealed class AgentService : IAgentService
 {
+    /// <inheritdoc/>
     public IAgentService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new AgentService(this._client.WithOptions(modifier));
@@ -31,6 +33,7 @@ public sealed class AgentService : IAgentService
         get { return _batch.Value; }
     }
 
+    /// <inheritdoc/>
     public async Task<Dictionary<string, JsonElement>> List(
         AgentListParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -51,6 +54,7 @@ public sealed class AgentService : IAgentService
             .ConfigureAwait(false);
     }
 
+    /// <inheritdoc/>
     public async Task<AgentRunResponse> Run(
         AgentRunParams? parameters = null,
         CancellationToken cancellationToken = default

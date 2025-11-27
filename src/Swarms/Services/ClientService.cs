@@ -4,8 +4,10 @@ using Swarms.Services.Client;
 
 namespace Swarms.Services;
 
+/// <inheritdoc />
 public sealed class ClientService : IClientService
 {
+    /// <inheritdoc/>
     public IClientService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new ClientService(this._client.WithOptions(modifier));

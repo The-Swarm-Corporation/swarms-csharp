@@ -7,8 +7,10 @@ using Swarms.Models.Client.Rate;
 
 namespace Swarms.Services.Client;
 
+/// <inheritdoc />
 public sealed class RateService : IRateService
 {
+    /// <inheritdoc/>
     public IRateService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new RateService(this._client.WithOptions(modifier));
@@ -21,6 +23,7 @@ public sealed class RateService : IRateService
         _client = client;
     }
 
+    /// <inheritdoc/>
     public async Task<RateGetLimitsResponse> GetLimits(
         RateGetLimitsParams? parameters = null,
         CancellationToken cancellationToken = default

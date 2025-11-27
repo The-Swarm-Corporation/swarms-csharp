@@ -8,8 +8,10 @@ using Swarms.Services.Swarms;
 
 namespace Swarms.Services;
 
+/// <inheritdoc />
 public sealed class SwarmService : ISwarmService
 {
+    /// <inheritdoc/>
     public ISwarmService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new SwarmService(this._client.WithOptions(modifier));
@@ -29,6 +31,7 @@ public sealed class SwarmService : ISwarmService
         get { return _batch.Value; }
     }
 
+    /// <inheritdoc/>
     public async Task<SwarmCheckAvailableResponse> CheckAvailable(
         SwarmCheckAvailableParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -54,6 +57,7 @@ public sealed class SwarmService : ISwarmService
         return deserializedResponse;
     }
 
+    /// <inheritdoc/>
     public async Task<SwarmGetLogsResponse> GetLogs(
         SwarmGetLogsParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -79,6 +83,7 @@ public sealed class SwarmService : ISwarmService
         return deserializedResponse;
     }
 
+    /// <inheritdoc/>
     public async Task<SwarmRunResponse> Run(
         SwarmRunParams? parameters = null,
         CancellationToken cancellationToken = default

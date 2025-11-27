@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -7,7 +8,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Core;
 using Swarms.Exceptions;
-using System = System;
 
 namespace Swarms.Models.Client.AutoSwarmBuilder;
 
@@ -213,9 +213,9 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
         );
     }
 
-    public override System::Uri Url(ClientOptions options)
+    public override Uri Url(ClientOptions options)
     {
-        return new System::UriBuilder(
+        return new UriBuilder(
             options.BaseUrl.ToString().TrimEnd('/') + "/v1/auto-swarm-builder/completions"
         )
         {
@@ -253,7 +253,7 @@ sealed class ExecutionTypeConverter : JsonConverter<ExecutionType>
 {
     public override ExecutionType Read(
         ref Utf8JsonReader reader,
-        System::Type typeToConvert,
+        Type typeToConvert,
         JsonSerializerOptions options
     )
     {

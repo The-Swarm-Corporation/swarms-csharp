@@ -14,6 +14,11 @@ namespace Swarms.Services.Client;
 /// </summary>
 public interface IAdvancedResearchService
 {
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
     IAdvancedResearchService WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
     IBatchService Batch { get; }

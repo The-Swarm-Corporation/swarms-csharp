@@ -165,7 +165,7 @@ public sealed record class AgentRunResponse : ModelBase
     /// <summary>
     /// Usage statistics or metadata for the agent completion.
     /// </summary>
-    public Dictionary<string, JsonElement>? Usage
+    public IReadOnlyDictionary<string, JsonElement>? Usage
     {
         get
         {

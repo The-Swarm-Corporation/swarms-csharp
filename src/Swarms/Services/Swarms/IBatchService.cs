@@ -15,6 +15,11 @@ namespace Swarms.Services.Swarms;
 /// </summary>
 public interface IBatchService
 {
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
     IBatchService WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
     /// <summary>

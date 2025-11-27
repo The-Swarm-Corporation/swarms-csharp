@@ -13,6 +13,11 @@ namespace Swarms.Services;
 /// </summary>
 public interface IHealthService
 {
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
     IHealthService WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
     /// <summary>

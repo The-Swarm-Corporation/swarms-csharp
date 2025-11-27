@@ -104,7 +104,7 @@ public sealed record class AgentSpec : ModelBase
     /// Additional arguments to pass to the LLM such as top_p, frequency_penalty,
     /// presence_penalty, etc.
     /// </summary>
-    public Dictionary<string, JsonElement>? LlmArgs
+    public IReadOnlyDictionary<string, JsonElement>? LlmArgs
     {
         get
         {
@@ -429,7 +429,7 @@ public sealed record class AgentSpec : ModelBase
     /// <summary>
     /// A dictionary of tools that the agent can use to complete its task.
     /// </summary>
-    public List<Dictionary<string, JsonElement>>? ToolsListDictionary
+    public IReadOnlyList<Dictionary<string, JsonElement>>? ToolsListDictionary
     {
         get
         {
@@ -538,7 +538,7 @@ public sealed record class McpConfig : ModelBase
     /// <summary>
     /// Headers to send to the MCP server
     /// </summary>
-    public Dictionary<string, string>? Headers
+    public IReadOnlyDictionary<string, string>? Headers
     {
         get
         {
@@ -583,7 +583,7 @@ public sealed record class McpConfig : ModelBase
     /// <summary>
     /// Dictionary containing configuration settings for MCP tools
     /// </summary>
-    public Dictionary<string, JsonElement>? ToolConfigurations
+    public IReadOnlyDictionary<string, JsonElement>? ToolConfigurations
     {
         get
         {
@@ -715,7 +715,7 @@ public sealed record class McpConfigs : ModelBase
     /// <summary>
     /// List of MCP connections
     /// </summary>
-    public required List<Connection> Connections
+    public required IReadOnlyList<Connection> Connections
     {
         get
         {
@@ -812,7 +812,7 @@ public sealed record class Connection : ModelBase
     /// <summary>
     /// Headers to send to the MCP server
     /// </summary>
-    public Dictionary<string, string>? Headers
+    public IReadOnlyDictionary<string, string>? Headers
     {
         get
         {
@@ -857,7 +857,7 @@ public sealed record class Connection : ModelBase
     /// <summary>
     /// Dictionary containing configuration settings for MCP tools
     /// </summary>
-    public Dictionary<string, JsonElement>? ToolConfigurations
+    public IReadOnlyDictionary<string, JsonElement>? ToolConfigurations
     {
         get
         {

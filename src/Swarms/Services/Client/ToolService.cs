@@ -7,8 +7,10 @@ using Swarms.Models.Client.Tools;
 
 namespace Swarms.Services.Client;
 
+/// <inheritdoc />
 public sealed class ToolService : IToolService
 {
+    /// <inheritdoc/>
     public IToolService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new ToolService(this._client.WithOptions(modifier));
@@ -21,6 +23,7 @@ public sealed class ToolService : IToolService
         _client = client;
     }
 
+    /// <inheritdoc/>
     public async Task<ToolListAvailableResponse> ListAvailable(
         ToolListAvailableParams? parameters = null,
         CancellationToken cancellationToken = default

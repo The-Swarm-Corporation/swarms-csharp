@@ -7,8 +7,10 @@ using Swarms.Models.Agent.Batch;
 
 namespace Swarms.Services.Agent;
 
+/// <inheritdoc />
 public sealed class BatchService : IBatchService
 {
+    /// <inheritdoc/>
     public IBatchService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new BatchService(this._client.WithOptions(modifier));
@@ -21,6 +23,7 @@ public sealed class BatchService : IBatchService
         _client = client;
     }
 
+    /// <inheritdoc/>
     public async Task<BatchRunResponse> Run(
         BatchRunParams parameters,
         CancellationToken cancellationToken = default

@@ -30,7 +30,7 @@ public sealed record class SwarmCheckAvailableResponse : ModelBase
         }
     }
 
-    public List<string>? SwarmTypes
+    public IReadOnlyList<string>? SwarmTypes
     {
         get
         {

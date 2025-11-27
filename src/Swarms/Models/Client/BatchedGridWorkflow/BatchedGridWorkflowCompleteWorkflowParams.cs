@@ -25,7 +25,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// <summary>
     /// The agent completions to be completed by the batched grid workflow.
     /// </summary>
-    public List<AgentSpec>? AgentCompletions
+    public IReadOnlyList<AgentSpec>? AgentCompletions
     {
         get
         {
@@ -70,7 +70,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// <summary>
     /// The images to be used by the batched grid workflow.
     /// </summary>
-    public List<string>? Imgs
+    public IReadOnlyList<string>? Imgs
     {
         get
         {
@@ -133,7 +133,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// <summary>
     /// The tasks to be completed by the batched grid workflow.
     /// </summary>
-    public List<string>? Tasks
+    public IReadOnlyList<string>? Tasks
     {
         get
         {

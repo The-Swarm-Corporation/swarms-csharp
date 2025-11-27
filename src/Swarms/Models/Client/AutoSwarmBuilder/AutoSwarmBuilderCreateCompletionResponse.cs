@@ -74,7 +74,7 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     /// <summary>
     /// The outputs of the auto swarms builder.
     /// </summary>
-    public Dictionary<string, JsonElement>? Outputs
+    public IReadOnlyDictionary<string, JsonElement>? Outputs
     {
         get
         {
@@ -140,7 +140,7 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     /// <summary>
     /// The usage of the swarm execution.
     /// </summary>
-    public Dictionary<string, JsonElement>? Usage
+    public IReadOnlyDictionary<string, JsonElement>? Usage
     {
         get
         {

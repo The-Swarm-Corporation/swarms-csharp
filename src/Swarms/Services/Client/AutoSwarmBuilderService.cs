@@ -8,8 +8,10 @@ using Swarms.Models.Client.AutoSwarmBuilder;
 
 namespace Swarms.Services.Client;
 
+/// <inheritdoc />
 public sealed class AutoSwarmBuilderService : IAutoSwarmBuilderService
 {
+    /// <inheritdoc/>
     public IAutoSwarmBuilderService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new AutoSwarmBuilderService(this._client.WithOptions(modifier));
@@ -22,6 +24,7 @@ public sealed class AutoSwarmBuilderService : IAutoSwarmBuilderService
         _client = client;
     }
 
+    /// <inheritdoc/>
     public async Task<AutoSwarmBuilderCreateCompletionResponse> CreateCompletion(
         AutoSwarmBuilderCreateCompletionParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -47,6 +50,7 @@ public sealed class AutoSwarmBuilderService : IAutoSwarmBuilderService
         return deserializedResponse;
     }
 
+    /// <inheritdoc/>
     public async Task<List<string>> ListExecutionTypes(
         AutoSwarmBuilderListExecutionTypesParams? parameters = null,
         CancellationToken cancellationToken = default

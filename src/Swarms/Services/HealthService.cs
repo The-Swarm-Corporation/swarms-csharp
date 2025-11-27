@@ -7,8 +7,10 @@ using Swarms.Models.Health;
 
 namespace Swarms.Services;
 
+/// <inheritdoc />
 public sealed class HealthService : IHealthService
 {
+    /// <inheritdoc/>
     public IHealthService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new HealthService(this._client.WithOptions(modifier));
@@ -21,6 +23,7 @@ public sealed class HealthService : IHealthService
         _client = client;
     }
 
+    /// <inheritdoc/>
     public async Task<HealthCheckResponse> Check(
         HealthCheckParams? parameters = null,
         CancellationToken cancellationToken = default

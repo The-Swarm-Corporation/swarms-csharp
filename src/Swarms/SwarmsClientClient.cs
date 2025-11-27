@@ -13,6 +13,7 @@ using Swarms.Services;
 
 namespace Swarms;
 
+/// <inheritdoc/>
 public sealed class SwarmsClientClient : ISwarmsClientClient
 {
     static readonly ThreadLocal<Random> _threadLocalRandom = new(() => new Random());
@@ -24,42 +25,49 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
 
     readonly ClientOptions _options;
 
+    /// <inheritdoc/>
     public HttpClient HttpClient
     {
         get { return this._options.HttpClient; }
         init { this._options.HttpClient = value; }
     }
 
+    /// <inheritdoc/>
     public Uri BaseUrl
     {
         get { return this._options.BaseUrl; }
         init { this._options.BaseUrl = value; }
     }
 
+    /// <inheritdoc/>
     public bool ResponseValidation
     {
         get { return this._options.ResponseValidation; }
         init { this._options.ResponseValidation = value; }
     }
 
+    /// <inheritdoc/>
     public int? MaxRetries
     {
         get { return this._options.MaxRetries; }
         init { this._options.MaxRetries = value; }
     }
 
+    /// <inheritdoc/>
     public TimeSpan? Timeout
     {
         get { return this._options.Timeout; }
         init { this._options.Timeout = value; }
     }
 
+    /// <inheritdoc/>
     public string? APIKey
     {
         get { return this._options.APIKey; }
         init { this._options.APIKey = value; }
     }
 
+    /// <inheritdoc/>
     public ISwarmsClientClient WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new SwarmsClientClient(modifier(this._options));
@@ -101,6 +109,7 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
         get { return _client.Value; }
     }
 
+    /// <inheritdoc/>
     public async Task<JsonElement> GetRoot(
         ClientGetRootParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -117,6 +126,7 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
         return await response.Deserialize<JsonElement>(cancellationToken).ConfigureAwait(false);
     }
 
+    /// <inheritdoc/>
     public async Task<HttpResponse> Execute<T>(
         HttpRequest<T> request,
         CancellationToken cancellationToken = default

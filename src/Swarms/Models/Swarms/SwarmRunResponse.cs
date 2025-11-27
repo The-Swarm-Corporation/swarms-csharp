@@ -207,7 +207,7 @@ public sealed record class SwarmRunResponse : ModelBase
     /// <summary>
     /// The usage of the swarm.
     /// </summary>
-    public required Dictionary<string, JsonElement>? Usage
+    public required IReadOnlyDictionary<string, JsonElement>? Usage
     {
         get
         {

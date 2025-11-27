@@ -8,8 +8,10 @@ using Swarms.Services.Client.AdvancedResearch;
 
 namespace Swarms.Services.Client;
 
+/// <inheritdoc />
 public sealed class AdvancedResearchService : IAdvancedResearchService
 {
+    /// <inheritdoc/>
     public IAdvancedResearchService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
         return new AdvancedResearchService(this._client.WithOptions(modifier));
@@ -29,6 +31,7 @@ public sealed class AdvancedResearchService : IAdvancedResearchService
         get { return _batch.Value; }
     }
 
+    /// <inheritdoc/>
     public async Task<AdvancedResearchCreateCompletionResponse> CreateCompletion(
         AdvancedResearchCreateCompletionParams parameters,
         CancellationToken cancellationToken = default

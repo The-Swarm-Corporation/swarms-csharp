@@ -16,6 +16,11 @@ namespace Swarms.Services;
 /// </summary>
 public interface IAgentService
 {
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
     IAgentService WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
     IBatchService Batch { get; }

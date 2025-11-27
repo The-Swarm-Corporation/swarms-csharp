@@ -14,6 +14,11 @@ namespace Swarms.Services.Client;
 /// </summary>
 public interface IAutoSwarmBuilderService
 {
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
     IAutoSwarmBuilderService WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
     /// <summary>

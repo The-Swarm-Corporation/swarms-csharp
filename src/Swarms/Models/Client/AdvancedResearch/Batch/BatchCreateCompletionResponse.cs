@@ -167,7 +167,7 @@ public sealed record class BatchCreateCompletionResponse : ModelBase
     /// <summary>
     /// The usage of the advanced research session
     /// </summary>
-    public required Dictionary<string, JsonElement>? Usage
+    public required IReadOnlyDictionary<string, JsonElement>? Usage
     {
         get
         {
