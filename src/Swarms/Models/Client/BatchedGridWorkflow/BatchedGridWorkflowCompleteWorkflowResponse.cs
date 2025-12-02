@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Core;
-using Swarms.Exceptions;
 
 namespace Swarms.Models.Client.BatchedGridWorkflow;
 
@@ -22,27 +20,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     /// </summary>
     public required string Description
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("description", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'description' cannot be null",
-                    new ArgumentOutOfRangeException("description", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<string>(element, ModelBase.SerializerOptions)
-                ?? throw new SwarmsClientInvalidDataException(
-                    "'description' cannot be null",
-                    new ArgumentNullException("description")
-                );
-        }
-        init
-        {
-            this._rawData["description"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullClass<string>(this.RawData, "description"); }
+        init { ModelBase.Set(this._rawData, "description", value); }
     }
 
     /// <summary>
@@ -50,27 +29,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     /// </summary>
     public required string JobID
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("job_id", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'job_id' cannot be null",
-                    new ArgumentOutOfRangeException("job_id", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<string>(element, ModelBase.SerializerOptions)
-                ?? throw new SwarmsClientInvalidDataException(
-                    "'job_id' cannot be null",
-                    new ArgumentNullException("job_id")
-                );
-        }
-        init
-        {
-            this._rawData["job_id"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullClass<string>(this.RawData, "job_id"); }
+        init { ModelBase.Set(this._rawData, "job_id", value); }
     }
 
     /// <summary>
@@ -78,27 +38,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     /// </summary>
     public required string Name
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("name", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'name' cannot be null",
-                    new ArgumentOutOfRangeException("name", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<string>(element, ModelBase.SerializerOptions)
-                ?? throw new SwarmsClientInvalidDataException(
-                    "'name' cannot be null",
-                    new ArgumentNullException("name")
-                );
-        }
-        init
-        {
-            this._rawData["name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullClass<string>(this.RawData, "name"); }
+        init { ModelBase.Set(this._rawData, "name", value); }
     }
 
     /// <summary>
@@ -106,23 +47,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     /// </summary>
     public required JsonElement Outputs
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("outputs", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'outputs' cannot be null",
-                    new ArgumentOutOfRangeException("outputs", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<JsonElement>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["outputs"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<JsonElement>(this.RawData, "outputs"); }
+        init { ModelBase.Set(this._rawData, "outputs", value); }
     }
 
     /// <summary>
@@ -130,27 +56,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     /// </summary>
     public required string Status
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("status", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'status' cannot be null",
-                    new ArgumentOutOfRangeException("status", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<string>(element, ModelBase.SerializerOptions)
-                ?? throw new SwarmsClientInvalidDataException(
-                    "'status' cannot be null",
-                    new ArgumentNullException("status")
-                );
-        }
-        init
-        {
-            this._rawData["status"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullClass<string>(this.RawData, "status"); }
+        init { ModelBase.Set(this._rawData, "status", value); }
     }
 
     /// <summary>
@@ -158,27 +65,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     /// </summary>
     public required string Timestamp
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("timestamp", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'timestamp' cannot be null",
-                    new ArgumentOutOfRangeException("timestamp", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<string>(element, ModelBase.SerializerOptions)
-                ?? throw new SwarmsClientInvalidDataException(
-                    "'timestamp' cannot be null",
-                    new ArgumentNullException("timestamp")
-                );
-        }
-        init
-        {
-            this._rawData["timestamp"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullClass<string>(this.RawData, "timestamp"); }
+        init { ModelBase.Set(this._rawData, "timestamp", value); }
     }
 
     /// <summary>
@@ -186,27 +74,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     /// </summary>
     public required Usage Usage
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("usage", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'usage' cannot be null",
-                    new ArgumentOutOfRangeException("usage", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<Usage>(element, ModelBase.SerializerOptions)
-                ?? throw new SwarmsClientInvalidDataException(
-                    "'usage' cannot be null",
-                    new ArgumentNullException("usage")
-                );
-        }
-        init
-        {
-            this._rawData["usage"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullClass<Usage>(this.RawData, "usage"); }
+        init { ModelBase.Set(this._rawData, "usage", value); }
     }
 
     public override void Validate()
@@ -264,23 +133,8 @@ public sealed record class Usage : ModelBase
     /// </summary>
     public required double CostPerAgent
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("cost_per_agent", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'cost_per_agent' cannot be null",
-                    new ArgumentOutOfRangeException("cost_per_agent", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<double>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["cost_per_agent"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<double>(this.RawData, "cost_per_agent"); }
+        init { ModelBase.Set(this._rawData, "cost_per_agent", value); }
     }
 
     /// <summary>
@@ -288,23 +142,8 @@ public sealed record class Usage : ModelBase
     /// </summary>
     public required long InputTokens
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("input_tokens", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'input_tokens' cannot be null",
-                    new ArgumentOutOfRangeException("input_tokens", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["input_tokens"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "input_tokens"); }
+        init { ModelBase.Set(this._rawData, "input_tokens", value); }
     }
 
     /// <summary>
@@ -312,23 +151,8 @@ public sealed record class Usage : ModelBase
     /// </summary>
     public required long OutputTokens
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("output_tokens", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'output_tokens' cannot be null",
-                    new ArgumentOutOfRangeException("output_tokens", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["output_tokens"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "output_tokens"); }
+        init { ModelBase.Set(this._rawData, "output_tokens", value); }
     }
 
     /// <summary>
@@ -336,23 +160,8 @@ public sealed record class Usage : ModelBase
     /// </summary>
     public required double TokenCost
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("token_cost", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'token_cost' cannot be null",
-                    new ArgumentOutOfRangeException("token_cost", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<double>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["token_cost"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<double>(this.RawData, "token_cost"); }
+        init { ModelBase.Set(this._rawData, "token_cost", value); }
     }
 
     /// <summary>
@@ -360,23 +169,8 @@ public sealed record class Usage : ModelBase
     /// </summary>
     public required long TotalTokens
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("total_tokens", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'total_tokens' cannot be null",
-                    new ArgumentOutOfRangeException("total_tokens", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["total_tokens"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "total_tokens"); }
+        init { ModelBase.Set(this._rawData, "total_tokens", value); }
     }
 
     public override void Validate()

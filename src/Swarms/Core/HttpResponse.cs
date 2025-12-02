@@ -22,10 +22,14 @@ public sealed class HttpResponse : IDisposable
         );
         try
         {
-            return JsonSerializer.Deserialize<T>(
-                    await this.ReadAsStream(cts.Token).ConfigureAwait(false),
-                    ModelBase.SerializerOptions
-                ) ?? throw new SwarmsClientInvalidDataException("Response cannot be null");
+            return await JsonSerializer
+                    .DeserializeAsync<T>(
+                        await this.ReadAsStream(cts.Token).ConfigureAwait(false),
+                        ModelBase.SerializerOptions,
+                        cts.Token
+                    )
+                    .ConfigureAwait(false)
+                ?? throw new SwarmsClientInvalidDataException("Response cannot be null");
         }
         catch (HttpRequestException e)
         {

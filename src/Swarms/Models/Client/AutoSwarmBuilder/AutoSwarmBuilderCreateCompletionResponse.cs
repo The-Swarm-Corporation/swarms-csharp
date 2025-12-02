@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Core;
-using Swarms.Exceptions;
 
 namespace Swarms.Models.Client.AutoSwarmBuilder;
 
@@ -31,23 +29,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     /// </summary>
     public required bool Success
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("success", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'success' cannot be null",
-                    new ArgumentOutOfRangeException("success", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<bool>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["success"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<bool>(this.RawData, "success"); }
+        init { ModelBase.Set(this._rawData, "success", value); }
     }
 
     /// <summary>
@@ -55,20 +38,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     /// </summary>
     public string? JobID
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("job_id", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["job_id"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "job_id"); }
+        init { ModelBase.Set(this._rawData, "job_id", value); }
     }
 
     /// <summary>
@@ -78,21 +49,12 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     {
         get
         {
-            if (!this._rawData.TryGetValue("outputs", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
-                element,
-                ModelBase.SerializerOptions
+            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+                this.RawData,
+                "outputs"
             );
         }
-        init
-        {
-            this._rawData["outputs"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawData, "outputs", value); }
     }
 
     /// <summary>
@@ -100,20 +62,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     /// </summary>
     public string? Timestamp
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("timestamp", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["timestamp"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "timestamp"); }
+        init { ModelBase.Set(this._rawData, "timestamp", value); }
     }
 
     /// <summary>
@@ -121,20 +71,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     /// </summary>
     public string? Type
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("type", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["type"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "type"); }
+        init { ModelBase.Set(this._rawData, "type", value); }
     }
 
     /// <summary>
@@ -144,21 +82,12 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     {
         get
         {
-            if (!this._rawData.TryGetValue("usage", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
-                element,
-                ModelBase.SerializerOptions
+            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+                this.RawData,
+                "usage"
             );
         }
-        init
-        {
-            this._rawData["usage"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawData, "usage", value); }
     }
 
     public override void Validate()

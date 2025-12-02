@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Core;
-using Swarms.Exceptions;
 
 namespace Swarms.Models.Client.Rate;
 
@@ -17,20 +15,8 @@ public sealed record class RateGetLimitsResponse : ModelBase
     /// </summary>
     public required Limits? Limits
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("limits", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<Limits?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["limits"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<Limits>(this.RawData, "limits"); }
+        init { ModelBase.Set(this._rawData, "limits", value); }
     }
 
     /// <summary>
@@ -38,20 +24,8 @@ public sealed record class RateGetLimitsResponse : ModelBase
     /// </summary>
     public required RateLimits? RateLimits
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("rate_limits", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<RateLimits?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["rate_limits"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<RateLimits>(this.RawData, "rate_limits"); }
+        init { ModelBase.Set(this._rawData, "rate_limits", value); }
     }
 
     /// <summary>
@@ -59,20 +33,8 @@ public sealed record class RateGetLimitsResponse : ModelBase
     /// </summary>
     public required string? Tier
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("tier", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["tier"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "tier"); }
+        init { ModelBase.Set(this._rawData, "tier", value); }
     }
 
     /// <summary>
@@ -80,20 +42,8 @@ public sealed record class RateGetLimitsResponse : ModelBase
     /// </summary>
     public required string? Timestamp
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("timestamp", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["timestamp"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "timestamp"); }
+        init { ModelBase.Set(this._rawData, "timestamp", value); }
     }
 
     /// <summary>
@@ -101,20 +51,8 @@ public sealed record class RateGetLimitsResponse : ModelBase
     /// </summary>
     public bool? Success
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("success", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["success"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "success"); }
+        init { ModelBase.Set(this._rawData, "success", value); }
     }
 
     public override void Validate()
@@ -167,26 +105,8 @@ public sealed record class Limits : ModelBase
     /// </summary>
     public required long MaximumRequestsPerDay
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("maximum_requests_per_day", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'maximum_requests_per_day' cannot be null",
-                    new ArgumentOutOfRangeException(
-                        "maximum_requests_per_day",
-                        "Missing required argument"
-                    )
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["maximum_requests_per_day"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "maximum_requests_per_day"); }
+        init { ModelBase.Set(this._rawData, "maximum_requests_per_day", value); }
     }
 
     /// <summary>
@@ -194,26 +114,8 @@ public sealed record class Limits : ModelBase
     /// </summary>
     public required long MaximumRequestsPerHour
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("maximum_requests_per_hour", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'maximum_requests_per_hour' cannot be null",
-                    new ArgumentOutOfRangeException(
-                        "maximum_requests_per_hour",
-                        "Missing required argument"
-                    )
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["maximum_requests_per_hour"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "maximum_requests_per_hour"); }
+        init { ModelBase.Set(this._rawData, "maximum_requests_per_hour", value); }
     }
 
     /// <summary>
@@ -223,24 +125,9 @@ public sealed record class Limits : ModelBase
     {
         get
         {
-            if (!this._rawData.TryGetValue("maximum_requests_per_minute", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'maximum_requests_per_minute' cannot be null",
-                    new ArgumentOutOfRangeException(
-                        "maximum_requests_per_minute",
-                        "Missing required argument"
-                    )
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
+            return ModelBase.GetNotNullStruct<long>(this.RawData, "maximum_requests_per_minute");
         }
-        init
-        {
-            this._rawData["maximum_requests_per_minute"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawData, "maximum_requests_per_minute", value); }
     }
 
     /// <summary>
@@ -248,23 +135,8 @@ public sealed record class Limits : ModelBase
     /// </summary>
     public required long TokensPerAgent
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("tokens_per_agent", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'tokens_per_agent' cannot be null",
-                    new ArgumentOutOfRangeException("tokens_per_agent", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["tokens_per_agent"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "tokens_per_agent"); }
+        init { ModelBase.Set(this._rawData, "tokens_per_agent", value); }
     }
 
     public override void Validate()
@@ -313,27 +185,8 @@ public sealed record class RateLimits : ModelBase
     /// </summary>
     public required Day Day
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("day", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'day' cannot be null",
-                    new ArgumentOutOfRangeException("day", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<Day>(element, ModelBase.SerializerOptions)
-                ?? throw new SwarmsClientInvalidDataException(
-                    "'day' cannot be null",
-                    new ArgumentNullException("day")
-                );
-        }
-        init
-        {
-            this._rawData["day"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullClass<Day>(this.RawData, "day"); }
+        init { ModelBase.Set(this._rawData, "day", value); }
     }
 
     /// <summary>
@@ -341,27 +194,8 @@ public sealed record class RateLimits : ModelBase
     /// </summary>
     public required Hour Hour
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("hour", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'hour' cannot be null",
-                    new ArgumentOutOfRangeException("hour", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<Hour>(element, ModelBase.SerializerOptions)
-                ?? throw new SwarmsClientInvalidDataException(
-                    "'hour' cannot be null",
-                    new ArgumentNullException("hour")
-                );
-        }
-        init
-        {
-            this._rawData["hour"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullClass<Hour>(this.RawData, "hour"); }
+        init { ModelBase.Set(this._rawData, "hour", value); }
     }
 
     /// <summary>
@@ -369,27 +203,8 @@ public sealed record class RateLimits : ModelBase
     /// </summary>
     public required Minute Minute
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("minute", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'minute' cannot be null",
-                    new ArgumentOutOfRangeException("minute", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<Minute>(element, ModelBase.SerializerOptions)
-                ?? throw new SwarmsClientInvalidDataException(
-                    "'minute' cannot be null",
-                    new ArgumentNullException("minute")
-                );
-        }
-        init
-        {
-            this._rawData["minute"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullClass<Minute>(this.RawData, "minute"); }
+        init { ModelBase.Set(this._rawData, "minute", value); }
     }
 
     public override void Validate()
@@ -437,23 +252,8 @@ public sealed record class Day : ModelBase
     /// </summary>
     public required long Count
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("count", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'count' cannot be null",
-                    new ArgumentOutOfRangeException("count", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["count"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "count"); }
+        init { ModelBase.Set(this._rawData, "count", value); }
     }
 
     /// <summary>
@@ -461,23 +261,8 @@ public sealed record class Day : ModelBase
     /// </summary>
     public required bool Exceeded
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("exceeded", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'exceeded' cannot be null",
-                    new ArgumentOutOfRangeException("exceeded", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<bool>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["exceeded"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<bool>(this.RawData, "exceeded"); }
+        init { ModelBase.Set(this._rawData, "exceeded", value); }
     }
 
     /// <summary>
@@ -485,23 +270,8 @@ public sealed record class Day : ModelBase
     /// </summary>
     public required long Limit
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("limit", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'limit' cannot be null",
-                    new ArgumentOutOfRangeException("limit", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["limit"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "limit"); }
+        init { ModelBase.Set(this._rawData, "limit", value); }
     }
 
     /// <summary>
@@ -509,23 +279,8 @@ public sealed record class Day : ModelBase
     /// </summary>
     public required long Remaining
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("remaining", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'remaining' cannot be null",
-                    new ArgumentOutOfRangeException("remaining", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["remaining"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "remaining"); }
+        init { ModelBase.Set(this._rawData, "remaining", value); }
     }
 
     /// <summary>
@@ -533,27 +288,8 @@ public sealed record class Day : ModelBase
     /// </summary>
     public required string ResetTime
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("reset_time", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'reset_time' cannot be null",
-                    new ArgumentOutOfRangeException("reset_time", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<string>(element, ModelBase.SerializerOptions)
-                ?? throw new SwarmsClientInvalidDataException(
-                    "'reset_time' cannot be null",
-                    new ArgumentNullException("reset_time")
-                );
-        }
-        init
-        {
-            this._rawData["reset_time"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullClass<string>(this.RawData, "reset_time"); }
+        init { ModelBase.Set(this._rawData, "reset_time", value); }
     }
 
     public override void Validate()
@@ -603,23 +339,8 @@ public sealed record class Hour : ModelBase
     /// </summary>
     public required long Count
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("count", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'count' cannot be null",
-                    new ArgumentOutOfRangeException("count", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["count"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "count"); }
+        init { ModelBase.Set(this._rawData, "count", value); }
     }
 
     /// <summary>
@@ -627,23 +348,8 @@ public sealed record class Hour : ModelBase
     /// </summary>
     public required bool Exceeded
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("exceeded", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'exceeded' cannot be null",
-                    new ArgumentOutOfRangeException("exceeded", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<bool>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["exceeded"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<bool>(this.RawData, "exceeded"); }
+        init { ModelBase.Set(this._rawData, "exceeded", value); }
     }
 
     /// <summary>
@@ -651,23 +357,8 @@ public sealed record class Hour : ModelBase
     /// </summary>
     public required long Limit
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("limit", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'limit' cannot be null",
-                    new ArgumentOutOfRangeException("limit", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["limit"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "limit"); }
+        init { ModelBase.Set(this._rawData, "limit", value); }
     }
 
     /// <summary>
@@ -675,23 +366,8 @@ public sealed record class Hour : ModelBase
     /// </summary>
     public required long Remaining
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("remaining", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'remaining' cannot be null",
-                    new ArgumentOutOfRangeException("remaining", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["remaining"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "remaining"); }
+        init { ModelBase.Set(this._rawData, "remaining", value); }
     }
 
     /// <summary>
@@ -699,27 +375,8 @@ public sealed record class Hour : ModelBase
     /// </summary>
     public required string ResetTime
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("reset_time", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'reset_time' cannot be null",
-                    new ArgumentOutOfRangeException("reset_time", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<string>(element, ModelBase.SerializerOptions)
-                ?? throw new SwarmsClientInvalidDataException(
-                    "'reset_time' cannot be null",
-                    new ArgumentNullException("reset_time")
-                );
-        }
-        init
-        {
-            this._rawData["reset_time"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullClass<string>(this.RawData, "reset_time"); }
+        init { ModelBase.Set(this._rawData, "reset_time", value); }
     }
 
     public override void Validate()
@@ -769,23 +426,8 @@ public sealed record class Minute : ModelBase
     /// </summary>
     public required long Count
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("count", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'count' cannot be null",
-                    new ArgumentOutOfRangeException("count", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["count"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "count"); }
+        init { ModelBase.Set(this._rawData, "count", value); }
     }
 
     /// <summary>
@@ -793,23 +435,8 @@ public sealed record class Minute : ModelBase
     /// </summary>
     public required bool Exceeded
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("exceeded", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'exceeded' cannot be null",
-                    new ArgumentOutOfRangeException("exceeded", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<bool>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["exceeded"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<bool>(this.RawData, "exceeded"); }
+        init { ModelBase.Set(this._rawData, "exceeded", value); }
     }
 
     /// <summary>
@@ -817,23 +444,8 @@ public sealed record class Minute : ModelBase
     /// </summary>
     public required long Limit
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("limit", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'limit' cannot be null",
-                    new ArgumentOutOfRangeException("limit", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["limit"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "limit"); }
+        init { ModelBase.Set(this._rawData, "limit", value); }
     }
 
     /// <summary>
@@ -841,23 +453,8 @@ public sealed record class Minute : ModelBase
     /// </summary>
     public required long Remaining
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("remaining", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'remaining' cannot be null",
-                    new ArgumentOutOfRangeException("remaining", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<long>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["remaining"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "remaining"); }
+        init { ModelBase.Set(this._rawData, "remaining", value); }
     }
 
     /// <summary>
@@ -865,27 +462,8 @@ public sealed record class Minute : ModelBase
     /// </summary>
     public required string ResetTime
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("reset_time", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'reset_time' cannot be null",
-                    new ArgumentOutOfRangeException("reset_time", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<string>(element, ModelBase.SerializerOptions)
-                ?? throw new SwarmsClientInvalidDataException(
-                    "'reset_time' cannot be null",
-                    new ArgumentNullException("reset_time")
-                );
-        }
-        init
-        {
-            this._rawData["reset_time"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullClass<string>(this.RawData, "reset_time"); }
+        init { ModelBase.Set(this._rawData, "reset_time", value); }
     }
 
     public override void Validate()

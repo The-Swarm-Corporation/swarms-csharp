@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Core;
-using Swarms.Exceptions;
 
 namespace Swarms.Models.Client.AdvancedResearch;
 
@@ -22,20 +20,8 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     /// </summary>
     public required string? ID
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("id", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["id"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "id"); }
+        init { ModelBase.Set(this._rawData, "id", value); }
     }
 
     /// <summary>
@@ -43,20 +29,8 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     /// </summary>
     public required long? CharactersPerSource
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("characters_per_source", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["characters_per_source"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "characters_per_source"); }
+        init { ModelBase.Set(this._rawData, "characters_per_source", value); }
     }
 
     /// <summary>
@@ -64,20 +38,8 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     /// </summary>
     public required string? Description
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("description", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["description"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "description"); }
+        init { ModelBase.Set(this._rawData, "description", value); }
     }
 
     /// <summary>
@@ -85,20 +47,8 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     /// </summary>
     public required string? Name
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("name", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "name"); }
+        init { ModelBase.Set(this._rawData, "name", value); }
     }
 
     /// <summary>
@@ -106,23 +56,8 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     /// </summary>
     public required JsonElement Outputs
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("outputs", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'outputs' cannot be null",
-                    new ArgumentOutOfRangeException("outputs", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<JsonElement>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["outputs"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<JsonElement>(this.RawData, "outputs"); }
+        init { ModelBase.Set(this._rawData, "outputs", value); }
     }
 
     /// <summary>
@@ -130,20 +65,8 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     /// </summary>
     public required long? Sources
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("sources", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["sources"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "sources"); }
+        init { ModelBase.Set(this._rawData, "sources", value); }
     }
 
     /// <summary>
@@ -151,20 +74,8 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     /// </summary>
     public required string? Timestamp
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("timestamp", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["timestamp"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "timestamp"); }
+        init { ModelBase.Set(this._rawData, "timestamp", value); }
     }
 
     /// <summary>
@@ -174,21 +85,12 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     {
         get
         {
-            if (!this._rawData.TryGetValue("usage", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
-                element,
-                ModelBase.SerializerOptions
+            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+                this.RawData,
+                "usage"
             );
         }
-        init
-        {
-            this._rawData["usage"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawData, "usage", value); }
     }
 
     public override void Validate()

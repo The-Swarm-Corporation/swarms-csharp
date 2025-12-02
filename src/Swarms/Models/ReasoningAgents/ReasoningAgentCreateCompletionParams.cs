@@ -27,20 +27,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? AgentName
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("agent_name", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["agent_name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "agent_name"); }
+        init { ModelBase.Set(this._rawBodyData, "agent_name", value); }
     }
 
     /// <summary>
@@ -48,20 +36,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? Description
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("description", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["description"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "description"); }
+        init { ModelBase.Set(this._rawBodyData, "description", value); }
     }
 
     /// <summary>
@@ -69,20 +45,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public long? MaxLoops
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("max_loops", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["max_loops"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
+        init { ModelBase.Set(this._rawBodyData, "max_loops", value); }
     }
 
     /// <summary>
@@ -90,20 +54,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public long? MemoryCapacity
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("memory_capacity", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["memory_capacity"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "memory_capacity"); }
+        init { ModelBase.Set(this._rawBodyData, "memory_capacity", value); }
     }
 
     /// <summary>
@@ -111,20 +63,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? ModelName
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("model_name", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["model_name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "model_name"); }
+        init { ModelBase.Set(this._rawBodyData, "model_name", value); }
     }
 
     /// <summary>
@@ -132,20 +72,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public long? NumKnowledgeItems
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("num_knowledge_items", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["num_knowledge_items"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "num_knowledge_items"); }
+        init { ModelBase.Set(this._rawBodyData, "num_knowledge_items", value); }
     }
 
     /// <summary>
@@ -153,20 +81,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public long? NumSamples
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("num_samples", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["num_samples"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "num_samples"); }
+        init { ModelBase.Set(this._rawBodyData, "num_samples", value); }
     }
 
     /// <summary>
@@ -176,21 +92,12 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this._rawBodyData.TryGetValue("output_type", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<ApiEnum<string, OutputType>?>(
-                element,
-                ModelBase.SerializerOptions
+            return ModelBase.GetNullableClass<ApiEnum<string, OutputType>>(
+                this.RawBodyData,
+                "output_type"
             );
         }
-        init
-        {
-            this._rawBodyData["output_type"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawBodyData, "output_type", value); }
     }
 
     /// <summary>
@@ -200,21 +107,12 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this._rawBodyData.TryGetValue("swarm_type", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<ApiEnum<string, SwarmType>?>(
-                element,
-                ModelBase.SerializerOptions
+            return ModelBase.GetNullableClass<ApiEnum<string, SwarmType>>(
+                this.RawBodyData,
+                "swarm_type"
             );
         }
-        init
-        {
-            this._rawBodyData["swarm_type"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawBodyData, "swarm_type", value); }
     }
 
     /// <summary>
@@ -222,20 +120,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? SystemPrompt
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("system_prompt", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["system_prompt"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "system_prompt"); }
+        init { ModelBase.Set(this._rawBodyData, "system_prompt", value); }
     }
 
     /// <summary>
@@ -243,20 +129,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? Task
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("task", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["task"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "task"); }
+        init { ModelBase.Set(this._rawBodyData, "task", value); }
     }
 
     public ReasoningAgentCreateCompletionParams() { }

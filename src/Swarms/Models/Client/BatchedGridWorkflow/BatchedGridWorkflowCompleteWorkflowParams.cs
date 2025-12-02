@@ -29,21 +29,12 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     {
         get
         {
-            if (!this._rawBodyData.TryGetValue("agent_completions", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<List<AgentSpec>?>(
-                element,
-                ModelBase.SerializerOptions
+            return ModelBase.GetNullableClass<List<AgentSpec>>(
+                this.RawBodyData,
+                "agent_completions"
             );
         }
-        init
-        {
-            this._rawBodyData["agent_completions"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawBodyData, "agent_completions", value); }
     }
 
     /// <summary>
@@ -51,20 +42,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public string? Description
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("description", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["description"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "description"); }
+        init { ModelBase.Set(this._rawBodyData, "description", value); }
     }
 
     /// <summary>
@@ -72,20 +51,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public IReadOnlyList<string>? Imgs
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("imgs", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["imgs"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<List<string>>(this.RawBodyData, "imgs"); }
+        init { ModelBase.Set(this._rawBodyData, "imgs", value); }
     }
 
     /// <summary>
@@ -93,20 +60,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public long? MaxLoops
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("max_loops", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["max_loops"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
+        init { ModelBase.Set(this._rawBodyData, "max_loops", value); }
     }
 
     /// <summary>
@@ -114,20 +69,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public string? Name
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("name", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "name"); }
+        init { ModelBase.Set(this._rawBodyData, "name", value); }
     }
 
     /// <summary>
@@ -135,20 +78,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public IReadOnlyList<string>? Tasks
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("tasks", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["tasks"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<List<string>>(this.RawBodyData, "tasks"); }
+        init { ModelBase.Set(this._rawBodyData, "tasks", value); }
     }
 
     public BatchedGridWorkflowCompleteWorkflowParams() { }

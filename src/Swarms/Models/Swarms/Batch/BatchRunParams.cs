@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using Swarms.Core;
-using Swarms.Exceptions;
 
 namespace Swarms.Models.Swarms.Batch;
 
@@ -23,27 +22,8 @@ public sealed record class BatchRunParams : ParamsBase
 
     public required IReadOnlyList<SwarmSpec> Body
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("body", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'body' cannot be null",
-                    new ArgumentOutOfRangeException("body", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<List<SwarmSpec>>(element, ModelBase.SerializerOptions)
-                ?? throw new SwarmsClientInvalidDataException(
-                    "'body' cannot be null",
-                    new ArgumentNullException("body")
-                );
-        }
-        init
-        {
-            this._rawBodyData["body"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullClass<List<SwarmSpec>>(this.RawBodyData, "body"); }
+        init { ModelBase.Set(this._rawBodyData, "body", value); }
     }
 
     public BatchRunParams() { }

@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Core;
-using Swarms.Exceptions;
 
 namespace Swarms.Models.Agent;
 
@@ -18,20 +16,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public required string? AgentName
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("agent_name", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["agent_name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "agent_name"); }
+        init { ModelBase.Set(this._rawData, "agent_name", value); }
     }
 
     /// <summary>
@@ -40,20 +26,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public bool? AutoGeneratePrompt
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("auto_generate_prompt", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["auto_generate_prompt"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "auto_generate_prompt"); }
+        init { ModelBase.Set(this._rawData, "auto_generate_prompt", value); }
     }
 
     /// <summary>
@@ -62,20 +36,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public string? Description
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("description", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["description"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "description"); }
+        init { ModelBase.Set(this._rawData, "description", value); }
     }
 
     /// <summary>
@@ -86,18 +48,9 @@ public sealed record class AgentSpec : ModelBase
     {
         get
         {
-            if (!this._rawData.TryGetValue("dynamic_temperature_enabled", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
+            return ModelBase.GetNullableStruct<bool>(this.RawData, "dynamic_temperature_enabled");
         }
-        init
-        {
-            this._rawData["dynamic_temperature_enabled"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawData, "dynamic_temperature_enabled", value); }
     }
 
     /// <summary>
@@ -108,21 +61,12 @@ public sealed record class AgentSpec : ModelBase
     {
         get
         {
-            if (!this._rawData.TryGetValue("llm_args", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
-                element,
-                ModelBase.SerializerOptions
+            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+                this.RawData,
+                "llm_args"
             );
         }
-        init
-        {
-            this._rawData["llm_args"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawData, "llm_args", value); }
     }
 
     /// <summary>
@@ -131,20 +75,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public long? MaxLoops
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("max_loops", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["max_loops"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "max_loops"); }
+        init { ModelBase.Set(this._rawData, "max_loops", value); }
     }
 
     /// <summary>
@@ -153,20 +85,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public long? MaxTokens
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("max_tokens", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["max_tokens"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "max_tokens"); }
+        init { ModelBase.Set(this._rawData, "max_tokens", value); }
     }
 
     /// <summary>
@@ -174,20 +94,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public McpConfig? McpConfig
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("mcp_config", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<McpConfig?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["mcp_config"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<McpConfig>(this.RawData, "mcp_config"); }
+        init { ModelBase.Set(this._rawData, "mcp_config", value); }
     }
 
     /// <summary>
@@ -196,20 +104,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public McpConfigs? McpConfigs
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("mcp_configs", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<McpConfigs?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["mcp_configs"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<McpConfigs>(this.RawData, "mcp_configs"); }
+        init { ModelBase.Set(this._rawData, "mcp_configs", value); }
     }
 
     /// <summary>
@@ -217,20 +113,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public string? McpURL
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("mcp_url", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["mcp_url"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "mcp_url"); }
+        init { ModelBase.Set(this._rawData, "mcp_url", value); }
     }
 
     /// <summary>
@@ -239,20 +123,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public string? ModelName
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("model_name", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["model_name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "model_name"); }
+        init { ModelBase.Set(this._rawData, "model_name", value); }
     }
 
     /// <summary>
@@ -260,20 +132,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public string? ReasoningEffort
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("reasoning_effort", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["reasoning_effort"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "reasoning_effort"); }
+        init { ModelBase.Set(this._rawData, "reasoning_effort", value); }
     }
 
     /// <summary>
@@ -281,20 +141,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public bool? ReasoningEnabled
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("reasoning_enabled", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["reasoning_enabled"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "reasoning_enabled"); }
+        init { ModelBase.Set(this._rawData, "reasoning_enabled", value); }
     }
 
     /// <summary>
@@ -303,20 +151,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public string? Role
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("role", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["role"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "role"); }
+        init { ModelBase.Set(this._rawData, "role", value); }
     }
 
     /// <summary>
@@ -324,20 +160,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public bool? StreamingOn
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("streaming_on", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["streaming_on"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "streaming_on"); }
+        init { ModelBase.Set(this._rawData, "streaming_on", value); }
     }
 
     /// <summary>
@@ -346,20 +170,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public string? SystemPrompt
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("system_prompt", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["system_prompt"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "system_prompt"); }
+        init { ModelBase.Set(this._rawData, "system_prompt", value); }
     }
 
     /// <summary>
@@ -368,20 +180,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public double? Temperature
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("temperature", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["temperature"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<double>(this.RawData, "temperature"); }
+        init { ModelBase.Set(this._rawData, "temperature", value); }
     }
 
     /// <summary>
@@ -389,20 +189,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public long? ThinkingTokens
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("thinking_tokens", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["thinking_tokens"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "thinking_tokens"); }
+        init { ModelBase.Set(this._rawData, "thinking_tokens", value); }
     }
 
     /// <summary>
@@ -410,20 +198,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public bool? ToolCallSummary
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("tool_call_summary", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["tool_call_summary"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "tool_call_summary"); }
+        init { ModelBase.Set(this._rawData, "tool_call_summary", value); }
     }
 
     /// <summary>
@@ -433,21 +209,12 @@ public sealed record class AgentSpec : ModelBase
     {
         get
         {
-            if (!this._rawData.TryGetValue("tools_list_dictionary", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>?>(
-                element,
-                ModelBase.SerializerOptions
+            return ModelBase.GetNullableClass<List<Dictionary<string, JsonElement>>>(
+                this.RawData,
+                "tools_list_dictionary"
             );
         }
-        init
-        {
-            this._rawData["tools_list_dictionary"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawData, "tools_list_dictionary", value); }
     }
 
     public override void Validate()
@@ -519,20 +286,8 @@ public sealed record class McpConfig : ModelBase
     /// </summary>
     public string? AuthorizationToken
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("authorization_token", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["authorization_token"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "authorization_token"); }
+        init { ModelBase.Set(this._rawData, "authorization_token", value); }
     }
 
     /// <summary>
@@ -542,21 +297,9 @@ public sealed record class McpConfig : ModelBase
     {
         get
         {
-            if (!this._rawData.TryGetValue("headers", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<Dictionary<string, string>?>(
-                element,
-                ModelBase.SerializerOptions
-            );
+            return ModelBase.GetNullableClass<Dictionary<string, string>>(this.RawData, "headers");
         }
-        init
-        {
-            this._rawData["headers"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawData, "headers", value); }
     }
 
     /// <summary>
@@ -564,20 +307,8 @@ public sealed record class McpConfig : ModelBase
     /// </summary>
     public long? Timeout
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("timeout", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["timeout"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "timeout"); }
+        init { ModelBase.Set(this._rawData, "timeout", value); }
     }
 
     /// <summary>
@@ -587,21 +318,12 @@ public sealed record class McpConfig : ModelBase
     {
         get
         {
-            if (!this._rawData.TryGetValue("tool_configurations", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
-                element,
-                ModelBase.SerializerOptions
+            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+                this.RawData,
+                "tool_configurations"
             );
         }
-        init
-        {
-            this._rawData["tool_configurations"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawData, "tool_configurations", value); }
     }
 
     /// <summary>
@@ -609,20 +331,8 @@ public sealed record class McpConfig : ModelBase
     /// </summary>
     public string? Transport
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("transport", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["transport"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "transport"); }
+        init { ModelBase.Set(this._rawData, "transport", value); }
     }
 
     /// <summary>
@@ -630,20 +340,8 @@ public sealed record class McpConfig : ModelBase
     /// </summary>
     public string? Type
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("type", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["type"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "type"); }
+        init { ModelBase.Set(this._rawData, "type", value); }
     }
 
     /// <summary>
@@ -651,20 +349,8 @@ public sealed record class McpConfig : ModelBase
     /// </summary>
     public string? URL
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("url", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["url"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "url"); }
+        init { ModelBase.Set(this._rawData, "url", value); }
     }
 
     public override void Validate()
@@ -717,30 +403,8 @@ public sealed record class McpConfigs : ModelBase
     /// </summary>
     public required IReadOnlyList<Connection> Connections
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("connections", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'connections' cannot be null",
-                    new ArgumentOutOfRangeException("connections", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<List<Connection>>(
-                    element,
-                    ModelBase.SerializerOptions
-                )
-                ?? throw new SwarmsClientInvalidDataException(
-                    "'connections' cannot be null",
-                    new ArgumentNullException("connections")
-                );
-        }
-        init
-        {
-            this._rawData["connections"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullClass<List<Connection>>(this.RawData, "connections"); }
+        init { ModelBase.Set(this._rawData, "connections", value); }
     }
 
     public override void Validate()
@@ -793,20 +457,8 @@ public sealed record class Connection : ModelBase
     /// </summary>
     public string? AuthorizationToken
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("authorization_token", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["authorization_token"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "authorization_token"); }
+        init { ModelBase.Set(this._rawData, "authorization_token", value); }
     }
 
     /// <summary>
@@ -816,21 +468,9 @@ public sealed record class Connection : ModelBase
     {
         get
         {
-            if (!this._rawData.TryGetValue("headers", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<Dictionary<string, string>?>(
-                element,
-                ModelBase.SerializerOptions
-            );
+            return ModelBase.GetNullableClass<Dictionary<string, string>>(this.RawData, "headers");
         }
-        init
-        {
-            this._rawData["headers"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawData, "headers", value); }
     }
 
     /// <summary>
@@ -838,20 +478,8 @@ public sealed record class Connection : ModelBase
     /// </summary>
     public long? Timeout
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("timeout", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["timeout"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "timeout"); }
+        init { ModelBase.Set(this._rawData, "timeout", value); }
     }
 
     /// <summary>
@@ -861,21 +489,12 @@ public sealed record class Connection : ModelBase
     {
         get
         {
-            if (!this._rawData.TryGetValue("tool_configurations", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
-                element,
-                ModelBase.SerializerOptions
+            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+                this.RawData,
+                "tool_configurations"
             );
         }
-        init
-        {
-            this._rawData["tool_configurations"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawData, "tool_configurations", value); }
     }
 
     /// <summary>
@@ -883,20 +502,8 @@ public sealed record class Connection : ModelBase
     /// </summary>
     public string? Transport
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("transport", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["transport"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "transport"); }
+        init { ModelBase.Set(this._rawData, "transport", value); }
     }
 
     /// <summary>
@@ -904,20 +511,8 @@ public sealed record class Connection : ModelBase
     /// </summary>
     public string? Type
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("type", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["type"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "type"); }
+        init { ModelBase.Set(this._rawData, "type", value); }
     }
 
     /// <summary>
@@ -925,20 +520,8 @@ public sealed record class Connection : ModelBase
     /// </summary>
     public string? URL
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("url", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["url"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "url"); }
+        init { ModelBase.Set(this._rawData, "url", value); }
     }
 
     public override void Validate()

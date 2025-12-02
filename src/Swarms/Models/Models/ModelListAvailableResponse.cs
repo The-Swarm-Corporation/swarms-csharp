@@ -14,13 +14,7 @@ public sealed record class ModelListAvailableResponse : ModelBase
 {
     public JsonElement? Models
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("models", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
-        }
+        get { return ModelBase.GetNullableStruct<JsonElement>(this.RawData, "models"); }
         init
         {
             if (value == null)
@@ -28,29 +22,14 @@ public sealed record class ModelListAvailableResponse : ModelBase
                 return;
             }
 
-            this._rawData["models"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
+            ModelBase.Set(this._rawData, "models", value);
         }
     }
 
     public bool? Success
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("success", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["success"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "success"); }
+        init { ModelBase.Set(this._rawData, "success", value); }
     }
 
     public override void Validate()

@@ -20,23 +20,8 @@ public sealed record class SwarmSpec : ModelBase
     /// </summary>
     public IReadOnlyList<AgentSpec>? Agents
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("agents", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<List<AgentSpec>?>(
-                element,
-                ModelBase.SerializerOptions
-            );
-        }
-        init
-        {
-            this._rawData["agents"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<List<AgentSpec>>(this.RawData, "agents"); }
+        init { ModelBase.Set(this._rawData, "agents", value); }
     }
 
     /// <summary>
@@ -44,20 +29,8 @@ public sealed record class SwarmSpec : ModelBase
     /// </summary>
     public string? Description
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("description", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["description"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "description"); }
+        init { ModelBase.Set(this._rawData, "description", value); }
     }
 
     /// <summary>
@@ -67,18 +40,9 @@ public sealed record class SwarmSpec : ModelBase
     {
         get
         {
-            if (!this._rawData.TryGetValue("heavy_swarm_loops_per_agent", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
+            return ModelBase.GetNullableStruct<long>(this.RawData, "heavy_swarm_loops_per_agent");
         }
-        init
-        {
-            this._rawData["heavy_swarm_loops_per_agent"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawData, "heavy_swarm_loops_per_agent", value); }
     }
 
     /// <summary>
@@ -88,21 +52,12 @@ public sealed record class SwarmSpec : ModelBase
     {
         get
         {
-            if (
-                !this._rawData.TryGetValue(
-                    "heavy_swarm_question_agent_model_name",
-                    out JsonElement element
-                )
-            )
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
+            return ModelBase.GetNullableClass<string>(
+                this.RawData,
+                "heavy_swarm_question_agent_model_name"
+            );
         }
-        init
-        {
-            this._rawData["heavy_swarm_question_agent_model_name"] =
-                JsonSerializer.SerializeToElement(value, ModelBase.SerializerOptions);
-        }
+        init { ModelBase.Set(this._rawData, "heavy_swarm_question_agent_model_name", value); }
     }
 
     /// <summary>
@@ -112,20 +67,12 @@ public sealed record class SwarmSpec : ModelBase
     {
         get
         {
-            if (
-                !this._rawData.TryGetValue("heavy_swarm_worker_model_name", out JsonElement element)
-            )
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["heavy_swarm_worker_model_name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
+            return ModelBase.GetNullableClass<string>(
+                this.RawData,
+                "heavy_swarm_worker_model_name"
             );
         }
+        init { ModelBase.Set(this._rawData, "heavy_swarm_worker_model_name", value); }
     }
 
     /// <summary>
@@ -133,20 +80,8 @@ public sealed record class SwarmSpec : ModelBase
     /// </summary>
     public string? Img
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("img", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["img"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "img"); }
+        init { ModelBase.Set(this._rawData, "img", value); }
     }
 
     /// <summary>
@@ -155,20 +90,8 @@ public sealed record class SwarmSpec : ModelBase
     /// </summary>
     public long? MaxLoops
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("max_loops", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["max_loops"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "max_loops"); }
+        init { ModelBase.Set(this._rawData, "max_loops", value); }
     }
 
     /// <summary>
@@ -176,23 +99,8 @@ public sealed record class SwarmSpec : ModelBase
     /// </summary>
     public SwarmSpecMessages? Messages
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("messages", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<SwarmSpecMessages?>(
-                element,
-                ModelBase.SerializerOptions
-            );
-        }
-        init
-        {
-            this._rawData["messages"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<SwarmSpecMessages>(this.RawData, "messages"); }
+        init { ModelBase.Set(this._rawData, "messages", value); }
     }
 
     /// <summary>
@@ -201,20 +109,8 @@ public sealed record class SwarmSpec : ModelBase
     /// </summary>
     public string? Name
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("name", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "name"); }
+        init { ModelBase.Set(this._rawData, "name", value); }
     }
 
     /// <summary>
@@ -222,20 +118,8 @@ public sealed record class SwarmSpec : ModelBase
     /// </summary>
     public string? RearrangeFlow
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("rearrange_flow", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["rearrange_flow"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "rearrange_flow"); }
+        init { ModelBase.Set(this._rawData, "rearrange_flow", value); }
     }
 
     /// <summary>
@@ -244,20 +128,8 @@ public sealed record class SwarmSpec : ModelBase
     /// </summary>
     public string? Rules
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("rules", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["rules"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "rules"); }
+        init { ModelBase.Set(this._rawData, "rules", value); }
     }
 
     /// <summary>
@@ -266,20 +138,8 @@ public sealed record class SwarmSpec : ModelBase
     /// </summary>
     public string? ServiceTier
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("service_tier", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["service_tier"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "service_tier"); }
+        init { ModelBase.Set(this._rawData, "service_tier", value); }
     }
 
     /// <summary>
@@ -287,20 +147,8 @@ public sealed record class SwarmSpec : ModelBase
     /// </summary>
     public bool? Stream
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("stream", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["stream"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "stream"); }
+        init { ModelBase.Set(this._rawData, "stream", value); }
     }
 
     /// <summary>
@@ -310,21 +158,12 @@ public sealed record class SwarmSpec : ModelBase
     {
         get
         {
-            if (!this._rawData.TryGetValue("swarm_type", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<ApiEnum<string, SwarmSpecSwarmType>?>(
-                element,
-                ModelBase.SerializerOptions
+            return ModelBase.GetNullableClass<ApiEnum<string, SwarmSpecSwarmType>>(
+                this.RawData,
+                "swarm_type"
             );
         }
-        init
-        {
-            this._rawData["swarm_type"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawData, "swarm_type", value); }
     }
 
     /// <summary>
@@ -332,20 +171,8 @@ public sealed record class SwarmSpec : ModelBase
     /// </summary>
     public string? Task
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("task", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["task"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "task"); }
+        init { ModelBase.Set(this._rawData, "task", value); }
     }
 
     /// <summary>
@@ -353,20 +180,8 @@ public sealed record class SwarmSpec : ModelBase
     /// </summary>
     public IReadOnlyList<string>? Tasks
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("tasks", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["tasks"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<List<string>>(this.RawData, "tasks"); }
+        init { ModelBase.Set(this._rawData, "tasks", value); }
     }
 
     public override void Validate()
@@ -523,6 +338,16 @@ public record class SwarmSpecMessages
                 "Data did not match any variant of SwarmSpecMessages"
             );
         }
+    }
+
+    public virtual bool Equals(SwarmSpecMessages? other)
+    {
+        return other != null && JsonElement.DeepEquals(this.Json, other.Json);
+    }
+
+    public override int GetHashCode()
+    {
+        return 0;
     }
 }
 

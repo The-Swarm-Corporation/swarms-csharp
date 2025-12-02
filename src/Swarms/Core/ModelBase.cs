@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json;
+using Swarms.Exceptions;
 using Swarms.Models.Client.AutoSwarmBuilder;
 using Swarms.Models.Swarms;
 using ReasoningAgents = Swarms.Models.ReasoningAgents;
@@ -32,9 +33,140 @@ public abstract record class ModelBase
         WriteIndented = true,
     };
 
+    internal static void Set<T>(IDictionary<string, JsonElement> dictionary, string key, T value)
+    {
+        dictionary[key] = JsonSerializer.SerializeToElement(value, SerializerOptions);
+    }
+
+    internal static T GetNotNullClass<T>(
+        IReadOnlyDictionary<string, JsonElement> dictionary,
+        string key
+    )
+        where T : class
+    {
+        if (!dictionary.TryGetValue(key, out JsonElement element))
+        {
+            throw new SwarmsClientInvalidDataException($"'{key}' cannot be absent");
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<T>(element, SerializerOptions)
+                ?? throw new SwarmsClientInvalidDataException($"'{key}' cannot be null");
+        }
+        catch (JsonException e)
+        {
+            throw new SwarmsClientInvalidDataException(
+                $"'{key}' must be of type {typeof(T).FullName}",
+                e
+            );
+        }
+    }
+
+    internal static T GetNotNullStruct<T>(
+        IReadOnlyDictionary<string, JsonElement> dictionary,
+        string key
+    )
+        where T : struct
+    {
+        if (!dictionary.TryGetValue(key, out JsonElement element))
+        {
+            throw new SwarmsClientInvalidDataException($"'{key}' cannot be absent");
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<T?>(element, SerializerOptions)
+                ?? throw new SwarmsClientInvalidDataException($"'{key}' cannot be null");
+        }
+        catch (JsonException e)
+        {
+            throw new SwarmsClientInvalidDataException(
+                $"'{key}' must be of type {typeof(T).FullName}",
+                e
+            );
+        }
+    }
+
+    internal static T? GetNullableClass<T>(
+        IReadOnlyDictionary<string, JsonElement> dictionary,
+        string key
+    )
+        where T : class
+    {
+        if (!dictionary.TryGetValue(key, out JsonElement element))
+        {
+            return null;
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<T?>(element, SerializerOptions);
+        }
+        catch (JsonException e)
+        {
+            throw new SwarmsClientInvalidDataException(
+                $"'{key}' must be of type {typeof(T).FullName}",
+                e
+            );
+        }
+    }
+
+    internal static T? GetNullableStruct<T>(
+        IReadOnlyDictionary<string, JsonElement> dictionary,
+        string key
+    )
+        where T : struct
+    {
+        if (!dictionary.TryGetValue(key, out JsonElement element))
+        {
+            return null;
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<T?>(element, SerializerOptions);
+        }
+        catch (JsonException e)
+        {
+            throw new SwarmsClientInvalidDataException(
+                $"'{key}' must be of type {typeof(T).FullName}",
+                e
+            );
+        }
+    }
+
     public sealed override string? ToString()
     {
         return JsonSerializer.Serialize(this.RawData, _toStringSerializerOptions);
+    }
+
+    public virtual bool Equals(ModelBase? other)
+    {
+        if (other == null || this.RawData.Count != other.RawData.Count)
+        {
+            return false;
+        }
+
+        foreach (var item in this.RawData)
+        {
+            if (!other.RawData.TryGetValue(item.Key, out var otherValue))
+            {
+                return false;
+            }
+
+            if (!JsonElement.DeepEquals(item.Value, otherValue))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return 0;
     }
 
     public abstract void Validate();

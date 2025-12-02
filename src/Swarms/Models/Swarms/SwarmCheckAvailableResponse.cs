@@ -14,38 +14,14 @@ public sealed record class SwarmCheckAvailableResponse : ModelBase
 {
     public bool? Success
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("success", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<bool?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["success"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "success"); }
+        init { ModelBase.Set(this._rawData, "success", value); }
     }
 
     public IReadOnlyList<string>? SwarmTypes
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("swarm_types", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["swarm_types"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<List<string>>(this.RawData, "swarm_types"); }
+        init { ModelBase.Set(this._rawData, "swarm_types", value); }
     }
 
     public override void Validate()

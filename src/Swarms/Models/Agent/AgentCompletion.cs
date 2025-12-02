@@ -18,20 +18,8 @@ public sealed record class AgentCompletion : ModelBase
     /// </summary>
     public AgentSpec? AgentConfig
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("agent_config", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<AgentSpec?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["agent_config"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<AgentSpec>(this.RawData, "agent_config"); }
+        init { ModelBase.Set(this._rawData, "agent_config", value); }
     }
 
     /// <summary>
@@ -40,23 +28,8 @@ public sealed record class AgentCompletion : ModelBase
     /// </summary>
     public AgentCompletionHistory? History
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("history", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<AgentCompletionHistory?>(
-                element,
-                ModelBase.SerializerOptions
-            );
-        }
-        init
-        {
-            this._rawData["history"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<AgentCompletionHistory>(this.RawData, "history"); }
+        init { ModelBase.Set(this._rawData, "history", value); }
     }
 
     /// <summary>
@@ -64,20 +37,8 @@ public sealed record class AgentCompletion : ModelBase
     /// </summary>
     public string? Img
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("img", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["img"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "img"); }
+        init { ModelBase.Set(this._rawData, "img", value); }
     }
 
     /// <summary>
@@ -85,20 +46,8 @@ public sealed record class AgentCompletion : ModelBase
     /// </summary>
     public IReadOnlyList<string>? Imgs
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("imgs", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["imgs"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<List<string>>(this.RawData, "imgs"); }
+        init { ModelBase.Set(this._rawData, "imgs", value); }
     }
 
     /// <summary>
@@ -106,20 +55,8 @@ public sealed record class AgentCompletion : ModelBase
     /// </summary>
     public string? Task
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("task", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["task"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "task"); }
+        init { ModelBase.Set(this._rawData, "task", value); }
     }
 
     /// <summary>
@@ -127,20 +64,8 @@ public sealed record class AgentCompletion : ModelBase
     /// </summary>
     public IReadOnlyList<string>? ToolsEnabled
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("tools_enabled", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<List<string>?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["tools_enabled"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<List<string>>(this.RawData, "tools_enabled"); }
+        init { ModelBase.Set(this._rawData, "tools_enabled", value); }
     }
 
     public override void Validate()
@@ -285,6 +210,16 @@ public record class AgentCompletionHistory
                 "Data did not match any variant of AgentCompletionHistory"
             );
         }
+    }
+
+    public virtual bool Equals(AgentCompletionHistory? other)
+    {
+        return other != null && JsonElement.DeepEquals(this.Json, other.Json);
+    }
+
+    public override int GetHashCode()
+    {
+        return 0;
     }
 }
 

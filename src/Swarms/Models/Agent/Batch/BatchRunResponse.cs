@@ -15,20 +15,8 @@ public sealed record class BatchRunResponse : ModelBase
     /// </summary>
     public string? BatchID
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("batch_id", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["batch_id"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "batch_id"); }
+        init { ModelBase.Set(this._rawData, "batch_id", value); }
     }
 
     /// <summary>
@@ -36,20 +24,8 @@ public sealed record class BatchRunResponse : ModelBase
     /// </summary>
     public double? ExecutionTime
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("execution_time", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["execution_time"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<double>(this.RawData, "execution_time"); }
+        init { ModelBase.Set(this._rawData, "execution_time", value); }
     }
 
     /// <summary>
@@ -57,13 +33,7 @@ public sealed record class BatchRunResponse : ModelBase
     /// </summary>
     public JsonElement? Results
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("results", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<JsonElement?>(element, ModelBase.SerializerOptions);
-        }
+        get { return ModelBase.GetNullableStruct<JsonElement>(this.RawData, "results"); }
         init
         {
             if (value == null)
@@ -71,10 +41,7 @@ public sealed record class BatchRunResponse : ModelBase
                 return;
             }
 
-            this._rawData["results"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
+            ModelBase.Set(this._rawData, "results", value);
         }
     }
 
@@ -83,20 +50,8 @@ public sealed record class BatchRunResponse : ModelBase
     /// </summary>
     public string? Timestamp
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("timestamp", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["timestamp"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "timestamp"); }
+        init { ModelBase.Set(this._rawData, "timestamp", value); }
     }
 
     /// <summary>
@@ -104,20 +59,8 @@ public sealed record class BatchRunResponse : ModelBase
     /// </summary>
     public long? TotalRequests
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("total_requests", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["total_requests"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "total_requests"); }
+        init { ModelBase.Set(this._rawData, "total_requests", value); }
     }
 
     public override void Validate()

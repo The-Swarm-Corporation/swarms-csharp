@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Core;
-using Swarms.Exceptions;
 
 namespace Swarms.Models.Swarms;
 
@@ -17,20 +15,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required string? Description
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("description", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["description"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "description"); }
+        init { ModelBase.Set(this._rawData, "description", value); }
     }
 
     /// <summary>
@@ -38,20 +24,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required double? ExecutionTime
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("execution_time", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<double?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["execution_time"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<double>(this.RawData, "execution_time"); }
+        init { ModelBase.Set(this._rawData, "execution_time", value); }
     }
 
     /// <summary>
@@ -59,20 +33,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required string? JobID
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("job_id", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["job_id"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "job_id"); }
+        init { ModelBase.Set(this._rawData, "job_id", value); }
     }
 
     /// <summary>
@@ -80,20 +42,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required long? NumberOfAgents
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("number_of_agents", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["number_of_agents"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "number_of_agents"); }
+        init { ModelBase.Set(this._rawData, "number_of_agents", value); }
     }
 
     /// <summary>
@@ -101,23 +51,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required JsonElement Output
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("output", out JsonElement element))
-                throw new SwarmsClientInvalidDataException(
-                    "'output' cannot be null",
-                    new ArgumentOutOfRangeException("output", "Missing required argument")
-                );
-
-            return JsonSerializer.Deserialize<JsonElement>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["output"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNotNullStruct<JsonElement>(this.RawData, "output"); }
+        init { ModelBase.Set(this._rawData, "output", value); }
     }
 
     /// <summary>
@@ -125,20 +60,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required string? ServiceTier
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("service_tier", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["service_tier"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "service_tier"); }
+        init { ModelBase.Set(this._rawData, "service_tier", value); }
     }
 
     /// <summary>
@@ -146,20 +69,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required string? Status
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("status", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["status"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "status"); }
+        init { ModelBase.Set(this._rawData, "status", value); }
     }
 
     /// <summary>
@@ -167,20 +78,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required string? SwarmName
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("swarm_name", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["swarm_name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "swarm_name"); }
+        init { ModelBase.Set(this._rawData, "swarm_name", value); }
     }
 
     /// <summary>
@@ -188,20 +87,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required string? SwarmType
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("swarm_type", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["swarm_type"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "swarm_type"); }
+        init { ModelBase.Set(this._rawData, "swarm_type", value); }
     }
 
     /// <summary>
@@ -211,21 +98,12 @@ public sealed record class SwarmRunResponse : ModelBase
     {
         get
         {
-            if (!this._rawData.TryGetValue("usage", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<Dictionary<string, JsonElement>?>(
-                element,
-                ModelBase.SerializerOptions
+            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+                this.RawData,
+                "usage"
             );
         }
-        init
-        {
-            this._rawData["usage"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawData, "usage", value); }
     }
 
     public override void Validate()

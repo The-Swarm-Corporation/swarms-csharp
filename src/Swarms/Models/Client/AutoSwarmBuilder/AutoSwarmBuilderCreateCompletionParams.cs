@@ -28,20 +28,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     /// </summary>
     public string? Description
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("description", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["description"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "description"); }
+        init { ModelBase.Set(this._rawBodyData, "description", value); }
     }
 
     /// <summary>
@@ -51,21 +39,12 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     {
         get
         {
-            if (!this._rawBodyData.TryGetValue("execution_type", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<ApiEnum<string, ExecutionType>?>(
-                element,
-                ModelBase.SerializerOptions
+            return ModelBase.GetNullableClass<ApiEnum<string, ExecutionType>>(
+                this.RawBodyData,
+                "execution_type"
             );
         }
-        init
-        {
-            this._rawBodyData["execution_type"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        init { ModelBase.Set(this._rawBodyData, "execution_type", value); }
     }
 
     /// <summary>
@@ -73,20 +52,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     /// </summary>
     public long? MaxLoops
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("max_loops", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["max_loops"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
+        init { ModelBase.Set(this._rawBodyData, "max_loops", value); }
     }
 
     /// <summary>
@@ -94,20 +61,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     /// </summary>
     public long? MaxTokens
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("max_tokens", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["max_tokens"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "max_tokens"); }
+        init { ModelBase.Set(this._rawBodyData, "max_tokens", value); }
     }
 
     /// <summary>
@@ -115,20 +70,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     /// </summary>
     public string? ModelName
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("model_name", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["model_name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "model_name"); }
+        init { ModelBase.Set(this._rawBodyData, "model_name", value); }
     }
 
     /// <summary>
@@ -136,20 +79,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     /// </summary>
     public string? Name
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("name", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "name"); }
+        init { ModelBase.Set(this._rawBodyData, "name", value); }
     }
 
     /// <summary>
@@ -157,20 +88,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     /// </summary>
     public string? Task
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("task", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["task"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "task"); }
+        init { ModelBase.Set(this._rawBodyData, "task", value); }
     }
 
     public AutoSwarmBuilderCreateCompletionParams() { }

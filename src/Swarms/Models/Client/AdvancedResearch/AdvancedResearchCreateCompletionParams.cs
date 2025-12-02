@@ -27,20 +27,8 @@ public sealed record class AdvancedResearchCreateCompletionParams : ParamsBase
     /// </summary>
     public required Config? Config
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("config", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<Config?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["config"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<Config>(this.RawBodyData, "config"); }
+        init { ModelBase.Set(this._rawBodyData, "config", value); }
     }
 
     /// <summary>
@@ -48,20 +36,8 @@ public sealed record class AdvancedResearchCreateCompletionParams : ParamsBase
     /// </summary>
     public required string? Task
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("task", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["task"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "task"); }
+        init { ModelBase.Set(this._rawBodyData, "task", value); }
     }
 
     /// <summary>
@@ -69,20 +45,8 @@ public sealed record class AdvancedResearchCreateCompletionParams : ParamsBase
     /// </summary>
     public string? Img
     {
-        get
-        {
-            if (!this._rawBodyData.TryGetValue("img", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawBodyData["img"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "img"); }
+        init { ModelBase.Set(this._rawBodyData, "img", value); }
     }
 
     public AdvancedResearchCreateCompletionParams() { }
@@ -161,20 +125,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public string? Description
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("description", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["description"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "description"); }
+        init { ModelBase.Set(this._rawData, "description", value); }
     }
 
     /// <summary>
@@ -182,20 +134,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public string? DirectorAgentName
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("director_agent_name", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["director_agent_name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "director_agent_name"); }
+        init { ModelBase.Set(this._rawData, "director_agent_name", value); }
     }
 
     /// <summary>
@@ -203,20 +143,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public long? DirectorMaxLoops
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("director_max_loops", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["director_max_loops"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "director_max_loops"); }
+        init { ModelBase.Set(this._rawData, "director_max_loops", value); }
     }
 
     /// <summary>
@@ -224,20 +152,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public long? DirectorMaxTokens
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("director_max_tokens", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["director_max_tokens"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "director_max_tokens"); }
+        init { ModelBase.Set(this._rawData, "director_max_tokens", value); }
     }
 
     /// <summary>
@@ -245,20 +161,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public string? DirectorModelName
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("director_model_name", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["director_model_name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "director_model_name"); }
+        init { ModelBase.Set(this._rawData, "director_model_name", value); }
     }
 
     /// <summary>
@@ -266,20 +170,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public long? ExaSearchMaxCharacters
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("exa_search_max_characters", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["exa_search_max_characters"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "exa_search_max_characters"); }
+        init { ModelBase.Set(this._rawData, "exa_search_max_characters", value); }
     }
 
     /// <summary>
@@ -287,20 +179,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public long? ExaSearchNumResults
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("exa_search_num_results", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["exa_search_num_results"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "exa_search_num_results"); }
+        init { ModelBase.Set(this._rawData, "exa_search_num_results", value); }
     }
 
     /// <summary>
@@ -308,20 +188,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public long? MaxLoops
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("max_loops", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<long?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["max_loops"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableStruct<long>(this.RawData, "max_loops"); }
+        init { ModelBase.Set(this._rawData, "max_loops", value); }
     }
 
     /// <summary>
@@ -329,20 +197,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public string? Name
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("name", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "name"); }
+        init { ModelBase.Set(this._rawData, "name", value); }
     }
 
     /// <summary>
@@ -350,20 +206,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public string? WorkerModelName
     {
-        get
-        {
-            if (!this._rawData.TryGetValue("worker_model_name", out JsonElement element))
-                return null;
-
-            return JsonSerializer.Deserialize<string?>(element, ModelBase.SerializerOptions);
-        }
-        init
-        {
-            this._rawData["worker_model_name"] = JsonSerializer.SerializeToElement(
-                value,
-                ModelBase.SerializerOptions
-            );
-        }
+        get { return ModelBase.GetNullableClass<string>(this.RawData, "worker_model_name"); }
+        init { ModelBase.Set(this._rawData, "worker_model_name", value); }
     }
 
     public override void Validate()
