@@ -15,6 +15,8 @@ The REST API documentation can be found on [docs.swarms.ai](https://docs.swarms.
 
 ## Installation
 
+Install the package from [NuGet](https://www.nuget.org/packages/Swarms):
+
 ```bash
 dotnet add package Swarms
 ```

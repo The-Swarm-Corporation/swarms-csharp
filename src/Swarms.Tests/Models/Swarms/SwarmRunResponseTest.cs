@@ -57,4 +57,109 @@ public class SwarmRunResponseTest : TestBase
             Assert.True(JsonElement.DeepEquals(value, model.Usage[item.Key]));
         }
     }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new SwarmRunResponse
+        {
+            Description = "description",
+            ExecutionTime = 0,
+            JobID = "job_id",
+            NumberOfAgents = 0,
+            Output = JsonSerializer.Deserialize<JsonElement>("{}"),
+            ServiceTier = "service_tier",
+            Status = "status",
+            SwarmName = "swarm_name",
+            SwarmType = "swarm_type",
+            Usage = new Dictionary<string, JsonElement>()
+            {
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            },
+        };
+
+        string json = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<SwarmRunResponse>(json);
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new SwarmRunResponse
+        {
+            Description = "description",
+            ExecutionTime = 0,
+            JobID = "job_id",
+            NumberOfAgents = 0,
+            Output = JsonSerializer.Deserialize<JsonElement>("{}"),
+            ServiceTier = "service_tier",
+            Status = "status",
+            SwarmName = "swarm_name",
+            SwarmType = "swarm_type",
+            Usage = new Dictionary<string, JsonElement>()
+            {
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            },
+        };
+
+        string json = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<SwarmRunResponse>(json);
+        Assert.NotNull(deserialized);
+
+        string expectedDescription = "description";
+        double expectedExecutionTime = 0;
+        string expectedJobID = "job_id";
+        long expectedNumberOfAgents = 0;
+        JsonElement expectedOutput = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedServiceTier = "service_tier";
+        string expectedStatus = "status";
+        string expectedSwarmName = "swarm_name";
+        string expectedSwarmType = "swarm_type";
+        Dictionary<string, JsonElement> expectedUsage = new()
+        {
+            { "foo", JsonSerializer.SerializeToElement("bar") },
+        };
+
+        Assert.Equal(expectedDescription, deserialized.Description);
+        Assert.Equal(expectedExecutionTime, deserialized.ExecutionTime);
+        Assert.Equal(expectedJobID, deserialized.JobID);
+        Assert.Equal(expectedNumberOfAgents, deserialized.NumberOfAgents);
+        Assert.True(JsonElement.DeepEquals(expectedOutput, deserialized.Output));
+        Assert.Equal(expectedServiceTier, deserialized.ServiceTier);
+        Assert.Equal(expectedStatus, deserialized.Status);
+        Assert.Equal(expectedSwarmName, deserialized.SwarmName);
+        Assert.Equal(expectedSwarmType, deserialized.SwarmType);
+        Assert.Equal(expectedUsage.Count, deserialized.Usage.Count);
+        foreach (var item in expectedUsage)
+        {
+            Assert.True(deserialized.Usage.TryGetValue(item.Key, out var value));
+
+            Assert.True(JsonElement.DeepEquals(value, deserialized.Usage[item.Key]));
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new SwarmRunResponse
+        {
+            Description = "description",
+            ExecutionTime = 0,
+            JobID = "job_id",
+            NumberOfAgents = 0,
+            Output = JsonSerializer.Deserialize<JsonElement>("{}"),
+            ServiceTier = "service_tier",
+            Status = "status",
+            SwarmName = "swarm_name",
+            SwarmType = "swarm_type",
+            Usage = new Dictionary<string, JsonElement>()
+            {
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            },
+        };
+
+        model.Validate();
+    }
 }

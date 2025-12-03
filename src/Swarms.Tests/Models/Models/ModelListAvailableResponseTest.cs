@@ -17,7 +17,155 @@ public class ModelListAvailableResponseTest : TestBase
         JsonElement expectedModels = JsonSerializer.Deserialize<JsonElement>("{}");
         bool expectedSuccess = true;
 
-        Assert.True(JsonElement.DeepEquals(expectedModels, model.Models));
+        Assert.True(
+            model.Models.HasValue && JsonElement.DeepEquals(expectedModels, model.Models.Value)
+        );
         Assert.Equal(expectedSuccess, model.Success);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new ModelListAvailableResponse
+        {
+            Models = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Success = true,
+        };
+
+        string json = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<ModelListAvailableResponse>(json);
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new ModelListAvailableResponse
+        {
+            Models = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Success = true,
+        };
+
+        string json = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<ModelListAvailableResponse>(json);
+        Assert.NotNull(deserialized);
+
+        JsonElement expectedModels = JsonSerializer.Deserialize<JsonElement>("{}");
+        bool expectedSuccess = true;
+
+        Assert.True(
+            deserialized.Models.HasValue
+                && JsonElement.DeepEquals(expectedModels, deserialized.Models.Value)
+        );
+        Assert.Equal(expectedSuccess, deserialized.Success);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new ModelListAvailableResponse
+        {
+            Models = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Success = true,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new ModelListAvailableResponse { Success = true };
+
+        Assert.Null(model.Models);
+        Assert.False(model.RawData.ContainsKey("models"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new ModelListAvailableResponse { Success = true };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new ModelListAvailableResponse
+        {
+            Success = true,
+
+            // Null should be interpreted as omitted for these properties
+            Models = null,
+        };
+
+        Assert.Null(model.Models);
+        Assert.False(model.RawData.ContainsKey("models"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new ModelListAvailableResponse
+        {
+            Success = true,
+
+            // Null should be interpreted as omitted for these properties
+            Models = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new ModelListAvailableResponse
+        {
+            Models = JsonSerializer.Deserialize<JsonElement>("{}"),
+        };
+
+        Assert.Null(model.Success);
+        Assert.False(model.RawData.ContainsKey("success"));
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new ModelListAvailableResponse
+        {
+            Models = JsonSerializer.Deserialize<JsonElement>("{}"),
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
+    {
+        var model = new ModelListAvailableResponse
+        {
+            Models = JsonSerializer.Deserialize<JsonElement>("{}"),
+
+            Success = null,
+        };
+
+        Assert.Null(model.Success);
+        Assert.True(model.RawData.ContainsKey("success"));
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new ModelListAvailableResponse
+        {
+            Models = JsonSerializer.Deserialize<JsonElement>("{}"),
+
+            Success = null,
+        };
+
+        model.Validate();
     }
 }
