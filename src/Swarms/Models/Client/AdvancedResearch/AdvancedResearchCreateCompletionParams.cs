@@ -52,6 +52,14 @@ public sealed record class AdvancedResearchCreateCompletionParams : ParamsBase
     public AdvancedResearchCreateCompletionParams() { }
 
     public AdvancedResearchCreateCompletionParams(
+        AdvancedResearchCreateCompletionParams advancedResearchCreateCompletionParams
+    )
+        : base(advancedResearchCreateCompletionParams)
+    {
+        this._rawBodyData = [.. advancedResearchCreateCompletionParams._rawBodyData];
+    }
+
+    public AdvancedResearchCreateCompletionParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
         IReadOnlyDictionary<string, JsonElement> rawBodyData
@@ -76,6 +84,7 @@ public sealed record class AdvancedResearchCreateCompletionParams : ParamsBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
     public static AdvancedResearchCreateCompletionParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
@@ -210,6 +219,7 @@ public sealed record class Config : ModelBase
         init { ModelBase.Set(this._rawData, "worker_model_name", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.Description;
@@ -226,6 +236,9 @@ public sealed record class Config : ModelBase
 
     public Config() { }
 
+    public Config(Config config)
+        : base(config) { }
+
     public Config(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = [.. rawData];
@@ -239,6 +252,7 @@ public sealed record class Config : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="ConfigFromRaw.FromRawUnchecked"/>
     public static Config FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
@@ -247,6 +261,7 @@ public sealed record class Config : ModelBase
 
 class ConfigFromRaw : IFromRaw<Config>
 {
+    /// <inheritdoc/>
     public Config FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         Config.FromRawUnchecked(rawData);
 }

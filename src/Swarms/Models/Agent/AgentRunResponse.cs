@@ -96,6 +96,7 @@ public sealed record class AgentRunResponse : ModelBase
         init { ModelBase.Set(this._rawData, "usage", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.Description;
@@ -110,6 +111,9 @@ public sealed record class AgentRunResponse : ModelBase
 
     public AgentRunResponse() { }
 
+    public AgentRunResponse(AgentRunResponse agentRunResponse)
+        : base(agentRunResponse) { }
+
     public AgentRunResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = [.. rawData];
@@ -123,6 +127,7 @@ public sealed record class AgentRunResponse : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="AgentRunResponseFromRaw.FromRawUnchecked"/>
     public static AgentRunResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
@@ -133,6 +138,7 @@ public sealed record class AgentRunResponse : ModelBase
 
 class AgentRunResponseFromRaw : IFromRaw<AgentRunResponse>
 {
+    /// <inheritdoc/>
     public AgentRunResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         AgentRunResponse.FromRawUnchecked(rawData);
 }

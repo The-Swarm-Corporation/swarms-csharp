@@ -7,7 +7,7 @@ using Swarms.Models.Client.Tools;
 
 namespace Swarms.Services.Client;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class ToolService : IToolService
 {
     /// <inheritdoc/>

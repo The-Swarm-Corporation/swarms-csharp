@@ -16,6 +16,9 @@ public sealed record class ToolListAvailableParams : ParamsBase
 {
     public ToolListAvailableParams() { }
 
+    public ToolListAvailableParams(ToolListAvailableParams toolListAvailableParams)
+        : base(toolListAvailableParams) { }
+
     public ToolListAvailableParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData
@@ -37,6 +40,7 @@ public sealed record class ToolListAvailableParams : ParamsBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
     public static ToolListAvailableParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData

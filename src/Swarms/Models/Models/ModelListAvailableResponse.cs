@@ -32,6 +32,7 @@ public sealed record class ModelListAvailableResponse : ModelBase
         init { ModelBase.Set(this._rawData, "success", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.Models;
@@ -39,6 +40,9 @@ public sealed record class ModelListAvailableResponse : ModelBase
     }
 
     public ModelListAvailableResponse() { }
+
+    public ModelListAvailableResponse(ModelListAvailableResponse modelListAvailableResponse)
+        : base(modelListAvailableResponse) { }
 
     public ModelListAvailableResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -53,6 +57,7 @@ public sealed record class ModelListAvailableResponse : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="ModelListAvailableResponseFromRaw.FromRawUnchecked"/>
     public static ModelListAvailableResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
@@ -63,6 +68,7 @@ public sealed record class ModelListAvailableResponse : ModelBase
 
 class ModelListAvailableResponseFromRaw : IFromRaw<ModelListAvailableResponse>
 {
+    /// <inheritdoc/>
     public ModelListAvailableResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => ModelListAvailableResponse.FromRawUnchecked(rawData);

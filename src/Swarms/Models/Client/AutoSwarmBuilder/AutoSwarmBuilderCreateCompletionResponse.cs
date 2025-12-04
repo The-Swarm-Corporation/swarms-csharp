@@ -90,6 +90,7 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
         init { ModelBase.Set(this._rawData, "usage", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.Success;
@@ -101,6 +102,11 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     }
 
     public AutoSwarmBuilderCreateCompletionResponse() { }
+
+    public AutoSwarmBuilderCreateCompletionResponse(
+        AutoSwarmBuilderCreateCompletionResponse autoSwarmBuilderCreateCompletionResponse
+    )
+        : base(autoSwarmBuilderCreateCompletionResponse) { }
 
     public AutoSwarmBuilderCreateCompletionResponse(
         IReadOnlyDictionary<string, JsonElement> rawData
@@ -117,6 +123,7 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="AutoSwarmBuilderCreateCompletionResponseFromRaw.FromRawUnchecked"/>
     public static AutoSwarmBuilderCreateCompletionResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
@@ -135,6 +142,7 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
 class AutoSwarmBuilderCreateCompletionResponseFromRaw
     : IFromRaw<AutoSwarmBuilderCreateCompletionResponse>
 {
+    /// <inheritdoc/>
     public AutoSwarmBuilderCreateCompletionResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => AutoSwarmBuilderCreateCompletionResponse.FromRawUnchecked(rawData);

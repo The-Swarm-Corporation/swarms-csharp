@@ -36,6 +36,12 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
 
     public BatchCreateCompletionParams() { }
 
+    public BatchCreateCompletionParams(BatchCreateCompletionParams batchCreateCompletionParams)
+        : base(batchCreateCompletionParams)
+    {
+        this._rawBodyData = [.. batchCreateCompletionParams._rawBodyData];
+    }
+
     public BatchCreateCompletionParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
@@ -61,6 +67,7 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
     public static BatchCreateCompletionParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
@@ -135,6 +142,7 @@ public sealed record class InputSchema : ModelBase
         init { ModelBase.Set(this._rawData, "img", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         this.Config?.Validate();
@@ -143,6 +151,9 @@ public sealed record class InputSchema : ModelBase
     }
 
     public InputSchema() { }
+
+    public InputSchema(InputSchema inputSchema)
+        : base(inputSchema) { }
 
     public InputSchema(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -157,6 +168,7 @@ public sealed record class InputSchema : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="InputSchemaFromRaw.FromRawUnchecked"/>
     public static InputSchema FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
@@ -165,6 +177,7 @@ public sealed record class InputSchema : ModelBase
 
 class InputSchemaFromRaw : IFromRaw<InputSchema>
 {
+    /// <inheritdoc/>
     public InputSchema FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         InputSchema.FromRawUnchecked(rawData);
 }
@@ -270,6 +283,7 @@ public sealed record class Config : ModelBase
         init { ModelBase.Set(this._rawData, "worker_model_name", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.Description;
@@ -286,6 +300,9 @@ public sealed record class Config : ModelBase
 
     public Config() { }
 
+    public Config(global::Swarms.Models.Client.AdvancedResearch.Batch.Config config)
+        : base(config) { }
+
     public Config(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = [.. rawData];
@@ -299,6 +316,7 @@ public sealed record class Config : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="global::Swarms.Models.Client.AdvancedResearch.Batch.ConfigFromRaw.FromRawUnchecked"/>
     public static global::Swarms.Models.Client.AdvancedResearch.Batch.Config FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
@@ -309,6 +327,7 @@ public sealed record class Config : ModelBase
 
 class ConfigFromRaw : IFromRaw<global::Swarms.Models.Client.AdvancedResearch.Batch.Config>
 {
+    /// <inheritdoc/>
     public global::Swarms.Models.Client.AdvancedResearch.Batch.Config FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => global::Swarms.Models.Client.AdvancedResearch.Batch.Config.FromRawUnchecked(rawData);

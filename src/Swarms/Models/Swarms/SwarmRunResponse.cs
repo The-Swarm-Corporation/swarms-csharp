@@ -106,6 +106,7 @@ public sealed record class SwarmRunResponse : ModelBase
         init { ModelBase.Set(this._rawData, "usage", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.Description;
@@ -122,6 +123,9 @@ public sealed record class SwarmRunResponse : ModelBase
 
     public SwarmRunResponse() { }
 
+    public SwarmRunResponse(SwarmRunResponse swarmRunResponse)
+        : base(swarmRunResponse) { }
+
     public SwarmRunResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = [.. rawData];
@@ -135,6 +139,7 @@ public sealed record class SwarmRunResponse : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="SwarmRunResponseFromRaw.FromRawUnchecked"/>
     public static SwarmRunResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
@@ -145,6 +150,7 @@ public sealed record class SwarmRunResponse : ModelBase
 
 class SwarmRunResponseFromRaw : IFromRaw<SwarmRunResponse>
 {
+    /// <inheritdoc/>
     public SwarmRunResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         SwarmRunResponse.FromRawUnchecked(rawData);
 }

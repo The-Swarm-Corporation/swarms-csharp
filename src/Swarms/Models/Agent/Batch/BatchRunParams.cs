@@ -28,6 +28,12 @@ public sealed record class BatchRunParams : ParamsBase
 
     public BatchRunParams() { }
 
+    public BatchRunParams(BatchRunParams batchRunParams)
+        : base(batchRunParams)
+    {
+        this._rawBodyData = [.. batchRunParams._rawBodyData];
+    }
+
     public BatchRunParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
@@ -53,6 +59,7 @@ public sealed record class BatchRunParams : ParamsBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
     public static BatchRunParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,

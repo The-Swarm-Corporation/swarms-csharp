@@ -9,7 +9,7 @@ using Swarms.Models.ReasoningAgents;
 
 namespace Swarms.Services;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class ReasoningAgentService : IReasoningAgentService
 {
     /// <inheritdoc/>

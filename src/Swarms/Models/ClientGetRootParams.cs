@@ -15,6 +15,9 @@ public sealed record class ClientGetRootParams : ParamsBase
 {
     public ClientGetRootParams() { }
 
+    public ClientGetRootParams(ClientGetRootParams clientGetRootParams)
+        : base(clientGetRootParams) { }
+
     public ClientGetRootParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData
@@ -36,6 +39,7 @@ public sealed record class ClientGetRootParams : ParamsBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
     public static ClientGetRootParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData

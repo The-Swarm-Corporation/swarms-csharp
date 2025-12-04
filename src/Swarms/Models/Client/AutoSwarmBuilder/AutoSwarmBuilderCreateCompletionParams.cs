@@ -95,6 +95,14 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     public AutoSwarmBuilderCreateCompletionParams() { }
 
     public AutoSwarmBuilderCreateCompletionParams(
+        AutoSwarmBuilderCreateCompletionParams autoSwarmBuilderCreateCompletionParams
+    )
+        : base(autoSwarmBuilderCreateCompletionParams)
+    {
+        this._rawBodyData = [.. autoSwarmBuilderCreateCompletionParams._rawBodyData];
+    }
+
+    public AutoSwarmBuilderCreateCompletionParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
         IReadOnlyDictionary<string, JsonElement> rawBodyData
@@ -119,6 +127,7 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
     public static AutoSwarmBuilderCreateCompletionParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,

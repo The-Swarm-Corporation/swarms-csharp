@@ -78,6 +78,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
         init { ModelBase.Set(this._rawData, "usage", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.Description;
@@ -90,6 +91,11 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     }
 
     public BatchedGridWorkflowCompleteWorkflowResponse() { }
+
+    public BatchedGridWorkflowCompleteWorkflowResponse(
+        BatchedGridWorkflowCompleteWorkflowResponse batchedGridWorkflowCompleteWorkflowResponse
+    )
+        : base(batchedGridWorkflowCompleteWorkflowResponse) { }
 
     public BatchedGridWorkflowCompleteWorkflowResponse(
         IReadOnlyDictionary<string, JsonElement> rawData
@@ -106,6 +112,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="BatchedGridWorkflowCompleteWorkflowResponseFromRaw.FromRawUnchecked"/>
     public static BatchedGridWorkflowCompleteWorkflowResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
@@ -117,6 +124,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
 class BatchedGridWorkflowCompleteWorkflowResponseFromRaw
     : IFromRaw<BatchedGridWorkflowCompleteWorkflowResponse>
 {
+    /// <inheritdoc/>
     public BatchedGridWorkflowCompleteWorkflowResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => BatchedGridWorkflowCompleteWorkflowResponse.FromRawUnchecked(rawData);
@@ -173,6 +181,7 @@ public sealed record class Usage : ModelBase
         init { ModelBase.Set(this._rawData, "total_tokens", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.CostPerAgent;
@@ -183,6 +192,9 @@ public sealed record class Usage : ModelBase
     }
 
     public Usage() { }
+
+    public Usage(Usage usage)
+        : base(usage) { }
 
     public Usage(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -197,6 +209,7 @@ public sealed record class Usage : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="UsageFromRaw.FromRawUnchecked"/>
     public static Usage FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
@@ -205,6 +218,7 @@ public sealed record class Usage : ModelBase
 
 class UsageFromRaw : IFromRaw<Usage>
 {
+    /// <inheritdoc/>
     public Usage FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         Usage.FromRawUnchecked(rawData);
 }

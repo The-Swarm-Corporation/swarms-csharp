@@ -28,6 +28,7 @@ public sealed record class ToolListAvailableResponse : ModelBase
         init { ModelBase.Set(this._rawData, "tools", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.Status;
@@ -35,6 +36,9 @@ public sealed record class ToolListAvailableResponse : ModelBase
     }
 
     public ToolListAvailableResponse() { }
+
+    public ToolListAvailableResponse(ToolListAvailableResponse toolListAvailableResponse)
+        : base(toolListAvailableResponse) { }
 
     public ToolListAvailableResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -49,6 +53,7 @@ public sealed record class ToolListAvailableResponse : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="ToolListAvailableResponseFromRaw.FromRawUnchecked"/>
     public static ToolListAvailableResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
@@ -59,6 +64,7 @@ public sealed record class ToolListAvailableResponse : ModelBase
 
 class ToolListAvailableResponseFromRaw : IFromRaw<ToolListAvailableResponse>
 {
+    /// <inheritdoc/>
     public ToolListAvailableResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => ToolListAvailableResponse.FromRawUnchecked(rawData);

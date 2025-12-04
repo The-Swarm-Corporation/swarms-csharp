@@ -7,7 +7,7 @@ using Swarms.Models.Client.Rate;
 
 namespace Swarms.Services.Client;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class RateService : IRateService
 {
     /// <inheritdoc/>

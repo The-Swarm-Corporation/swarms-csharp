@@ -8,7 +8,7 @@ using Swarms.Models.Client.AutoSwarmBuilder;
 
 namespace Swarms.Services.Client;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class AutoSwarmBuilderService : IAutoSwarmBuilderService
 {
     /// <inheritdoc/>

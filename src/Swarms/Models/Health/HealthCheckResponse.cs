@@ -24,12 +24,16 @@ public sealed record class HealthCheckResponse : ModelBase
         }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.Status;
     }
 
     public HealthCheckResponse() { }
+
+    public HealthCheckResponse(HealthCheckResponse healthCheckResponse)
+        : base(healthCheckResponse) { }
 
     public HealthCheckResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -44,6 +48,7 @@ public sealed record class HealthCheckResponse : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="HealthCheckResponseFromRaw.FromRawUnchecked"/>
     public static HealthCheckResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
@@ -54,6 +59,7 @@ public sealed record class HealthCheckResponse : ModelBase
 
 class HealthCheckResponseFromRaw : IFromRaw<HealthCheckResponse>
 {
+    /// <inheritdoc/>
     public HealthCheckResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         HealthCheckResponse.FromRawUnchecked(rawData);
 }

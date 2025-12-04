@@ -8,7 +8,7 @@ using Swarms.Models.Client.AdvancedResearch.Batch;
 
 namespace Swarms.Services.Client.AdvancedResearch;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class BatchService : IBatchService
 {
     /// <inheritdoc/>

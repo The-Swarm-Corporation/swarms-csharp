@@ -10,7 +10,7 @@ using Swarms.Services.Agent;
 
 namespace Swarms.Services;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class AgentService : IAgentService
 {
     /// <inheritdoc/>

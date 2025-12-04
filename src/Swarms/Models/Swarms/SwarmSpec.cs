@@ -184,6 +184,7 @@ public sealed record class SwarmSpec : ModelBase
         init { ModelBase.Set(this._rawData, "tasks", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         foreach (var item in this.Agents ?? [])
@@ -209,6 +210,9 @@ public sealed record class SwarmSpec : ModelBase
 
     public SwarmSpec() { }
 
+    public SwarmSpec(SwarmSpec swarmSpec)
+        : base(swarmSpec) { }
+
     public SwarmSpec(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = [.. rawData];
@@ -222,6 +226,7 @@ public sealed record class SwarmSpec : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="SwarmSpecFromRaw.FromRawUnchecked"/>
     public static SwarmSpec FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
@@ -230,6 +235,7 @@ public sealed record class SwarmSpec : ModelBase
 
 class SwarmSpecFromRaw : IFromRaw<SwarmSpec>
 {
+    /// <inheritdoc/>
     public SwarmSpec FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         SwarmSpec.FromRawUnchecked(rawData);
 }
@@ -272,6 +278,21 @@ public record class SwarmSpecMessages
         this._json = json;
     }
 
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="IReadOnlyList<Dictionary<string, JsonElement>>"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"> or <see cref="Match"> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickJsonElements(out var value)) {
+    ///     // `value` is of type `IReadOnlyList<Dictionary<string, JsonElement>>`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
     public bool TryPickJsonElements(
         [NotNullWhen(true)] out IReadOnlyList<Dictionary<string, JsonElement>>? value
     )
@@ -280,6 +301,21 @@ public record class SwarmSpecMessages
         return value != null;
     }
 
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="IReadOnlyDictionary<string, JsonElement>"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"> or <see cref="Match"> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickJsonElements1(out var value)) {
+    ///     // `value` is of type `IReadOnlyDictionary<string, JsonElement>`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
     public bool TryPickJsonElements1(
         [NotNullWhen(true)] out IReadOnlyDictionary<string, JsonElement>? value
     )
@@ -288,6 +324,26 @@ public record class SwarmSpecMessages
         return value != null;
     }
 
+    /// <summary>
+    /// Calls the function parameter corresponding to the variant the instance was constructed with.
+    ///
+    /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Match">
+    /// if you need your function parameters to return something.</para>
+    ///
+    /// <exception cref="SwarmsClientInvalidDataException">
+    /// Thrown when the instance was constructed with an unknown variant (e.g. deserialized from raw data
+    /// that doesn't match any variant's expected shape).
+    /// </exception>
+    ///
+    /// <example>
+    /// <code>
+    /// instance.Switch(
+    ///     (IReadOnlyList<Dictionary<string, JsonElement>> value) => {...},
+    ///     (IReadOnlyDictionary<string, JsonElement> value) => {...}
+    /// );
+    /// </code>
+    /// </example>
+    /// </summary>
     public void Switch(
         Action<IReadOnlyList<Dictionary<string, JsonElement>>> jsonElements,
         Action<IReadOnlyDictionary<string, JsonElement>> jsonElements1
@@ -308,6 +364,27 @@ public record class SwarmSpecMessages
         }
     }
 
+    /// <summary>
+    /// Calls the function parameter corresponding to the variant the instance was constructed with and
+    /// returns its result.
+    ///
+    /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Switch">
+    /// if you don't need your function parameters to return a value.</para>
+    ///
+    /// <exception cref="SwarmsClientInvalidDataException">
+    /// Thrown when the instance was constructed with an unknown variant (e.g. deserialized from raw data
+    /// that doesn't match any variant's expected shape).
+    /// </exception>
+    ///
+    /// <example>
+    /// <code>
+    /// var result = instance.Match(
+    ///     (IReadOnlyList<Dictionary<string, JsonElement>> value) => {...},
+    ///     (IReadOnlyDictionary<string, JsonElement> value) => {...}
+    /// );
+    /// </code>
+    /// </example>
+    /// </summary>
     public T Match<T>(
         Func<IReadOnlyList<Dictionary<string, JsonElement>>, T> jsonElements,
         Func<IReadOnlyDictionary<string, JsonElement>, T> jsonElements1
@@ -330,6 +407,16 @@ public record class SwarmSpecMessages
     public static implicit operator SwarmSpecMessages(Dictionary<string, JsonElement> value) =>
         new((IReadOnlyDictionary<string, JsonElement>)value);
 
+    /// <summary>
+    /// Validates that the instance was constructed with a known variant and that this variant is valid
+    /// (based on its own <c>Validate</c> method).
+    ///
+    /// <para>This is useful for instances constructed from raw JSON data (e.g. deserialized from an API response).</para>
+    ///
+    /// <exception cref="SwarmsClientInvalidDataException">
+    /// Thrown when the instance does not pass validation.
+    /// </exception>
+    /// </summary>
     public void Validate()
     {
         if (this.Value == null)

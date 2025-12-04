@@ -136,6 +136,14 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     public ReasoningAgentCreateCompletionParams() { }
 
     public ReasoningAgentCreateCompletionParams(
+        ReasoningAgentCreateCompletionParams reasoningAgentCreateCompletionParams
+    )
+        : base(reasoningAgentCreateCompletionParams)
+    {
+        this._rawBodyData = [.. reasoningAgentCreateCompletionParams._rawBodyData];
+    }
+
+    public ReasoningAgentCreateCompletionParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
         IReadOnlyDictionary<string, JsonElement> rawBodyData
@@ -160,6 +168,7 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
     public static ReasoningAgentCreateCompletionParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,

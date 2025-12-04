@@ -93,6 +93,7 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
         init { ModelBase.Set(this._rawData, "usage", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.ID;
@@ -106,6 +107,11 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     }
 
     public AdvancedResearchCreateCompletionResponse() { }
+
+    public AdvancedResearchCreateCompletionResponse(
+        AdvancedResearchCreateCompletionResponse advancedResearchCreateCompletionResponse
+    )
+        : base(advancedResearchCreateCompletionResponse) { }
 
     public AdvancedResearchCreateCompletionResponse(
         IReadOnlyDictionary<string, JsonElement> rawData
@@ -122,6 +128,7 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="AdvancedResearchCreateCompletionResponseFromRaw.FromRawUnchecked"/>
     public static AdvancedResearchCreateCompletionResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
@@ -133,6 +140,7 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
 class AdvancedResearchCreateCompletionResponseFromRaw
     : IFromRaw<AdvancedResearchCreateCompletionResponse>
 {
+    /// <inheritdoc/>
     public AdvancedResearchCreateCompletionResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => AdvancedResearchCreateCompletionResponse.FromRawUnchecked(rawData);

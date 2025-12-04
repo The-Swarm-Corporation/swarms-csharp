@@ -4,7 +4,7 @@ using Swarms.Services.Client;
 
 namespace Swarms.Services;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class ClientService : IClientService
 {
     /// <inheritdoc/>

@@ -55,6 +55,7 @@ public sealed record class RateGetLimitsResponse : ModelBase
         init { ModelBase.Set(this._rawData, "success", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         this.Limits?.Validate();
@@ -65,6 +66,9 @@ public sealed record class RateGetLimitsResponse : ModelBase
     }
 
     public RateGetLimitsResponse() { }
+
+    public RateGetLimitsResponse(RateGetLimitsResponse rateGetLimitsResponse)
+        : base(rateGetLimitsResponse) { }
 
     public RateGetLimitsResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -79,6 +83,7 @@ public sealed record class RateGetLimitsResponse : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="RateGetLimitsResponseFromRaw.FromRawUnchecked"/>
     public static RateGetLimitsResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
@@ -89,6 +94,7 @@ public sealed record class RateGetLimitsResponse : ModelBase
 
 class RateGetLimitsResponseFromRaw : IFromRaw<RateGetLimitsResponse>
 {
+    /// <inheritdoc/>
     public RateGetLimitsResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => RateGetLimitsResponse.FromRawUnchecked(rawData);
@@ -139,6 +145,7 @@ public sealed record class Limits : ModelBase
         init { ModelBase.Set(this._rawData, "tokens_per_agent", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.MaximumRequestsPerDay;
@@ -148,6 +155,9 @@ public sealed record class Limits : ModelBase
     }
 
     public Limits() { }
+
+    public Limits(Limits limits)
+        : base(limits) { }
 
     public Limits(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -162,6 +172,7 @@ public sealed record class Limits : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="LimitsFromRaw.FromRawUnchecked"/>
     public static Limits FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
@@ -170,6 +181,7 @@ public sealed record class Limits : ModelBase
 
 class LimitsFromRaw : IFromRaw<Limits>
 {
+    /// <inheritdoc/>
     public Limits FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         Limits.FromRawUnchecked(rawData);
 }
@@ -207,6 +219,7 @@ public sealed record class RateLimits : ModelBase
         init { ModelBase.Set(this._rawData, "minute", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         this.Day.Validate();
@@ -215,6 +228,9 @@ public sealed record class RateLimits : ModelBase
     }
 
     public RateLimits() { }
+
+    public RateLimits(RateLimits rateLimits)
+        : base(rateLimits) { }
 
     public RateLimits(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -229,6 +245,7 @@ public sealed record class RateLimits : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="RateLimitsFromRaw.FromRawUnchecked"/>
     public static RateLimits FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
@@ -237,6 +254,7 @@ public sealed record class RateLimits : ModelBase
 
 class RateLimitsFromRaw : IFromRaw<RateLimits>
 {
+    /// <inheritdoc/>
     public RateLimits FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         RateLimits.FromRawUnchecked(rawData);
 }
@@ -292,6 +310,7 @@ public sealed record class Day : ModelBase
         init { ModelBase.Set(this._rawData, "reset_time", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.Count;
@@ -302,6 +321,9 @@ public sealed record class Day : ModelBase
     }
 
     public Day() { }
+
+    public Day(Day day)
+        : base(day) { }
 
     public Day(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -316,6 +338,7 @@ public sealed record class Day : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="DayFromRaw.FromRawUnchecked"/>
     public static Day FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
@@ -324,6 +347,7 @@ public sealed record class Day : ModelBase
 
 class DayFromRaw : IFromRaw<Day>
 {
+    /// <inheritdoc/>
     public Day FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         Day.FromRawUnchecked(rawData);
 }
@@ -379,6 +403,7 @@ public sealed record class Hour : ModelBase
         init { ModelBase.Set(this._rawData, "reset_time", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.Count;
@@ -389,6 +414,9 @@ public sealed record class Hour : ModelBase
     }
 
     public Hour() { }
+
+    public Hour(Hour hour)
+        : base(hour) { }
 
     public Hour(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -403,6 +431,7 @@ public sealed record class Hour : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="HourFromRaw.FromRawUnchecked"/>
     public static Hour FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
@@ -411,6 +440,7 @@ public sealed record class Hour : ModelBase
 
 class HourFromRaw : IFromRaw<Hour>
 {
+    /// <inheritdoc/>
     public Hour FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         Hour.FromRawUnchecked(rawData);
 }
@@ -466,6 +496,7 @@ public sealed record class Minute : ModelBase
         init { ModelBase.Set(this._rawData, "reset_time", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.Count;
@@ -476,6 +507,9 @@ public sealed record class Minute : ModelBase
     }
 
     public Minute() { }
+
+    public Minute(Minute minute)
+        : base(minute) { }
 
     public Minute(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -490,6 +524,7 @@ public sealed record class Minute : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="MinuteFromRaw.FromRawUnchecked"/>
     public static Minute FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
@@ -498,6 +533,7 @@ public sealed record class Minute : ModelBase
 
 class MinuteFromRaw : IFromRaw<Minute>
 {
+    /// <inheritdoc/>
     public Minute FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         Minute.FromRawUnchecked(rawData);
 }

@@ -7,7 +7,7 @@ using Swarms.Models.Models;
 
 namespace Swarms.Services;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class ModelService : IModelService
 {
     /// <inheritdoc/>

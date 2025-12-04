@@ -217,6 +217,7 @@ public sealed record class AgentSpec : ModelBase
         init { ModelBase.Set(this._rawData, "tools_list_dictionary", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.AgentName;
@@ -243,6 +244,9 @@ public sealed record class AgentSpec : ModelBase
 
     public AgentSpec() { }
 
+    public AgentSpec(AgentSpec agentSpec)
+        : base(agentSpec) { }
+
     public AgentSpec(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = [.. rawData];
@@ -256,6 +260,7 @@ public sealed record class AgentSpec : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="AgentSpecFromRaw.FromRawUnchecked"/>
     public static AgentSpec FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
@@ -271,6 +276,7 @@ public sealed record class AgentSpec : ModelBase
 
 class AgentSpecFromRaw : IFromRaw<AgentSpec>
 {
+    /// <inheritdoc/>
     public AgentSpec FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         AgentSpec.FromRawUnchecked(rawData);
 }
@@ -353,6 +359,7 @@ public sealed record class McpConfig : ModelBase
         init { ModelBase.Set(this._rawData, "url", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.AuthorizationToken;
@@ -365,6 +372,9 @@ public sealed record class McpConfig : ModelBase
     }
 
     public McpConfig() { }
+
+    public McpConfig(McpConfig mcpConfig)
+        : base(mcpConfig) { }
 
     public McpConfig(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -379,6 +389,7 @@ public sealed record class McpConfig : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="McpConfigFromRaw.FromRawUnchecked"/>
     public static McpConfig FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
@@ -387,6 +398,7 @@ public sealed record class McpConfig : ModelBase
 
 class McpConfigFromRaw : IFromRaw<McpConfig>
 {
+    /// <inheritdoc/>
     public McpConfig FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         McpConfig.FromRawUnchecked(rawData);
 }
@@ -407,6 +419,7 @@ public sealed record class McpConfigs : ModelBase
         init { ModelBase.Set(this._rawData, "connections", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         foreach (var item in this.Connections)
@@ -416,6 +429,9 @@ public sealed record class McpConfigs : ModelBase
     }
 
     public McpConfigs() { }
+
+    public McpConfigs(McpConfigs mcpConfigs)
+        : base(mcpConfigs) { }
 
     public McpConfigs(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -430,6 +446,7 @@ public sealed record class McpConfigs : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="McpConfigsFromRaw.FromRawUnchecked"/>
     public static McpConfigs FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
@@ -445,6 +462,7 @@ public sealed record class McpConfigs : ModelBase
 
 class McpConfigsFromRaw : IFromRaw<McpConfigs>
 {
+    /// <inheritdoc/>
     public McpConfigs FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         McpConfigs.FromRawUnchecked(rawData);
 }
@@ -524,6 +542,7 @@ public sealed record class Connection : ModelBase
         init { ModelBase.Set(this._rawData, "url", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.AuthorizationToken;
@@ -536,6 +555,9 @@ public sealed record class Connection : ModelBase
     }
 
     public Connection() { }
+
+    public Connection(Connection connection)
+        : base(connection) { }
 
     public Connection(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -550,6 +572,7 @@ public sealed record class Connection : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="ConnectionFromRaw.FromRawUnchecked"/>
     public static Connection FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
@@ -558,6 +581,7 @@ public sealed record class Connection : ModelBase
 
 class ConnectionFromRaw : IFromRaw<Connection>
 {
+    /// <inheritdoc/>
     public Connection FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         Connection.FromRawUnchecked(rawData);
 }

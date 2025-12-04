@@ -7,7 +7,7 @@ using Swarms.Models.Client.BatchedGridWorkflow;
 
 namespace Swarms.Services.Client;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class BatchedGridWorkflowService : IBatchedGridWorkflowService
 {
     /// <inheritdoc/>

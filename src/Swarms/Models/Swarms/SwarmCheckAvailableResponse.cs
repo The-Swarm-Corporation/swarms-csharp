@@ -24,6 +24,7 @@ public sealed record class SwarmCheckAvailableResponse : ModelBase
         init { ModelBase.Set(this._rawData, "swarm_types", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.Success;
@@ -31,6 +32,9 @@ public sealed record class SwarmCheckAvailableResponse : ModelBase
     }
 
     public SwarmCheckAvailableResponse() { }
+
+    public SwarmCheckAvailableResponse(SwarmCheckAvailableResponse swarmCheckAvailableResponse)
+        : base(swarmCheckAvailableResponse) { }
 
     public SwarmCheckAvailableResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -45,6 +49,7 @@ public sealed record class SwarmCheckAvailableResponse : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="SwarmCheckAvailableResponseFromRaw.FromRawUnchecked"/>
     public static SwarmCheckAvailableResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
@@ -55,6 +60,7 @@ public sealed record class SwarmCheckAvailableResponse : ModelBase
 
 class SwarmCheckAvailableResponseFromRaw : IFromRaw<SwarmCheckAvailableResponse>
 {
+    /// <inheritdoc/>
     public SwarmCheckAvailableResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => SwarmCheckAvailableResponse.FromRawUnchecked(rawData);

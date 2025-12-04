@@ -15,6 +15,9 @@ public sealed record class ModelListAvailableParams : ParamsBase
 {
     public ModelListAvailableParams() { }
 
+    public ModelListAvailableParams(ModelListAvailableParams modelListAvailableParams)
+        : base(modelListAvailableParams) { }
+
     public ModelListAvailableParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData
@@ -36,6 +39,7 @@ public sealed record class ModelListAvailableParams : ParamsBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
     public static ModelListAvailableParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData

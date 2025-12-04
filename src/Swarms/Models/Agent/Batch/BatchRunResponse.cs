@@ -63,6 +63,7 @@ public sealed record class BatchRunResponse : ModelBase
         init { ModelBase.Set(this._rawData, "total_requests", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.BatchID;
@@ -73,6 +74,9 @@ public sealed record class BatchRunResponse : ModelBase
     }
 
     public BatchRunResponse() { }
+
+    public BatchRunResponse(BatchRunResponse batchRunResponse)
+        : base(batchRunResponse) { }
 
     public BatchRunResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -87,6 +91,7 @@ public sealed record class BatchRunResponse : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="BatchRunResponseFromRaw.FromRawUnchecked"/>
     public static BatchRunResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
@@ -97,6 +102,7 @@ public sealed record class BatchRunResponse : ModelBase
 
 class BatchRunResponseFromRaw : IFromRaw<BatchRunResponse>
 {
+    /// <inheritdoc/>
     public BatchRunResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         BatchRunResponse.FromRawUnchecked(rawData);
 }

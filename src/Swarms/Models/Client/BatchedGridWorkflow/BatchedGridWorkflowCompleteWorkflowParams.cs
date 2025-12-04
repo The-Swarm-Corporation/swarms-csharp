@@ -85,6 +85,14 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     public BatchedGridWorkflowCompleteWorkflowParams() { }
 
     public BatchedGridWorkflowCompleteWorkflowParams(
+        BatchedGridWorkflowCompleteWorkflowParams batchedGridWorkflowCompleteWorkflowParams
+    )
+        : base(batchedGridWorkflowCompleteWorkflowParams)
+    {
+        this._rawBodyData = [.. batchedGridWorkflowCompleteWorkflowParams._rawBodyData];
+    }
+
+    public BatchedGridWorkflowCompleteWorkflowParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
         IReadOnlyDictionary<string, JsonElement> rawBodyData
@@ -109,6 +117,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
     public static BatchedGridWorkflowCompleteWorkflowParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,

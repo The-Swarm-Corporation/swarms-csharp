@@ -17,6 +17,9 @@ public sealed record class SwarmGetLogsParams : ParamsBase
 {
     public SwarmGetLogsParams() { }
 
+    public SwarmGetLogsParams(SwarmGetLogsParams swarmGetLogsParams)
+        : base(swarmGetLogsParams) { }
+
     public SwarmGetLogsParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData
@@ -38,6 +41,7 @@ public sealed record class SwarmGetLogsParams : ParamsBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
     public static SwarmGetLogsParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData

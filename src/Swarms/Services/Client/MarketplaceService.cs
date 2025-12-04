@@ -3,7 +3,7 @@ using Swarms.Core;
 
 namespace Swarms.Services.Client;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class MarketplaceService : IMarketplaceService
 {
     /// <inheritdoc/>

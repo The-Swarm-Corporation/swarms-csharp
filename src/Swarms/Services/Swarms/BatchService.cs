@@ -9,7 +9,7 @@ using Swarms.Models.Swarms.Batch;
 
 namespace Swarms.Services.Swarms;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class BatchService : IBatchService
 {
     /// <inheritdoc/>

@@ -42,6 +42,7 @@ public sealed record class SwarmGetLogsResponse : ModelBase
         init { ModelBase.Set(this._rawData, "timestamp", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.Count;
@@ -51,6 +52,9 @@ public sealed record class SwarmGetLogsResponse : ModelBase
     }
 
     public SwarmGetLogsResponse() { }
+
+    public SwarmGetLogsResponse(SwarmGetLogsResponse swarmGetLogsResponse)
+        : base(swarmGetLogsResponse) { }
 
     public SwarmGetLogsResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -65,6 +69,7 @@ public sealed record class SwarmGetLogsResponse : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="SwarmGetLogsResponseFromRaw.FromRawUnchecked"/>
     public static SwarmGetLogsResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
@@ -75,6 +80,7 @@ public sealed record class SwarmGetLogsResponse : ModelBase
 
 class SwarmGetLogsResponseFromRaw : IFromRaw<SwarmGetLogsResponse>
 {
+    /// <inheritdoc/>
     public SwarmGetLogsResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => SwarmGetLogsResponse.FromRawUnchecked(rawData);

@@ -8,7 +8,7 @@ using Swarms.Services.Client.AdvancedResearch;
 
 namespace Swarms.Services.Client;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class AdvancedResearchService : IAdvancedResearchService
 {
     /// <inheritdoc/>

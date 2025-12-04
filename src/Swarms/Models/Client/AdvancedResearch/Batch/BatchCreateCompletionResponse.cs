@@ -90,6 +90,7 @@ public sealed record class BatchCreateCompletionResponse : ModelBase
         init { ModelBase.Set(this._rawData, "usage", value); }
     }
 
+    /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.ID;
@@ -104,6 +105,11 @@ public sealed record class BatchCreateCompletionResponse : ModelBase
 
     public BatchCreateCompletionResponse() { }
 
+    public BatchCreateCompletionResponse(
+        BatchCreateCompletionResponse batchCreateCompletionResponse
+    )
+        : base(batchCreateCompletionResponse) { }
+
     public BatchCreateCompletionResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = [.. rawData];
@@ -117,6 +123,7 @@ public sealed record class BatchCreateCompletionResponse : ModelBase
     }
 #pragma warning restore CS8618
 
+    /// <inheritdoc cref="BatchCreateCompletionResponseFromRaw.FromRawUnchecked"/>
     public static BatchCreateCompletionResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
@@ -127,6 +134,7 @@ public sealed record class BatchCreateCompletionResponse : ModelBase
 
 class BatchCreateCompletionResponseFromRaw : IFromRaw<BatchCreateCompletionResponse>
 {
+    /// <inheritdoc/>
     public BatchCreateCompletionResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => BatchCreateCompletionResponse.FromRawUnchecked(rawData);

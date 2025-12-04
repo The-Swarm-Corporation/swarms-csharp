@@ -7,7 +7,7 @@ using Swarms.Models.Health;
 
 namespace Swarms.Services;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class HealthService : IHealthService
 {
     /// <inheritdoc/>

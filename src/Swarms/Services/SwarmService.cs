@@ -8,7 +8,7 @@ using Swarms.Services.Swarms;
 
 namespace Swarms.Services;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class SwarmService : ISwarmService
 {
     /// <inheritdoc/>

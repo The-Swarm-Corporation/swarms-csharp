@@ -7,7 +7,7 @@ using Swarms.Models.Agent.Batch;
 
 namespace Swarms.Services.Agent;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public sealed class BatchService : IBatchService
 {
     /// <inheritdoc/>
