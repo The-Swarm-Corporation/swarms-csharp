@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using Swarms.Core;
+using Swarms.Exceptions;
 using Swarms.Models.Agent;
 using Swarms.Models.Swarms;
 
@@ -747,5 +748,148 @@ public class SwarmSpecTest : TestBase
         };
 
         model.Validate();
+    }
+}
+
+public class SwarmSpecMessagesTest : TestBase
+{
+    [Fact]
+    public void JsonElementsValidation_Works()
+    {
+        SwarmSpecMessages value = new(
+            [
+                new Dictionary<string, JsonElement>()
+                {
+                    { "foo", JsonSerializer.SerializeToElement("bar") },
+                },
+            ]
+        );
+        value.Validate();
+    }
+
+    [Fact]
+    public void JsonElementsValidation_Works1()
+    {
+        SwarmSpecMessages value = new(
+            new Dictionary<string, JsonElement>()
+            {
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            }
+        );
+        value.Validate();
+    }
+
+    [Fact]
+    public void JsonElementsSerializationRoundtrip_Works()
+    {
+        SwarmSpecMessages value = new(
+            [
+                new Dictionary<string, JsonElement>()
+                {
+                    { "foo", JsonSerializer.SerializeToElement("bar") },
+                },
+            ]
+        );
+        string json = JsonSerializer.Serialize(value);
+        var deserialized = JsonSerializer.Deserialize<SwarmSpecMessages>(json);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void JsonElementsSerializationRoundtrip_Works1()
+    {
+        SwarmSpecMessages value = new(
+            new Dictionary<string, JsonElement>()
+            {
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            }
+        );
+        string json = JsonSerializer.Serialize(value);
+        var deserialized = JsonSerializer.Deserialize<SwarmSpecMessages>(json);
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class SwarmSpecSwarmTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(SwarmSpecSwarmType.AgentRearrange)]
+    [InlineData(SwarmSpecSwarmType.MixtureOfAgents)]
+    [InlineData(SwarmSpecSwarmType.SequentialWorkflow)]
+    [InlineData(SwarmSpecSwarmType.ConcurrentWorkflow)]
+    [InlineData(SwarmSpecSwarmType.GroupChat)]
+    [InlineData(SwarmSpecSwarmType.MultiAgentRouter)]
+    [InlineData(SwarmSpecSwarmType.AutoSwarmBuilder)]
+    [InlineData(SwarmSpecSwarmType.HiearchicalSwarm)]
+    [InlineData(SwarmSpecSwarmType.Auto)]
+    [InlineData(SwarmSpecSwarmType.MajorityVoting)]
+    [InlineData(SwarmSpecSwarmType.Malt)]
+    [InlineData(SwarmSpecSwarmType.DeepResearchSwarm)]
+    [InlineData(SwarmSpecSwarmType.CouncilAsAJudge)]
+    [InlineData(SwarmSpecSwarmType.InteractiveGroupChat)]
+    [InlineData(SwarmSpecSwarmType.HeavySwarm)]
+    public void Validation_Works(SwarmSpecSwarmType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, SwarmSpecSwarmType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, SwarmSpecSwarmType>>(
+            JsonSerializer.Deserialize<JsonElement>("\"invalid value\""),
+            ModelBase.SerializerOptions
+        );
+        Assert.Throws<SwarmsClientInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(SwarmSpecSwarmType.AgentRearrange)]
+    [InlineData(SwarmSpecSwarmType.MixtureOfAgents)]
+    [InlineData(SwarmSpecSwarmType.SequentialWorkflow)]
+    [InlineData(SwarmSpecSwarmType.ConcurrentWorkflow)]
+    [InlineData(SwarmSpecSwarmType.GroupChat)]
+    [InlineData(SwarmSpecSwarmType.MultiAgentRouter)]
+    [InlineData(SwarmSpecSwarmType.AutoSwarmBuilder)]
+    [InlineData(SwarmSpecSwarmType.HiearchicalSwarm)]
+    [InlineData(SwarmSpecSwarmType.Auto)]
+    [InlineData(SwarmSpecSwarmType.MajorityVoting)]
+    [InlineData(SwarmSpecSwarmType.Malt)]
+    [InlineData(SwarmSpecSwarmType.DeepResearchSwarm)]
+    [InlineData(SwarmSpecSwarmType.CouncilAsAJudge)]
+    [InlineData(SwarmSpecSwarmType.InteractiveGroupChat)]
+    [InlineData(SwarmSpecSwarmType.HeavySwarm)]
+    public void SerializationRoundtrip_Works(SwarmSpecSwarmType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, SwarmSpecSwarmType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SwarmSpecSwarmType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, SwarmSpecSwarmType>>(
+            JsonSerializer.Deserialize<JsonElement>("\"invalid value\""),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SwarmSpecSwarmType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
     }
 }

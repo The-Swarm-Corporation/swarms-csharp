@@ -571,3 +571,54 @@ public class AgentCompletionTest : TestBase
         model.Validate();
     }
 }
+
+public class AgentCompletionHistoryTest : TestBase
+{
+    [Fact]
+    public void JsonElementsValidation_Works()
+    {
+        AgentCompletionHistory value = new(
+            new Dictionary<string, JsonElement>()
+            {
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            }
+        );
+        value.Validate();
+    }
+
+    [Fact]
+    public void stringsValidation_Works()
+    {
+        AgentCompletionHistory value = new(
+            [new Dictionary<string, string>() { { "foo", "string" } }]
+        );
+        value.Validate();
+    }
+
+    [Fact]
+    public void JsonElementsSerializationRoundtrip_Works()
+    {
+        AgentCompletionHistory value = new(
+            new Dictionary<string, JsonElement>()
+            {
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            }
+        );
+        string json = JsonSerializer.Serialize(value);
+        var deserialized = JsonSerializer.Deserialize<AgentCompletionHistory>(json);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void stringsSerializationRoundtrip_Works()
+    {
+        AgentCompletionHistory value = new(
+            [new Dictionary<string, string>() { { "foo", "string" } }]
+        );
+        string json = JsonSerializer.Serialize(value);
+        var deserialized = JsonSerializer.Deserialize<AgentCompletionHistory>(json);
+
+        Assert.Equal(value, deserialized);
+    }
+}
