@@ -153,6 +153,7 @@ public class AgentSpecTest : TestBase
         Assert.Equal(expectedTemperature, model.Temperature);
         Assert.Equal(expectedThinkingTokens, model.ThinkingTokens);
         Assert.Equal(expectedToolCallSummary, model.ToolCallSummary);
+        Assert.NotNull(model.ToolsListDictionary);
         Assert.Equal(expectedToolsListDictionary.Count, model.ToolsListDictionary.Count);
         for (int i = 0; i < expectedToolsListDictionary.Count; i++)
         {
@@ -387,6 +388,7 @@ public class AgentSpecTest : TestBase
         Assert.Equal(expectedTemperature, deserialized.Temperature);
         Assert.Equal(expectedThinkingTokens, deserialized.ThinkingTokens);
         Assert.Equal(expectedToolCallSummary, deserialized.ToolCallSummary);
+        Assert.NotNull(deserialized.ToolsListDictionary);
         Assert.Equal(expectedToolsListDictionary.Count, deserialized.ToolsListDictionary.Count);
         for (int i = 0; i < expectedToolsListDictionary.Count; i++)
         {

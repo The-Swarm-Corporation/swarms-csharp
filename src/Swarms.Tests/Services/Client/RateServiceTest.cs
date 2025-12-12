@@ -7,7 +7,10 @@ public class RateServiceTest : TestBase
     [Fact(Skip = "Prism tests are disabled")]
     public async Task GetLimits_Works()
     {
-        var response = await this.client.Client.Rate.GetLimits();
+        var response = await this.client.Client.Rate.GetLimits(
+            new(),
+            TestContext.Current.CancellationToken
+        );
         response.Validate();
     }
 }

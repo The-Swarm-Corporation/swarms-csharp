@@ -31,7 +31,8 @@ public class BatchServiceTest : TestBase
                         Img = "img",
                     },
                 ],
-            }
+            },
+            TestContext.Current.CancellationToken
         );
         foreach (var item in response)
         {

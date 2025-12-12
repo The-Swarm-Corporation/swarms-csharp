@@ -39,9 +39,8 @@ public class AgentRunResponseTest : TestBase
         Assert.Equal(expectedDescription, model.Description);
         Assert.Equal(expectedJobID, model.JobID);
         Assert.Equal(expectedName, model.Name);
-        Assert.True(
-            model.Outputs.HasValue && JsonElement.DeepEquals(expectedOutputs, model.Outputs.Value)
-        );
+        Assert.NotNull(model.Outputs);
+        Assert.True(JsonElement.DeepEquals(expectedOutputs, model.Outputs.Value));
         Assert.Equal(expectedSuccess, model.Success);
         Assert.Equal(expectedTemperature, model.Temperature);
         Assert.Equal(expectedTimestamp, model.Timestamp);
@@ -115,10 +114,8 @@ public class AgentRunResponseTest : TestBase
         Assert.Equal(expectedDescription, deserialized.Description);
         Assert.Equal(expectedJobID, deserialized.JobID);
         Assert.Equal(expectedName, deserialized.Name);
-        Assert.True(
-            deserialized.Outputs.HasValue
-                && JsonElement.DeepEquals(expectedOutputs, deserialized.Outputs.Value)
-        );
+        Assert.NotNull(deserialized.Outputs);
+        Assert.True(JsonElement.DeepEquals(expectedOutputs, deserialized.Outputs.Value));
         Assert.Equal(expectedSuccess, deserialized.Success);
         Assert.Equal(expectedTemperature, deserialized.Temperature);
         Assert.Equal(expectedTimestamp, deserialized.Timestamp);

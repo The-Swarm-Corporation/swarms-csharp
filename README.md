@@ -82,7 +82,7 @@ var response = await client
     .WithOptions(options =>
         options with
         {
-            BaseUrl = new("https://example.com"),
+            BaseUrl = "https://example.com",
             Timeout = TimeSpan.FromSeconds(42),
         }
     )
@@ -191,6 +191,17 @@ var response = await client
     .GetRoot(parameters);
 
 Console.WriteLine(response);
+```
+
+### Environments
+
+The SDK sends requests to the production environment by default. To send requests to a different environment, configure the client like so:
+
+```csharp
+using Swarms;
+using Swarms.Core;
+
+SwarmsClientClient client = new() { BaseUrl = EnvironmentUrl.Sandbox };
 ```
 
 ## Undocumented API functionality

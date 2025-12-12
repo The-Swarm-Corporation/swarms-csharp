@@ -7,13 +7,19 @@ public class AutoSwarmBuilderServiceTest : TestBase
     [Fact(Skip = "Prism tests are disabled")]
     public async Task CreateCompletion_Works()
     {
-        var response = await this.client.Client.AutoSwarmBuilder.CreateCompletion();
+        var response = await this.client.Client.AutoSwarmBuilder.CreateCompletion(
+            new(),
+            TestContext.Current.CancellationToken
+        );
         response.Validate();
     }
 
     [Fact(Skip = "Prism tests are disabled")]
     public async Task ListExecutionTypes_Works()
     {
-        await this.client.Client.AutoSwarmBuilder.ListExecutionTypes();
+        await this.client.Client.AutoSwarmBuilder.ListExecutionTypes(
+            new(),
+            TestContext.Current.CancellationToken
+        );
     }
 }

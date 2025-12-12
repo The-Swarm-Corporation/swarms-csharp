@@ -113,7 +113,8 @@ public class BatchServiceTest : TestBase
                         Tasks = ["string"],
                     },
                 ],
-            }
+            },
+            TestContext.Current.CancellationToken
         );
     }
 }

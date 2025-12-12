@@ -157,12 +157,14 @@ public class AgentCompletionTest : TestBase
         Assert.Equal(expectedAgentConfig, model.AgentConfig);
         Assert.Equal(expectedHistory, model.History);
         Assert.Equal(expectedImg, model.Img);
+        Assert.NotNull(model.Imgs);
         Assert.Equal(expectedImgs.Count, model.Imgs.Count);
         for (int i = 0; i < expectedImgs.Count; i++)
         {
             Assert.Equal(expectedImgs[i], model.Imgs[i]);
         }
         Assert.Equal(expectedTask, model.Task);
+        Assert.NotNull(model.ToolsEnabled);
         Assert.Equal(expectedToolsEnabled.Count, model.ToolsEnabled.Count);
         for (int i = 0; i < expectedToolsEnabled.Count; i++)
         {
@@ -408,12 +410,14 @@ public class AgentCompletionTest : TestBase
         Assert.Equal(expectedAgentConfig, deserialized.AgentConfig);
         Assert.Equal(expectedHistory, deserialized.History);
         Assert.Equal(expectedImg, deserialized.Img);
+        Assert.NotNull(deserialized.Imgs);
         Assert.Equal(expectedImgs.Count, deserialized.Imgs.Count);
         for (int i = 0; i < expectedImgs.Count; i++)
         {
             Assert.Equal(expectedImgs[i], deserialized.Imgs[i]);
         }
         Assert.Equal(expectedTask, deserialized.Task);
+        Assert.NotNull(deserialized.ToolsEnabled);
         Assert.Equal(expectedToolsEnabled.Count, deserialized.ToolsEnabled.Count);
         for (int i = 0; i < expectedToolsEnabled.Count; i++)
         {

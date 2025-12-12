@@ -23,26 +23,23 @@ public struct ClientOptions()
     /// </summary>
     public HttpClient HttpClient { get; set; } = new();
 
-    Lazy<Uri> _baseUrl = new(() =>
-        new Uri(
-            Environment.GetEnvironmentVariable("SWARMS_CLIENT_BASE_URL")
-                ?? "https://api.swarms.world"
-        )
+    Lazy<string> _baseUrl = new(() =>
+        Environment.GetEnvironmentVariable("SWARMS_CLIENT_BASE_URL") ?? EnvironmentUrl.Production
     );
 
     /// <summary>
     /// The base URL to use for every request.
     ///
-    /// <para>Defaults to the production environment: https://api.swarms.world</para>
+    /// <para>Defaults to the production environment: <see cref="EnvironmentUrl.Production"/></para>
     ///
     /// <para>
     /// The following other environments are available:
     /// <list type="bullet">
-    ///   <item>sandbox: https://swarms-api-285321057562.us-east1.run.app</item>
+    ///   <item>sandbox: <see cref="EnvironmentUrl.Sandbox"/></item>
     /// </list>
     /// </para>
     /// </summary>
-    public Uri BaseUrl
+    public string BaseUrl
     {
         readonly get { return _baseUrl.Value; }
         set { _baseUrl = new(() => value); }

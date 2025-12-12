@@ -187,6 +187,7 @@ public class SwarmSpecTest : TestBase
         string expectedTask = "task";
         List<string> expectedTasks = ["string"];
 
+        Assert.NotNull(model.Agents);
         Assert.Equal(expectedAgents.Count, model.Agents.Count);
         for (int i = 0; i < expectedAgents.Count; i++)
         {
@@ -209,6 +210,7 @@ public class SwarmSpecTest : TestBase
         Assert.Equal(expectedStream, model.Stream);
         Assert.Equal(expectedSwarmType, model.SwarmType);
         Assert.Equal(expectedTask, model.Task);
+        Assert.NotNull(model.Tasks);
         Assert.Equal(expectedTasks.Count, model.Tasks.Count);
         for (int i = 0; i < expectedTasks.Count; i++)
         {
@@ -496,6 +498,7 @@ public class SwarmSpecTest : TestBase
         string expectedTask = "task";
         List<string> expectedTasks = ["string"];
 
+        Assert.NotNull(deserialized.Agents);
         Assert.Equal(expectedAgents.Count, deserialized.Agents.Count);
         for (int i = 0; i < expectedAgents.Count; i++)
         {
@@ -518,6 +521,7 @@ public class SwarmSpecTest : TestBase
         Assert.Equal(expectedStream, deserialized.Stream);
         Assert.Equal(expectedSwarmType, deserialized.SwarmType);
         Assert.Equal(expectedTask, deserialized.Task);
+        Assert.NotNull(deserialized.Tasks);
         Assert.Equal(expectedTasks.Count, deserialized.Tasks.Count);
         for (int i = 0; i < expectedTasks.Count; i++)
         {

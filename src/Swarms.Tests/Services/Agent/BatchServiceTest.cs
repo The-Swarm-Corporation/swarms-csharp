@@ -91,7 +91,8 @@ public class BatchServiceTest : TestBase
                         ToolsEnabled = ["string"],
                     },
                 ],
-            }
+            },
+            TestContext.Current.CancellationToken
         );
         response.Validate();
     }

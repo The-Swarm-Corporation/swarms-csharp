@@ -15,6 +15,7 @@ public class ToolListAvailableResponseTest : TestBase
         List<string> expectedTools = ["string"];
 
         Assert.Equal(expectedStatus, model.Status);
+        Assert.NotNull(model.Tools);
         Assert.Equal(expectedTools.Count, model.Tools.Count);
         for (int i = 0; i < expectedTools.Count; i++)
         {
@@ -46,6 +47,7 @@ public class ToolListAvailableResponseTest : TestBase
         List<string> expectedTools = ["string"];
 
         Assert.Equal(expectedStatus, deserialized.Status);
+        Assert.NotNull(deserialized.Tools);
         Assert.Equal(expectedTools.Count, deserialized.Tools.Count);
         for (int i = 0; i < expectedTools.Count; i++)
         {

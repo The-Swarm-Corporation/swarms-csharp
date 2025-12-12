@@ -17,9 +17,8 @@ public class ModelListAvailableResponseTest : TestBase
         JsonElement expectedModels = JsonSerializer.Deserialize<JsonElement>("{}");
         bool expectedSuccess = true;
 
-        Assert.True(
-            model.Models.HasValue && JsonElement.DeepEquals(expectedModels, model.Models.Value)
-        );
+        Assert.NotNull(model.Models);
+        Assert.True(JsonElement.DeepEquals(expectedModels, model.Models.Value));
         Assert.Equal(expectedSuccess, model.Success);
     }
 
@@ -54,10 +53,8 @@ public class ModelListAvailableResponseTest : TestBase
         JsonElement expectedModels = JsonSerializer.Deserialize<JsonElement>("{}");
         bool expectedSuccess = true;
 
-        Assert.True(
-            deserialized.Models.HasValue
-                && JsonElement.DeepEquals(expectedModels, deserialized.Models.Value)
-        );
+        Assert.NotNull(deserialized.Models);
+        Assert.True(JsonElement.DeepEquals(expectedModels, deserialized.Models.Value));
         Assert.Equal(expectedSuccess, deserialized.Success);
     }
 

@@ -24,7 +24,8 @@ public class AdvancedResearchServiceTest : TestBase
                     WorkerModelName = "worker_model_name",
                 },
                 Task = "task",
-            }
+            },
+            TestContext.Current.CancellationToken
         );
         response.Validate();
     }

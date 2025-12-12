@@ -7,7 +7,10 @@ public class ToolServiceTest : TestBase
     [Fact(Skip = "Prism tests are disabled")]
     public async Task ListAvailable_Works()
     {
-        var response = await this.client.Client.Tools.ListAvailable();
+        var response = await this.client.Client.Tools.ListAvailable(
+            new(),
+            TestContext.Current.CancellationToken
+        );
         response.Validate();
     }
 }

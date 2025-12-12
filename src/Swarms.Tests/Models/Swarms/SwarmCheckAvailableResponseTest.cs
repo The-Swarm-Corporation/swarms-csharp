@@ -15,6 +15,7 @@ public class SwarmCheckAvailableResponseTest : TestBase
         List<string> expectedSwarmTypes = ["string"];
 
         Assert.Equal(expectedSuccess, model.Success);
+        Assert.NotNull(model.SwarmTypes);
         Assert.Equal(expectedSwarmTypes.Count, model.SwarmTypes.Count);
         for (int i = 0; i < expectedSwarmTypes.Count; i++)
         {
@@ -46,6 +47,7 @@ public class SwarmCheckAvailableResponseTest : TestBase
         List<string> expectedSwarmTypes = ["string"];
 
         Assert.Equal(expectedSuccess, deserialized.Success);
+        Assert.NotNull(deserialized.SwarmTypes);
         Assert.Equal(expectedSwarmTypes.Count, deserialized.SwarmTypes.Count);
         for (int i = 0; i < expectedSwarmTypes.Count; i++)
         {

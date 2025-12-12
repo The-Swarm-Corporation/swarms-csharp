@@ -25,9 +25,8 @@ public class BatchRunResponseTest : TestBase
 
         Assert.Equal(expectedBatchID, model.BatchID);
         Assert.Equal(expectedExecutionTime, model.ExecutionTime);
-        Assert.True(
-            model.Results.HasValue && JsonElement.DeepEquals(expectedResults, model.Results.Value)
-        );
+        Assert.NotNull(model.Results);
+        Assert.True(JsonElement.DeepEquals(expectedResults, model.Results.Value));
         Assert.Equal(expectedTimestamp, model.Timestamp);
         Assert.Equal(expectedTotalRequests, model.TotalRequests);
     }
@@ -74,10 +73,8 @@ public class BatchRunResponseTest : TestBase
 
         Assert.Equal(expectedBatchID, deserialized.BatchID);
         Assert.Equal(expectedExecutionTime, deserialized.ExecutionTime);
-        Assert.True(
-            deserialized.Results.HasValue
-                && JsonElement.DeepEquals(expectedResults, deserialized.Results.Value)
-        );
+        Assert.NotNull(deserialized.Results);
+        Assert.True(JsonElement.DeepEquals(expectedResults, deserialized.Results.Value));
         Assert.Equal(expectedTimestamp, deserialized.Timestamp);
         Assert.Equal(expectedTotalRequests, deserialized.TotalRequests);
     }

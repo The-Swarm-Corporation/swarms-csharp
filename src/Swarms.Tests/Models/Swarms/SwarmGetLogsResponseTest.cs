@@ -22,7 +22,8 @@ public class SwarmGetLogsResponseTest : TestBase
         string expectedTimestamp = "timestamp";
 
         Assert.Equal(expectedCount, model.Count);
-        Assert.True(model.Logs.HasValue && JsonElement.DeepEquals(expectedLogs, model.Logs.Value));
+        Assert.NotNull(model.Logs);
+        Assert.True(JsonElement.DeepEquals(expectedLogs, model.Logs.Value));
         Assert.Equal(expectedStatus, model.Status);
         Assert.Equal(expectedTimestamp, model.Timestamp);
     }
@@ -65,10 +66,8 @@ public class SwarmGetLogsResponseTest : TestBase
         string expectedTimestamp = "timestamp";
 
         Assert.Equal(expectedCount, deserialized.Count);
-        Assert.True(
-            deserialized.Logs.HasValue
-                && JsonElement.DeepEquals(expectedLogs, deserialized.Logs.Value)
-        );
+        Assert.NotNull(deserialized.Logs);
+        Assert.True(JsonElement.DeepEquals(expectedLogs, deserialized.Logs.Value));
         Assert.Equal(expectedStatus, deserialized.Status);
         Assert.Equal(expectedTimestamp, deserialized.Timestamp);
     }

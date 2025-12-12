@@ -31,16 +31,16 @@ public interface ISwarmsClientClient
     /// <summary>
     /// The base URL to use for every request.
     ///
-    /// <para>Defaults to the production environment: https://api.swarms.world</para>
+    /// <para>Defaults to the production environment: <see cref="EnvironmentUrl.Production"/></para>
     ///
     /// <para>
     /// The following other environments are available:
     /// <list type="bullet">
-    ///   <item>sandbox: https://swarms-api-285321057562.us-east1.run.app</item>
+    ///   <item>sandbox: <see cref="EnvironmentUrl.Sandbox"/></item>
     /// </list>
     /// </para>
     /// </summary>
-    Uri BaseUrl { get; init; }
+    string BaseUrl { get; init; }
 
     /// <summary>
     /// Whether to validate every response before returning it.
