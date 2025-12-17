@@ -16,12 +16,16 @@ namespace Swarms;
 /// <inheritdoc/>
 public sealed class SwarmsClientClient : ISwarmsClientClient
 {
+#if NET
+    static readonly Random Random = Random.Shared;
+#else
     static readonly ThreadLocal<Random> _threadLocalRandom = new(() => new Random());
 
     static Random Random
     {
         get { return _threadLocalRandom.Value!; }
     }
+#endif
 
     readonly ClientOptions _options;
 
