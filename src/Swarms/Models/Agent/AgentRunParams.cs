@@ -28,8 +28,8 @@ public sealed record class AgentRunParams : ParamsBase
     /// </summary>
     public AgentSpec? AgentConfig
     {
-        get { return ModelBase.GetNullableClass<AgentSpec>(this.RawBodyData, "agent_config"); }
-        init { ModelBase.Set(this._rawBodyData, "agent_config", value); }
+        get { return JsonModel.GetNullableClass<AgentSpec>(this.RawBodyData, "agent_config"); }
+        init { JsonModel.Set(this._rawBodyData, "agent_config", value); }
     }
 
     /// <summary>
@@ -38,8 +38,8 @@ public sealed record class AgentRunParams : ParamsBase
     /// </summary>
     public History? History
     {
-        get { return ModelBase.GetNullableClass<History>(this.RawBodyData, "history"); }
-        init { ModelBase.Set(this._rawBodyData, "history", value); }
+        get { return JsonModel.GetNullableClass<History>(this.RawBodyData, "history"); }
+        init { JsonModel.Set(this._rawBodyData, "history", value); }
     }
 
     /// <summary>
@@ -47,8 +47,8 @@ public sealed record class AgentRunParams : ParamsBase
     /// </summary>
     public string? Img
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "img"); }
-        init { ModelBase.Set(this._rawBodyData, "img", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "img"); }
+        init { JsonModel.Set(this._rawBodyData, "img", value); }
     }
 
     /// <summary>
@@ -56,8 +56,8 @@ public sealed record class AgentRunParams : ParamsBase
     /// </summary>
     public IReadOnlyList<string>? Imgs
     {
-        get { return ModelBase.GetNullableClass<List<string>>(this.RawBodyData, "imgs"); }
-        init { ModelBase.Set(this._rawBodyData, "imgs", value); }
+        get { return JsonModel.GetNullableClass<List<string>>(this.RawBodyData, "imgs"); }
+        init { JsonModel.Set(this._rawBodyData, "imgs", value); }
     }
 
     /// <summary>
@@ -65,8 +65,8 @@ public sealed record class AgentRunParams : ParamsBase
     /// </summary>
     public string? Task
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "task"); }
-        init { ModelBase.Set(this._rawBodyData, "task", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "task"); }
+        init { JsonModel.Set(this._rawBodyData, "task", value); }
     }
 
     /// <summary>
@@ -74,8 +74,8 @@ public sealed record class AgentRunParams : ParamsBase
     /// </summary>
     public IReadOnlyList<string>? ToolsEnabled
     {
-        get { return ModelBase.GetNullableClass<List<string>>(this.RawBodyData, "tools_enabled"); }
-        init { ModelBase.Set(this._rawBodyData, "tools_enabled", value); }
+        get { return JsonModel.GetNullableClass<List<string>>(this.RawBodyData, "tools_enabled"); }
+        init { JsonModel.Set(this._rawBodyData, "tools_enabled", value); }
     }
 
     public AgentRunParams() { }
@@ -111,7 +111,7 @@ public sealed record class AgentRunParams : ParamsBase
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
+    /// <inheritdoc cref="IFromRawJson.FromRawUnchecked"/>
     public static AgentRunParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
@@ -133,9 +133,13 @@ public sealed record class AgentRunParams : ParamsBase
         }.Uri;
     }
 
-    internal override StringContent? BodyContent()
+    internal override HttpContent? BodyContent()
     {
-        return new(JsonSerializer.Serialize(this.RawBodyData), Encoding.UTF8, "application/json");
+        return new StringContent(
+            JsonSerializer.Serialize(this.RawBodyData),
+            Encoding.UTF8,
+            "application/json"
+        );
     }
 
     internal override void AddHeadersToRequest(HttpRequestMessage request, ClientOptions options)
@@ -157,28 +161,28 @@ public record class History
 {
     public object? Value { get; } = null;
 
-    JsonElement? _json = null;
+    JsonElement? _element = null;
 
     public JsonElement Json
     {
-        get { return this._json ??= JsonSerializer.SerializeToElement(this.Value); }
+        get { return this._element ??= JsonSerializer.SerializeToElement(this.Value); }
     }
 
-    public History(IReadOnlyDictionary<string, JsonElement> value, JsonElement? json = null)
+    public History(IReadOnlyDictionary<string, JsonElement> value, JsonElement? element = null)
     {
         this.Value = FrozenDictionary.ToFrozenDictionary(value);
-        this._json = json;
+        this._element = element;
     }
 
-    public History(IReadOnlyList<Dictionary<string, string>> value, JsonElement? json = null)
+    public History(IReadOnlyList<Dictionary<string, string>> value, JsonElement? element = null)
     {
         this.Value = ImmutableArray.ToImmutableArray(value);
-        this._json = json;
+        this._element = element;
     }
 
-    public History(JsonElement json)
+    public History(JsonElement element)
     {
-        this._json = json;
+        this._element = element;
     }
 
     /// <summary>
@@ -346,16 +350,16 @@ sealed class HistoryConverter : JsonConverter<History?>
         JsonSerializerOptions options
     )
     {
-        var json = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
+        var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
             var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
-                json,
+                element,
                 options
             );
             if (deserialized != null)
             {
-                return new(deserialized, json);
+                return new(deserialized, element);
             }
         }
         catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
@@ -366,12 +370,12 @@ sealed class HistoryConverter : JsonConverter<History?>
         try
         {
             var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, string>>>(
-                json,
+                element,
                 options
             );
             if (deserialized != null)
             {
-                return new(deserialized, json);
+                return new(deserialized, element);
             }
         }
         catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
@@ -379,7 +383,7 @@ sealed class HistoryConverter : JsonConverter<History?>
             // ignore
         }
 
-        return new(json);
+        return new(element);
     }
 
     public override void Write(Utf8JsonWriter writer, History? value, JsonSerializerOptions options)

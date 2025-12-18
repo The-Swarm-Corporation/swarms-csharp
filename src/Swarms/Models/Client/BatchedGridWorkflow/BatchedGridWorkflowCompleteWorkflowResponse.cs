@@ -8,20 +8,20 @@ using Swarms.Core;
 namespace Swarms.Models.Client.BatchedGridWorkflow;
 
 [JsonConverter(
-    typeof(ModelConverter<
+    typeof(JsonModelConverter<
         BatchedGridWorkflowCompleteWorkflowResponse,
         BatchedGridWorkflowCompleteWorkflowResponseFromRaw
     >)
 )]
-public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBase
+public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : JsonModel
 {
     /// <summary>
     /// The description of the batched grid workflow.
     /// </summary>
     public required string Description
     {
-        get { return ModelBase.GetNotNullClass<string>(this.RawData, "description"); }
-        init { ModelBase.Set(this._rawData, "description", value); }
+        get { return JsonModel.GetNotNullClass<string>(this.RawData, "description"); }
+        init { JsonModel.Set(this._rawData, "description", value); }
     }
 
     /// <summary>
@@ -29,8 +29,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     /// </summary>
     public required string JobID
     {
-        get { return ModelBase.GetNotNullClass<string>(this.RawData, "job_id"); }
-        init { ModelBase.Set(this._rawData, "job_id", value); }
+        get { return JsonModel.GetNotNullClass<string>(this.RawData, "job_id"); }
+        init { JsonModel.Set(this._rawData, "job_id", value); }
     }
 
     /// <summary>
@@ -38,8 +38,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     /// </summary>
     public required string Name
     {
-        get { return ModelBase.GetNotNullClass<string>(this.RawData, "name"); }
-        init { ModelBase.Set(this._rawData, "name", value); }
+        get { return JsonModel.GetNotNullClass<string>(this.RawData, "name"); }
+        init { JsonModel.Set(this._rawData, "name", value); }
     }
 
     /// <summary>
@@ -47,8 +47,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     /// </summary>
     public required JsonElement Outputs
     {
-        get { return ModelBase.GetNotNullStruct<JsonElement>(this.RawData, "outputs"); }
-        init { ModelBase.Set(this._rawData, "outputs", value); }
+        get { return JsonModel.GetNotNullStruct<JsonElement>(this.RawData, "outputs"); }
+        init { JsonModel.Set(this._rawData, "outputs", value); }
     }
 
     /// <summary>
@@ -56,8 +56,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     /// </summary>
     public required string Status
     {
-        get { return ModelBase.GetNotNullClass<string>(this.RawData, "status"); }
-        init { ModelBase.Set(this._rawData, "status", value); }
+        get { return JsonModel.GetNotNullClass<string>(this.RawData, "status"); }
+        init { JsonModel.Set(this._rawData, "status", value); }
     }
 
     /// <summary>
@@ -65,8 +65,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     /// </summary>
     public required string Timestamp
     {
-        get { return ModelBase.GetNotNullClass<string>(this.RawData, "timestamp"); }
-        init { ModelBase.Set(this._rawData, "timestamp", value); }
+        get { return JsonModel.GetNotNullClass<string>(this.RawData, "timestamp"); }
+        init { JsonModel.Set(this._rawData, "timestamp", value); }
     }
 
     /// <summary>
@@ -74,8 +74,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
     /// </summary>
     public required Usage Usage
     {
-        get { return ModelBase.GetNotNullClass<Usage>(this.RawData, "usage"); }
-        init { ModelBase.Set(this._rawData, "usage", value); }
+        get { return JsonModel.GetNotNullClass<Usage>(this.RawData, "usage"); }
+        init { JsonModel.Set(this._rawData, "usage", value); }
     }
 
     /// <inheritdoc/>
@@ -122,7 +122,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : ModelBa
 }
 
 class BatchedGridWorkflowCompleteWorkflowResponseFromRaw
-    : IFromRaw<BatchedGridWorkflowCompleteWorkflowResponse>
+    : IFromRawJson<BatchedGridWorkflowCompleteWorkflowResponse>
 {
     /// <inheritdoc/>
     public BatchedGridWorkflowCompleteWorkflowResponse FromRawUnchecked(
@@ -133,16 +133,16 @@ class BatchedGridWorkflowCompleteWorkflowResponseFromRaw
 /// <summary>
 /// The usage of the batched grid workflow.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<Usage, UsageFromRaw>))]
-public sealed record class Usage : ModelBase
+[JsonConverter(typeof(JsonModelConverter<Usage, UsageFromRaw>))]
+public sealed record class Usage : JsonModel
 {
     /// <summary>
     /// The cost in credits for the agents.
     /// </summary>
     public required double CostPerAgent
     {
-        get { return ModelBase.GetNotNullStruct<double>(this.RawData, "cost_per_agent"); }
-        init { ModelBase.Set(this._rawData, "cost_per_agent", value); }
+        get { return JsonModel.GetNotNullStruct<double>(this.RawData, "cost_per_agent"); }
+        init { JsonModel.Set(this._rawData, "cost_per_agent", value); }
     }
 
     /// <summary>
@@ -150,8 +150,8 @@ public sealed record class Usage : ModelBase
     /// </summary>
     public required long InputTokens
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "input_tokens"); }
-        init { ModelBase.Set(this._rawData, "input_tokens", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "input_tokens"); }
+        init { JsonModel.Set(this._rawData, "input_tokens", value); }
     }
 
     /// <summary>
@@ -159,8 +159,8 @@ public sealed record class Usage : ModelBase
     /// </summary>
     public required long OutputTokens
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "output_tokens"); }
-        init { ModelBase.Set(this._rawData, "output_tokens", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "output_tokens"); }
+        init { JsonModel.Set(this._rawData, "output_tokens", value); }
     }
 
     /// <summary>
@@ -168,8 +168,8 @@ public sealed record class Usage : ModelBase
     /// </summary>
     public required double TokenCost
     {
-        get { return ModelBase.GetNotNullStruct<double>(this.RawData, "token_cost"); }
-        init { ModelBase.Set(this._rawData, "token_cost", value); }
+        get { return JsonModel.GetNotNullStruct<double>(this.RawData, "token_cost"); }
+        init { JsonModel.Set(this._rawData, "token_cost", value); }
     }
 
     /// <summary>
@@ -177,8 +177,8 @@ public sealed record class Usage : ModelBase
     /// </summary>
     public required long TotalTokens
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "total_tokens"); }
-        init { ModelBase.Set(this._rawData, "total_tokens", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "total_tokens"); }
+        init { JsonModel.Set(this._rawData, "total_tokens", value); }
     }
 
     /// <inheritdoc/>
@@ -216,7 +216,7 @@ public sealed record class Usage : ModelBase
     }
 }
 
-class UsageFromRaw : IFromRaw<Usage>
+class UsageFromRaw : IFromRawJson<Usage>
 {
     /// <inheritdoc/>
     public Usage FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>

@@ -85,8 +85,8 @@ public class ConfigTest : TestBase
             WorkerModelName = "worker_model_name",
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Config>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<Config>(element);
         Assert.NotNull(deserialized);
 
         string expectedDescription = "description";

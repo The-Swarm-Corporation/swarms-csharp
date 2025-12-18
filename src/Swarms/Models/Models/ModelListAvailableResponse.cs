@@ -8,13 +8,13 @@ using Swarms.Core;
 namespace Swarms.Models.Models;
 
 [JsonConverter(
-    typeof(ModelConverter<ModelListAvailableResponse, ModelListAvailableResponseFromRaw>)
+    typeof(JsonModelConverter<ModelListAvailableResponse, ModelListAvailableResponseFromRaw>)
 )]
-public sealed record class ModelListAvailableResponse : ModelBase
+public sealed record class ModelListAvailableResponse : JsonModel
 {
     public JsonElement? Models
     {
-        get { return ModelBase.GetNullableStruct<JsonElement>(this.RawData, "models"); }
+        get { return JsonModel.GetNullableStruct<JsonElement>(this.RawData, "models"); }
         init
         {
             if (value == null)
@@ -22,14 +22,14 @@ public sealed record class ModelListAvailableResponse : ModelBase
                 return;
             }
 
-            ModelBase.Set(this._rawData, "models", value);
+            JsonModel.Set(this._rawData, "models", value);
         }
     }
 
     public bool? Success
     {
-        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "success"); }
-        init { ModelBase.Set(this._rawData, "success", value); }
+        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "success"); }
+        init { JsonModel.Set(this._rawData, "success", value); }
     }
 
     /// <inheritdoc/>
@@ -66,7 +66,7 @@ public sealed record class ModelListAvailableResponse : ModelBase
     }
 }
 
-class ModelListAvailableResponseFromRaw : IFromRaw<ModelListAvailableResponse>
+class ModelListAvailableResponseFromRaw : IFromRawJson<ModelListAvailableResponse>
 {
     /// <inheritdoc/>
     public ModelListAvailableResponse FromRawUnchecked(

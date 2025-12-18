@@ -7,16 +7,18 @@ using Swarms.Core;
 
 namespace Swarms.Models.Client.Tools;
 
-[JsonConverter(typeof(ModelConverter<ToolListAvailableResponse, ToolListAvailableResponseFromRaw>))]
-public sealed record class ToolListAvailableResponse : ModelBase
+[JsonConverter(
+    typeof(JsonModelConverter<ToolListAvailableResponse, ToolListAvailableResponseFromRaw>)
+)]
+public sealed record class ToolListAvailableResponse : JsonModel
 {
     /// <summary>
     /// The status of the available tools.
     /// </summary>
     public string? Status
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "status"); }
-        init { ModelBase.Set(this._rawData, "status", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "status"); }
+        init { JsonModel.Set(this._rawData, "status", value); }
     }
 
     /// <summary>
@@ -24,8 +26,8 @@ public sealed record class ToolListAvailableResponse : ModelBase
     /// </summary>
     public IReadOnlyList<string>? Tools
     {
-        get { return ModelBase.GetNullableClass<List<string>>(this.RawData, "tools"); }
-        init { ModelBase.Set(this._rawData, "tools", value); }
+        get { return JsonModel.GetNullableClass<List<string>>(this.RawData, "tools"); }
+        init { JsonModel.Set(this._rawData, "tools", value); }
     }
 
     /// <inheritdoc/>
@@ -62,7 +64,7 @@ public sealed record class ToolListAvailableResponse : ModelBase
     }
 }
 
-class ToolListAvailableResponseFromRaw : IFromRaw<ToolListAvailableResponse>
+class ToolListAvailableResponseFromRaw : IFromRawJson<ToolListAvailableResponse>
 {
     /// <inheritdoc/>
     public ToolListAvailableResponse FromRawUnchecked(

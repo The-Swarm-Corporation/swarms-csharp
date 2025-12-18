@@ -188,8 +188,8 @@ public class RateGetLimitsResponseTest : TestBase
             Success = true,
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<RateGetLimitsResponse>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<RateGetLimitsResponse>(element);
         Assert.NotNull(deserialized);
 
         Limits expectedLimits = new()
@@ -527,8 +527,8 @@ public class LimitsTest : TestBase
             TokensPerAgent = 0,
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Limits>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<Limits>(element);
         Assert.NotNull(deserialized);
 
         long expectedMaximumRequestsPerDay = 0;
@@ -688,8 +688,8 @@ public class RateLimitsTest : TestBase
             },
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<RateLimits>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<RateLimits>(element);
         Assert.NotNull(deserialized);
 
         Day expectedDay = new()
@@ -814,8 +814,8 @@ public class DayTest : TestBase
             ResetTime = "reset_time",
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Day>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<Day>(element);
         Assert.NotNull(deserialized);
 
         long expectedCount = 0;
@@ -904,8 +904,8 @@ public class HourTest : TestBase
             ResetTime = "reset_time",
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Hour>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<Hour>(element);
         Assert.NotNull(deserialized);
 
         long expectedCount = 0;
@@ -994,8 +994,8 @@ public class MinuteTest : TestBase
             ResetTime = "reset_time",
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Minute>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<Minute>(element);
         Assert.NotNull(deserialized);
 
         long expectedCount = 0;

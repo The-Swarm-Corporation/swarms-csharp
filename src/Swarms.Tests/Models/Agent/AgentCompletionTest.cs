@@ -332,8 +332,8 @@ public class AgentCompletionTest : TestBase
             ToolsEnabled = ["string"],
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<AgentCompletion>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<AgentCompletion>(element);
         Assert.NotNull(deserialized);
 
         AgentSpec expectedAgentConfig = new()
@@ -579,7 +579,7 @@ public class AgentCompletionTest : TestBase
 public class AgentCompletionHistoryTest : TestBase
 {
     [Fact]
-    public void JsonElementsValidation_Works()
+    public void JsonElementsValidationWorks()
     {
         AgentCompletionHistory value = new(
             new Dictionary<string, JsonElement>()
@@ -591,7 +591,7 @@ public class AgentCompletionHistoryTest : TestBase
     }
 
     [Fact]
-    public void stringsValidation_Works()
+    public void StringsValidationWorks()
     {
         AgentCompletionHistory value = new(
             [new Dictionary<string, string>() { { "foo", "string" } }]
@@ -600,7 +600,7 @@ public class AgentCompletionHistoryTest : TestBase
     }
 
     [Fact]
-    public void JsonElementsSerializationRoundtrip_Works()
+    public void JsonElementsSerializationRoundtripWorks()
     {
         AgentCompletionHistory value = new(
             new Dictionary<string, JsonElement>()
@@ -608,20 +608,20 @@ public class AgentCompletionHistoryTest : TestBase
                 { "foo", JsonSerializer.SerializeToElement("bar") },
             }
         );
-        string json = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<AgentCompletionHistory>(json);
+        string element = JsonSerializer.Serialize(value);
+        var deserialized = JsonSerializer.Deserialize<AgentCompletionHistory>(element);
 
         Assert.Equal(value, deserialized);
     }
 
     [Fact]
-    public void stringsSerializationRoundtrip_Works()
+    public void StringsSerializationRoundtripWorks()
     {
         AgentCompletionHistory value = new(
             [new Dictionary<string, string>() { { "foo", "string" } }]
         );
-        string json = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<AgentCompletionHistory>(json);
+        string element = JsonSerializer.Serialize(value);
+        var deserialized = JsonSerializer.Deserialize<AgentCompletionHistory>(element);
 
         Assert.Equal(value, deserialized);
     }

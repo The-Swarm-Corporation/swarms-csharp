@@ -7,16 +7,16 @@ using Swarms.Core;
 
 namespace Swarms.Models.Client.Rate;
 
-[JsonConverter(typeof(ModelConverter<RateGetLimitsResponse, RateGetLimitsResponseFromRaw>))]
-public sealed record class RateGetLimitsResponse : ModelBase
+[JsonConverter(typeof(JsonModelConverter<RateGetLimitsResponse, RateGetLimitsResponseFromRaw>))]
+public sealed record class RateGetLimitsResponse : JsonModel
 {
     /// <summary>
     /// The configured rate limits based on the user's subscription tier.
     /// </summary>
     public required Limits? Limits
     {
-        get { return ModelBase.GetNullableClass<Limits>(this.RawData, "limits"); }
-        init { ModelBase.Set(this._rawData, "limits", value); }
+        get { return JsonModel.GetNullableClass<Limits>(this.RawData, "limits"); }
+        init { JsonModel.Set(this._rawData, "limits", value); }
     }
 
     /// <summary>
@@ -24,8 +24,8 @@ public sealed record class RateGetLimitsResponse : ModelBase
     /// </summary>
     public required RateLimits? RateLimits
     {
-        get { return ModelBase.GetNullableClass<RateLimits>(this.RawData, "rate_limits"); }
-        init { ModelBase.Set(this._rawData, "rate_limits", value); }
+        get { return JsonModel.GetNullableClass<RateLimits>(this.RawData, "rate_limits"); }
+        init { JsonModel.Set(this._rawData, "rate_limits", value); }
     }
 
     /// <summary>
@@ -33,8 +33,8 @@ public sealed record class RateGetLimitsResponse : ModelBase
     /// </summary>
     public required string? Tier
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "tier"); }
-        init { ModelBase.Set(this._rawData, "tier", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "tier"); }
+        init { JsonModel.Set(this._rawData, "tier", value); }
     }
 
     /// <summary>
@@ -42,8 +42,8 @@ public sealed record class RateGetLimitsResponse : ModelBase
     /// </summary>
     public required string? Timestamp
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "timestamp"); }
-        init { ModelBase.Set(this._rawData, "timestamp", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "timestamp"); }
+        init { JsonModel.Set(this._rawData, "timestamp", value); }
     }
 
     /// <summary>
@@ -51,8 +51,8 @@ public sealed record class RateGetLimitsResponse : ModelBase
     /// </summary>
     public bool? Success
     {
-        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "success"); }
-        init { ModelBase.Set(this._rawData, "success", value); }
+        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "success"); }
+        init { JsonModel.Set(this._rawData, "success", value); }
     }
 
     /// <inheritdoc/>
@@ -92,7 +92,7 @@ public sealed record class RateGetLimitsResponse : ModelBase
     }
 }
 
-class RateGetLimitsResponseFromRaw : IFromRaw<RateGetLimitsResponse>
+class RateGetLimitsResponseFromRaw : IFromRawJson<RateGetLimitsResponse>
 {
     /// <inheritdoc/>
     public RateGetLimitsResponse FromRawUnchecked(
@@ -103,16 +103,16 @@ class RateGetLimitsResponseFromRaw : IFromRaw<RateGetLimitsResponse>
 /// <summary>
 /// The configured rate limits based on the user's subscription tier.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<Limits, LimitsFromRaw>))]
-public sealed record class Limits : ModelBase
+[JsonConverter(typeof(JsonModelConverter<Limits, LimitsFromRaw>))]
+public sealed record class Limits : JsonModel
 {
     /// <summary>
     /// The maximum number of requests allowed per day.
     /// </summary>
     public required long MaximumRequestsPerDay
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "maximum_requests_per_day"); }
-        init { ModelBase.Set(this._rawData, "maximum_requests_per_day", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "maximum_requests_per_day"); }
+        init { JsonModel.Set(this._rawData, "maximum_requests_per_day", value); }
     }
 
     /// <summary>
@@ -120,8 +120,8 @@ public sealed record class Limits : ModelBase
     /// </summary>
     public required long MaximumRequestsPerHour
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "maximum_requests_per_hour"); }
-        init { ModelBase.Set(this._rawData, "maximum_requests_per_hour", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "maximum_requests_per_hour"); }
+        init { JsonModel.Set(this._rawData, "maximum_requests_per_hour", value); }
     }
 
     /// <summary>
@@ -131,9 +131,9 @@ public sealed record class Limits : ModelBase
     {
         get
         {
-            return ModelBase.GetNotNullStruct<long>(this.RawData, "maximum_requests_per_minute");
+            return JsonModel.GetNotNullStruct<long>(this.RawData, "maximum_requests_per_minute");
         }
-        init { ModelBase.Set(this._rawData, "maximum_requests_per_minute", value); }
+        init { JsonModel.Set(this._rawData, "maximum_requests_per_minute", value); }
     }
 
     /// <summary>
@@ -141,8 +141,8 @@ public sealed record class Limits : ModelBase
     /// </summary>
     public required long TokensPerAgent
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "tokens_per_agent"); }
-        init { ModelBase.Set(this._rawData, "tokens_per_agent", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "tokens_per_agent"); }
+        init { JsonModel.Set(this._rawData, "tokens_per_agent", value); }
     }
 
     /// <inheritdoc/>
@@ -179,7 +179,7 @@ public sealed record class Limits : ModelBase
     }
 }
 
-class LimitsFromRaw : IFromRaw<Limits>
+class LimitsFromRaw : IFromRawJson<Limits>
 {
     /// <inheritdoc/>
     public Limits FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
@@ -189,16 +189,16 @@ class LimitsFromRaw : IFromRaw<Limits>
 /// <summary>
 /// Current rate limit usage information for different time windows.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<RateLimits, RateLimitsFromRaw>))]
-public sealed record class RateLimits : ModelBase
+[JsonConverter(typeof(JsonModelConverter<RateLimits, RateLimitsFromRaw>))]
+public sealed record class RateLimits : JsonModel
 {
     /// <summary>
     /// Rate limit information for the last day.
     /// </summary>
     public required Day Day
     {
-        get { return ModelBase.GetNotNullClass<Day>(this.RawData, "day"); }
-        init { ModelBase.Set(this._rawData, "day", value); }
+        get { return JsonModel.GetNotNullClass<Day>(this.RawData, "day"); }
+        init { JsonModel.Set(this._rawData, "day", value); }
     }
 
     /// <summary>
@@ -206,8 +206,8 @@ public sealed record class RateLimits : ModelBase
     /// </summary>
     public required Hour Hour
     {
-        get { return ModelBase.GetNotNullClass<Hour>(this.RawData, "hour"); }
-        init { ModelBase.Set(this._rawData, "hour", value); }
+        get { return JsonModel.GetNotNullClass<Hour>(this.RawData, "hour"); }
+        init { JsonModel.Set(this._rawData, "hour", value); }
     }
 
     /// <summary>
@@ -215,8 +215,8 @@ public sealed record class RateLimits : ModelBase
     /// </summary>
     public required Minute Minute
     {
-        get { return ModelBase.GetNotNullClass<Minute>(this.RawData, "minute"); }
-        init { ModelBase.Set(this._rawData, "minute", value); }
+        get { return JsonModel.GetNotNullClass<Minute>(this.RawData, "minute"); }
+        init { JsonModel.Set(this._rawData, "minute", value); }
     }
 
     /// <inheritdoc/>
@@ -252,7 +252,7 @@ public sealed record class RateLimits : ModelBase
     }
 }
 
-class RateLimitsFromRaw : IFromRaw<RateLimits>
+class RateLimitsFromRaw : IFromRawJson<RateLimits>
 {
     /// <inheritdoc/>
     public RateLimits FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
@@ -262,16 +262,16 @@ class RateLimitsFromRaw : IFromRaw<RateLimits>
 /// <summary>
 /// Rate limit information for the last day.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<Day, DayFromRaw>))]
-public sealed record class Day : ModelBase
+[JsonConverter(typeof(JsonModelConverter<Day, DayFromRaw>))]
+public sealed record class Day : JsonModel
 {
     /// <summary>
     /// The number of requests made in this time window.
     /// </summary>
     public required long Count
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "count"); }
-        init { ModelBase.Set(this._rawData, "count", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "count"); }
+        init { JsonModel.Set(this._rawData, "count", value); }
     }
 
     /// <summary>
@@ -279,8 +279,8 @@ public sealed record class Day : ModelBase
     /// </summary>
     public required bool Exceeded
     {
-        get { return ModelBase.GetNotNullStruct<bool>(this.RawData, "exceeded"); }
-        init { ModelBase.Set(this._rawData, "exceeded", value); }
+        get { return JsonModel.GetNotNullStruct<bool>(this.RawData, "exceeded"); }
+        init { JsonModel.Set(this._rawData, "exceeded", value); }
     }
 
     /// <summary>
@@ -288,8 +288,8 @@ public sealed record class Day : ModelBase
     /// </summary>
     public required long Limit
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "limit"); }
-        init { ModelBase.Set(this._rawData, "limit", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "limit"); }
+        init { JsonModel.Set(this._rawData, "limit", value); }
     }
 
     /// <summary>
@@ -297,8 +297,8 @@ public sealed record class Day : ModelBase
     /// </summary>
     public required long Remaining
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "remaining"); }
-        init { ModelBase.Set(this._rawData, "remaining", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "remaining"); }
+        init { JsonModel.Set(this._rawData, "remaining", value); }
     }
 
     /// <summary>
@@ -306,8 +306,8 @@ public sealed record class Day : ModelBase
     /// </summary>
     public required string ResetTime
     {
-        get { return ModelBase.GetNotNullClass<string>(this.RawData, "reset_time"); }
-        init { ModelBase.Set(this._rawData, "reset_time", value); }
+        get { return JsonModel.GetNotNullClass<string>(this.RawData, "reset_time"); }
+        init { JsonModel.Set(this._rawData, "reset_time", value); }
     }
 
     /// <inheritdoc/>
@@ -345,7 +345,7 @@ public sealed record class Day : ModelBase
     }
 }
 
-class DayFromRaw : IFromRaw<Day>
+class DayFromRaw : IFromRawJson<Day>
 {
     /// <inheritdoc/>
     public Day FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
@@ -355,16 +355,16 @@ class DayFromRaw : IFromRaw<Day>
 /// <summary>
 /// Rate limit information for the last hour.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<Hour, HourFromRaw>))]
-public sealed record class Hour : ModelBase
+[JsonConverter(typeof(JsonModelConverter<Hour, HourFromRaw>))]
+public sealed record class Hour : JsonModel
 {
     /// <summary>
     /// The number of requests made in this time window.
     /// </summary>
     public required long Count
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "count"); }
-        init { ModelBase.Set(this._rawData, "count", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "count"); }
+        init { JsonModel.Set(this._rawData, "count", value); }
     }
 
     /// <summary>
@@ -372,8 +372,8 @@ public sealed record class Hour : ModelBase
     /// </summary>
     public required bool Exceeded
     {
-        get { return ModelBase.GetNotNullStruct<bool>(this.RawData, "exceeded"); }
-        init { ModelBase.Set(this._rawData, "exceeded", value); }
+        get { return JsonModel.GetNotNullStruct<bool>(this.RawData, "exceeded"); }
+        init { JsonModel.Set(this._rawData, "exceeded", value); }
     }
 
     /// <summary>
@@ -381,8 +381,8 @@ public sealed record class Hour : ModelBase
     /// </summary>
     public required long Limit
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "limit"); }
-        init { ModelBase.Set(this._rawData, "limit", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "limit"); }
+        init { JsonModel.Set(this._rawData, "limit", value); }
     }
 
     /// <summary>
@@ -390,8 +390,8 @@ public sealed record class Hour : ModelBase
     /// </summary>
     public required long Remaining
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "remaining"); }
-        init { ModelBase.Set(this._rawData, "remaining", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "remaining"); }
+        init { JsonModel.Set(this._rawData, "remaining", value); }
     }
 
     /// <summary>
@@ -399,8 +399,8 @@ public sealed record class Hour : ModelBase
     /// </summary>
     public required string ResetTime
     {
-        get { return ModelBase.GetNotNullClass<string>(this.RawData, "reset_time"); }
-        init { ModelBase.Set(this._rawData, "reset_time", value); }
+        get { return JsonModel.GetNotNullClass<string>(this.RawData, "reset_time"); }
+        init { JsonModel.Set(this._rawData, "reset_time", value); }
     }
 
     /// <inheritdoc/>
@@ -438,7 +438,7 @@ public sealed record class Hour : ModelBase
     }
 }
 
-class HourFromRaw : IFromRaw<Hour>
+class HourFromRaw : IFromRawJson<Hour>
 {
     /// <inheritdoc/>
     public Hour FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
@@ -448,16 +448,16 @@ class HourFromRaw : IFromRaw<Hour>
 /// <summary>
 /// Rate limit information for the last minute.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<Minute, MinuteFromRaw>))]
-public sealed record class Minute : ModelBase
+[JsonConverter(typeof(JsonModelConverter<Minute, MinuteFromRaw>))]
+public sealed record class Minute : JsonModel
 {
     /// <summary>
     /// The number of requests made in this time window.
     /// </summary>
     public required long Count
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "count"); }
-        init { ModelBase.Set(this._rawData, "count", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "count"); }
+        init { JsonModel.Set(this._rawData, "count", value); }
     }
 
     /// <summary>
@@ -465,8 +465,8 @@ public sealed record class Minute : ModelBase
     /// </summary>
     public required bool Exceeded
     {
-        get { return ModelBase.GetNotNullStruct<bool>(this.RawData, "exceeded"); }
-        init { ModelBase.Set(this._rawData, "exceeded", value); }
+        get { return JsonModel.GetNotNullStruct<bool>(this.RawData, "exceeded"); }
+        init { JsonModel.Set(this._rawData, "exceeded", value); }
     }
 
     /// <summary>
@@ -474,8 +474,8 @@ public sealed record class Minute : ModelBase
     /// </summary>
     public required long Limit
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "limit"); }
-        init { ModelBase.Set(this._rawData, "limit", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "limit"); }
+        init { JsonModel.Set(this._rawData, "limit", value); }
     }
 
     /// <summary>
@@ -483,8 +483,8 @@ public sealed record class Minute : ModelBase
     /// </summary>
     public required long Remaining
     {
-        get { return ModelBase.GetNotNullStruct<long>(this.RawData, "remaining"); }
-        init { ModelBase.Set(this._rawData, "remaining", value); }
+        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "remaining"); }
+        init { JsonModel.Set(this._rawData, "remaining", value); }
     }
 
     /// <summary>
@@ -492,8 +492,8 @@ public sealed record class Minute : ModelBase
     /// </summary>
     public required string ResetTime
     {
-        get { return ModelBase.GetNotNullClass<string>(this.RawData, "reset_time"); }
-        init { ModelBase.Set(this._rawData, "reset_time", value); }
+        get { return JsonModel.GetNotNullClass<string>(this.RawData, "reset_time"); }
+        init { JsonModel.Set(this._rawData, "reset_time", value); }
     }
 
     /// <inheritdoc/>
@@ -531,7 +531,7 @@ public sealed record class Minute : ModelBase
     }
 }
 
-class MinuteFromRaw : IFromRaw<Minute>
+class MinuteFromRaw : IFromRawJson<Minute>
 {
     /// <inheritdoc/>
     public Minute FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>

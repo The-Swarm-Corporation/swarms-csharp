@@ -408,8 +408,8 @@ public class SwarmSpecTest : TestBase
             Tasks = ["string"],
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<SwarmSpec>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<SwarmSpec>(element);
         Assert.NotNull(deserialized);
 
         List<AgentSpec> expectedAgents =
@@ -758,7 +758,7 @@ public class SwarmSpecTest : TestBase
 public class SwarmSpecMessagesTest : TestBase
 {
     [Fact]
-    public void JsonElementsValidation_Works()
+    public void JsonElementsValidationWorks()
     {
         SwarmSpecMessages value = new(
             [
@@ -772,7 +772,7 @@ public class SwarmSpecMessagesTest : TestBase
     }
 
     [Fact]
-    public void JsonElementsValidation_Works1()
+    public void JsonElementsValidationWorks1()
     {
         SwarmSpecMessages value = new(
             new Dictionary<string, JsonElement>()
@@ -784,7 +784,7 @@ public class SwarmSpecMessagesTest : TestBase
     }
 
     [Fact]
-    public void JsonElementsSerializationRoundtrip_Works()
+    public void JsonElementsSerializationRoundtripWorks()
     {
         SwarmSpecMessages value = new(
             [
@@ -794,14 +794,14 @@ public class SwarmSpecMessagesTest : TestBase
                 },
             ]
         );
-        string json = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<SwarmSpecMessages>(json);
+        string element = JsonSerializer.Serialize(value);
+        var deserialized = JsonSerializer.Deserialize<SwarmSpecMessages>(element);
 
         Assert.Equal(value, deserialized);
     }
 
     [Fact]
-    public void JsonElementsSerializationRoundtrip_Works1()
+    public void JsonElementsSerializationRoundtripWorks1()
     {
         SwarmSpecMessages value = new(
             new Dictionary<string, JsonElement>()
@@ -809,8 +809,8 @@ public class SwarmSpecMessagesTest : TestBase
                 { "foo", JsonSerializer.SerializeToElement("bar") },
             }
         );
-        string json = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<SwarmSpecMessages>(json);
+        string element = JsonSerializer.Serialize(value);
+        var deserialized = JsonSerializer.Deserialize<SwarmSpecMessages>(element);
 
         Assert.Equal(value, deserialized);
     }

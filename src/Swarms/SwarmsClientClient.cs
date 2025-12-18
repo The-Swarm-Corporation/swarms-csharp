@@ -318,6 +318,8 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
         return e is IOException || e is SwarmsClientIOException;
     }
 
+    public void Dispose() => this.HttpClient.Dispose();
+
     public SwarmsClientClient()
     {
         _options = new();

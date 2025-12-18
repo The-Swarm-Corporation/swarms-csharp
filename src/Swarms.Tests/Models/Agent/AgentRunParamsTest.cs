@@ -7,7 +7,7 @@ namespace Swarms.Tests.Models.Agent;
 public class HistoryTest : TestBase
 {
     [Fact]
-    public void JsonElementsValidation_Works()
+    public void JsonElementsValidationWorks()
     {
         History value = new(
             new Dictionary<string, JsonElement>()
@@ -19,14 +19,14 @@ public class HistoryTest : TestBase
     }
 
     [Fact]
-    public void stringsValidation_Works()
+    public void StringsValidationWorks()
     {
         History value = new([new Dictionary<string, string>() { { "foo", "string" } }]);
         value.Validate();
     }
 
     [Fact]
-    public void JsonElementsSerializationRoundtrip_Works()
+    public void JsonElementsSerializationRoundtripWorks()
     {
         History value = new(
             new Dictionary<string, JsonElement>()
@@ -34,18 +34,18 @@ public class HistoryTest : TestBase
                 { "foo", JsonSerializer.SerializeToElement("bar") },
             }
         );
-        string json = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<History>(json);
+        string element = JsonSerializer.Serialize(value);
+        var deserialized = JsonSerializer.Deserialize<History>(element);
 
         Assert.Equal(value, deserialized);
     }
 
     [Fact]
-    public void stringsSerializationRoundtrip_Works()
+    public void StringsSerializationRoundtripWorks()
     {
         History value = new([new Dictionary<string, string>() { { "foo", "string" } }]);
-        string json = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<History>(json);
+        string element = JsonSerializer.Serialize(value);
+        var deserialized = JsonSerializer.Deserialize<History>(element);
 
         Assert.Equal(value, deserialized);
     }

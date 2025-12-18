@@ -46,8 +46,8 @@ public class ModelListAvailableResponseTest : TestBase
             Success = true,
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<ModelListAvailableResponse>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<ModelListAvailableResponse>(element);
         Assert.NotNull(deserialized);
 
         JsonElement expectedModels = JsonSerializer.Deserialize<JsonElement>("{}");

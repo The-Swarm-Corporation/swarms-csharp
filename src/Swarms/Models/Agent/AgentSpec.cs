@@ -7,8 +7,8 @@ using Swarms.Core;
 
 namespace Swarms.Models.Agent;
 
-[JsonConverter(typeof(ModelConverter<AgentSpec, AgentSpecFromRaw>))]
-public sealed record class AgentSpec : ModelBase
+[JsonConverter(typeof(JsonModelConverter<AgentSpec, AgentSpecFromRaw>))]
+public sealed record class AgentSpec : JsonModel
 {
     /// <summary>
     /// The unique name assigned to the agent, which identifies its role and functionality
@@ -16,8 +16,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public required string? AgentName
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "agent_name"); }
-        init { ModelBase.Set(this._rawData, "agent_name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "agent_name"); }
+        init { JsonModel.Set(this._rawData, "agent_name", value); }
     }
 
     /// <summary>
@@ -26,8 +26,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public bool? AutoGeneratePrompt
     {
-        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "auto_generate_prompt"); }
-        init { ModelBase.Set(this._rawData, "auto_generate_prompt", value); }
+        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "auto_generate_prompt"); }
+        init { JsonModel.Set(this._rawData, "auto_generate_prompt", value); }
     }
 
     /// <summary>
@@ -36,8 +36,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public string? Description
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "description"); }
-        init { ModelBase.Set(this._rawData, "description", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "description"); }
+        init { JsonModel.Set(this._rawData, "description", value); }
     }
 
     /// <summary>
@@ -48,9 +48,9 @@ public sealed record class AgentSpec : ModelBase
     {
         get
         {
-            return ModelBase.GetNullableStruct<bool>(this.RawData, "dynamic_temperature_enabled");
+            return JsonModel.GetNullableStruct<bool>(this.RawData, "dynamic_temperature_enabled");
         }
-        init { ModelBase.Set(this._rawData, "dynamic_temperature_enabled", value); }
+        init { JsonModel.Set(this._rawData, "dynamic_temperature_enabled", value); }
     }
 
     /// <summary>
@@ -61,12 +61,12 @@ public sealed record class AgentSpec : ModelBase
     {
         get
         {
-            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
                 this.RawData,
                 "llm_args"
             );
         }
-        init { ModelBase.Set(this._rawData, "llm_args", value); }
+        init { JsonModel.Set(this._rawData, "llm_args", value); }
     }
 
     /// <summary>
@@ -75,8 +75,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public long? MaxLoops
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "max_loops"); }
-        init { ModelBase.Set(this._rawData, "max_loops", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "max_loops"); }
+        init { JsonModel.Set(this._rawData, "max_loops", value); }
     }
 
     /// <summary>
@@ -85,8 +85,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public long? MaxTokens
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "max_tokens"); }
-        init { ModelBase.Set(this._rawData, "max_tokens", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "max_tokens"); }
+        init { JsonModel.Set(this._rawData, "max_tokens", value); }
     }
 
     /// <summary>
@@ -94,8 +94,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public McpConfig? McpConfig
     {
-        get { return ModelBase.GetNullableClass<McpConfig>(this.RawData, "mcp_config"); }
-        init { ModelBase.Set(this._rawData, "mcp_config", value); }
+        get { return JsonModel.GetNullableClass<McpConfig>(this.RawData, "mcp_config"); }
+        init { JsonModel.Set(this._rawData, "mcp_config", value); }
     }
 
     /// <summary>
@@ -104,8 +104,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public McpConfigs? McpConfigs
     {
-        get { return ModelBase.GetNullableClass<McpConfigs>(this.RawData, "mcp_configs"); }
-        init { ModelBase.Set(this._rawData, "mcp_configs", value); }
+        get { return JsonModel.GetNullableClass<McpConfigs>(this.RawData, "mcp_configs"); }
+        init { JsonModel.Set(this._rawData, "mcp_configs", value); }
     }
 
     /// <summary>
@@ -113,8 +113,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public string? McpURL
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "mcp_url"); }
-        init { ModelBase.Set(this._rawData, "mcp_url", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "mcp_url"); }
+        init { JsonModel.Set(this._rawData, "mcp_url", value); }
     }
 
     /// <summary>
@@ -123,8 +123,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public string? ModelName
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "model_name"); }
-        init { ModelBase.Set(this._rawData, "model_name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "model_name"); }
+        init { JsonModel.Set(this._rawData, "model_name", value); }
     }
 
     /// <summary>
@@ -132,8 +132,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public string? ReasoningEffort
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "reasoning_effort"); }
-        init { ModelBase.Set(this._rawData, "reasoning_effort", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "reasoning_effort"); }
+        init { JsonModel.Set(this._rawData, "reasoning_effort", value); }
     }
 
     /// <summary>
@@ -141,8 +141,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public bool? ReasoningEnabled
     {
-        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "reasoning_enabled"); }
-        init { ModelBase.Set(this._rawData, "reasoning_enabled", value); }
+        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "reasoning_enabled"); }
+        init { JsonModel.Set(this._rawData, "reasoning_enabled", value); }
     }
 
     /// <summary>
@@ -151,8 +151,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public string? Role
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "role"); }
-        init { ModelBase.Set(this._rawData, "role", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "role"); }
+        init { JsonModel.Set(this._rawData, "role", value); }
     }
 
     /// <summary>
@@ -160,8 +160,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public bool? StreamingOn
     {
-        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "streaming_on"); }
-        init { ModelBase.Set(this._rawData, "streaming_on", value); }
+        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "streaming_on"); }
+        init { JsonModel.Set(this._rawData, "streaming_on", value); }
     }
 
     /// <summary>
@@ -170,8 +170,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public string? SystemPrompt
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "system_prompt"); }
-        init { ModelBase.Set(this._rawData, "system_prompt", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "system_prompt"); }
+        init { JsonModel.Set(this._rawData, "system_prompt", value); }
     }
 
     /// <summary>
@@ -180,8 +180,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public double? Temperature
     {
-        get { return ModelBase.GetNullableStruct<double>(this.RawData, "temperature"); }
-        init { ModelBase.Set(this._rawData, "temperature", value); }
+        get { return JsonModel.GetNullableStruct<double>(this.RawData, "temperature"); }
+        init { JsonModel.Set(this._rawData, "temperature", value); }
     }
 
     /// <summary>
@@ -189,8 +189,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public long? ThinkingTokens
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "thinking_tokens"); }
-        init { ModelBase.Set(this._rawData, "thinking_tokens", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "thinking_tokens"); }
+        init { JsonModel.Set(this._rawData, "thinking_tokens", value); }
     }
 
     /// <summary>
@@ -198,8 +198,8 @@ public sealed record class AgentSpec : ModelBase
     /// </summary>
     public bool? ToolCallSummary
     {
-        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "tool_call_summary"); }
-        init { ModelBase.Set(this._rawData, "tool_call_summary", value); }
+        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "tool_call_summary"); }
+        init { JsonModel.Set(this._rawData, "tool_call_summary", value); }
     }
 
     /// <summary>
@@ -209,12 +209,12 @@ public sealed record class AgentSpec : ModelBase
     {
         get
         {
-            return ModelBase.GetNullableClass<List<Dictionary<string, JsonElement>>>(
+            return JsonModel.GetNullableClass<List<Dictionary<string, JsonElement>>>(
                 this.RawData,
                 "tools_list_dictionary"
             );
         }
-        init { ModelBase.Set(this._rawData, "tools_list_dictionary", value); }
+        init { JsonModel.Set(this._rawData, "tools_list_dictionary", value); }
     }
 
     /// <inheritdoc/>
@@ -274,7 +274,7 @@ public sealed record class AgentSpec : ModelBase
     }
 }
 
-class AgentSpecFromRaw : IFromRaw<AgentSpec>
+class AgentSpecFromRaw : IFromRawJson<AgentSpec>
 {
     /// <inheritdoc/>
     public AgentSpec FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
@@ -284,16 +284,16 @@ class AgentSpecFromRaw : IFromRaw<AgentSpec>
 /// <summary>
 /// The MCP connection to use for the agent.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<McpConfig, McpConfigFromRaw>))]
-public sealed record class McpConfig : ModelBase
+[JsonConverter(typeof(JsonModelConverter<McpConfig, McpConfigFromRaw>))]
+public sealed record class McpConfig : JsonModel
 {
     /// <summary>
     /// Authentication token for accessing the MCP server
     /// </summary>
     public string? AuthorizationToken
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "authorization_token"); }
-        init { ModelBase.Set(this._rawData, "authorization_token", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "authorization_token"); }
+        init { JsonModel.Set(this._rawData, "authorization_token", value); }
     }
 
     /// <summary>
@@ -303,9 +303,9 @@ public sealed record class McpConfig : ModelBase
     {
         get
         {
-            return ModelBase.GetNullableClass<Dictionary<string, string>>(this.RawData, "headers");
+            return JsonModel.GetNullableClass<Dictionary<string, string>>(this.RawData, "headers");
         }
-        init { ModelBase.Set(this._rawData, "headers", value); }
+        init { JsonModel.Set(this._rawData, "headers", value); }
     }
 
     /// <summary>
@@ -313,8 +313,8 @@ public sealed record class McpConfig : ModelBase
     /// </summary>
     public long? Timeout
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "timeout"); }
-        init { ModelBase.Set(this._rawData, "timeout", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "timeout"); }
+        init { JsonModel.Set(this._rawData, "timeout", value); }
     }
 
     /// <summary>
@@ -324,12 +324,12 @@ public sealed record class McpConfig : ModelBase
     {
         get
         {
-            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
                 this.RawData,
                 "tool_configurations"
             );
         }
-        init { ModelBase.Set(this._rawData, "tool_configurations", value); }
+        init { JsonModel.Set(this._rawData, "tool_configurations", value); }
     }
 
     /// <summary>
@@ -337,8 +337,8 @@ public sealed record class McpConfig : ModelBase
     /// </summary>
     public string? Transport
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "transport"); }
-        init { ModelBase.Set(this._rawData, "transport", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "transport"); }
+        init { JsonModel.Set(this._rawData, "transport", value); }
     }
 
     /// <summary>
@@ -346,8 +346,8 @@ public sealed record class McpConfig : ModelBase
     /// </summary>
     public string? Type
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "type"); }
-        init { ModelBase.Set(this._rawData, "type", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "type"); }
+        init { JsonModel.Set(this._rawData, "type", value); }
     }
 
     /// <summary>
@@ -355,8 +355,8 @@ public sealed record class McpConfig : ModelBase
     /// </summary>
     public string? URL
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "url"); }
-        init { ModelBase.Set(this._rawData, "url", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "url"); }
+        init { JsonModel.Set(this._rawData, "url", value); }
     }
 
     /// <inheritdoc/>
@@ -396,7 +396,7 @@ public sealed record class McpConfig : ModelBase
     }
 }
 
-class McpConfigFromRaw : IFromRaw<McpConfig>
+class McpConfigFromRaw : IFromRawJson<McpConfig>
 {
     /// <inheritdoc/>
     public McpConfig FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
@@ -407,16 +407,16 @@ class McpConfigFromRaw : IFromRaw<McpConfig>
 /// The MCP connections to use for the agent. This is a list of MCP connections. Includes
 /// multiple MCP connections.
 /// </summary>
-[JsonConverter(typeof(ModelConverter<McpConfigs, McpConfigsFromRaw>))]
-public sealed record class McpConfigs : ModelBase
+[JsonConverter(typeof(JsonModelConverter<McpConfigs, McpConfigsFromRaw>))]
+public sealed record class McpConfigs : JsonModel
 {
     /// <summary>
     /// List of MCP connections
     /// </summary>
     public required IReadOnlyList<Connection> Connections
     {
-        get { return ModelBase.GetNotNullClass<List<Connection>>(this.RawData, "connections"); }
-        init { ModelBase.Set(this._rawData, "connections", value); }
+        get { return JsonModel.GetNotNullClass<List<Connection>>(this.RawData, "connections"); }
+        init { JsonModel.Set(this._rawData, "connections", value); }
     }
 
     /// <inheritdoc/>
@@ -460,23 +460,23 @@ public sealed record class McpConfigs : ModelBase
     }
 }
 
-class McpConfigsFromRaw : IFromRaw<McpConfigs>
+class McpConfigsFromRaw : IFromRawJson<McpConfigs>
 {
     /// <inheritdoc/>
     public McpConfigs FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         McpConfigs.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(ModelConverter<Connection, ConnectionFromRaw>))]
-public sealed record class Connection : ModelBase
+[JsonConverter(typeof(JsonModelConverter<Connection, ConnectionFromRaw>))]
+public sealed record class Connection : JsonModel
 {
     /// <summary>
     /// Authentication token for accessing the MCP server
     /// </summary>
     public string? AuthorizationToken
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "authorization_token"); }
-        init { ModelBase.Set(this._rawData, "authorization_token", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "authorization_token"); }
+        init { JsonModel.Set(this._rawData, "authorization_token", value); }
     }
 
     /// <summary>
@@ -486,9 +486,9 @@ public sealed record class Connection : ModelBase
     {
         get
         {
-            return ModelBase.GetNullableClass<Dictionary<string, string>>(this.RawData, "headers");
+            return JsonModel.GetNullableClass<Dictionary<string, string>>(this.RawData, "headers");
         }
-        init { ModelBase.Set(this._rawData, "headers", value); }
+        init { JsonModel.Set(this._rawData, "headers", value); }
     }
 
     /// <summary>
@@ -496,8 +496,8 @@ public sealed record class Connection : ModelBase
     /// </summary>
     public long? Timeout
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "timeout"); }
-        init { ModelBase.Set(this._rawData, "timeout", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "timeout"); }
+        init { JsonModel.Set(this._rawData, "timeout", value); }
     }
 
     /// <summary>
@@ -507,12 +507,12 @@ public sealed record class Connection : ModelBase
     {
         get
         {
-            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
                 this.RawData,
                 "tool_configurations"
             );
         }
-        init { ModelBase.Set(this._rawData, "tool_configurations", value); }
+        init { JsonModel.Set(this._rawData, "tool_configurations", value); }
     }
 
     /// <summary>
@@ -520,8 +520,8 @@ public sealed record class Connection : ModelBase
     /// </summary>
     public string? Transport
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "transport"); }
-        init { ModelBase.Set(this._rawData, "transport", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "transport"); }
+        init { JsonModel.Set(this._rawData, "transport", value); }
     }
 
     /// <summary>
@@ -529,8 +529,8 @@ public sealed record class Connection : ModelBase
     /// </summary>
     public string? Type
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "type"); }
-        init { ModelBase.Set(this._rawData, "type", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "type"); }
+        init { JsonModel.Set(this._rawData, "type", value); }
     }
 
     /// <summary>
@@ -538,8 +538,8 @@ public sealed record class Connection : ModelBase
     /// </summary>
     public string? URL
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "url"); }
-        init { ModelBase.Set(this._rawData, "url", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "url"); }
+        init { JsonModel.Set(this._rawData, "url", value); }
     }
 
     /// <inheritdoc/>
@@ -579,7 +579,7 @@ public sealed record class Connection : ModelBase
     }
 }
 
-class ConnectionFromRaw : IFromRaw<Connection>
+class ConnectionFromRaw : IFromRawJson<Connection>
 {
     /// <inheritdoc/>
     public Connection FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>

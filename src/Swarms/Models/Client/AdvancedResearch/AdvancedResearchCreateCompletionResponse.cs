@@ -8,20 +8,20 @@ using Swarms.Core;
 namespace Swarms.Models.Client.AdvancedResearch;
 
 [JsonConverter(
-    typeof(ModelConverter<
+    typeof(JsonModelConverter<
         AdvancedResearchCreateCompletionResponse,
         AdvancedResearchCreateCompletionResponseFromRaw
     >)
 )]
-public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
+public sealed record class AdvancedResearchCreateCompletionResponse : JsonModel
 {
     /// <summary>
     /// The id of the advanced research session
     /// </summary>
     public required string? ID
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "id"); }
-        init { ModelBase.Set(this._rawData, "id", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "id"); }
+        init { JsonModel.Set(this._rawData, "id", value); }
     }
 
     /// <summary>
@@ -29,8 +29,8 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     /// </summary>
     public required long? CharactersPerSource
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "characters_per_source"); }
-        init { ModelBase.Set(this._rawData, "characters_per_source", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "characters_per_source"); }
+        init { JsonModel.Set(this._rawData, "characters_per_source", value); }
     }
 
     /// <summary>
@@ -38,8 +38,8 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     /// </summary>
     public required string? Description
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "description"); }
-        init { ModelBase.Set(this._rawData, "description", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "description"); }
+        init { JsonModel.Set(this._rawData, "description", value); }
     }
 
     /// <summary>
@@ -47,8 +47,8 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     /// </summary>
     public required string? Name
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "name"); }
-        init { ModelBase.Set(this._rawData, "name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "name"); }
+        init { JsonModel.Set(this._rawData, "name", value); }
     }
 
     /// <summary>
@@ -56,8 +56,8 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     /// </summary>
     public required JsonElement Outputs
     {
-        get { return ModelBase.GetNotNullStruct<JsonElement>(this.RawData, "outputs"); }
-        init { ModelBase.Set(this._rawData, "outputs", value); }
+        get { return JsonModel.GetNotNullStruct<JsonElement>(this.RawData, "outputs"); }
+        init { JsonModel.Set(this._rawData, "outputs", value); }
     }
 
     /// <summary>
@@ -65,8 +65,8 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     /// </summary>
     public required long? Sources
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "sources"); }
-        init { ModelBase.Set(this._rawData, "sources", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "sources"); }
+        init { JsonModel.Set(this._rawData, "sources", value); }
     }
 
     /// <summary>
@@ -74,8 +74,8 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     /// </summary>
     public required string? Timestamp
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "timestamp"); }
-        init { ModelBase.Set(this._rawData, "timestamp", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "timestamp"); }
+        init { JsonModel.Set(this._rawData, "timestamp", value); }
     }
 
     /// <summary>
@@ -85,12 +85,12 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
     {
         get
         {
-            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
                 this.RawData,
                 "usage"
             );
         }
-        init { ModelBase.Set(this._rawData, "usage", value); }
+        init { JsonModel.Set(this._rawData, "usage", value); }
     }
 
     /// <inheritdoc/>
@@ -138,7 +138,7 @@ public sealed record class AdvancedResearchCreateCompletionResponse : ModelBase
 }
 
 class AdvancedResearchCreateCompletionResponseFromRaw
-    : IFromRaw<AdvancedResearchCreateCompletionResponse>
+    : IFromRawJson<AdvancedResearchCreateCompletionResponse>
 {
     /// <inheritdoc/>
     public AdvancedResearchCreateCompletionResponse FromRawUnchecked(

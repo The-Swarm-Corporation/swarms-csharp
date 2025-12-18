@@ -27,8 +27,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? AgentName
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "agent_name"); }
-        init { ModelBase.Set(this._rawBodyData, "agent_name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "agent_name"); }
+        init { JsonModel.Set(this._rawBodyData, "agent_name", value); }
     }
 
     /// <summary>
@@ -36,8 +36,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? Description
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "description"); }
-        init { ModelBase.Set(this._rawBodyData, "description", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "description"); }
+        init { JsonModel.Set(this._rawBodyData, "description", value); }
     }
 
     /// <summary>
@@ -45,8 +45,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public long? MaxLoops
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
-        init { ModelBase.Set(this._rawBodyData, "max_loops", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
+        init { JsonModel.Set(this._rawBodyData, "max_loops", value); }
     }
 
     /// <summary>
@@ -54,8 +54,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public long? MemoryCapacity
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "memory_capacity"); }
-        init { ModelBase.Set(this._rawBodyData, "memory_capacity", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "memory_capacity"); }
+        init { JsonModel.Set(this._rawBodyData, "memory_capacity", value); }
     }
 
     /// <summary>
@@ -63,8 +63,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? ModelName
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "model_name"); }
-        init { ModelBase.Set(this._rawBodyData, "model_name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "model_name"); }
+        init { JsonModel.Set(this._rawBodyData, "model_name", value); }
     }
 
     /// <summary>
@@ -72,8 +72,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public long? NumKnowledgeItems
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "num_knowledge_items"); }
-        init { ModelBase.Set(this._rawBodyData, "num_knowledge_items", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "num_knowledge_items"); }
+        init { JsonModel.Set(this._rawBodyData, "num_knowledge_items", value); }
     }
 
     /// <summary>
@@ -81,8 +81,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public long? NumSamples
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "num_samples"); }
-        init { ModelBase.Set(this._rawBodyData, "num_samples", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "num_samples"); }
+        init { JsonModel.Set(this._rawBodyData, "num_samples", value); }
     }
 
     /// <summary>
@@ -92,12 +92,12 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            return ModelBase.GetNullableClass<ApiEnum<string, OutputType>>(
+            return JsonModel.GetNullableClass<ApiEnum<string, OutputType>>(
                 this.RawBodyData,
                 "output_type"
             );
         }
-        init { ModelBase.Set(this._rawBodyData, "output_type", value); }
+        init { JsonModel.Set(this._rawBodyData, "output_type", value); }
     }
 
     /// <summary>
@@ -107,12 +107,12 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            return ModelBase.GetNullableClass<ApiEnum<string, SwarmType>>(
+            return JsonModel.GetNullableClass<ApiEnum<string, SwarmType>>(
                 this.RawBodyData,
                 "swarm_type"
             );
         }
-        init { ModelBase.Set(this._rawBodyData, "swarm_type", value); }
+        init { JsonModel.Set(this._rawBodyData, "swarm_type", value); }
     }
 
     /// <summary>
@@ -120,8 +120,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? SystemPrompt
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "system_prompt"); }
-        init { ModelBase.Set(this._rawBodyData, "system_prompt", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "system_prompt"); }
+        init { JsonModel.Set(this._rawBodyData, "system_prompt", value); }
     }
 
     /// <summary>
@@ -129,8 +129,8 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? Task
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "task"); }
-        init { ModelBase.Set(this._rawBodyData, "task", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "task"); }
+        init { JsonModel.Set(this._rawBodyData, "task", value); }
     }
 
     public ReasoningAgentCreateCompletionParams() { }
@@ -168,7 +168,7 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
+    /// <inheritdoc cref="IFromRawJson.FromRawUnchecked"/>
     public static ReasoningAgentCreateCompletionParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
@@ -192,9 +192,13 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
         }.Uri;
     }
 
-    internal override StringContent? BodyContent()
+    internal override HttpContent? BodyContent()
     {
-        return new(JsonSerializer.Serialize(this.RawBodyData), Encoding.UTF8, "application/json");
+        return new StringContent(
+            JsonSerializer.Serialize(this.RawBodyData),
+            Encoding.UTF8,
+            "application/json"
+        );
     }
 
     internal override void AddHeadersToRequest(HttpRequestMessage request, ClientOptions options)

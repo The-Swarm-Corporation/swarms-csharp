@@ -9,7 +9,7 @@ namespace Swarms.Tests.Models.Swarms;
 public class MessagesTest : TestBase
 {
     [Fact]
-    public void JsonElementsValidation_Works()
+    public void JsonElementsValidationWorks()
     {
         Messages value = new(
             [
@@ -23,7 +23,7 @@ public class MessagesTest : TestBase
     }
 
     [Fact]
-    public void JsonElementsValidation_Works1()
+    public void JsonElementsValidationWorks1()
     {
         Messages value = new(
             new Dictionary<string, JsonElement>()
@@ -35,7 +35,7 @@ public class MessagesTest : TestBase
     }
 
     [Fact]
-    public void JsonElementsSerializationRoundtrip_Works()
+    public void JsonElementsSerializationRoundtripWorks()
     {
         Messages value = new(
             [
@@ -45,14 +45,14 @@ public class MessagesTest : TestBase
                 },
             ]
         );
-        string json = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<Messages>(json);
+        string element = JsonSerializer.Serialize(value);
+        var deserialized = JsonSerializer.Deserialize<Messages>(element);
 
         Assert.Equal(value, deserialized);
     }
 
     [Fact]
-    public void JsonElementsSerializationRoundtrip_Works1()
+    public void JsonElementsSerializationRoundtripWorks1()
     {
         Messages value = new(
             new Dictionary<string, JsonElement>()
@@ -60,8 +60,8 @@ public class MessagesTest : TestBase
                 { "foo", JsonSerializer.SerializeToElement("bar") },
             }
         );
-        string json = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<Messages>(json);
+        string element = JsonSerializer.Serialize(value);
+        var deserialized = JsonSerializer.Deserialize<Messages>(element);
 
         Assert.Equal(value, deserialized);
     }

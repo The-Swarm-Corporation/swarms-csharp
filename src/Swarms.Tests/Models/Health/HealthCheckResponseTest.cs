@@ -31,8 +31,8 @@ public class HealthCheckResponseTest : TestBase
     {
         var model = new HealthCheckResponse { Status = "status" };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<HealthCheckResponse>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<HealthCheckResponse>(element);
         Assert.NotNull(deserialized);
 
         string expectedStatus = "status";

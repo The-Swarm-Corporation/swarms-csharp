@@ -301,8 +301,8 @@ public class AgentSpecTest : TestBase
             ],
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<AgentSpec>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<AgentSpec>(element);
         Assert.NotNull(deserialized);
 
         string expectedAgentName = "agent_name";
@@ -720,8 +720,8 @@ public class McpConfigTest : TestBase
             URL = "url",
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<McpConfig>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<McpConfig>(element);
         Assert.NotNull(deserialized);
 
         string expectedAuthorizationToken = "authorization_token";
@@ -954,8 +954,8 @@ public class McpConfigsTest : TestBase
             ],
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<McpConfigs>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<McpConfigs>(element);
         Assert.NotNull(deserialized);
 
         List<Connection> expectedConnections =
@@ -1100,8 +1100,8 @@ public class ConnectionTest : TestBase
             URL = "url",
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Connection>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<Connection>(element);
         Assert.NotNull(deserialized);
 
         string expectedAuthorizationToken = "authorization_token";

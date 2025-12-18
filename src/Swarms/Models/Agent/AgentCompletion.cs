@@ -10,16 +10,16 @@ using Swarms.Exceptions;
 
 namespace Swarms.Models.Agent;
 
-[JsonConverter(typeof(ModelConverter<AgentCompletion, AgentCompletionFromRaw>))]
-public sealed record class AgentCompletion : ModelBase
+[JsonConverter(typeof(JsonModelConverter<AgentCompletion, AgentCompletionFromRaw>))]
+public sealed record class AgentCompletion : JsonModel
 {
     /// <summary>
     /// The configuration of the agent to be completed.
     /// </summary>
     public AgentSpec? AgentConfig
     {
-        get { return ModelBase.GetNullableClass<AgentSpec>(this.RawData, "agent_config"); }
-        init { ModelBase.Set(this._rawData, "agent_config", value); }
+        get { return JsonModel.GetNullableClass<AgentSpec>(this.RawData, "agent_config"); }
+        init { JsonModel.Set(this._rawData, "agent_config", value); }
     }
 
     /// <summary>
@@ -28,8 +28,8 @@ public sealed record class AgentCompletion : ModelBase
     /// </summary>
     public AgentCompletionHistory? History
     {
-        get { return ModelBase.GetNullableClass<AgentCompletionHistory>(this.RawData, "history"); }
-        init { ModelBase.Set(this._rawData, "history", value); }
+        get { return JsonModel.GetNullableClass<AgentCompletionHistory>(this.RawData, "history"); }
+        init { JsonModel.Set(this._rawData, "history", value); }
     }
 
     /// <summary>
@@ -37,8 +37,8 @@ public sealed record class AgentCompletion : ModelBase
     /// </summary>
     public string? Img
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "img"); }
-        init { ModelBase.Set(this._rawData, "img", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "img"); }
+        init { JsonModel.Set(this._rawData, "img", value); }
     }
 
     /// <summary>
@@ -46,8 +46,8 @@ public sealed record class AgentCompletion : ModelBase
     /// </summary>
     public IReadOnlyList<string>? Imgs
     {
-        get { return ModelBase.GetNullableClass<List<string>>(this.RawData, "imgs"); }
-        init { ModelBase.Set(this._rawData, "imgs", value); }
+        get { return JsonModel.GetNullableClass<List<string>>(this.RawData, "imgs"); }
+        init { JsonModel.Set(this._rawData, "imgs", value); }
     }
 
     /// <summary>
@@ -55,8 +55,8 @@ public sealed record class AgentCompletion : ModelBase
     /// </summary>
     public string? Task
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "task"); }
-        init { ModelBase.Set(this._rawData, "task", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "task"); }
+        init { JsonModel.Set(this._rawData, "task", value); }
     }
 
     /// <summary>
@@ -64,8 +64,8 @@ public sealed record class AgentCompletion : ModelBase
     /// </summary>
     public IReadOnlyList<string>? ToolsEnabled
     {
-        get { return ModelBase.GetNullableClass<List<string>>(this.RawData, "tools_enabled"); }
-        init { ModelBase.Set(this._rawData, "tools_enabled", value); }
+        get { return JsonModel.GetNullableClass<List<string>>(this.RawData, "tools_enabled"); }
+        init { JsonModel.Set(this._rawData, "tools_enabled", value); }
     }
 
     /// <inheritdoc/>
@@ -104,7 +104,7 @@ public sealed record class AgentCompletion : ModelBase
     }
 }
 
-class AgentCompletionFromRaw : IFromRaw<AgentCompletion>
+class AgentCompletionFromRaw : IFromRawJson<AgentCompletion>
 {
     /// <inheritdoc/>
     public AgentCompletion FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
@@ -120,34 +120,34 @@ public record class AgentCompletionHistory
 {
     public object? Value { get; } = null;
 
-    JsonElement? _json = null;
+    JsonElement? _element = null;
 
     public JsonElement Json
     {
-        get { return this._json ??= JsonSerializer.SerializeToElement(this.Value); }
+        get { return this._element ??= JsonSerializer.SerializeToElement(this.Value); }
     }
 
     public AgentCompletionHistory(
         IReadOnlyDictionary<string, JsonElement> value,
-        JsonElement? json = null
+        JsonElement? element = null
     )
     {
         this.Value = FrozenDictionary.ToFrozenDictionary(value);
-        this._json = json;
+        this._element = element;
     }
 
     public AgentCompletionHistory(
         IReadOnlyList<Dictionary<string, string>> value,
-        JsonElement? json = null
+        JsonElement? element = null
     )
     {
         this.Value = ImmutableArray.ToImmutableArray(value);
-        this._json = json;
+        this._element = element;
     }
 
-    public AgentCompletionHistory(JsonElement json)
+    public AgentCompletionHistory(JsonElement element)
     {
-        this._json = json;
+        this._element = element;
     }
 
     /// <summary>
@@ -318,16 +318,16 @@ sealed class AgentCompletionHistoryConverter : JsonConverter<AgentCompletionHist
         JsonSerializerOptions options
     )
     {
-        var json = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
+        var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
             var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
-                json,
+                element,
                 options
             );
             if (deserialized != null)
             {
-                return new(deserialized, json);
+                return new(deserialized, element);
             }
         }
         catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
@@ -338,12 +338,12 @@ sealed class AgentCompletionHistoryConverter : JsonConverter<AgentCompletionHist
         try
         {
             var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, string>>>(
-                json,
+                element,
                 options
             );
             if (deserialized != null)
             {
-                return new(deserialized, json);
+                return new(deserialized, element);
             }
         }
         catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
@@ -351,7 +351,7 @@ sealed class AgentCompletionHistoryConverter : JsonConverter<AgentCompletionHist
             // ignore
         }
 
-        return new(json);
+        return new(element);
     }
 
     public override void Write(

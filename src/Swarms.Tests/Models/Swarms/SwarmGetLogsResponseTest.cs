@@ -56,8 +56,8 @@ public class SwarmGetLogsResponseTest : TestBase
             Timestamp = "timestamp",
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<SwarmGetLogsResponse>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<SwarmGetLogsResponse>(element);
         Assert.NotNull(deserialized);
 
         long expectedCount = 0;

@@ -95,8 +95,8 @@ public class AgentRunResponseTest : TestBase
             },
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<AgentRunResponse>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<AgentRunResponse>(element);
         Assert.NotNull(deserialized);
 
         string expectedDescription = "description";

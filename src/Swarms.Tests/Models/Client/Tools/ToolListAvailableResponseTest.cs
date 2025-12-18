@@ -39,8 +39,8 @@ public class ToolListAvailableResponseTest : TestBase
     {
         var model = new ToolListAvailableResponse { Status = "status", Tools = ["string"] };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<ToolListAvailableResponse>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<ToolListAvailableResponse>(element);
         Assert.NotNull(deserialized);
 
         string expectedStatus = "status";

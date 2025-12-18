@@ -8,20 +8,20 @@ using Swarms.Core;
 namespace Swarms.Models.Swarms;
 
 [JsonConverter(
-    typeof(ModelConverter<SwarmCheckAvailableResponse, SwarmCheckAvailableResponseFromRaw>)
+    typeof(JsonModelConverter<SwarmCheckAvailableResponse, SwarmCheckAvailableResponseFromRaw>)
 )]
-public sealed record class SwarmCheckAvailableResponse : ModelBase
+public sealed record class SwarmCheckAvailableResponse : JsonModel
 {
     public bool? Success
     {
-        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "success"); }
-        init { ModelBase.Set(this._rawData, "success", value); }
+        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "success"); }
+        init { JsonModel.Set(this._rawData, "success", value); }
     }
 
     public IReadOnlyList<string>? SwarmTypes
     {
-        get { return ModelBase.GetNullableClass<List<string>>(this.RawData, "swarm_types"); }
-        init { ModelBase.Set(this._rawData, "swarm_types", value); }
+        get { return JsonModel.GetNullableClass<List<string>>(this.RawData, "swarm_types"); }
+        init { JsonModel.Set(this._rawData, "swarm_types", value); }
     }
 
     /// <inheritdoc/>
@@ -58,7 +58,7 @@ public sealed record class SwarmCheckAvailableResponse : ModelBase
     }
 }
 
-class SwarmCheckAvailableResponseFromRaw : IFromRaw<SwarmCheckAvailableResponse>
+class SwarmCheckAvailableResponseFromRaw : IFromRawJson<SwarmCheckAvailableResponse>
 {
     /// <inheritdoc/>
     public SwarmCheckAvailableResponse FromRawUnchecked(

@@ -7,16 +7,16 @@ using Swarms.Core;
 
 namespace Swarms.Models.Agent.Batch;
 
-[JsonConverter(typeof(ModelConverter<BatchRunResponse, BatchRunResponseFromRaw>))]
-public sealed record class BatchRunResponse : ModelBase
+[JsonConverter(typeof(JsonModelConverter<BatchRunResponse, BatchRunResponseFromRaw>))]
+public sealed record class BatchRunResponse : JsonModel
 {
     /// <summary>
     /// The unique identifier for the agent batch completion.
     /// </summary>
     public string? BatchID
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "batch_id"); }
-        init { ModelBase.Set(this._rawData, "batch_id", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "batch_id"); }
+        init { JsonModel.Set(this._rawData, "batch_id", value); }
     }
 
     /// <summary>
@@ -24,8 +24,8 @@ public sealed record class BatchRunResponse : ModelBase
     /// </summary>
     public double? ExecutionTime
     {
-        get { return ModelBase.GetNullableStruct<double>(this.RawData, "execution_time"); }
-        init { ModelBase.Set(this._rawData, "execution_time", value); }
+        get { return JsonModel.GetNullableStruct<double>(this.RawData, "execution_time"); }
+        init { JsonModel.Set(this._rawData, "execution_time", value); }
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public sealed record class BatchRunResponse : ModelBase
     /// </summary>
     public JsonElement? Results
     {
-        get { return ModelBase.GetNullableStruct<JsonElement>(this.RawData, "results"); }
+        get { return JsonModel.GetNullableStruct<JsonElement>(this.RawData, "results"); }
         init
         {
             if (value == null)
@@ -41,7 +41,7 @@ public sealed record class BatchRunResponse : ModelBase
                 return;
             }
 
-            ModelBase.Set(this._rawData, "results", value);
+            JsonModel.Set(this._rawData, "results", value);
         }
     }
 
@@ -50,8 +50,8 @@ public sealed record class BatchRunResponse : ModelBase
     /// </summary>
     public string? Timestamp
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "timestamp"); }
-        init { ModelBase.Set(this._rawData, "timestamp", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "timestamp"); }
+        init { JsonModel.Set(this._rawData, "timestamp", value); }
     }
 
     /// <summary>
@@ -59,8 +59,8 @@ public sealed record class BatchRunResponse : ModelBase
     /// </summary>
     public long? TotalRequests
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "total_requests"); }
-        init { ModelBase.Set(this._rawData, "total_requests", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "total_requests"); }
+        init { JsonModel.Set(this._rawData, "total_requests", value); }
     }
 
     /// <inheritdoc/>
@@ -100,7 +100,7 @@ public sealed record class BatchRunResponse : ModelBase
     }
 }
 
-class BatchRunResponseFromRaw : IFromRaw<BatchRunResponse>
+class BatchRunResponseFromRaw : IFromRawJson<BatchRunResponse>
 {
     /// <inheritdoc/>
     public BatchRunResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>

@@ -29,9 +29,9 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
     {
         get
         {
-            return ModelBase.GetNullableClass<List<InputSchema>>(this.RawBodyData, "input_schemas");
+            return JsonModel.GetNullableClass<List<InputSchema>>(this.RawBodyData, "input_schemas");
         }
-        init { ModelBase.Set(this._rawBodyData, "input_schemas", value); }
+        init { JsonModel.Set(this._rawBodyData, "input_schemas", value); }
     }
 
     public BatchCreateCompletionParams() { }
@@ -67,7 +67,7 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
+    /// <inheritdoc cref="IFromRawJson.FromRawUnchecked"/>
     public static BatchCreateCompletionParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
@@ -91,9 +91,13 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
         }.Uri;
     }
 
-    internal override StringContent? BodyContent()
+    internal override HttpContent? BodyContent()
     {
-        return new(JsonSerializer.Serialize(this.RawBodyData), Encoding.UTF8, "application/json");
+        return new StringContent(
+            JsonSerializer.Serialize(this.RawBodyData),
+            Encoding.UTF8,
+            "application/json"
+        );
     }
 
     internal override void AddHeadersToRequest(HttpRequestMessage request, ClientOptions options)
@@ -106,8 +110,8 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
     }
 }
 
-[JsonConverter(typeof(ModelConverter<InputSchema, InputSchemaFromRaw>))]
-public sealed record class InputSchema : ModelBase
+[JsonConverter(typeof(JsonModelConverter<InputSchema, InputSchemaFromRaw>))]
+public sealed record class InputSchema : JsonModel
 {
     /// <summary>
     /// The configuration for the advanced research
@@ -116,12 +120,12 @@ public sealed record class InputSchema : ModelBase
     {
         get
         {
-            return ModelBase.GetNullableClass<global::Swarms.Models.Client.AdvancedResearch.Batch.Config>(
+            return JsonModel.GetNullableClass<global::Swarms.Models.Client.AdvancedResearch.Batch.Config>(
                 this.RawData,
                 "config"
             );
         }
-        init { ModelBase.Set(this._rawData, "config", value); }
+        init { JsonModel.Set(this._rawData, "config", value); }
     }
 
     /// <summary>
@@ -129,8 +133,8 @@ public sealed record class InputSchema : ModelBase
     /// </summary>
     public required string? Task
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "task"); }
-        init { ModelBase.Set(this._rawData, "task", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "task"); }
+        init { JsonModel.Set(this._rawData, "task", value); }
     }
 
     /// <summary>
@@ -138,8 +142,8 @@ public sealed record class InputSchema : ModelBase
     /// </summary>
     public string? Img
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "img"); }
-        init { ModelBase.Set(this._rawData, "img", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "img"); }
+        init { JsonModel.Set(this._rawData, "img", value); }
     }
 
     /// <inheritdoc/>
@@ -175,7 +179,7 @@ public sealed record class InputSchema : ModelBase
     }
 }
 
-class InputSchemaFromRaw : IFromRaw<InputSchema>
+class InputSchemaFromRaw : IFromRawJson<InputSchema>
 {
     /// <inheritdoc/>
     public InputSchema FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
@@ -186,20 +190,20 @@ class InputSchemaFromRaw : IFromRaw<InputSchema>
 /// The configuration for the advanced research
 /// </summary>
 [JsonConverter(
-    typeof(ModelConverter<
+    typeof(JsonModelConverter<
         global::Swarms.Models.Client.AdvancedResearch.Batch.Config,
         global::Swarms.Models.Client.AdvancedResearch.Batch.ConfigFromRaw
     >)
 )]
-public sealed record class Config : ModelBase
+public sealed record class Config : JsonModel
 {
     /// <summary>
     /// Description of the advanced research session
     /// </summary>
     public string? Description
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "description"); }
-        init { ModelBase.Set(this._rawData, "description", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "description"); }
+        init { JsonModel.Set(this._rawData, "description", value); }
     }
 
     /// <summary>
@@ -207,8 +211,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public string? DirectorAgentName
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "director_agent_name"); }
-        init { ModelBase.Set(this._rawData, "director_agent_name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "director_agent_name"); }
+        init { JsonModel.Set(this._rawData, "director_agent_name", value); }
     }
 
     /// <summary>
@@ -216,8 +220,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public long? DirectorMaxLoops
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "director_max_loops"); }
-        init { ModelBase.Set(this._rawData, "director_max_loops", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "director_max_loops"); }
+        init { JsonModel.Set(this._rawData, "director_max_loops", value); }
     }
 
     /// <summary>
@@ -225,8 +229,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public long? DirectorMaxTokens
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "director_max_tokens"); }
-        init { ModelBase.Set(this._rawData, "director_max_tokens", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "director_max_tokens"); }
+        init { JsonModel.Set(this._rawData, "director_max_tokens", value); }
     }
 
     /// <summary>
@@ -234,8 +238,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public string? DirectorModelName
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "director_model_name"); }
-        init { ModelBase.Set(this._rawData, "director_model_name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "director_model_name"); }
+        init { JsonModel.Set(this._rawData, "director_model_name", value); }
     }
 
     /// <summary>
@@ -243,8 +247,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public long? ExaSearchMaxCharacters
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "exa_search_max_characters"); }
-        init { ModelBase.Set(this._rawData, "exa_search_max_characters", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "exa_search_max_characters"); }
+        init { JsonModel.Set(this._rawData, "exa_search_max_characters", value); }
     }
 
     /// <summary>
@@ -252,8 +256,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public long? ExaSearchNumResults
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "exa_search_num_results"); }
-        init { ModelBase.Set(this._rawData, "exa_search_num_results", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "exa_search_num_results"); }
+        init { JsonModel.Set(this._rawData, "exa_search_num_results", value); }
     }
 
     /// <summary>
@@ -261,8 +265,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public long? MaxLoops
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "max_loops"); }
-        init { ModelBase.Set(this._rawData, "max_loops", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "max_loops"); }
+        init { JsonModel.Set(this._rawData, "max_loops", value); }
     }
 
     /// <summary>
@@ -270,8 +274,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public string? Name
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "name"); }
-        init { ModelBase.Set(this._rawData, "name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "name"); }
+        init { JsonModel.Set(this._rawData, "name", value); }
     }
 
     /// <summary>
@@ -279,8 +283,8 @@ public sealed record class Config : ModelBase
     /// </summary>
     public string? WorkerModelName
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "worker_model_name"); }
-        init { ModelBase.Set(this._rawData, "worker_model_name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "worker_model_name"); }
+        init { JsonModel.Set(this._rawData, "worker_model_name", value); }
     }
 
     /// <inheritdoc/>
@@ -325,7 +329,7 @@ public sealed record class Config : ModelBase
     }
 }
 
-class ConfigFromRaw : IFromRaw<global::Swarms.Models.Client.AdvancedResearch.Batch.Config>
+class ConfigFromRaw : IFromRawJson<global::Swarms.Models.Client.AdvancedResearch.Batch.Config>
 {
     /// <inheritdoc/>
     public global::Swarms.Models.Client.AdvancedResearch.Batch.Config FromRawUnchecked(

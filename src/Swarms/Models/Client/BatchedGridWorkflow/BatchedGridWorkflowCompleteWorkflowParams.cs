@@ -29,12 +29,12 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     {
         get
         {
-            return ModelBase.GetNullableClass<List<AgentSpec>>(
+            return JsonModel.GetNullableClass<List<AgentSpec>>(
                 this.RawBodyData,
                 "agent_completions"
             );
         }
-        init { ModelBase.Set(this._rawBodyData, "agent_completions", value); }
+        init { JsonModel.Set(this._rawBodyData, "agent_completions", value); }
     }
 
     /// <summary>
@@ -42,8 +42,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public string? Description
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "description"); }
-        init { ModelBase.Set(this._rawBodyData, "description", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "description"); }
+        init { JsonModel.Set(this._rawBodyData, "description", value); }
     }
 
     /// <summary>
@@ -51,8 +51,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public IReadOnlyList<string>? Imgs
     {
-        get { return ModelBase.GetNullableClass<List<string>>(this.RawBodyData, "imgs"); }
-        init { ModelBase.Set(this._rawBodyData, "imgs", value); }
+        get { return JsonModel.GetNullableClass<List<string>>(this.RawBodyData, "imgs"); }
+        init { JsonModel.Set(this._rawBodyData, "imgs", value); }
     }
 
     /// <summary>
@@ -60,8 +60,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public long? MaxLoops
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
-        init { ModelBase.Set(this._rawBodyData, "max_loops", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
+        init { JsonModel.Set(this._rawBodyData, "max_loops", value); }
     }
 
     /// <summary>
@@ -69,8 +69,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public string? Name
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "name"); }
-        init { ModelBase.Set(this._rawBodyData, "name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "name"); }
+        init { JsonModel.Set(this._rawBodyData, "name", value); }
     }
 
     /// <summary>
@@ -78,8 +78,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public IReadOnlyList<string>? Tasks
     {
-        get { return ModelBase.GetNullableClass<List<string>>(this.RawBodyData, "tasks"); }
-        init { ModelBase.Set(this._rawBodyData, "tasks", value); }
+        get { return JsonModel.GetNullableClass<List<string>>(this.RawBodyData, "tasks"); }
+        init { JsonModel.Set(this._rawBodyData, "tasks", value); }
     }
 
     public BatchedGridWorkflowCompleteWorkflowParams() { }
@@ -117,7 +117,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
+    /// <inheritdoc cref="IFromRawJson.FromRawUnchecked"/>
     public static BatchedGridWorkflowCompleteWorkflowParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
@@ -141,9 +141,13 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
         }.Uri;
     }
 
-    internal override StringContent? BodyContent()
+    internal override HttpContent? BodyContent()
     {
-        return new(JsonSerializer.Serialize(this.RawBodyData), Encoding.UTF8, "application/json");
+        return new StringContent(
+            JsonSerializer.Serialize(this.RawBodyData),
+            Encoding.UTF8,
+            "application/json"
+        );
     }
 
     internal override void AddHeadersToRequest(HttpRequestMessage request, ClientOptions options)

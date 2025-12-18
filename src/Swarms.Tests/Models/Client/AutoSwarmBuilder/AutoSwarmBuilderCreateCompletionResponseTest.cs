@@ -104,9 +104,9 @@ public class AutoSwarmBuilderCreateCompletionResponseTest : TestBase
             },
         };
 
-        string json = JsonSerializer.Serialize(model);
+        string element = JsonSerializer.Serialize(model);
         var deserialized = JsonSerializer.Deserialize<AutoSwarmBuilderCreateCompletionResponse>(
-            json
+            element
         );
         Assert.NotNull(deserialized);
 

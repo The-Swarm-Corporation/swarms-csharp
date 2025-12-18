@@ -28,8 +28,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     /// </summary>
     public string? Description
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "description"); }
-        init { ModelBase.Set(this._rawBodyData, "description", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "description"); }
+        init { JsonModel.Set(this._rawBodyData, "description", value); }
     }
 
     /// <summary>
@@ -39,12 +39,12 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     {
         get
         {
-            return ModelBase.GetNullableClass<ApiEnum<string, ExecutionType>>(
+            return JsonModel.GetNullableClass<ApiEnum<string, ExecutionType>>(
                 this.RawBodyData,
                 "execution_type"
             );
         }
-        init { ModelBase.Set(this._rawBodyData, "execution_type", value); }
+        init { JsonModel.Set(this._rawBodyData, "execution_type", value); }
     }
 
     /// <summary>
@@ -52,8 +52,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     /// </summary>
     public long? MaxLoops
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
-        init { ModelBase.Set(this._rawBodyData, "max_loops", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
+        init { JsonModel.Set(this._rawBodyData, "max_loops", value); }
     }
 
     /// <summary>
@@ -61,8 +61,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     /// </summary>
     public long? MaxTokens
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "max_tokens"); }
-        init { ModelBase.Set(this._rawBodyData, "max_tokens", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "max_tokens"); }
+        init { JsonModel.Set(this._rawBodyData, "max_tokens", value); }
     }
 
     /// <summary>
@@ -70,8 +70,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     /// </summary>
     public string? ModelName
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "model_name"); }
-        init { ModelBase.Set(this._rawBodyData, "model_name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "model_name"); }
+        init { JsonModel.Set(this._rawBodyData, "model_name", value); }
     }
 
     /// <summary>
@@ -79,8 +79,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     /// </summary>
     public string? Name
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "name"); }
-        init { ModelBase.Set(this._rawBodyData, "name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "name"); }
+        init { JsonModel.Set(this._rawBodyData, "name", value); }
     }
 
     /// <summary>
@@ -88,8 +88,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     /// </summary>
     public string? Task
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "task"); }
-        init { ModelBase.Set(this._rawBodyData, "task", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "task"); }
+        init { JsonModel.Set(this._rawBodyData, "task", value); }
     }
 
     public AutoSwarmBuilderCreateCompletionParams() { }
@@ -127,7 +127,7 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
+    /// <inheritdoc cref="IFromRawJson.FromRawUnchecked"/>
     public static AutoSwarmBuilderCreateCompletionParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
@@ -151,9 +151,13 @@ public sealed record class AutoSwarmBuilderCreateCompletionParams : ParamsBase
         }.Uri;
     }
 
-    internal override StringContent? BodyContent()
+    internal override HttpContent? BodyContent()
     {
-        return new(JsonSerializer.Serialize(this.RawBodyData), Encoding.UTF8, "application/json");
+        return new StringContent(
+            JsonSerializer.Serialize(this.RawBodyData),
+            Encoding.UTF8,
+            "application/json"
+        );
     }
 
     internal override void AddHeadersToRequest(HttpRequestMessage request, ClientOptions options)

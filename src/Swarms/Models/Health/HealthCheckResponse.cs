@@ -7,12 +7,12 @@ using Swarms.Core;
 
 namespace Swarms.Models.Health;
 
-[JsonConverter(typeof(ModelConverter<HealthCheckResponse, HealthCheckResponseFromRaw>))]
-public sealed record class HealthCheckResponse : ModelBase
+[JsonConverter(typeof(JsonModelConverter<HealthCheckResponse, HealthCheckResponseFromRaw>))]
+public sealed record class HealthCheckResponse : JsonModel
 {
     public string? Status
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "status"); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "status"); }
         init
         {
             if (value == null)
@@ -20,7 +20,7 @@ public sealed record class HealthCheckResponse : ModelBase
                 return;
             }
 
-            ModelBase.Set(this._rawData, "status", value);
+            JsonModel.Set(this._rawData, "status", value);
         }
     }
 
@@ -57,7 +57,7 @@ public sealed record class HealthCheckResponse : ModelBase
     }
 }
 
-class HealthCheckResponseFromRaw : IFromRaw<HealthCheckResponse>
+class HealthCheckResponseFromRaw : IFromRawJson<HealthCheckResponse>
 {
     /// <inheritdoc/>
     public HealthCheckResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>

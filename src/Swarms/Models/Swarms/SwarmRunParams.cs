@@ -30,8 +30,8 @@ public sealed record class SwarmRunParams : ParamsBase
     /// </summary>
     public IReadOnlyList<AgentSpec>? Agents
     {
-        get { return ModelBase.GetNullableClass<List<AgentSpec>>(this.RawBodyData, "agents"); }
-        init { ModelBase.Set(this._rawBodyData, "agents", value); }
+        get { return JsonModel.GetNullableClass<List<AgentSpec>>(this.RawBodyData, "agents"); }
+        init { JsonModel.Set(this._rawBodyData, "agents", value); }
     }
 
     /// <summary>
@@ -39,8 +39,8 @@ public sealed record class SwarmRunParams : ParamsBase
     /// </summary>
     public string? Description
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "description"); }
-        init { ModelBase.Set(this._rawBodyData, "description", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "description"); }
+        init { JsonModel.Set(this._rawBodyData, "description", value); }
     }
 
     /// <summary>
@@ -50,12 +50,12 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            return ModelBase.GetNullableStruct<long>(
+            return JsonModel.GetNullableStruct<long>(
                 this.RawBodyData,
                 "heavy_swarm_loops_per_agent"
             );
         }
-        init { ModelBase.Set(this._rawBodyData, "heavy_swarm_loops_per_agent", value); }
+        init { JsonModel.Set(this._rawBodyData, "heavy_swarm_loops_per_agent", value); }
     }
 
     /// <summary>
@@ -65,12 +65,12 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            return ModelBase.GetNullableClass<string>(
+            return JsonModel.GetNullableClass<string>(
                 this.RawBodyData,
                 "heavy_swarm_question_agent_model_name"
             );
         }
-        init { ModelBase.Set(this._rawBodyData, "heavy_swarm_question_agent_model_name", value); }
+        init { JsonModel.Set(this._rawBodyData, "heavy_swarm_question_agent_model_name", value); }
     }
 
     /// <summary>
@@ -80,12 +80,12 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            return ModelBase.GetNullableClass<string>(
+            return JsonModel.GetNullableClass<string>(
                 this.RawBodyData,
                 "heavy_swarm_worker_model_name"
             );
         }
-        init { ModelBase.Set(this._rawBodyData, "heavy_swarm_worker_model_name", value); }
+        init { JsonModel.Set(this._rawBodyData, "heavy_swarm_worker_model_name", value); }
     }
 
     /// <summary>
@@ -93,8 +93,8 @@ public sealed record class SwarmRunParams : ParamsBase
     /// </summary>
     public string? Img
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "img"); }
-        init { ModelBase.Set(this._rawBodyData, "img", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "img"); }
+        init { JsonModel.Set(this._rawBodyData, "img", value); }
     }
 
     /// <summary>
@@ -103,8 +103,8 @@ public sealed record class SwarmRunParams : ParamsBase
     /// </summary>
     public long? MaxLoops
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
-        init { ModelBase.Set(this._rawBodyData, "max_loops", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
+        init { JsonModel.Set(this._rawBodyData, "max_loops", value); }
     }
 
     /// <summary>
@@ -112,8 +112,8 @@ public sealed record class SwarmRunParams : ParamsBase
     /// </summary>
     public Messages? Messages
     {
-        get { return ModelBase.GetNullableClass<Messages>(this.RawBodyData, "messages"); }
-        init { ModelBase.Set(this._rawBodyData, "messages", value); }
+        get { return JsonModel.GetNullableClass<Messages>(this.RawBodyData, "messages"); }
+        init { JsonModel.Set(this._rawBodyData, "messages", value); }
     }
 
     /// <summary>
@@ -122,8 +122,8 @@ public sealed record class SwarmRunParams : ParamsBase
     /// </summary>
     public string? Name
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "name"); }
-        init { ModelBase.Set(this._rawBodyData, "name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "name"); }
+        init { JsonModel.Set(this._rawBodyData, "name", value); }
     }
 
     /// <summary>
@@ -131,8 +131,8 @@ public sealed record class SwarmRunParams : ParamsBase
     /// </summary>
     public string? RearrangeFlow
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "rearrange_flow"); }
-        init { ModelBase.Set(this._rawBodyData, "rearrange_flow", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "rearrange_flow"); }
+        init { JsonModel.Set(this._rawBodyData, "rearrange_flow", value); }
     }
 
     /// <summary>
@@ -141,8 +141,8 @@ public sealed record class SwarmRunParams : ParamsBase
     /// </summary>
     public string? Rules
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "rules"); }
-        init { ModelBase.Set(this._rawBodyData, "rules", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "rules"); }
+        init { JsonModel.Set(this._rawBodyData, "rules", value); }
     }
 
     /// <summary>
@@ -151,8 +151,8 @@ public sealed record class SwarmRunParams : ParamsBase
     /// </summary>
     public string? ServiceTier
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "service_tier"); }
-        init { ModelBase.Set(this._rawBodyData, "service_tier", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "service_tier"); }
+        init { JsonModel.Set(this._rawBodyData, "service_tier", value); }
     }
 
     /// <summary>
@@ -160,8 +160,8 @@ public sealed record class SwarmRunParams : ParamsBase
     /// </summary>
     public bool? Stream
     {
-        get { return ModelBase.GetNullableStruct<bool>(this.RawBodyData, "stream"); }
-        init { ModelBase.Set(this._rawBodyData, "stream", value); }
+        get { return JsonModel.GetNullableStruct<bool>(this.RawBodyData, "stream"); }
+        init { JsonModel.Set(this._rawBodyData, "stream", value); }
     }
 
     /// <summary>
@@ -171,12 +171,12 @@ public sealed record class SwarmRunParams : ParamsBase
     {
         get
         {
-            return ModelBase.GetNullableClass<ApiEnum<string, SwarmType>>(
+            return JsonModel.GetNullableClass<ApiEnum<string, SwarmType>>(
                 this.RawBodyData,
                 "swarm_type"
             );
         }
-        init { ModelBase.Set(this._rawBodyData, "swarm_type", value); }
+        init { JsonModel.Set(this._rawBodyData, "swarm_type", value); }
     }
 
     /// <summary>
@@ -184,8 +184,8 @@ public sealed record class SwarmRunParams : ParamsBase
     /// </summary>
     public string? Task
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawBodyData, "task"); }
-        init { ModelBase.Set(this._rawBodyData, "task", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "task"); }
+        init { JsonModel.Set(this._rawBodyData, "task", value); }
     }
 
     /// <summary>
@@ -193,8 +193,8 @@ public sealed record class SwarmRunParams : ParamsBase
     /// </summary>
     public IReadOnlyList<string>? Tasks
     {
-        get { return ModelBase.GetNullableClass<List<string>>(this.RawBodyData, "tasks"); }
-        init { ModelBase.Set(this._rawBodyData, "tasks", value); }
+        get { return JsonModel.GetNullableClass<List<string>>(this.RawBodyData, "tasks"); }
+        init { JsonModel.Set(this._rawBodyData, "tasks", value); }
     }
 
     public SwarmRunParams() { }
@@ -230,7 +230,7 @@ public sealed record class SwarmRunParams : ParamsBase
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="IFromRaw.FromRawUnchecked"/>
+    /// <inheritdoc cref="IFromRawJson.FromRawUnchecked"/>
     public static SwarmRunParams FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
@@ -252,9 +252,13 @@ public sealed record class SwarmRunParams : ParamsBase
         }.Uri;
     }
 
-    internal override StringContent? BodyContent()
+    internal override HttpContent? BodyContent()
     {
-        return new(JsonSerializer.Serialize(this.RawBodyData), Encoding.UTF8, "application/json");
+        return new StringContent(
+            JsonSerializer.Serialize(this.RawBodyData),
+            Encoding.UTF8,
+            "application/json"
+        );
     }
 
     internal override void AddHeadersToRequest(HttpRequestMessage request, ClientOptions options)
@@ -275,28 +279,31 @@ public record class Messages
 {
     public object? Value { get; } = null;
 
-    JsonElement? _json = null;
+    JsonElement? _element = null;
 
     public JsonElement Json
     {
-        get { return this._json ??= JsonSerializer.SerializeToElement(this.Value); }
+        get { return this._element ??= JsonSerializer.SerializeToElement(this.Value); }
     }
 
-    public Messages(IReadOnlyList<Dictionary<string, JsonElement>> value, JsonElement? json = null)
+    public Messages(
+        IReadOnlyList<Dictionary<string, JsonElement>> value,
+        JsonElement? element = null
+    )
     {
         this.Value = ImmutableArray.ToImmutableArray(value);
-        this._json = json;
+        this._element = element;
     }
 
-    public Messages(IReadOnlyDictionary<string, JsonElement> value, JsonElement? json = null)
+    public Messages(IReadOnlyDictionary<string, JsonElement> value, JsonElement? element = null)
     {
         this.Value = FrozenDictionary.ToFrozenDictionary(value);
-        this._json = json;
+        this._element = element;
     }
 
-    public Messages(JsonElement json)
+    public Messages(JsonElement element)
     {
-        this._json = json;
+        this._element = element;
     }
 
     /// <summary>
@@ -466,16 +473,16 @@ sealed class MessagesConverter : JsonConverter<Messages?>
         JsonSerializerOptions options
     )
     {
-        var json = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
+        var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
             var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
-                json,
+                element,
                 options
             );
             if (deserialized != null)
             {
-                return new(deserialized, json);
+                return new(deserialized, element);
             }
         }
         catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
@@ -486,12 +493,12 @@ sealed class MessagesConverter : JsonConverter<Messages?>
         try
         {
             var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
-                json,
+                element,
                 options
             );
             if (deserialized != null)
             {
-                return new(deserialized, json);
+                return new(deserialized, element);
             }
         }
         catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
@@ -499,7 +506,7 @@ sealed class MessagesConverter : JsonConverter<Messages?>
             // ignore
         }
 
-        return new(json);
+        return new(element);
     }
 
     public override void Write(

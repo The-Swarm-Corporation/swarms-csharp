@@ -61,8 +61,8 @@ public class BatchRunResponseTest : TestBase
             TotalRequests = 0,
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<BatchRunResponse>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<BatchRunResponse>(element);
         Assert.NotNull(deserialized);
 
         string expectedBatchID = "batch_id";

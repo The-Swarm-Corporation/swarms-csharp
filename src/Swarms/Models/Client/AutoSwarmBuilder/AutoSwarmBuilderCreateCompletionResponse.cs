@@ -17,20 +17,20 @@ namespace Swarms.Models.Client.AutoSwarmBuilder;
 /// execution.     usage (Optional[dict]): The usage statistics of the swarm execution.</para>
 /// </summary>
 [JsonConverter(
-    typeof(ModelConverter<
+    typeof(JsonModelConverter<
         AutoSwarmBuilderCreateCompletionResponse,
         AutoSwarmBuilderCreateCompletionResponseFromRaw
     >)
 )]
-public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
+public sealed record class AutoSwarmBuilderCreateCompletionResponse : JsonModel
 {
     /// <summary>
     /// Whether the swarm was built successfully.
     /// </summary>
     public required bool Success
     {
-        get { return ModelBase.GetNotNullStruct<bool>(this.RawData, "success"); }
-        init { ModelBase.Set(this._rawData, "success", value); }
+        get { return JsonModel.GetNotNullStruct<bool>(this.RawData, "success"); }
+        init { JsonModel.Set(this._rawData, "success", value); }
     }
 
     /// <summary>
@@ -38,8 +38,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     /// </summary>
     public string? JobID
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "job_id"); }
-        init { ModelBase.Set(this._rawData, "job_id", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "job_id"); }
+        init { JsonModel.Set(this._rawData, "job_id", value); }
     }
 
     /// <summary>
@@ -49,12 +49,12 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     {
         get
         {
-            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
                 this.RawData,
                 "outputs"
             );
         }
-        init { ModelBase.Set(this._rawData, "outputs", value); }
+        init { JsonModel.Set(this._rawData, "outputs", value); }
     }
 
     /// <summary>
@@ -62,8 +62,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     /// </summary>
     public string? Timestamp
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "timestamp"); }
-        init { ModelBase.Set(this._rawData, "timestamp", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "timestamp"); }
+        init { JsonModel.Set(this._rawData, "timestamp", value); }
     }
 
     /// <summary>
@@ -71,8 +71,8 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     /// </summary>
     public string? Type
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "type"); }
-        init { ModelBase.Set(this._rawData, "type", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "type"); }
+        init { JsonModel.Set(this._rawData, "type", value); }
     }
 
     /// <summary>
@@ -82,12 +82,12 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
     {
         get
         {
-            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
                 this.RawData,
                 "usage"
             );
         }
-        init { ModelBase.Set(this._rawData, "usage", value); }
+        init { JsonModel.Set(this._rawData, "usage", value); }
     }
 
     /// <inheritdoc/>
@@ -140,7 +140,7 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : ModelBase
 }
 
 class AutoSwarmBuilderCreateCompletionResponseFromRaw
-    : IFromRaw<AutoSwarmBuilderCreateCompletionResponse>
+    : IFromRawJson<AutoSwarmBuilderCreateCompletionResponse>
 {
     /// <inheritdoc/>
     public AutoSwarmBuilderCreateCompletionResponse FromRawUnchecked(

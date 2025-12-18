@@ -100,9 +100,9 @@ public class BatchedGridWorkflowCompleteWorkflowResponseTest : TestBase
             },
         };
 
-        string json = JsonSerializer.Serialize(model);
+        string element = JsonSerializer.Serialize(model);
         var deserialized = JsonSerializer.Deserialize<BatchedGridWorkflowCompleteWorkflowResponse>(
-            json
+            element
         );
         Assert.NotNull(deserialized);
 
@@ -212,8 +212,8 @@ public class UsageTest : TestBase
             TotalTokens = 0,
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Usage>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<Usage>(element);
         Assert.NotNull(deserialized);
 
         double expectedCostPerAgent = 0;

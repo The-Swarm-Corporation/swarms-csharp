@@ -94,8 +94,8 @@ public class BatchCreateCompletionResponseTest : TestBase
             },
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<BatchCreateCompletionResponse>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<BatchCreateCompletionResponse>(element);
         Assert.NotNull(deserialized);
 
         string expectedID = "id";

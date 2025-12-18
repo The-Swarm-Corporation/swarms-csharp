@@ -7,18 +7,18 @@ using Swarms.Core;
 
 namespace Swarms.Models.Swarms;
 
-[JsonConverter(typeof(ModelConverter<SwarmGetLogsResponse, SwarmGetLogsResponseFromRaw>))]
-public sealed record class SwarmGetLogsResponse : ModelBase
+[JsonConverter(typeof(JsonModelConverter<SwarmGetLogsResponse, SwarmGetLogsResponseFromRaw>))]
+public sealed record class SwarmGetLogsResponse : JsonModel
 {
     public long? Count
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "count"); }
-        init { ModelBase.Set(this._rawData, "count", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "count"); }
+        init { JsonModel.Set(this._rawData, "count", value); }
     }
 
     public JsonElement? Logs
     {
-        get { return ModelBase.GetNullableStruct<JsonElement>(this.RawData, "logs"); }
+        get { return JsonModel.GetNullableStruct<JsonElement>(this.RawData, "logs"); }
         init
         {
             if (value == null)
@@ -26,20 +26,20 @@ public sealed record class SwarmGetLogsResponse : ModelBase
                 return;
             }
 
-            ModelBase.Set(this._rawData, "logs", value);
+            JsonModel.Set(this._rawData, "logs", value);
         }
     }
 
     public string? Status
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "status"); }
-        init { ModelBase.Set(this._rawData, "status", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "status"); }
+        init { JsonModel.Set(this._rawData, "status", value); }
     }
 
     public string? Timestamp
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "timestamp"); }
-        init { ModelBase.Set(this._rawData, "timestamp", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "timestamp"); }
+        init { JsonModel.Set(this._rawData, "timestamp", value); }
     }
 
     /// <inheritdoc/>
@@ -78,7 +78,7 @@ public sealed record class SwarmGetLogsResponse : ModelBase
     }
 }
 
-class SwarmGetLogsResponseFromRaw : IFromRaw<SwarmGetLogsResponse>
+class SwarmGetLogsResponseFromRaw : IFromRawJson<SwarmGetLogsResponse>
 {
     /// <inheritdoc/>
     public SwarmGetLogsResponse FromRawUnchecked(

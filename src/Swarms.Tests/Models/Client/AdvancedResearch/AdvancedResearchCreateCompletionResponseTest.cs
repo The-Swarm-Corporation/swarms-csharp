@@ -96,9 +96,9 @@ public class AdvancedResearchCreateCompletionResponseTest : TestBase
             },
         };
 
-        string json = JsonSerializer.Serialize(model);
+        string element = JsonSerializer.Serialize(model);
         var deserialized = JsonSerializer.Deserialize<AdvancedResearchCreateCompletionResponse>(
-            json
+            element
         );
         Assert.NotNull(deserialized);
 

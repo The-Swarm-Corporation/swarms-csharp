@@ -39,8 +39,8 @@ public class SwarmCheckAvailableResponseTest : TestBase
     {
         var model = new SwarmCheckAvailableResponse { Success = true, SwarmTypes = ["string"] };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<SwarmCheckAvailableResponse>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<SwarmCheckAvailableResponse>(element);
         Assert.NotNull(deserialized);
 
         bool expectedSuccess = true;

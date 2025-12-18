@@ -7,16 +7,16 @@ using Swarms.Core;
 
 namespace Swarms.Models.Swarms;
 
-[JsonConverter(typeof(ModelConverter<SwarmRunResponse, SwarmRunResponseFromRaw>))]
-public sealed record class SwarmRunResponse : ModelBase
+[JsonConverter(typeof(JsonModelConverter<SwarmRunResponse, SwarmRunResponseFromRaw>))]
+public sealed record class SwarmRunResponse : JsonModel
 {
     /// <summary>
     /// The description of the swarm.
     /// </summary>
     public required string? Description
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "description"); }
-        init { ModelBase.Set(this._rawData, "description", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "description"); }
+        init { JsonModel.Set(this._rawData, "description", value); }
     }
 
     /// <summary>
@@ -24,8 +24,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required double? ExecutionTime
     {
-        get { return ModelBase.GetNullableStruct<double>(this.RawData, "execution_time"); }
-        init { ModelBase.Set(this._rawData, "execution_time", value); }
+        get { return JsonModel.GetNullableStruct<double>(this.RawData, "execution_time"); }
+        init { JsonModel.Set(this._rawData, "execution_time", value); }
     }
 
     /// <summary>
@@ -33,8 +33,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required string? JobID
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "job_id"); }
-        init { ModelBase.Set(this._rawData, "job_id", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "job_id"); }
+        init { JsonModel.Set(this._rawData, "job_id", value); }
     }
 
     /// <summary>
@@ -42,8 +42,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required long? NumberOfAgents
     {
-        get { return ModelBase.GetNullableStruct<long>(this.RawData, "number_of_agents"); }
-        init { ModelBase.Set(this._rawData, "number_of_agents", value); }
+        get { return JsonModel.GetNullableStruct<long>(this.RawData, "number_of_agents"); }
+        init { JsonModel.Set(this._rawData, "number_of_agents", value); }
     }
 
     /// <summary>
@@ -51,8 +51,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required JsonElement Output
     {
-        get { return ModelBase.GetNotNullStruct<JsonElement>(this.RawData, "output"); }
-        init { ModelBase.Set(this._rawData, "output", value); }
+        get { return JsonModel.GetNotNullStruct<JsonElement>(this.RawData, "output"); }
+        init { JsonModel.Set(this._rawData, "output", value); }
     }
 
     /// <summary>
@@ -60,8 +60,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required string? ServiceTier
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "service_tier"); }
-        init { ModelBase.Set(this._rawData, "service_tier", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "service_tier"); }
+        init { JsonModel.Set(this._rawData, "service_tier", value); }
     }
 
     /// <summary>
@@ -69,8 +69,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required string? Status
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "status"); }
-        init { ModelBase.Set(this._rawData, "status", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "status"); }
+        init { JsonModel.Set(this._rawData, "status", value); }
     }
 
     /// <summary>
@@ -78,8 +78,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required string? SwarmName
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "swarm_name"); }
-        init { ModelBase.Set(this._rawData, "swarm_name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "swarm_name"); }
+        init { JsonModel.Set(this._rawData, "swarm_name", value); }
     }
 
     /// <summary>
@@ -87,8 +87,8 @@ public sealed record class SwarmRunResponse : ModelBase
     /// </summary>
     public required string? SwarmType
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "swarm_type"); }
-        init { ModelBase.Set(this._rawData, "swarm_type", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "swarm_type"); }
+        init { JsonModel.Set(this._rawData, "swarm_type", value); }
     }
 
     /// <summary>
@@ -98,12 +98,12 @@ public sealed record class SwarmRunResponse : ModelBase
     {
         get
         {
-            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
                 this.RawData,
                 "usage"
             );
         }
-        init { ModelBase.Set(this._rawData, "usage", value); }
+        init { JsonModel.Set(this._rawData, "usage", value); }
     }
 
     /// <inheritdoc/>
@@ -148,7 +148,7 @@ public sealed record class SwarmRunResponse : ModelBase
     }
 }
 
-class SwarmRunResponseFromRaw : IFromRaw<SwarmRunResponse>
+class SwarmRunResponseFromRaw : IFromRawJson<SwarmRunResponse>
 {
     /// <inheritdoc/>
     public SwarmRunResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>

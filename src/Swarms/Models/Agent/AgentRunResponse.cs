@@ -7,16 +7,16 @@ using Swarms.Core;
 
 namespace Swarms.Models.Agent;
 
-[JsonConverter(typeof(ModelConverter<AgentRunResponse, AgentRunResponseFromRaw>))]
-public sealed record class AgentRunResponse : ModelBase
+[JsonConverter(typeof(JsonModelConverter<AgentRunResponse, AgentRunResponseFromRaw>))]
+public sealed record class AgentRunResponse : JsonModel
 {
     /// <summary>
     /// A description of the agent or completion.
     /// </summary>
     public string? Description
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "description"); }
-        init { ModelBase.Set(this._rawData, "description", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "description"); }
+        init { JsonModel.Set(this._rawData, "description", value); }
     }
 
     /// <summary>
@@ -24,8 +24,8 @@ public sealed record class AgentRunResponse : ModelBase
     /// </summary>
     public string? JobID
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "job_id"); }
-        init { ModelBase.Set(this._rawData, "job_id", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "job_id"); }
+        init { JsonModel.Set(this._rawData, "job_id", value); }
     }
 
     /// <summary>
@@ -33,8 +33,8 @@ public sealed record class AgentRunResponse : ModelBase
     /// </summary>
     public string? Name
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "name"); }
-        init { ModelBase.Set(this._rawData, "name", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "name"); }
+        init { JsonModel.Set(this._rawData, "name", value); }
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public sealed record class AgentRunResponse : ModelBase
     /// </summary>
     public JsonElement? Outputs
     {
-        get { return ModelBase.GetNullableStruct<JsonElement>(this.RawData, "outputs"); }
+        get { return JsonModel.GetNullableStruct<JsonElement>(this.RawData, "outputs"); }
         init
         {
             if (value == null)
@@ -50,7 +50,7 @@ public sealed record class AgentRunResponse : ModelBase
                 return;
             }
 
-            ModelBase.Set(this._rawData, "outputs", value);
+            JsonModel.Set(this._rawData, "outputs", value);
         }
     }
 
@@ -59,8 +59,8 @@ public sealed record class AgentRunResponse : ModelBase
     /// </summary>
     public bool? Success
     {
-        get { return ModelBase.GetNullableStruct<bool>(this.RawData, "success"); }
-        init { ModelBase.Set(this._rawData, "success", value); }
+        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "success"); }
+        init { JsonModel.Set(this._rawData, "success", value); }
     }
 
     /// <summary>
@@ -68,8 +68,8 @@ public sealed record class AgentRunResponse : ModelBase
     /// </summary>
     public double? Temperature
     {
-        get { return ModelBase.GetNullableStruct<double>(this.RawData, "temperature"); }
-        init { ModelBase.Set(this._rawData, "temperature", value); }
+        get { return JsonModel.GetNullableStruct<double>(this.RawData, "temperature"); }
+        init { JsonModel.Set(this._rawData, "temperature", value); }
     }
 
     /// <summary>
@@ -77,8 +77,8 @@ public sealed record class AgentRunResponse : ModelBase
     /// </summary>
     public string? Timestamp
     {
-        get { return ModelBase.GetNullableClass<string>(this.RawData, "timestamp"); }
-        init { ModelBase.Set(this._rawData, "timestamp", value); }
+        get { return JsonModel.GetNullableClass<string>(this.RawData, "timestamp"); }
+        init { JsonModel.Set(this._rawData, "timestamp", value); }
     }
 
     /// <summary>
@@ -88,12 +88,12 @@ public sealed record class AgentRunResponse : ModelBase
     {
         get
         {
-            return ModelBase.GetNullableClass<Dictionary<string, JsonElement>>(
+            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
                 this.RawData,
                 "usage"
             );
         }
-        init { ModelBase.Set(this._rawData, "usage", value); }
+        init { JsonModel.Set(this._rawData, "usage", value); }
     }
 
     /// <inheritdoc/>
@@ -136,7 +136,7 @@ public sealed record class AgentRunResponse : ModelBase
     }
 }
 
-class AgentRunResponseFromRaw : IFromRaw<AgentRunResponse>
+class AgentRunResponseFromRaw : IFromRawJson<AgentRunResponse>
 {
     /// <inheritdoc/>
     public AgentRunResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>

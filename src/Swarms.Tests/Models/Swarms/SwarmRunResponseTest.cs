@@ -104,8 +104,8 @@ public class SwarmRunResponseTest : TestBase
             },
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<SwarmRunResponse>(json);
+        string element = JsonSerializer.Serialize(model);
+        var deserialized = JsonSerializer.Deserialize<SwarmRunResponse>(element);
         Assert.NotNull(deserialized);
 
         string expectedDescription = "description";
