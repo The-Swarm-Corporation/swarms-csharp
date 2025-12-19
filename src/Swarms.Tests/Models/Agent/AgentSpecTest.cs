@@ -132,6 +132,7 @@ public class AgentSpecTest : TestBase
         Assert.Equal(expectedAutoGeneratePrompt, model.AutoGeneratePrompt);
         Assert.Equal(expectedDescription, model.Description);
         Assert.Equal(expectedDynamicTemperatureEnabled, model.DynamicTemperatureEnabled);
+        Assert.NotNull(model.LlmArgs);
         Assert.Equal(expectedLlmArgs.Count, model.LlmArgs.Count);
         foreach (var item in expectedLlmArgs)
         {
@@ -367,6 +368,7 @@ public class AgentSpecTest : TestBase
         Assert.Equal(expectedAutoGeneratePrompt, deserialized.AutoGeneratePrompt);
         Assert.Equal(expectedDescription, deserialized.Description);
         Assert.Equal(expectedDynamicTemperatureEnabled, deserialized.DynamicTemperatureEnabled);
+        Assert.NotNull(deserialized.LlmArgs);
         Assert.Equal(expectedLlmArgs.Count, deserialized.LlmArgs.Count);
         foreach (var item in expectedLlmArgs)
         {
@@ -660,6 +662,7 @@ public class McpConfigTest : TestBase
         string expectedURL = "url";
 
         Assert.Equal(expectedAuthorizationToken, model.AuthorizationToken);
+        Assert.NotNull(model.Headers);
         Assert.Equal(expectedHeaders.Count, model.Headers.Count);
         foreach (var item in expectedHeaders)
         {
@@ -668,6 +671,7 @@ public class McpConfigTest : TestBase
             Assert.Equal(value, model.Headers[item.Key]);
         }
         Assert.Equal(expectedTimeout, model.Timeout);
+        Assert.NotNull(model.ToolConfigurations);
         Assert.Equal(expectedToolConfigurations.Count, model.ToolConfigurations.Count);
         foreach (var item in expectedToolConfigurations)
         {
@@ -736,6 +740,7 @@ public class McpConfigTest : TestBase
         string expectedURL = "url";
 
         Assert.Equal(expectedAuthorizationToken, deserialized.AuthorizationToken);
+        Assert.NotNull(deserialized.Headers);
         Assert.Equal(expectedHeaders.Count, deserialized.Headers.Count);
         foreach (var item in expectedHeaders)
         {
@@ -744,6 +749,7 @@ public class McpConfigTest : TestBase
             Assert.Equal(value, deserialized.Headers[item.Key]);
         }
         Assert.Equal(expectedTimeout, deserialized.Timeout);
+        Assert.NotNull(deserialized.ToolConfigurations);
         Assert.Equal(expectedToolConfigurations.Count, deserialized.ToolConfigurations.Count);
         foreach (var item in expectedToolConfigurations)
         {
@@ -1040,6 +1046,7 @@ public class ConnectionTest : TestBase
         string expectedURL = "url";
 
         Assert.Equal(expectedAuthorizationToken, model.AuthorizationToken);
+        Assert.NotNull(model.Headers);
         Assert.Equal(expectedHeaders.Count, model.Headers.Count);
         foreach (var item in expectedHeaders)
         {
@@ -1048,6 +1055,7 @@ public class ConnectionTest : TestBase
             Assert.Equal(value, model.Headers[item.Key]);
         }
         Assert.Equal(expectedTimeout, model.Timeout);
+        Assert.NotNull(model.ToolConfigurations);
         Assert.Equal(expectedToolConfigurations.Count, model.ToolConfigurations.Count);
         foreach (var item in expectedToolConfigurations)
         {
@@ -1116,6 +1124,7 @@ public class ConnectionTest : TestBase
         string expectedURL = "url";
 
         Assert.Equal(expectedAuthorizationToken, deserialized.AuthorizationToken);
+        Assert.NotNull(deserialized.Headers);
         Assert.Equal(expectedHeaders.Count, deserialized.Headers.Count);
         foreach (var item in expectedHeaders)
         {
@@ -1124,6 +1133,7 @@ public class ConnectionTest : TestBase
             Assert.Equal(value, deserialized.Headers[item.Key]);
         }
         Assert.Equal(expectedTimeout, deserialized.Timeout);
+        Assert.NotNull(deserialized.ToolConfigurations);
         Assert.Equal(expectedToolConfigurations.Count, deserialized.ToolConfigurations.Count);
         foreach (var item in expectedToolConfigurations)
         {

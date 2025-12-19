@@ -40,6 +40,7 @@ public class AutoSwarmBuilderCreateCompletionResponseTest : TestBase
 
         Assert.Equal(expectedSuccess, model.Success);
         Assert.Equal(expectedJobID, model.JobID);
+        Assert.NotNull(model.Outputs);
         Assert.Equal(expectedOutputs.Count, model.Outputs.Count);
         foreach (var item in expectedOutputs)
         {
@@ -49,6 +50,7 @@ public class AutoSwarmBuilderCreateCompletionResponseTest : TestBase
         }
         Assert.Equal(expectedTimestamp, model.Timestamp);
         Assert.Equal(expectedType, model.Type);
+        Assert.NotNull(model.Usage);
         Assert.Equal(expectedUsage.Count, model.Usage.Count);
         foreach (var item in expectedUsage)
         {
@@ -125,6 +127,7 @@ public class AutoSwarmBuilderCreateCompletionResponseTest : TestBase
 
         Assert.Equal(expectedSuccess, deserialized.Success);
         Assert.Equal(expectedJobID, deserialized.JobID);
+        Assert.NotNull(deserialized.Outputs);
         Assert.Equal(expectedOutputs.Count, deserialized.Outputs.Count);
         foreach (var item in expectedOutputs)
         {
@@ -134,6 +137,7 @@ public class AutoSwarmBuilderCreateCompletionResponseTest : TestBase
         }
         Assert.Equal(expectedTimestamp, deserialized.Timestamp);
         Assert.Equal(expectedType, deserialized.Type);
+        Assert.NotNull(deserialized.Usage);
         Assert.Equal(expectedUsage.Count, deserialized.Usage.Count);
         foreach (var item in expectedUsage)
         {

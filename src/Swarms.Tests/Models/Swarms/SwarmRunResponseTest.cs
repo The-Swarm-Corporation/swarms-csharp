@@ -49,6 +49,7 @@ public class SwarmRunResponseTest : TestBase
         Assert.Equal(expectedStatus, model.Status);
         Assert.Equal(expectedSwarmName, model.SwarmName);
         Assert.Equal(expectedSwarmType, model.SwarmType);
+        Assert.NotNull(model.Usage);
         Assert.Equal(expectedUsage.Count, model.Usage.Count);
         foreach (var item in expectedUsage)
         {
@@ -131,6 +132,7 @@ public class SwarmRunResponseTest : TestBase
         Assert.Equal(expectedStatus, deserialized.Status);
         Assert.Equal(expectedSwarmName, deserialized.SwarmName);
         Assert.Equal(expectedSwarmType, deserialized.SwarmType);
+        Assert.NotNull(deserialized.Usage);
         Assert.Equal(expectedUsage.Count, deserialized.Usage.Count);
         foreach (var item in expectedUsage)
         {

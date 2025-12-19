@@ -43,6 +43,7 @@ public class AdvancedResearchCreateCompletionResponseTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedOutputs, model.Outputs));
         Assert.Equal(expectedSources, model.Sources);
         Assert.Equal(expectedTimestamp, model.Timestamp);
+        Assert.NotNull(model.Usage);
         Assert.Equal(expectedUsage.Count, model.Usage.Count);
         foreach (var item in expectedUsage)
         {
@@ -121,6 +122,7 @@ public class AdvancedResearchCreateCompletionResponseTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedOutputs, deserialized.Outputs));
         Assert.Equal(expectedSources, deserialized.Sources);
         Assert.Equal(expectedTimestamp, deserialized.Timestamp);
+        Assert.NotNull(deserialized.Usage);
         Assert.Equal(expectedUsage.Count, deserialized.Usage.Count);
         foreach (var item in expectedUsage)
         {

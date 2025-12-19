@@ -44,6 +44,7 @@ public class AgentRunResponseTest : TestBase
         Assert.Equal(expectedSuccess, model.Success);
         Assert.Equal(expectedTemperature, model.Temperature);
         Assert.Equal(expectedTimestamp, model.Timestamp);
+        Assert.NotNull(model.Usage);
         Assert.Equal(expectedUsage.Count, model.Usage.Count);
         foreach (var item in expectedUsage)
         {
@@ -119,6 +120,7 @@ public class AgentRunResponseTest : TestBase
         Assert.Equal(expectedSuccess, deserialized.Success);
         Assert.Equal(expectedTemperature, deserialized.Temperature);
         Assert.Equal(expectedTimestamp, deserialized.Timestamp);
+        Assert.NotNull(deserialized.Usage);
         Assert.Equal(expectedUsage.Count, deserialized.Usage.Count);
         foreach (var item in expectedUsage)
         {
