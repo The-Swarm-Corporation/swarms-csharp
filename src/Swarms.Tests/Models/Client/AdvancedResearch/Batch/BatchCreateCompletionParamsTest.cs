@@ -1,7 +1,69 @@
+using System.Collections.Generic;
 using System.Text.Json;
 using Swarms.Models.Client.AdvancedResearch.Batch;
 
 namespace Swarms.Tests.Models.Client.AdvancedResearch.Batch;
+
+public class BatchCreateCompletionParamsTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var parameters = new BatchCreateCompletionParams
+        {
+            InputSchemas =
+            [
+                new()
+                {
+                    Config = new()
+                    {
+                        Description = "description",
+                        DirectorAgentName = "director_agent_name",
+                        DirectorMaxLoops = 0,
+                        DirectorMaxTokens = 0,
+                        DirectorModelName = "director_model_name",
+                        ExaSearchMaxCharacters = 0,
+                        ExaSearchNumResults = 0,
+                        MaxLoops = 0,
+                        Name = "name",
+                        WorkerModelName = "worker_model_name",
+                    },
+                    Task = "task",
+                    Img = "img",
+                },
+            ],
+        };
+
+        List<InputSchema> expectedInputSchemas =
+        [
+            new()
+            {
+                Config = new()
+                {
+                    Description = "description",
+                    DirectorAgentName = "director_agent_name",
+                    DirectorMaxLoops = 0,
+                    DirectorMaxTokens = 0,
+                    DirectorModelName = "director_model_name",
+                    ExaSearchMaxCharacters = 0,
+                    ExaSearchNumResults = 0,
+                    MaxLoops = 0,
+                    Name = "name",
+                    WorkerModelName = "worker_model_name",
+                },
+                Task = "task",
+                Img = "img",
+            },
+        ];
+
+        Assert.NotNull(parameters.InputSchemas);
+        Assert.Equal(expectedInputSchemas.Count, parameters.InputSchemas.Count);
+        for (int i = 0; i < expectedInputSchemas.Count; i++)
+        {
+            Assert.Equal(expectedInputSchemas[i], parameters.InputSchemas[i]);
+        }
+    }
+}
 
 public class InputSchemaTest : TestBase
 {

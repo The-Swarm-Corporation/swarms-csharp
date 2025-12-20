@@ -5,6 +5,123 @@ using Swarms.Models.ReasoningAgents;
 
 namespace Swarms.Tests.Models.ReasoningAgents;
 
+public class ReasoningAgentCreateCompletionParamsTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var parameters = new ReasoningAgentCreateCompletionParams
+        {
+            AgentName = "agent_name",
+            Description = "description",
+            MaxLoops = 0,
+            MemoryCapacity = 0,
+            ModelName = "model_name",
+            NumKnowledgeItems = 0,
+            NumSamples = 0,
+            OutputType = OutputType.List,
+            SwarmType = SwarmType.ReasoningDuo,
+            SystemPrompt = "system_prompt",
+            Task = "task",
+        };
+
+        string expectedAgentName = "agent_name";
+        string expectedDescription = "description";
+        long expectedMaxLoops = 0;
+        long expectedMemoryCapacity = 0;
+        string expectedModelName = "model_name";
+        long expectedNumKnowledgeItems = 0;
+        long expectedNumSamples = 0;
+        ApiEnum<string, OutputType> expectedOutputType = OutputType.List;
+        ApiEnum<string, SwarmType> expectedSwarmType = SwarmType.ReasoningDuo;
+        string expectedSystemPrompt = "system_prompt";
+        string expectedTask = "task";
+
+        Assert.Equal(expectedAgentName, parameters.AgentName);
+        Assert.Equal(expectedDescription, parameters.Description);
+        Assert.Equal(expectedMaxLoops, parameters.MaxLoops);
+        Assert.Equal(expectedMemoryCapacity, parameters.MemoryCapacity);
+        Assert.Equal(expectedModelName, parameters.ModelName);
+        Assert.Equal(expectedNumKnowledgeItems, parameters.NumKnowledgeItems);
+        Assert.Equal(expectedNumSamples, parameters.NumSamples);
+        Assert.Equal(expectedOutputType, parameters.OutputType);
+        Assert.Equal(expectedSwarmType, parameters.SwarmType);
+        Assert.Equal(expectedSystemPrompt, parameters.SystemPrompt);
+        Assert.Equal(expectedTask, parameters.Task);
+    }
+
+    [Fact]
+    public void OptionalNullableParamsUnsetAreNotSet_Works()
+    {
+        var parameters = new ReasoningAgentCreateCompletionParams { };
+
+        Assert.Null(parameters.AgentName);
+        Assert.False(parameters.RawBodyData.ContainsKey("agent_name"));
+        Assert.Null(parameters.Description);
+        Assert.False(parameters.RawBodyData.ContainsKey("description"));
+        Assert.Null(parameters.MaxLoops);
+        Assert.False(parameters.RawBodyData.ContainsKey("max_loops"));
+        Assert.Null(parameters.MemoryCapacity);
+        Assert.False(parameters.RawBodyData.ContainsKey("memory_capacity"));
+        Assert.Null(parameters.ModelName);
+        Assert.False(parameters.RawBodyData.ContainsKey("model_name"));
+        Assert.Null(parameters.NumKnowledgeItems);
+        Assert.False(parameters.RawBodyData.ContainsKey("num_knowledge_items"));
+        Assert.Null(parameters.NumSamples);
+        Assert.False(parameters.RawBodyData.ContainsKey("num_samples"));
+        Assert.Null(parameters.OutputType);
+        Assert.False(parameters.RawBodyData.ContainsKey("output_type"));
+        Assert.Null(parameters.SwarmType);
+        Assert.False(parameters.RawBodyData.ContainsKey("swarm_type"));
+        Assert.Null(parameters.SystemPrompt);
+        Assert.False(parameters.RawBodyData.ContainsKey("system_prompt"));
+        Assert.Null(parameters.Task);
+        Assert.False(parameters.RawBodyData.ContainsKey("task"));
+    }
+
+    [Fact]
+    public void OptionalNullableParamsSetToNullAreSetToNull_Works()
+    {
+        var parameters = new ReasoningAgentCreateCompletionParams
+        {
+            AgentName = null,
+            Description = null,
+            MaxLoops = null,
+            MemoryCapacity = null,
+            ModelName = null,
+            NumKnowledgeItems = null,
+            NumSamples = null,
+            OutputType = null,
+            SwarmType = null,
+            SystemPrompt = null,
+            Task = null,
+        };
+
+        Assert.Null(parameters.AgentName);
+        Assert.False(parameters.RawBodyData.ContainsKey("agent_name"));
+        Assert.Null(parameters.Description);
+        Assert.False(parameters.RawBodyData.ContainsKey("description"));
+        Assert.Null(parameters.MaxLoops);
+        Assert.False(parameters.RawBodyData.ContainsKey("max_loops"));
+        Assert.Null(parameters.MemoryCapacity);
+        Assert.False(parameters.RawBodyData.ContainsKey("memory_capacity"));
+        Assert.Null(parameters.ModelName);
+        Assert.False(parameters.RawBodyData.ContainsKey("model_name"));
+        Assert.Null(parameters.NumKnowledgeItems);
+        Assert.False(parameters.RawBodyData.ContainsKey("num_knowledge_items"));
+        Assert.Null(parameters.NumSamples);
+        Assert.False(parameters.RawBodyData.ContainsKey("num_samples"));
+        Assert.Null(parameters.OutputType);
+        Assert.False(parameters.RawBodyData.ContainsKey("output_type"));
+        Assert.Null(parameters.SwarmType);
+        Assert.False(parameters.RawBodyData.ContainsKey("swarm_type"));
+        Assert.Null(parameters.SystemPrompt);
+        Assert.False(parameters.RawBodyData.ContainsKey("system_prompt"));
+        Assert.Null(parameters.Task);
+        Assert.False(parameters.RawBodyData.ContainsKey("task"));
+    }
+}
+
 public class OutputTypeTest : TestBase
 {
     [Theory]

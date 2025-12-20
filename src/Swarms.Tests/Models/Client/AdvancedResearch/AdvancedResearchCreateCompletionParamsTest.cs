@@ -3,6 +3,104 @@ using Swarms.Models.Client.AdvancedResearch;
 
 namespace Swarms.Tests.Models.Client.AdvancedResearch;
 
+public class AdvancedResearchCreateCompletionParamsTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var parameters = new AdvancedResearchCreateCompletionParams
+        {
+            Config = new()
+            {
+                Description = "description",
+                DirectorAgentName = "director_agent_name",
+                DirectorMaxLoops = 0,
+                DirectorMaxTokens = 0,
+                DirectorModelName = "director_model_name",
+                ExaSearchMaxCharacters = 0,
+                ExaSearchNumResults = 0,
+                MaxLoops = 0,
+                Name = "name",
+                WorkerModelName = "worker_model_name",
+            },
+            Task = "task",
+            Img = "img",
+        };
+
+        Config expectedConfig = new()
+        {
+            Description = "description",
+            DirectorAgentName = "director_agent_name",
+            DirectorMaxLoops = 0,
+            DirectorMaxTokens = 0,
+            DirectorModelName = "director_model_name",
+            ExaSearchMaxCharacters = 0,
+            ExaSearchNumResults = 0,
+            MaxLoops = 0,
+            Name = "name",
+            WorkerModelName = "worker_model_name",
+        };
+        string expectedTask = "task";
+        string expectedImg = "img";
+
+        Assert.Equal(expectedConfig, parameters.Config);
+        Assert.Equal(expectedTask, parameters.Task);
+        Assert.Equal(expectedImg, parameters.Img);
+    }
+
+    [Fact]
+    public void OptionalNullableParamsUnsetAreNotSet_Works()
+    {
+        var parameters = new AdvancedResearchCreateCompletionParams
+        {
+            Config = new()
+            {
+                Description = "description",
+                DirectorAgentName = "director_agent_name",
+                DirectorMaxLoops = 0,
+                DirectorMaxTokens = 0,
+                DirectorModelName = "director_model_name",
+                ExaSearchMaxCharacters = 0,
+                ExaSearchNumResults = 0,
+                MaxLoops = 0,
+                Name = "name",
+                WorkerModelName = "worker_model_name",
+            },
+            Task = "task",
+        };
+
+        Assert.Null(parameters.Img);
+        Assert.False(parameters.RawBodyData.ContainsKey("img"));
+    }
+
+    [Fact]
+    public void OptionalNullableParamsSetToNullAreSetToNull_Works()
+    {
+        var parameters = new AdvancedResearchCreateCompletionParams
+        {
+            Config = new()
+            {
+                Description = "description",
+                DirectorAgentName = "director_agent_name",
+                DirectorMaxLoops = 0,
+                DirectorMaxTokens = 0,
+                DirectorModelName = "director_model_name",
+                ExaSearchMaxCharacters = 0,
+                ExaSearchNumResults = 0,
+                MaxLoops = 0,
+                Name = "name",
+                WorkerModelName = "worker_model_name",
+            },
+            Task = "task",
+
+            Img = null,
+        };
+
+        Assert.Null(parameters.Img);
+        Assert.False(parameters.RawBodyData.ContainsKey("img"));
+    }
+}
+
 public class ConfigTest : TestBase
 {
     [Fact]
