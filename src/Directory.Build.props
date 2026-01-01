@@ -4,7 +4,7 @@
     <Company>Swarms Client</Company>
     <PackageTags>sdk;api;http;library</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <Copyright>Copyright 2025 Swarms Client</Copyright>
+    <Copyright>Copyright 2026 Swarms Client</Copyright>
     <PackageProjectUrl>https://docs.swarms.ai</PackageProjectUrl>
     <RepositoryUrl>https://www.github.com/The-Swarm-Corporation/swarms-csharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
