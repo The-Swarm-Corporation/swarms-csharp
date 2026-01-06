@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Swarms.Models.Agent;
@@ -37,7 +38,7 @@ public class BatchedGridWorkflowCompleteWorkflowParamsTest : TestBase
                         },
                         Transport = "transport",
                         Type = "type",
-                        URL = "url",
+                        Url = "url",
                     },
                     McpConfigs = new(
                         [
@@ -52,11 +53,11 @@ public class BatchedGridWorkflowCompleteWorkflowParamsTest : TestBase
                                 },
                                 Transport = "transport",
                                 Type = "type",
-                                URL = "url",
+                                Url = "url",
                             },
                         ]
                     ),
-                    McpURL = "mcp_url",
+                    McpUrl = "mcp_url",
                     ModelName = "model_name",
                     ReasoningEffort = "reasoning_effort",
                     ReasoningEnabled = true,
@@ -107,7 +108,7 @@ public class BatchedGridWorkflowCompleteWorkflowParamsTest : TestBase
                     },
                     Transport = "transport",
                     Type = "type",
-                    URL = "url",
+                    Url = "url",
                 },
                 McpConfigs = new(
                     [
@@ -122,11 +123,11 @@ public class BatchedGridWorkflowCompleteWorkflowParamsTest : TestBase
                             },
                             Transport = "transport",
                             Type = "type",
-                            URL = "url",
+                            Url = "url",
                         },
                     ]
                 ),
-                McpURL = "mcp_url",
+                McpUrl = "mcp_url",
                 ModelName = "model_name",
                 ReasoningEffort = "reasoning_effort",
                 ReasoningEnabled = true,
@@ -207,16 +208,26 @@ public class BatchedGridWorkflowCompleteWorkflowParamsTest : TestBase
         };
 
         Assert.Null(parameters.AgentCompletions);
-        Assert.False(parameters.RawBodyData.ContainsKey("agent_completions"));
+        Assert.True(parameters.RawBodyData.ContainsKey("agent_completions"));
         Assert.Null(parameters.Description);
-        Assert.False(parameters.RawBodyData.ContainsKey("description"));
+        Assert.True(parameters.RawBodyData.ContainsKey("description"));
         Assert.Null(parameters.Imgs);
-        Assert.False(parameters.RawBodyData.ContainsKey("imgs"));
+        Assert.True(parameters.RawBodyData.ContainsKey("imgs"));
         Assert.Null(parameters.MaxLoops);
-        Assert.False(parameters.RawBodyData.ContainsKey("max_loops"));
+        Assert.True(parameters.RawBodyData.ContainsKey("max_loops"));
         Assert.Null(parameters.Name);
-        Assert.False(parameters.RawBodyData.ContainsKey("name"));
+        Assert.True(parameters.RawBodyData.ContainsKey("name"));
         Assert.Null(parameters.Tasks);
-        Assert.False(parameters.RawBodyData.ContainsKey("tasks"));
+        Assert.True(parameters.RawBodyData.ContainsKey("tasks"));
+    }
+
+    [Fact]
+    public void Url_Works()
+    {
+        BatchedGridWorkflowCompleteWorkflowParams parameters = new();
+
+        var url = parameters.Url(new() { ApiKey = "My API Key" });
+
+        Assert.Equal(new Uri("https://api.swarms.world/v1/batched-grid-workflow/completions"), url);
     }
 }

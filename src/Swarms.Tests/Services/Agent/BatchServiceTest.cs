@@ -39,7 +39,7 @@ public class BatchServiceTest : TestBase
                                 },
                                 Transport = "transport",
                                 Type = "type",
-                                URL = "url",
+                                Url = "url",
                             },
                             McpConfigs = new(
                                 [
@@ -57,11 +57,11 @@ public class BatchServiceTest : TestBase
                                         },
                                         Transport = "transport",
                                         Type = "type",
-                                        URL = "url",
+                                        Url = "url",
                                     },
                                 ]
                             ),
-                            McpURL = "mcp_url",
+                            McpUrl = "mcp_url",
                             ModelName = "model_name",
                             ReasoningEffort = "reasoning_effort",
                             ReasoningEnabled = true,

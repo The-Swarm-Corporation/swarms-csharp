@@ -65,10 +65,10 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
     }
 
     /// <inheritdoc/>
-    public string? APIKey
+    public string? ApiKey
     {
-        get { return this._options.APIKey; }
-        init { this._options.APIKey = value; }
+        get { return this._options.ApiKey; }
+        init { this._options.ApiKey = value; }
     }
 
     /// <inheritdoc/>

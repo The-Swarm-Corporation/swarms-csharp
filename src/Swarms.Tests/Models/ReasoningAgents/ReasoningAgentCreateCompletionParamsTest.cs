@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json;
 using Swarms.Core;
 using Swarms.Exceptions;
@@ -98,27 +99,37 @@ public class ReasoningAgentCreateCompletionParamsTest : TestBase
         };
 
         Assert.Null(parameters.AgentName);
-        Assert.False(parameters.RawBodyData.ContainsKey("agent_name"));
+        Assert.True(parameters.RawBodyData.ContainsKey("agent_name"));
         Assert.Null(parameters.Description);
-        Assert.False(parameters.RawBodyData.ContainsKey("description"));
+        Assert.True(parameters.RawBodyData.ContainsKey("description"));
         Assert.Null(parameters.MaxLoops);
-        Assert.False(parameters.RawBodyData.ContainsKey("max_loops"));
+        Assert.True(parameters.RawBodyData.ContainsKey("max_loops"));
         Assert.Null(parameters.MemoryCapacity);
-        Assert.False(parameters.RawBodyData.ContainsKey("memory_capacity"));
+        Assert.True(parameters.RawBodyData.ContainsKey("memory_capacity"));
         Assert.Null(parameters.ModelName);
-        Assert.False(parameters.RawBodyData.ContainsKey("model_name"));
+        Assert.True(parameters.RawBodyData.ContainsKey("model_name"));
         Assert.Null(parameters.NumKnowledgeItems);
-        Assert.False(parameters.RawBodyData.ContainsKey("num_knowledge_items"));
+        Assert.True(parameters.RawBodyData.ContainsKey("num_knowledge_items"));
         Assert.Null(parameters.NumSamples);
-        Assert.False(parameters.RawBodyData.ContainsKey("num_samples"));
+        Assert.True(parameters.RawBodyData.ContainsKey("num_samples"));
         Assert.Null(parameters.OutputType);
-        Assert.False(parameters.RawBodyData.ContainsKey("output_type"));
+        Assert.True(parameters.RawBodyData.ContainsKey("output_type"));
         Assert.Null(parameters.SwarmType);
-        Assert.False(parameters.RawBodyData.ContainsKey("swarm_type"));
+        Assert.True(parameters.RawBodyData.ContainsKey("swarm_type"));
         Assert.Null(parameters.SystemPrompt);
-        Assert.False(parameters.RawBodyData.ContainsKey("system_prompt"));
+        Assert.True(parameters.RawBodyData.ContainsKey("system_prompt"));
         Assert.Null(parameters.Task);
-        Assert.False(parameters.RawBodyData.ContainsKey("task"));
+        Assert.True(parameters.RawBodyData.ContainsKey("task"));
+    }
+
+    [Fact]
+    public void Url_Works()
+    {
+        ReasoningAgentCreateCompletionParams parameters = new();
+
+        var url = parameters.Url(new() { ApiKey = "My API Key" });
+
+        Assert.Equal(new Uri("https://api.swarms.world/v1/reasoning-agent/completions"), url);
     }
 }
 

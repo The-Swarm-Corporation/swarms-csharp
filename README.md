@@ -59,7 +59,7 @@ Or manually:
 ```csharp
 using Swarms;
 
-SwarmsClientClient client = new() { APIKey = "My API Key" };
+SwarmsClientClient client = new() { ApiKey = "My API Key" };
 ```
 
 Or using a combination of the two approaches.
@@ -68,7 +68,7 @@ See this table for the available options:
 
 | Property  | Environment variable     | Required | Default value                |
 | --------- | ------------------------ | -------- | ---------------------------- |
-| `APIKey`  | `SWARMS_API_KEY`         | false    | -                            |
+| `ApiKey`  | `SWARMS_API_KEY`         | false    | -                            |
 | `BaseUrl` | `SWARMS_CLIENT_BASE_URL` | true     | `"https://api.swarms.world"` |
 
 ### Modifying configuration

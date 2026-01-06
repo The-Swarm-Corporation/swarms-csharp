@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Swarms.Core;
@@ -39,7 +40,7 @@ public class SwarmRunParamsTest : TestBase
                         },
                         Transport = "transport",
                         Type = "type",
-                        URL = "url",
+                        Url = "url",
                     },
                     McpConfigs = new(
                         [
@@ -54,11 +55,11 @@ public class SwarmRunParamsTest : TestBase
                                 },
                                 Transport = "transport",
                                 Type = "type",
-                                URL = "url",
+                                Url = "url",
                             },
                         ]
                     ),
-                    McpURL = "mcp_url",
+                    McpUrl = "mcp_url",
                     ModelName = "model_name",
                     ReasoningEffort = "reasoning_effort",
                     ReasoningEnabled = true,
@@ -126,7 +127,7 @@ public class SwarmRunParamsTest : TestBase
                     },
                     Transport = "transport",
                     Type = "type",
-                    URL = "url",
+                    Url = "url",
                 },
                 McpConfigs = new(
                     [
@@ -141,11 +142,11 @@ public class SwarmRunParamsTest : TestBase
                             },
                             Transport = "transport",
                             Type = "type",
-                            URL = "url",
+                            Url = "url",
                         },
                     ]
                 ),
-                McpURL = "mcp_url",
+                McpUrl = "mcp_url",
                 ModelName = "model_name",
                 ReasoningEffort = "reasoning_effort",
                 ReasoningEnabled = true,
@@ -281,37 +282,47 @@ public class SwarmRunParamsTest : TestBase
         };
 
         Assert.Null(parameters.Agents);
-        Assert.False(parameters.RawBodyData.ContainsKey("agents"));
+        Assert.True(parameters.RawBodyData.ContainsKey("agents"));
         Assert.Null(parameters.Description);
-        Assert.False(parameters.RawBodyData.ContainsKey("description"));
+        Assert.True(parameters.RawBodyData.ContainsKey("description"));
         Assert.Null(parameters.HeavySwarmLoopsPerAgent);
-        Assert.False(parameters.RawBodyData.ContainsKey("heavy_swarm_loops_per_agent"));
+        Assert.True(parameters.RawBodyData.ContainsKey("heavy_swarm_loops_per_agent"));
         Assert.Null(parameters.HeavySwarmQuestionAgentModelName);
-        Assert.False(parameters.RawBodyData.ContainsKey("heavy_swarm_question_agent_model_name"));
+        Assert.True(parameters.RawBodyData.ContainsKey("heavy_swarm_question_agent_model_name"));
         Assert.Null(parameters.HeavySwarmWorkerModelName);
-        Assert.False(parameters.RawBodyData.ContainsKey("heavy_swarm_worker_model_name"));
+        Assert.True(parameters.RawBodyData.ContainsKey("heavy_swarm_worker_model_name"));
         Assert.Null(parameters.Img);
-        Assert.False(parameters.RawBodyData.ContainsKey("img"));
+        Assert.True(parameters.RawBodyData.ContainsKey("img"));
         Assert.Null(parameters.MaxLoops);
-        Assert.False(parameters.RawBodyData.ContainsKey("max_loops"));
+        Assert.True(parameters.RawBodyData.ContainsKey("max_loops"));
         Assert.Null(parameters.Messages);
-        Assert.False(parameters.RawBodyData.ContainsKey("messages"));
+        Assert.True(parameters.RawBodyData.ContainsKey("messages"));
         Assert.Null(parameters.Name);
-        Assert.False(parameters.RawBodyData.ContainsKey("name"));
+        Assert.True(parameters.RawBodyData.ContainsKey("name"));
         Assert.Null(parameters.RearrangeFlow);
-        Assert.False(parameters.RawBodyData.ContainsKey("rearrange_flow"));
+        Assert.True(parameters.RawBodyData.ContainsKey("rearrange_flow"));
         Assert.Null(parameters.Rules);
-        Assert.False(parameters.RawBodyData.ContainsKey("rules"));
+        Assert.True(parameters.RawBodyData.ContainsKey("rules"));
         Assert.Null(parameters.ServiceTier);
-        Assert.False(parameters.RawBodyData.ContainsKey("service_tier"));
+        Assert.True(parameters.RawBodyData.ContainsKey("service_tier"));
         Assert.Null(parameters.Stream);
-        Assert.False(parameters.RawBodyData.ContainsKey("stream"));
+        Assert.True(parameters.RawBodyData.ContainsKey("stream"));
         Assert.Null(parameters.SwarmType);
-        Assert.False(parameters.RawBodyData.ContainsKey("swarm_type"));
+        Assert.True(parameters.RawBodyData.ContainsKey("swarm_type"));
         Assert.Null(parameters.Task);
-        Assert.False(parameters.RawBodyData.ContainsKey("task"));
+        Assert.True(parameters.RawBodyData.ContainsKey("task"));
         Assert.Null(parameters.Tasks);
-        Assert.False(parameters.RawBodyData.ContainsKey("tasks"));
+        Assert.True(parameters.RawBodyData.ContainsKey("tasks"));
+    }
+
+    [Fact]
+    public void Url_Works()
+    {
+        SwarmRunParams parameters = new();
+
+        var url = parameters.Url(new() { ApiKey = "My API Key" });
+
+        Assert.Equal(new Uri("https://api.swarms.world/v1/swarm/completions"), url);
     }
 }
 

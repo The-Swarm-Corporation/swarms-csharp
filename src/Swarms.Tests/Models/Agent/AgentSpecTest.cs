@@ -32,7 +32,7 @@ public class AgentSpecTest : TestBase
                 },
                 Transport = "transport",
                 Type = "type",
-                URL = "url",
+                Url = "url",
             },
             McpConfigs = new(
                 [
@@ -47,11 +47,11 @@ public class AgentSpecTest : TestBase
                         },
                         Transport = "transport",
                         Type = "type",
-                        URL = "url",
+                        Url = "url",
                     },
                 ]
             ),
-            McpURL = "mcp_url",
+            McpUrl = "mcp_url",
             ModelName = "model_name",
             ReasoningEffort = "reasoning_effort",
             ReasoningEnabled = true,
@@ -91,7 +91,7 @@ public class AgentSpecTest : TestBase
             },
             Transport = "transport",
             Type = "type",
-            URL = "url",
+            Url = "url",
         };
         McpConfigs expectedMcpConfigs = new(
             [
@@ -106,11 +106,11 @@ public class AgentSpecTest : TestBase
                     },
                     Transport = "transport",
                     Type = "type",
-                    URL = "url",
+                    Url = "url",
                 },
             ]
         );
-        string expectedMcpURL = "mcp_url";
+        string expectedMcpUrl = "mcp_url";
         string expectedModelName = "model_name";
         string expectedReasoningEffort = "reasoning_effort";
         bool expectedReasoningEnabled = true;
@@ -144,7 +144,7 @@ public class AgentSpecTest : TestBase
         Assert.Equal(expectedMaxTokens, model.MaxTokens);
         Assert.Equal(expectedMcpConfig, model.McpConfig);
         Assert.Equal(expectedMcpConfigs, model.McpConfigs);
-        Assert.Equal(expectedMcpURL, model.McpURL);
+        Assert.Equal(expectedMcpUrl, model.McpUrl);
         Assert.Equal(expectedModelName, model.ModelName);
         Assert.Equal(expectedReasoningEffort, model.ReasoningEffort);
         Assert.Equal(expectedReasoningEnabled, model.ReasoningEnabled);
@@ -194,7 +194,7 @@ public class AgentSpecTest : TestBase
                 },
                 Transport = "transport",
                 Type = "type",
-                URL = "url",
+                Url = "url",
             },
             McpConfigs = new(
                 [
@@ -209,11 +209,11 @@ public class AgentSpecTest : TestBase
                         },
                         Transport = "transport",
                         Type = "type",
-                        URL = "url",
+                        Url = "url",
                     },
                 ]
             ),
-            McpURL = "mcp_url",
+            McpUrl = "mcp_url",
             ModelName = "model_name",
             ReasoningEffort = "reasoning_effort",
             ReasoningEnabled = true,
@@ -264,7 +264,7 @@ public class AgentSpecTest : TestBase
                 },
                 Transport = "transport",
                 Type = "type",
-                URL = "url",
+                Url = "url",
             },
             McpConfigs = new(
                 [
@@ -279,11 +279,11 @@ public class AgentSpecTest : TestBase
                         },
                         Transport = "transport",
                         Type = "type",
-                        URL = "url",
+                        Url = "url",
                     },
                 ]
             ),
-            McpURL = "mcp_url",
+            McpUrl = "mcp_url",
             ModelName = "model_name",
             ReasoningEffort = "reasoning_effort",
             ReasoningEnabled = true,
@@ -327,7 +327,7 @@ public class AgentSpecTest : TestBase
             },
             Transport = "transport",
             Type = "type",
-            URL = "url",
+            Url = "url",
         };
         McpConfigs expectedMcpConfigs = new(
             [
@@ -342,11 +342,11 @@ public class AgentSpecTest : TestBase
                     },
                     Transport = "transport",
                     Type = "type",
-                    URL = "url",
+                    Url = "url",
                 },
             ]
         );
-        string expectedMcpURL = "mcp_url";
+        string expectedMcpUrl = "mcp_url";
         string expectedModelName = "model_name";
         string expectedReasoningEffort = "reasoning_effort";
         bool expectedReasoningEnabled = true;
@@ -380,7 +380,7 @@ public class AgentSpecTest : TestBase
         Assert.Equal(expectedMaxTokens, deserialized.MaxTokens);
         Assert.Equal(expectedMcpConfig, deserialized.McpConfig);
         Assert.Equal(expectedMcpConfigs, deserialized.McpConfigs);
-        Assert.Equal(expectedMcpURL, deserialized.McpURL);
+        Assert.Equal(expectedMcpUrl, deserialized.McpUrl);
         Assert.Equal(expectedModelName, deserialized.ModelName);
         Assert.Equal(expectedReasoningEffort, deserialized.ReasoningEffort);
         Assert.Equal(expectedReasoningEnabled, deserialized.ReasoningEnabled);
@@ -437,7 +437,7 @@ public class AgentSpecTest : TestBase
                 },
                 Transport = "transport",
                 Type = "type",
-                URL = "url",
+                Url = "url",
             },
             McpConfigs = new(
                 [
@@ -452,11 +452,11 @@ public class AgentSpecTest : TestBase
                         },
                         Transport = "transport",
                         Type = "type",
-                        URL = "url",
+                        Url = "url",
                     },
                 ]
             ),
-            McpURL = "mcp_url",
+            McpUrl = "mcp_url",
             ModelName = "model_name",
             ReasoningEffort = "reasoning_effort",
             ReasoningEnabled = true,
@@ -499,7 +499,7 @@ public class AgentSpecTest : TestBase
         Assert.False(model.RawData.ContainsKey("mcp_config"));
         Assert.Null(model.McpConfigs);
         Assert.False(model.RawData.ContainsKey("mcp_configs"));
-        Assert.Null(model.McpURL);
+        Assert.Null(model.McpUrl);
         Assert.False(model.RawData.ContainsKey("mcp_url"));
         Assert.Null(model.ModelName);
         Assert.False(model.RawData.ContainsKey("model_name"));
@@ -546,7 +546,7 @@ public class AgentSpecTest : TestBase
             MaxTokens = null,
             McpConfig = null,
             McpConfigs = null,
-            McpURL = null,
+            McpUrl = null,
             ModelName = null,
             ReasoningEffort = null,
             ReasoningEnabled = null,
@@ -575,7 +575,7 @@ public class AgentSpecTest : TestBase
         Assert.True(model.RawData.ContainsKey("mcp_config"));
         Assert.Null(model.McpConfigs);
         Assert.True(model.RawData.ContainsKey("mcp_configs"));
-        Assert.Null(model.McpURL);
+        Assert.Null(model.McpUrl);
         Assert.True(model.RawData.ContainsKey("mcp_url"));
         Assert.Null(model.ModelName);
         Assert.True(model.RawData.ContainsKey("model_name"));
@@ -614,7 +614,7 @@ public class AgentSpecTest : TestBase
             MaxTokens = null,
             McpConfig = null,
             McpConfigs = null,
-            McpURL = null,
+            McpUrl = null,
             ModelName = null,
             ReasoningEffort = null,
             ReasoningEnabled = null,
@@ -647,7 +647,7 @@ public class McpConfigTest : TestBase
             },
             Transport = "transport",
             Type = "type",
-            URL = "url",
+            Url = "url",
         };
 
         string expectedAuthorizationToken = "authorization_token";
@@ -659,7 +659,7 @@ public class McpConfigTest : TestBase
         };
         string expectedTransport = "transport";
         string expectedType = "type";
-        string expectedURL = "url";
+        string expectedUrl = "url";
 
         Assert.Equal(expectedAuthorizationToken, model.AuthorizationToken);
         Assert.NotNull(model.Headers);
@@ -681,7 +681,7 @@ public class McpConfigTest : TestBase
         }
         Assert.Equal(expectedTransport, model.Transport);
         Assert.Equal(expectedType, model.Type);
-        Assert.Equal(expectedURL, model.URL);
+        Assert.Equal(expectedUrl, model.Url);
     }
 
     [Fact]
@@ -698,7 +698,7 @@ public class McpConfigTest : TestBase
             },
             Transport = "transport",
             Type = "type",
-            URL = "url",
+            Url = "url",
         };
 
         string json = JsonSerializer.Serialize(model);
@@ -721,7 +721,7 @@ public class McpConfigTest : TestBase
             },
             Transport = "transport",
             Type = "type",
-            URL = "url",
+            Url = "url",
         };
 
         string element = JsonSerializer.Serialize(model);
@@ -737,7 +737,7 @@ public class McpConfigTest : TestBase
         };
         string expectedTransport = "transport";
         string expectedType = "type";
-        string expectedURL = "url";
+        string expectedUrl = "url";
 
         Assert.Equal(expectedAuthorizationToken, deserialized.AuthorizationToken);
         Assert.NotNull(deserialized.Headers);
@@ -759,7 +759,7 @@ public class McpConfigTest : TestBase
         }
         Assert.Equal(expectedTransport, deserialized.Transport);
         Assert.Equal(expectedType, deserialized.Type);
-        Assert.Equal(expectedURL, deserialized.URL);
+        Assert.Equal(expectedUrl, deserialized.Url);
     }
 
     [Fact]
@@ -776,7 +776,7 @@ public class McpConfigTest : TestBase
             },
             Transport = "transport",
             Type = "type",
-            URL = "url",
+            Url = "url",
         };
 
         model.Validate();
@@ -799,7 +799,7 @@ public class McpConfigTest : TestBase
         Assert.False(model.RawData.ContainsKey("transport"));
         Assert.Null(model.Type);
         Assert.False(model.RawData.ContainsKey("type"));
-        Assert.Null(model.URL);
+        Assert.Null(model.Url);
         Assert.False(model.RawData.ContainsKey("url"));
     }
 
@@ -822,7 +822,7 @@ public class McpConfigTest : TestBase
             ToolConfigurations = null,
             Transport = null,
             Type = null,
-            URL = null,
+            Url = null,
         };
 
         Assert.Null(model.AuthorizationToken);
@@ -837,7 +837,7 @@ public class McpConfigTest : TestBase
         Assert.True(model.RawData.ContainsKey("transport"));
         Assert.Null(model.Type);
         Assert.True(model.RawData.ContainsKey("type"));
-        Assert.Null(model.URL);
+        Assert.Null(model.Url);
         Assert.True(model.RawData.ContainsKey("url"));
     }
 
@@ -852,7 +852,7 @@ public class McpConfigTest : TestBase
             ToolConfigurations = null,
             Transport = null,
             Type = null,
-            URL = null,
+            Url = null,
         };
 
         model.Validate();
@@ -879,7 +879,7 @@ public class McpConfigsTest : TestBase
                     },
                     Transport = "transport",
                     Type = "type",
-                    URL = "url",
+                    Url = "url",
                 },
             ],
         };
@@ -897,7 +897,7 @@ public class McpConfigsTest : TestBase
                 },
                 Transport = "transport",
                 Type = "type",
-                URL = "url",
+                Url = "url",
             },
         ];
 
@@ -926,7 +926,7 @@ public class McpConfigsTest : TestBase
                     },
                     Transport = "transport",
                     Type = "type",
-                    URL = "url",
+                    Url = "url",
                 },
             ],
         };
@@ -955,7 +955,7 @@ public class McpConfigsTest : TestBase
                     },
                     Transport = "transport",
                     Type = "type",
-                    URL = "url",
+                    Url = "url",
                 },
             ],
         };
@@ -977,7 +977,7 @@ public class McpConfigsTest : TestBase
                 },
                 Transport = "transport",
                 Type = "type",
-                URL = "url",
+                Url = "url",
             },
         ];
 
@@ -1006,7 +1006,7 @@ public class McpConfigsTest : TestBase
                     },
                     Transport = "transport",
                     Type = "type",
-                    URL = "url",
+                    Url = "url",
                 },
             ],
         };
@@ -1031,7 +1031,7 @@ public class ConnectionTest : TestBase
             },
             Transport = "transport",
             Type = "type",
-            URL = "url",
+            Url = "url",
         };
 
         string expectedAuthorizationToken = "authorization_token";
@@ -1043,7 +1043,7 @@ public class ConnectionTest : TestBase
         };
         string expectedTransport = "transport";
         string expectedType = "type";
-        string expectedURL = "url";
+        string expectedUrl = "url";
 
         Assert.Equal(expectedAuthorizationToken, model.AuthorizationToken);
         Assert.NotNull(model.Headers);
@@ -1065,7 +1065,7 @@ public class ConnectionTest : TestBase
         }
         Assert.Equal(expectedTransport, model.Transport);
         Assert.Equal(expectedType, model.Type);
-        Assert.Equal(expectedURL, model.URL);
+        Assert.Equal(expectedUrl, model.Url);
     }
 
     [Fact]
@@ -1082,7 +1082,7 @@ public class ConnectionTest : TestBase
             },
             Transport = "transport",
             Type = "type",
-            URL = "url",
+            Url = "url",
         };
 
         string json = JsonSerializer.Serialize(model);
@@ -1105,7 +1105,7 @@ public class ConnectionTest : TestBase
             },
             Transport = "transport",
             Type = "type",
-            URL = "url",
+            Url = "url",
         };
 
         string element = JsonSerializer.Serialize(model);
@@ -1121,7 +1121,7 @@ public class ConnectionTest : TestBase
         };
         string expectedTransport = "transport";
         string expectedType = "type";
-        string expectedURL = "url";
+        string expectedUrl = "url";
 
         Assert.Equal(expectedAuthorizationToken, deserialized.AuthorizationToken);
         Assert.NotNull(deserialized.Headers);
@@ -1143,7 +1143,7 @@ public class ConnectionTest : TestBase
         }
         Assert.Equal(expectedTransport, deserialized.Transport);
         Assert.Equal(expectedType, deserialized.Type);
-        Assert.Equal(expectedURL, deserialized.URL);
+        Assert.Equal(expectedUrl, deserialized.Url);
     }
 
     [Fact]
@@ -1160,7 +1160,7 @@ public class ConnectionTest : TestBase
             },
             Transport = "transport",
             Type = "type",
-            URL = "url",
+            Url = "url",
         };
 
         model.Validate();
@@ -1183,7 +1183,7 @@ public class ConnectionTest : TestBase
         Assert.False(model.RawData.ContainsKey("transport"));
         Assert.Null(model.Type);
         Assert.False(model.RawData.ContainsKey("type"));
-        Assert.Null(model.URL);
+        Assert.Null(model.Url);
         Assert.False(model.RawData.ContainsKey("url"));
     }
 
@@ -1206,7 +1206,7 @@ public class ConnectionTest : TestBase
             ToolConfigurations = null,
             Transport = null,
             Type = null,
-            URL = null,
+            Url = null,
         };
 
         Assert.Null(model.AuthorizationToken);
@@ -1221,7 +1221,7 @@ public class ConnectionTest : TestBase
         Assert.True(model.RawData.ContainsKey("transport"));
         Assert.Null(model.Type);
         Assert.True(model.RawData.ContainsKey("type"));
-        Assert.Null(model.URL);
+        Assert.Null(model.Url);
         Assert.True(model.RawData.ContainsKey("url"));
     }
 
@@ -1236,7 +1236,7 @@ public class ConnectionTest : TestBase
             ToolConfigurations = null,
             Transport = null,
             Type = null,
-            URL = null,
+            Url = null,
         };
 
         model.Validate();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Swarms.Models.Agent;
@@ -34,7 +35,7 @@ public class AgentRunParamsTest : TestBase
                     },
                     Transport = "transport",
                     Type = "type",
-                    URL = "url",
+                    Url = "url",
                 },
                 McpConfigs = new(
                     [
@@ -49,11 +50,11 @@ public class AgentRunParamsTest : TestBase
                             },
                             Transport = "transport",
                             Type = "type",
-                            URL = "url",
+                            Url = "url",
                         },
                     ]
                 ),
-                McpURL = "mcp_url",
+                McpUrl = "mcp_url",
                 ModelName = "model_name",
                 ReasoningEffort = "reasoning_effort",
                 ReasoningEnabled = true,
@@ -106,7 +107,7 @@ public class AgentRunParamsTest : TestBase
                 },
                 Transport = "transport",
                 Type = "type",
-                URL = "url",
+                Url = "url",
             },
             McpConfigs = new(
                 [
@@ -121,11 +122,11 @@ public class AgentRunParamsTest : TestBase
                         },
                         Transport = "transport",
                         Type = "type",
-                        URL = "url",
+                        Url = "url",
                     },
                 ]
             ),
-            McpURL = "mcp_url",
+            McpUrl = "mcp_url",
             ModelName = "model_name",
             ReasoningEffort = "reasoning_effort",
             ReasoningEnabled = true,
@@ -205,17 +206,27 @@ public class AgentRunParamsTest : TestBase
         };
 
         Assert.Null(parameters.AgentConfig);
-        Assert.False(parameters.RawBodyData.ContainsKey("agent_config"));
+        Assert.True(parameters.RawBodyData.ContainsKey("agent_config"));
         Assert.Null(parameters.History);
-        Assert.False(parameters.RawBodyData.ContainsKey("history"));
+        Assert.True(parameters.RawBodyData.ContainsKey("history"));
         Assert.Null(parameters.Img);
-        Assert.False(parameters.RawBodyData.ContainsKey("img"));
+        Assert.True(parameters.RawBodyData.ContainsKey("img"));
         Assert.Null(parameters.Imgs);
-        Assert.False(parameters.RawBodyData.ContainsKey("imgs"));
+        Assert.True(parameters.RawBodyData.ContainsKey("imgs"));
         Assert.Null(parameters.Task);
-        Assert.False(parameters.RawBodyData.ContainsKey("task"));
+        Assert.True(parameters.RawBodyData.ContainsKey("task"));
         Assert.Null(parameters.ToolsEnabled);
-        Assert.False(parameters.RawBodyData.ContainsKey("tools_enabled"));
+        Assert.True(parameters.RawBodyData.ContainsKey("tools_enabled"));
+    }
+
+    [Fact]
+    public void Url_Works()
+    {
+        AgentRunParams parameters = new();
+
+        var url = parameters.Url(new() { ApiKey = "My API Key" });
+
+        Assert.Equal(new Uri("https://api.swarms.world/v1/agent/completions"), url);
     }
 }
 

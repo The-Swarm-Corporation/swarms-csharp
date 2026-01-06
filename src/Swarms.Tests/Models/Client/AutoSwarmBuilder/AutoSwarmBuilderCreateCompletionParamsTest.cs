@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json;
 using Swarms.Core;
 using Swarms.Exceptions;
@@ -74,19 +75,29 @@ public class AutoSwarmBuilderCreateCompletionParamsTest : TestBase
         };
 
         Assert.Null(parameters.Description);
-        Assert.False(parameters.RawBodyData.ContainsKey("description"));
+        Assert.True(parameters.RawBodyData.ContainsKey("description"));
         Assert.Null(parameters.ExecutionType);
-        Assert.False(parameters.RawBodyData.ContainsKey("execution_type"));
+        Assert.True(parameters.RawBodyData.ContainsKey("execution_type"));
         Assert.Null(parameters.MaxLoops);
-        Assert.False(parameters.RawBodyData.ContainsKey("max_loops"));
+        Assert.True(parameters.RawBodyData.ContainsKey("max_loops"));
         Assert.Null(parameters.MaxTokens);
-        Assert.False(parameters.RawBodyData.ContainsKey("max_tokens"));
+        Assert.True(parameters.RawBodyData.ContainsKey("max_tokens"));
         Assert.Null(parameters.ModelName);
-        Assert.False(parameters.RawBodyData.ContainsKey("model_name"));
+        Assert.True(parameters.RawBodyData.ContainsKey("model_name"));
         Assert.Null(parameters.Name);
-        Assert.False(parameters.RawBodyData.ContainsKey("name"));
+        Assert.True(parameters.RawBodyData.ContainsKey("name"));
         Assert.Null(parameters.Task);
-        Assert.False(parameters.RawBodyData.ContainsKey("task"));
+        Assert.True(parameters.RawBodyData.ContainsKey("task"));
+    }
+
+    [Fact]
+    public void Url_Works()
+    {
+        AutoSwarmBuilderCreateCompletionParams parameters = new();
+
+        var url = parameters.Url(new() { ApiKey = "My API Key" });
+
+        Assert.Equal(new Uri("https://api.swarms.world/v1/auto-swarm-builder/completions"), url);
     }
 }
 

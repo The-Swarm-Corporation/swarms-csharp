@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Swarms.Models.Client.AdvancedResearch.Batch;
@@ -62,6 +63,42 @@ public class BatchCreateCompletionParamsTest : TestBase
         {
             Assert.Equal(expectedInputSchemas[i], parameters.InputSchemas[i]);
         }
+    }
+
+    [Fact]
+    public void Url_Works()
+    {
+        BatchCreateCompletionParams parameters = new()
+        {
+            InputSchemas =
+            [
+                new()
+                {
+                    Config = new()
+                    {
+                        Description = "description",
+                        DirectorAgentName = "director_agent_name",
+                        DirectorMaxLoops = 0,
+                        DirectorMaxTokens = 0,
+                        DirectorModelName = "director_model_name",
+                        ExaSearchMaxCharacters = 0,
+                        ExaSearchNumResults = 0,
+                        MaxLoops = 0,
+                        Name = "name",
+                        WorkerModelName = "worker_model_name",
+                    },
+                    Task = "task",
+                    Img = "img",
+                },
+            ],
+        };
+
+        var url = parameters.Url(new() { ApiKey = "My API Key" });
+
+        Assert.Equal(
+            new Uri("https://api.swarms.world/v1/advanced-research/batch/completions"),
+            url
+        );
     }
 }
 

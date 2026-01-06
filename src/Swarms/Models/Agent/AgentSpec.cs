@@ -111,7 +111,7 @@ public sealed record class AgentSpec : JsonModel
     /// <summary>
     /// The URL of the MCP server that the agent can use to complete its task.
     /// </summary>
-    public string? McpURL
+    public string? McpUrl
     {
         get { return JsonModel.GetNullableClass<string>(this.RawData, "mcp_url"); }
         init { JsonModel.Set(this._rawData, "mcp_url", value); }
@@ -229,7 +229,7 @@ public sealed record class AgentSpec : JsonModel
         _ = this.MaxTokens;
         this.McpConfig?.Validate();
         this.McpConfigs?.Validate();
-        _ = this.McpURL;
+        _ = this.McpUrl;
         _ = this.ModelName;
         _ = this.ReasoningEffort;
         _ = this.ReasoningEnabled;
@@ -353,7 +353,7 @@ public sealed record class McpConfig : JsonModel
     /// <summary>
     /// The URL endpoint for the MCP server
     /// </summary>
-    public string? URL
+    public string? Url
     {
         get { return JsonModel.GetNullableClass<string>(this.RawData, "url"); }
         init { JsonModel.Set(this._rawData, "url", value); }
@@ -368,7 +368,7 @@ public sealed record class McpConfig : JsonModel
         _ = this.ToolConfigurations;
         _ = this.Transport;
         _ = this.Type;
-        _ = this.URL;
+        _ = this.Url;
     }
 
     public McpConfig() { }
@@ -536,7 +536,7 @@ public sealed record class Connection : JsonModel
     /// <summary>
     /// The URL endpoint for the MCP server
     /// </summary>
-    public string? URL
+    public string? Url
     {
         get { return JsonModel.GetNullableClass<string>(this.RawData, "url"); }
         init { JsonModel.Set(this._rawData, "url", value); }
@@ -551,7 +551,7 @@ public sealed record class Connection : JsonModel
         _ = this.ToolConfigurations;
         _ = this.Transport;
         _ = this.Type;
-        _ = this.URL;
+        _ = this.Url;
     }
 
     public Connection() { }

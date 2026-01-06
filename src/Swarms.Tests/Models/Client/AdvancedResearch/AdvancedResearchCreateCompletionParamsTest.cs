@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json;
 using Swarms.Models.Client.AdvancedResearch;
 
@@ -97,7 +98,33 @@ public class AdvancedResearchCreateCompletionParamsTest : TestBase
         };
 
         Assert.Null(parameters.Img);
-        Assert.False(parameters.RawBodyData.ContainsKey("img"));
+        Assert.True(parameters.RawBodyData.ContainsKey("img"));
+    }
+
+    [Fact]
+    public void Url_Works()
+    {
+        AdvancedResearchCreateCompletionParams parameters = new()
+        {
+            Config = new()
+            {
+                Description = "description",
+                DirectorAgentName = "director_agent_name",
+                DirectorMaxLoops = 0,
+                DirectorMaxTokens = 0,
+                DirectorModelName = "director_model_name",
+                ExaSearchMaxCharacters = 0,
+                ExaSearchNumResults = 0,
+                MaxLoops = 0,
+                Name = "name",
+                WorkerModelName = "worker_model_name",
+            },
+            Task = "task",
+        };
+
+        var url = parameters.Url(new() { ApiKey = "My API Key" });
+
+        Assert.Equal(new Uri("https://api.swarms.world/v1/advanced-research/completions"), url);
     }
 }
 

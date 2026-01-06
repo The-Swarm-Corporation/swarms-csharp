@@ -86,7 +86,7 @@ public struct ClientOptions()
     public TimeSpan? Timeout { get; set; }
 
     Lazy<string?> _apiKey = new(() => Environment.GetEnvironmentVariable("SWARMS_API_KEY"));
-    public string? APIKey
+    public string? ApiKey
     {
         readonly get { return _apiKey.Value; }
         set { _apiKey = new(() => value); }
