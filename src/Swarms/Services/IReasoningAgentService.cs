@@ -16,6 +16,12 @@ namespace Swarms.Services;
 public interface IReasoningAgentService
 {
     /// <summary>
+    /// Returns a view of this service that provides access to raw HTTP responses
+    /// for each method.
+    /// </summary>
+    IReasoningAgentServiceWithRawResponse WithRawResponse { get; }
+
+    /// <summary>
     /// Returns a view of this service with the given option modifications applied.
     ///
     /// <para>The original service is not modified.</para>
@@ -34,6 +40,38 @@ public interface IReasoningAgentService
     /// Get the types of reasoning agents available.
     /// </summary>
     Task<Dictionary<string, JsonElement>> ListTypes(
+        ReasoningAgentListTypesParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
+}
+
+/// <summary>
+/// A view of <see cref="IReasoningAgentService"/> that provides access to raw
+/// HTTP responses for each method.
+/// </summary>
+public interface IReasoningAgentServiceWithRawResponse
+{
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
+    IReasoningAgentServiceWithRawResponse WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
+    /// <summary>
+    /// Returns a raw HTTP response for `post /v1/reasoning-agent/completions`, but is otherwise the
+    /// same as <see cref="IReasoningAgentService.CreateCompletion(ReasoningAgentCreateCompletionParams?, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<Dictionary<string, JsonElement>>> CreateCompletion(
+        ReasoningAgentCreateCompletionParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Returns a raw HTTP response for `get /v1/reasoning-agent/types`, but is otherwise the
+    /// same as <see cref="IReasoningAgentService.ListTypes(ReasoningAgentListTypesParams?, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<Dictionary<string, JsonElement>>> ListTypes(
         ReasoningAgentListTypesParams? parameters = null,
         CancellationToken cancellationToken = default
     );

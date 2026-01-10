@@ -275,7 +275,7 @@ public sealed record class SwarmRunParams : ParamsBase
 /// A list of messages that the swarm should complete.
 /// </summary>
 [JsonConverter(typeof(MessagesConverter))]
-public record class Messages
+public record class Messages : ModelBase
 {
     public object? Value { get; } = null;
 
@@ -379,10 +379,10 @@ public record class Messages
     {
         switch (this.Value)
         {
-            case List<Dictionary<string, JsonElement>> value:
+            case IReadOnlyList<Dictionary<string, JsonElement>> value:
                 jsonElements(value);
                 break;
-            case Dictionary<string, JsonElement> value:
+            case IReadOnlyDictionary<string, JsonElement> value:
                 jsonElements1(value);
                 break;
             default:
@@ -444,7 +444,7 @@ public record class Messages
     /// Thrown when the instance does not pass validation.
     /// </exception>
     /// </summary>
-    public void Validate()
+    public override void Validate()
     {
         if (this.Value == null)
         {
@@ -463,6 +463,9 @@ public record class Messages
     {
         return 0;
     }
+
+    public override string ToString() =>
+        JsonSerializer.Serialize(this._element, ModelBase.ToStringSerializerOptions);
 }
 
 sealed class MessagesConverter : JsonConverter<Messages?>

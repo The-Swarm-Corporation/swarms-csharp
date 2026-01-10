@@ -17,6 +17,12 @@ namespace Swarms.Services;
 public interface IAgentService
 {
     /// <summary>
+    /// Returns a view of this service that provides access to raw HTTP responses
+    /// for each method.
+    /// </summary>
+    IAgentServiceWithRawResponse WithRawResponse { get; }
+
+    /// <summary>
     /// Returns a view of this service with the given option modifications applied.
     ///
     /// <para>The original service is not modified.</para>
@@ -38,6 +44,40 @@ public interface IAgentService
     /// Run an agent with the specified task. Supports streaming when stream=True.
     /// </summary>
     Task<AgentRunResponse> Run(
+        AgentRunParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
+}
+
+/// <summary>
+/// A view of <see cref="IAgentService"/> that provides access to raw
+/// HTTP responses for each method.
+/// </summary>
+public interface IAgentServiceWithRawResponse
+{
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
+    IAgentServiceWithRawResponse WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
+    IBatchServiceWithRawResponse Batch { get; }
+
+    /// <summary>
+    /// Returns a raw HTTP response for `get /v1/agents/list`, but is otherwise the
+    /// same as <see cref="IAgentService.List(AgentListParams?, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<Dictionary<string, JsonElement>>> List(
+        AgentListParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Returns a raw HTTP response for `post /v1/agent/completions`, but is otherwise the
+    /// same as <see cref="IAgentService.Run(AgentRunParams?, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<AgentRunResponse>> Run(
         AgentRunParams? parameters = null,
         CancellationToken cancellationToken = default
     );

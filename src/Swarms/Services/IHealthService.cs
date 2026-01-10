@@ -14,6 +14,12 @@ namespace Swarms.Services;
 public interface IHealthService
 {
     /// <summary>
+    /// Returns a view of this service that provides access to raw HTTP responses
+    /// for each method.
+    /// </summary>
+    IHealthServiceWithRawResponse WithRawResponse { get; }
+
+    /// <summary>
     /// Returns a view of this service with the given option modifications applied.
     ///
     /// <para>The original service is not modified.</para>
@@ -24,6 +30,29 @@ public interface IHealthService
     /// Health
     /// </summary>
     Task<HealthCheckResponse> Check(
+        HealthCheckParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
+}
+
+/// <summary>
+/// A view of <see cref="IHealthService"/> that provides access to raw
+/// HTTP responses for each method.
+/// </summary>
+public interface IHealthServiceWithRawResponse
+{
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
+    IHealthServiceWithRawResponse WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
+    /// <summary>
+    /// Returns a raw HTTP response for `get /health`, but is otherwise the
+    /// same as <see cref="IHealthService.Check(HealthCheckParams?, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<HealthCheckResponse>> Check(
         HealthCheckParams? parameters = null,
         CancellationToken cancellationToken = default
     );

@@ -14,6 +14,12 @@ namespace Swarms.Services.Client;
 public interface IToolService
 {
     /// <summary>
+    /// Returns a view of this service that provides access to raw HTTP responses
+    /// for each method.
+    /// </summary>
+    IToolServiceWithRawResponse WithRawResponse { get; }
+
+    /// <summary>
     /// Returns a view of this service with the given option modifications applied.
     ///
     /// <para>The original service is not modified.</para>
@@ -25,6 +31,29 @@ public interface IToolService
     /// supported by the Swarms API.
     /// </summary>
     Task<ToolListAvailableResponse> ListAvailable(
+        ToolListAvailableParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
+}
+
+/// <summary>
+/// A view of <see cref="IToolService"/> that provides access to raw
+/// HTTP responses for each method.
+/// </summary>
+public interface IToolServiceWithRawResponse
+{
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
+    IToolServiceWithRawResponse WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
+    /// <summary>
+    /// Returns a raw HTTP response for `get /v1/tools/available`, but is otherwise the
+    /// same as <see cref="IToolService.ListAvailable(ToolListAvailableParams?, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<ToolListAvailableResponse>> ListAvailable(
         ToolListAvailableParams? parameters = null,
         CancellationToken cancellationToken = default
     );

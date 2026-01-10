@@ -12,6 +12,12 @@ namespace Swarms.Services;
 public interface IClientService
 {
     /// <summary>
+    /// Returns a view of this service that provides access to raw HTTP responses
+    /// for each method.
+    /// </summary>
+    IClientServiceWithRawResponse WithRawResponse { get; }
+
+    /// <summary>
     /// Returns a view of this service with the given option modifications applied.
     ///
     /// <para>The original service is not modified.</para>
@@ -29,4 +35,30 @@ public interface IClientService
     IMarketplaceService Marketplace { get; }
 
     IBatchedGridWorkflowService BatchedGridWorkflow { get; }
+}
+
+/// <summary>
+/// A view of <see cref="IClientService"/> that provides access to raw
+/// HTTP responses for each method.
+/// </summary>
+public interface IClientServiceWithRawResponse
+{
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
+    IClientServiceWithRawResponse WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
+    IRateServiceWithRawResponse Rate { get; }
+
+    IAutoSwarmBuilderServiceWithRawResponse AutoSwarmBuilder { get; }
+
+    IAdvancedResearchServiceWithRawResponse AdvancedResearch { get; }
+
+    IToolServiceWithRawResponse Tools { get; }
+
+    IMarketplaceServiceWithRawResponse Marketplace { get; }
+
+    IBatchedGridWorkflowServiceWithRawResponse BatchedGridWorkflow { get; }
 }

@@ -16,6 +16,137 @@ namespace Swarms;
 /// <inheritdoc/>
 public sealed class SwarmsClientClient : ISwarmsClientClient
 {
+    readonly ClientOptions _options;
+
+    /// <inheritdoc/>
+    public HttpClient HttpClient
+    {
+        get { return this._options.HttpClient; }
+        init { this._options.HttpClient = value; }
+    }
+
+    /// <inheritdoc/>
+    public string BaseUrl
+    {
+        get { return this._options.BaseUrl; }
+        init { this._options.BaseUrl = value; }
+    }
+
+    /// <inheritdoc/>
+    public bool ResponseValidation
+    {
+        get { return this._options.ResponseValidation; }
+        init { this._options.ResponseValidation = value; }
+    }
+
+    /// <inheritdoc/>
+    public int? MaxRetries
+    {
+        get { return this._options.MaxRetries; }
+        init { this._options.MaxRetries = value; }
+    }
+
+    /// <inheritdoc/>
+    public TimeSpan? Timeout
+    {
+        get { return this._options.Timeout; }
+        init { this._options.Timeout = value; }
+    }
+
+    /// <inheritdoc/>
+    public string? ApiKey
+    {
+        get { return this._options.ApiKey; }
+        init { this._options.ApiKey = value; }
+    }
+
+    readonly Lazy<ISwarmsClientClientWithRawResponse> _withRawResponse;
+
+    /// <inheritdoc/>
+    public ISwarmsClientClientWithRawResponse WithRawResponse
+    {
+        get { return _withRawResponse.Value; }
+    }
+
+    /// <inheritdoc/>
+    public ISwarmsClientClient WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    {
+        return new SwarmsClientClient(modifier(this._options));
+    }
+
+    readonly Lazy<IHealthService> _health;
+    public IHealthService Health
+    {
+        get { return _health.Value; }
+    }
+
+    readonly Lazy<IAgentService> _agent;
+    public IAgentService Agent
+    {
+        get { return _agent.Value; }
+    }
+
+    readonly Lazy<IModelService> _models;
+    public IModelService Models
+    {
+        get { return _models.Value; }
+    }
+
+    readonly Lazy<ISwarmService> _swarms;
+    public ISwarmService Swarms
+    {
+        get { return _swarms.Value; }
+    }
+
+    readonly Lazy<IReasoningAgentService> _reasoningAgents;
+    public IReasoningAgentService ReasoningAgents
+    {
+        get { return _reasoningAgents.Value; }
+    }
+
+    readonly Lazy<IClientService> _client;
+    public IClientService Client
+    {
+        get { return _client.Value; }
+    }
+
+    /// <inheritdoc/>
+    public async Task<JsonElement> GetRoot(
+        ClientGetRootParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        using var response = await this
+            .WithRawResponse.GetRoot(parameters, cancellationToken)
+            .ConfigureAwait(false);
+        return await response.Deserialize(cancellationToken).ConfigureAwait(false);
+    }
+
+    public void Dispose() => this.HttpClient.Dispose();
+
+    public SwarmsClientClient()
+    {
+        _options = new();
+
+        _withRawResponse = new(() => new SwarmsClientClientWithRawResponse(this._options));
+        _health = new(() => new HealthService(this));
+        _agent = new(() => new AgentService(this));
+        _models = new(() => new ModelService(this));
+        _swarms = new(() => new SwarmService(this));
+        _reasoningAgents = new(() => new ReasoningAgentService(this));
+        _client = new(() => new ClientService(this));
+    }
+
+    public SwarmsClientClient(ClientOptions options)
+        : this()
+    {
+        _options = options;
+    }
+}
+
+/// <inheritdoc/>
+public sealed class SwarmsClientClientWithRawResponse : ISwarmsClientClientWithRawResponse
+{
 #if NET
     static readonly Random Random = Random.Shared;
 #else
@@ -72,49 +203,51 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
     }
 
     /// <inheritdoc/>
-    public ISwarmsClientClient WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    public ISwarmsClientClientWithRawResponse WithOptions(
+        Func<ClientOptions, ClientOptions> modifier
+    )
     {
-        return new SwarmsClientClient(modifier(this._options));
+        return new SwarmsClientClientWithRawResponse(modifier(this._options));
     }
 
-    readonly Lazy<IHealthService> _health;
-    public IHealthService Health
+    readonly Lazy<IHealthServiceWithRawResponse> _health;
+    public IHealthServiceWithRawResponse Health
     {
         get { return _health.Value; }
     }
 
-    readonly Lazy<IAgentService> _agent;
-    public IAgentService Agent
+    readonly Lazy<IAgentServiceWithRawResponse> _agent;
+    public IAgentServiceWithRawResponse Agent
     {
         get { return _agent.Value; }
     }
 
-    readonly Lazy<IModelService> _models;
-    public IModelService Models
+    readonly Lazy<IModelServiceWithRawResponse> _models;
+    public IModelServiceWithRawResponse Models
     {
         get { return _models.Value; }
     }
 
-    readonly Lazy<ISwarmService> _swarms;
-    public ISwarmService Swarms
+    readonly Lazy<ISwarmServiceWithRawResponse> _swarms;
+    public ISwarmServiceWithRawResponse Swarms
     {
         get { return _swarms.Value; }
     }
 
-    readonly Lazy<IReasoningAgentService> _reasoningAgents;
-    public IReasoningAgentService ReasoningAgents
+    readonly Lazy<IReasoningAgentServiceWithRawResponse> _reasoningAgents;
+    public IReasoningAgentServiceWithRawResponse ReasoningAgents
     {
         get { return _reasoningAgents.Value; }
     }
 
-    readonly Lazy<IClientService> _client;
-    public IClientService Client
+    readonly Lazy<IClientServiceWithRawResponse> _client;
+    public IClientServiceWithRawResponse Client
     {
         get { return _client.Value; }
     }
 
     /// <inheritdoc/>
-    public async Task<JsonElement> GetRoot(
+    public async Task<HttpResponse<JsonElement>> GetRoot(
         ClientGetRootParams? parameters = null,
         CancellationToken cancellationToken = default
     )
@@ -126,8 +259,14 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
             Method = HttpMethod.Get,
             Params = parameters,
         };
-        using var response = await this.Execute(request, cancellationToken).ConfigureAwait(false);
-        return await response.Deserialize<JsonElement>(cancellationToken).ConfigureAwait(false);
+        var response = await this.Execute(request, cancellationToken).ConfigureAwait(false);
+        return new(
+            response,
+            async (token) =>
+            {
+                return await response.Deserialize<JsonElement>(token).ConfigureAwait(false);
+            }
+        );
     }
 
     /// <inheritdoc/>
@@ -320,19 +459,19 @@ public sealed class SwarmsClientClient : ISwarmsClientClient
 
     public void Dispose() => this.HttpClient.Dispose();
 
-    public SwarmsClientClient()
+    public SwarmsClientClientWithRawResponse()
     {
         _options = new();
 
-        _health = new(() => new HealthService(this));
-        _agent = new(() => new AgentService(this));
-        _models = new(() => new ModelService(this));
-        _swarms = new(() => new SwarmService(this));
-        _reasoningAgents = new(() => new ReasoningAgentService(this));
-        _client = new(() => new ClientService(this));
+        _health = new(() => new HealthServiceWithRawResponse(this));
+        _agent = new(() => new AgentServiceWithRawResponse(this));
+        _models = new(() => new ModelServiceWithRawResponse(this));
+        _swarms = new(() => new SwarmServiceWithRawResponse(this));
+        _reasoningAgents = new(() => new ReasoningAgentServiceWithRawResponse(this));
+        _client = new(() => new ClientServiceWithRawResponse(this));
     }
 
-    public SwarmsClientClient(ClientOptions options)
+    public SwarmsClientClientWithRawResponse(ClientOptions options)
         : this()
     {
         _options = options;

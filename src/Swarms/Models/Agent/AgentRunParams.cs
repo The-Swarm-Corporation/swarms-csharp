@@ -157,7 +157,7 @@ public sealed record class AgentRunParams : ParamsBase
 /// or a list of message objects.
 /// </summary>
 [JsonConverter(typeof(HistoryConverter))]
-public record class History
+public record class History : ModelBase
 {
     public object? Value { get; } = null;
 
@@ -258,10 +258,10 @@ public record class History
     {
         switch (this.Value)
         {
-            case Dictionary<string, JsonElement> value:
+            case IReadOnlyDictionary<string, JsonElement> value:
                 jsonElements(value);
                 break;
-            case List<Dictionary<string, string>> value:
+            case IReadOnlyList<Dictionary<string, string>> value:
                 strings(value);
                 break;
             default:
@@ -323,7 +323,7 @@ public record class History
     /// Thrown when the instance does not pass validation.
     /// </exception>
     /// </summary>
-    public void Validate()
+    public override void Validate()
     {
         if (this.Value == null)
         {
@@ -340,6 +340,9 @@ public record class History
     {
         return 0;
     }
+
+    public override string ToString() =>
+        JsonSerializer.Serialize(this._element, ModelBase.ToStringSerializerOptions);
 }
 
 sealed class HistoryConverter : JsonConverter<History?>

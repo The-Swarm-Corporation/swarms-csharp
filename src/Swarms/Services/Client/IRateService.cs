@@ -14,6 +14,12 @@ namespace Swarms.Services.Client;
 public interface IRateService
 {
     /// <summary>
+    /// Returns a view of this service that provides access to raw HTTP responses
+    /// for each method.
+    /// </summary>
+    IRateServiceWithRawResponse WithRawResponse { get; }
+
+    /// <summary>
     /// Returns a view of this service with the given option modifications applied.
     ///
     /// <para>The original service is not modified.</para>
@@ -25,6 +31,29 @@ public interface IRateService
     /// API key.
     /// </summary>
     Task<RateGetLimitsResponse> GetLimits(
+        RateGetLimitsParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
+}
+
+/// <summary>
+/// A view of <see cref="IRateService"/> that provides access to raw
+/// HTTP responses for each method.
+/// </summary>
+public interface IRateServiceWithRawResponse
+{
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
+    IRateServiceWithRawResponse WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
+    /// <summary>
+    /// Returns a raw HTTP response for `get /v1/rate/limits`, but is otherwise the
+    /// same as <see cref="IRateService.GetLimits(RateGetLimitsParams?, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<RateGetLimitsResponse>> GetLimits(
         RateGetLimitsParams? parameters = null,
         CancellationToken cancellationToken = default
     );

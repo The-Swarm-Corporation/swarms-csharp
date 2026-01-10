@@ -244,7 +244,7 @@ class SwarmSpecFromRaw : IFromRawJson<SwarmSpec>
 /// A list of messages that the swarm should complete.
 /// </summary>
 [JsonConverter(typeof(SwarmSpecMessagesConverter))]
-public record class SwarmSpecMessages
+public record class SwarmSpecMessages : ModelBase
 {
     public object? Value { get; } = null;
 
@@ -351,10 +351,10 @@ public record class SwarmSpecMessages
     {
         switch (this.Value)
         {
-            case List<Dictionary<string, JsonElement>> value:
+            case IReadOnlyList<Dictionary<string, JsonElement>> value:
                 jsonElements(value);
                 break;
-            case Dictionary<string, JsonElement> value:
+            case IReadOnlyDictionary<string, JsonElement> value:
                 jsonElements1(value);
                 break;
             default:
@@ -417,7 +417,7 @@ public record class SwarmSpecMessages
     /// Thrown when the instance does not pass validation.
     /// </exception>
     /// </summary>
-    public void Validate()
+    public override void Validate()
     {
         if (this.Value == null)
         {
@@ -436,6 +436,9 @@ public record class SwarmSpecMessages
     {
         return 0;
     }
+
+    public override string ToString() =>
+        JsonSerializer.Serialize(this._element, ModelBase.ToStringSerializerOptions);
 }
 
 sealed class SwarmSpecMessagesConverter : JsonConverter<SwarmSpecMessages?>

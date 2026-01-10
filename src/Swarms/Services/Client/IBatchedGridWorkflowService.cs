@@ -14,6 +14,12 @@ namespace Swarms.Services.Client;
 public interface IBatchedGridWorkflowService
 {
     /// <summary>
+    /// Returns a view of this service that provides access to raw HTTP responses
+    /// for each method.
+    /// </summary>
+    IBatchedGridWorkflowServiceWithRawResponse WithRawResponse { get; }
+
+    /// <summary>
     /// Returns a view of this service with the given option modifications applied.
     ///
     /// <para>The original service is not modified.</para>
@@ -25,6 +31,31 @@ public interface IBatchedGridWorkflowService
     /// to run a grid workflow with multiple agents and tasks in a single request.
     /// </summary>
     Task<BatchedGridWorkflowCompleteWorkflowResponse> CompleteWorkflow(
+        BatchedGridWorkflowCompleteWorkflowParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
+}
+
+/// <summary>
+/// A view of <see cref="IBatchedGridWorkflowService"/> that provides access to raw
+/// HTTP responses for each method.
+/// </summary>
+public interface IBatchedGridWorkflowServiceWithRawResponse
+{
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
+    IBatchedGridWorkflowServiceWithRawResponse WithOptions(
+        Func<ClientOptions, ClientOptions> modifier
+    );
+
+    /// <summary>
+    /// Returns a raw HTTP response for `post /v1/batched-grid-workflow/completions`, but is otherwise the
+    /// same as <see cref="IBatchedGridWorkflowService.CompleteWorkflow(BatchedGridWorkflowCompleteWorkflowParams?, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<BatchedGridWorkflowCompleteWorkflowResponse>> CompleteWorkflow(
         BatchedGridWorkflowCompleteWorkflowParams? parameters = null,
         CancellationToken cancellationToken = default
     );

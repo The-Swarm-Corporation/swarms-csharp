@@ -11,9 +11,29 @@ namespace Swarms.Services.Client;
 public interface IMarketplaceService
 {
     /// <summary>
+    /// Returns a view of this service that provides access to raw HTTP responses
+    /// for each method.
+    /// </summary>
+    IMarketplaceServiceWithRawResponse WithRawResponse { get; }
+
+    /// <summary>
     /// Returns a view of this service with the given option modifications applied.
     ///
     /// <para>The original service is not modified.</para>
     /// </summary>
     IMarketplaceService WithOptions(Func<ClientOptions, ClientOptions> modifier);
+}
+
+/// <summary>
+/// A view of <see cref="IMarketplaceService"/> that provides access to raw
+/// HTTP responses for each method.
+/// </summary>
+public interface IMarketplaceServiceWithRawResponse
+{
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
+    IMarketplaceServiceWithRawResponse WithOptions(Func<ClientOptions, ClientOptions> modifier);
 }

@@ -15,6 +15,12 @@ namespace Swarms.Services.Client;
 public interface IAdvancedResearchService
 {
     /// <summary>
+    /// Returns a view of this service that provides access to raw HTTP responses
+    /// for each method.
+    /// </summary>
+    IAdvancedResearchServiceWithRawResponse WithRawResponse { get; }
+
+    /// <summary>
     /// Returns a view of this service with the given option modifications applied.
     ///
     /// <para>The original service is not modified.</para>
@@ -28,6 +34,33 @@ public interface IAdvancedResearchService
     /// analysis, and synthesis capabilities.
     /// </summary>
     Task<AdvancedResearchCreateCompletionResponse> CreateCompletion(
+        AdvancedResearchCreateCompletionParams parameters,
+        CancellationToken cancellationToken = default
+    );
+}
+
+/// <summary>
+/// A view of <see cref="IAdvancedResearchService"/> that provides access to raw
+/// HTTP responses for each method.
+/// </summary>
+public interface IAdvancedResearchServiceWithRawResponse
+{
+    /// <summary>
+    /// Returns a view of this service with the given option modifications applied.
+    ///
+    /// <para>The original service is not modified.</para>
+    /// </summary>
+    IAdvancedResearchServiceWithRawResponse WithOptions(
+        Func<ClientOptions, ClientOptions> modifier
+    );
+
+    IBatchServiceWithRawResponse Batch { get; }
+
+    /// <summary>
+    /// Returns a raw HTTP response for `post /v1/advanced-research/completions`, but is otherwise the
+    /// same as <see cref="IAdvancedResearchService.CreateCompletion(AdvancedResearchCreateCompletionParams, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<AdvancedResearchCreateCompletionResponse>> CreateCompletion(
         AdvancedResearchCreateCompletionParams parameters,
         CancellationToken cancellationToken = default
     );
