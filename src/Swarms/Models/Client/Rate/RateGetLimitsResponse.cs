@@ -195,27 +195,27 @@ public sealed record class RateLimits : JsonModel
     /// <summary>
     /// Rate limit information for the last day.
     /// </summary>
-    public required Day Day
+    public required RateLimitWindow Day
     {
-        get { return JsonModel.GetNotNullClass<Day>(this.RawData, "day"); }
+        get { return JsonModel.GetNotNullClass<RateLimitWindow>(this.RawData, "day"); }
         init { JsonModel.Set(this._rawData, "day", value); }
     }
 
     /// <summary>
     /// Rate limit information for the last hour.
     /// </summary>
-    public required Hour Hour
+    public required RateLimitWindow Hour
     {
-        get { return JsonModel.GetNotNullClass<Hour>(this.RawData, "hour"); }
+        get { return JsonModel.GetNotNullClass<RateLimitWindow>(this.RawData, "hour"); }
         init { JsonModel.Set(this._rawData, "hour", value); }
     }
 
     /// <summary>
     /// Rate limit information for the last minute.
     /// </summary>
-    public required Minute Minute
+    public required RateLimitWindow Minute
     {
-        get { return JsonModel.GetNotNullClass<Minute>(this.RawData, "minute"); }
+        get { return JsonModel.GetNotNullClass<RateLimitWindow>(this.RawData, "minute"); }
         init { JsonModel.Set(this._rawData, "minute", value); }
     }
 
@@ -257,283 +257,4 @@ class RateLimitsFromRaw : IFromRawJson<RateLimits>
     /// <inheritdoc/>
     public RateLimits FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         RateLimits.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Rate limit information for the last day.
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<Day, DayFromRaw>))]
-public sealed record class Day : JsonModel
-{
-    /// <summary>
-    /// The number of requests made in this time window.
-    /// </summary>
-    public required long Count
-    {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "count"); }
-        init { JsonModel.Set(this._rawData, "count", value); }
-    }
-
-    /// <summary>
-    /// Whether the rate limit has been exceeded for this time window.
-    /// </summary>
-    public required bool Exceeded
-    {
-        get { return JsonModel.GetNotNullStruct<bool>(this.RawData, "exceeded"); }
-        init { JsonModel.Set(this._rawData, "exceeded", value); }
-    }
-
-    /// <summary>
-    /// The maximum number of requests allowed in this time window.
-    /// </summary>
-    public required long Limit
-    {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "limit"); }
-        init { JsonModel.Set(this._rawData, "limit", value); }
-    }
-
-    /// <summary>
-    /// The number of requests remaining before hitting the limit.
-    /// </summary>
-    public required long Remaining
-    {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "remaining"); }
-        init { JsonModel.Set(this._rawData, "remaining", value); }
-    }
-
-    /// <summary>
-    /// ISO timestamp when the rate limit will reset.
-    /// </summary>
-    public required string ResetTime
-    {
-        get { return JsonModel.GetNotNullClass<string>(this.RawData, "reset_time"); }
-        init { JsonModel.Set(this._rawData, "reset_time", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.Count;
-        _ = this.Exceeded;
-        _ = this.Limit;
-        _ = this.Remaining;
-        _ = this.ResetTime;
-    }
-
-    public Day() { }
-
-    public Day(Day day)
-        : base(day) { }
-
-    public Day(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = [.. rawData];
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    Day(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = [.. rawData];
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="DayFromRaw.FromRawUnchecked"/>
-    public static Day FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class DayFromRaw : IFromRawJson<Day>
-{
-    /// <inheritdoc/>
-    public Day FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Day.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Rate limit information for the last hour.
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<Hour, HourFromRaw>))]
-public sealed record class Hour : JsonModel
-{
-    /// <summary>
-    /// The number of requests made in this time window.
-    /// </summary>
-    public required long Count
-    {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "count"); }
-        init { JsonModel.Set(this._rawData, "count", value); }
-    }
-
-    /// <summary>
-    /// Whether the rate limit has been exceeded for this time window.
-    /// </summary>
-    public required bool Exceeded
-    {
-        get { return JsonModel.GetNotNullStruct<bool>(this.RawData, "exceeded"); }
-        init { JsonModel.Set(this._rawData, "exceeded", value); }
-    }
-
-    /// <summary>
-    /// The maximum number of requests allowed in this time window.
-    /// </summary>
-    public required long Limit
-    {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "limit"); }
-        init { JsonModel.Set(this._rawData, "limit", value); }
-    }
-
-    /// <summary>
-    /// The number of requests remaining before hitting the limit.
-    /// </summary>
-    public required long Remaining
-    {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "remaining"); }
-        init { JsonModel.Set(this._rawData, "remaining", value); }
-    }
-
-    /// <summary>
-    /// ISO timestamp when the rate limit will reset.
-    /// </summary>
-    public required string ResetTime
-    {
-        get { return JsonModel.GetNotNullClass<string>(this.RawData, "reset_time"); }
-        init { JsonModel.Set(this._rawData, "reset_time", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.Count;
-        _ = this.Exceeded;
-        _ = this.Limit;
-        _ = this.Remaining;
-        _ = this.ResetTime;
-    }
-
-    public Hour() { }
-
-    public Hour(Hour hour)
-        : base(hour) { }
-
-    public Hour(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = [.. rawData];
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    Hour(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = [.. rawData];
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="HourFromRaw.FromRawUnchecked"/>
-    public static Hour FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class HourFromRaw : IFromRawJson<Hour>
-{
-    /// <inheritdoc/>
-    public Hour FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Hour.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Rate limit information for the last minute.
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<Minute, MinuteFromRaw>))]
-public sealed record class Minute : JsonModel
-{
-    /// <summary>
-    /// The number of requests made in this time window.
-    /// </summary>
-    public required long Count
-    {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "count"); }
-        init { JsonModel.Set(this._rawData, "count", value); }
-    }
-
-    /// <summary>
-    /// Whether the rate limit has been exceeded for this time window.
-    /// </summary>
-    public required bool Exceeded
-    {
-        get { return JsonModel.GetNotNullStruct<bool>(this.RawData, "exceeded"); }
-        init { JsonModel.Set(this._rawData, "exceeded", value); }
-    }
-
-    /// <summary>
-    /// The maximum number of requests allowed in this time window.
-    /// </summary>
-    public required long Limit
-    {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "limit"); }
-        init { JsonModel.Set(this._rawData, "limit", value); }
-    }
-
-    /// <summary>
-    /// The number of requests remaining before hitting the limit.
-    /// </summary>
-    public required long Remaining
-    {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "remaining"); }
-        init { JsonModel.Set(this._rawData, "remaining", value); }
-    }
-
-    /// <summary>
-    /// ISO timestamp when the rate limit will reset.
-    /// </summary>
-    public required string ResetTime
-    {
-        get { return JsonModel.GetNotNullClass<string>(this.RawData, "reset_time"); }
-        init { JsonModel.Set(this._rawData, "reset_time", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.Count;
-        _ = this.Exceeded;
-        _ = this.Limit;
-        _ = this.Remaining;
-        _ = this.ResetTime;
-    }
-
-    public Minute() { }
-
-    public Minute(Minute minute)
-        : base(minute) { }
-
-    public Minute(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = [.. rawData];
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    Minute(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = [.. rawData];
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="MinuteFromRaw.FromRawUnchecked"/>
-    public static Minute FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class MinuteFromRaw : IFromRawJson<Minute>
-{
-    /// <inheritdoc/>
-    public Minute FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Minute.FromRawUnchecked(rawData);
 }

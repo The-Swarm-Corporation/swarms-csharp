@@ -590,7 +590,7 @@ public class RateLimitsTest : TestBase
             },
         };
 
-        Day expectedDay = new()
+        RateLimitWindow expectedDay = new()
         {
             Count = 0,
             Exceeded = true,
@@ -598,7 +598,7 @@ public class RateLimitsTest : TestBase
             Remaining = 0,
             ResetTime = "reset_time",
         };
-        Hour expectedHour = new()
+        RateLimitWindow expectedHour = new()
         {
             Count = 0,
             Exceeded = true,
@@ -606,7 +606,7 @@ public class RateLimitsTest : TestBase
             Remaining = 0,
             ResetTime = "reset_time",
         };
-        Minute expectedMinute = new()
+        RateLimitWindow expectedMinute = new()
         {
             Count = 0,
             Exceeded = true,
@@ -692,7 +692,7 @@ public class RateLimitsTest : TestBase
         var deserialized = JsonSerializer.Deserialize<RateLimits>(element);
         Assert.NotNull(deserialized);
 
-        Day expectedDay = new()
+        RateLimitWindow expectedDay = new()
         {
             Count = 0,
             Exceeded = true,
@@ -700,7 +700,7 @@ public class RateLimitsTest : TestBase
             Remaining = 0,
             ResetTime = "reset_time",
         };
-        Hour expectedHour = new()
+        RateLimitWindow expectedHour = new()
         {
             Count = 0,
             Exceeded = true,
@@ -708,7 +708,7 @@ public class RateLimitsTest : TestBase
             Remaining = 0,
             ResetTime = "reset_time",
         };
-        Minute expectedMinute = new()
+        RateLimitWindow expectedMinute = new()
         {
             Count = 0,
             Exceeded = true,
@@ -751,276 +751,6 @@ public class RateLimitsTest : TestBase
                 Remaining = 0,
                 ResetTime = "reset_time",
             },
-        };
-
-        model.Validate();
-    }
-}
-
-public class DayTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new Day
-        {
-            Count = 0,
-            Exceeded = true,
-            Limit = 0,
-            Remaining = 0,
-            ResetTime = "reset_time",
-        };
-
-        long expectedCount = 0;
-        bool expectedExceeded = true;
-        long expectedLimit = 0;
-        long expectedRemaining = 0;
-        string expectedResetTime = "reset_time";
-
-        Assert.Equal(expectedCount, model.Count);
-        Assert.Equal(expectedExceeded, model.Exceeded);
-        Assert.Equal(expectedLimit, model.Limit);
-        Assert.Equal(expectedRemaining, model.Remaining);
-        Assert.Equal(expectedResetTime, model.ResetTime);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new Day
-        {
-            Count = 0,
-            Exceeded = true,
-            Limit = 0,
-            Remaining = 0,
-            ResetTime = "reset_time",
-        };
-
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Day>(json);
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new Day
-        {
-            Count = 0,
-            Exceeded = true,
-            Limit = 0,
-            Remaining = 0,
-            ResetTime = "reset_time",
-        };
-
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Day>(element);
-        Assert.NotNull(deserialized);
-
-        long expectedCount = 0;
-        bool expectedExceeded = true;
-        long expectedLimit = 0;
-        long expectedRemaining = 0;
-        string expectedResetTime = "reset_time";
-
-        Assert.Equal(expectedCount, deserialized.Count);
-        Assert.Equal(expectedExceeded, deserialized.Exceeded);
-        Assert.Equal(expectedLimit, deserialized.Limit);
-        Assert.Equal(expectedRemaining, deserialized.Remaining);
-        Assert.Equal(expectedResetTime, deserialized.ResetTime);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new Day
-        {
-            Count = 0,
-            Exceeded = true,
-            Limit = 0,
-            Remaining = 0,
-            ResetTime = "reset_time",
-        };
-
-        model.Validate();
-    }
-}
-
-public class HourTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new Hour
-        {
-            Count = 0,
-            Exceeded = true,
-            Limit = 0,
-            Remaining = 0,
-            ResetTime = "reset_time",
-        };
-
-        long expectedCount = 0;
-        bool expectedExceeded = true;
-        long expectedLimit = 0;
-        long expectedRemaining = 0;
-        string expectedResetTime = "reset_time";
-
-        Assert.Equal(expectedCount, model.Count);
-        Assert.Equal(expectedExceeded, model.Exceeded);
-        Assert.Equal(expectedLimit, model.Limit);
-        Assert.Equal(expectedRemaining, model.Remaining);
-        Assert.Equal(expectedResetTime, model.ResetTime);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new Hour
-        {
-            Count = 0,
-            Exceeded = true,
-            Limit = 0,
-            Remaining = 0,
-            ResetTime = "reset_time",
-        };
-
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Hour>(json);
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new Hour
-        {
-            Count = 0,
-            Exceeded = true,
-            Limit = 0,
-            Remaining = 0,
-            ResetTime = "reset_time",
-        };
-
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Hour>(element);
-        Assert.NotNull(deserialized);
-
-        long expectedCount = 0;
-        bool expectedExceeded = true;
-        long expectedLimit = 0;
-        long expectedRemaining = 0;
-        string expectedResetTime = "reset_time";
-
-        Assert.Equal(expectedCount, deserialized.Count);
-        Assert.Equal(expectedExceeded, deserialized.Exceeded);
-        Assert.Equal(expectedLimit, deserialized.Limit);
-        Assert.Equal(expectedRemaining, deserialized.Remaining);
-        Assert.Equal(expectedResetTime, deserialized.ResetTime);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new Hour
-        {
-            Count = 0,
-            Exceeded = true,
-            Limit = 0,
-            Remaining = 0,
-            ResetTime = "reset_time",
-        };
-
-        model.Validate();
-    }
-}
-
-public class MinuteTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new Minute
-        {
-            Count = 0,
-            Exceeded = true,
-            Limit = 0,
-            Remaining = 0,
-            ResetTime = "reset_time",
-        };
-
-        long expectedCount = 0;
-        bool expectedExceeded = true;
-        long expectedLimit = 0;
-        long expectedRemaining = 0;
-        string expectedResetTime = "reset_time";
-
-        Assert.Equal(expectedCount, model.Count);
-        Assert.Equal(expectedExceeded, model.Exceeded);
-        Assert.Equal(expectedLimit, model.Limit);
-        Assert.Equal(expectedRemaining, model.Remaining);
-        Assert.Equal(expectedResetTime, model.ResetTime);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new Minute
-        {
-            Count = 0,
-            Exceeded = true,
-            Limit = 0,
-            Remaining = 0,
-            ResetTime = "reset_time",
-        };
-
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Minute>(json);
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new Minute
-        {
-            Count = 0,
-            Exceeded = true,
-            Limit = 0,
-            Remaining = 0,
-            ResetTime = "reset_time",
-        };
-
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Minute>(element);
-        Assert.NotNull(deserialized);
-
-        long expectedCount = 0;
-        bool expectedExceeded = true;
-        long expectedLimit = 0;
-        long expectedRemaining = 0;
-        string expectedResetTime = "reset_time";
-
-        Assert.Equal(expectedCount, deserialized.Count);
-        Assert.Equal(expectedExceeded, deserialized.Exceeded);
-        Assert.Equal(expectedLimit, deserialized.Limit);
-        Assert.Equal(expectedRemaining, deserialized.Remaining);
-        Assert.Equal(expectedResetTime, deserialized.ResetTime);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new Minute
-        {
-            Count = 0,
-            Exceeded = true,
-            Limit = 0,
-            Remaining = 0,
-            ResetTime = "reset_time",
         };
 
         model.Validate();

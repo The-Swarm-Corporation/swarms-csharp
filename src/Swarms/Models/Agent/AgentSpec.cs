@@ -92,9 +92,9 @@ public sealed record class AgentSpec : JsonModel
     /// <summary>
     /// The MCP connection to use for the agent.
     /// </summary>
-    public McpConfig? McpConfig
+    public McpConnection? McpConfig
     {
-        get { return JsonModel.GetNullableClass<McpConfig>(this.RawData, "mcp_config"); }
+        get { return JsonModel.GetNullableClass<McpConnection>(this.RawData, "mcp_config"); }
         init { JsonModel.Set(this._rawData, "mcp_config", value); }
     }
 
@@ -282,128 +282,6 @@ class AgentSpecFromRaw : IFromRawJson<AgentSpec>
 }
 
 /// <summary>
-/// The MCP connection to use for the agent.
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<McpConfig, McpConfigFromRaw>))]
-public sealed record class McpConfig : JsonModel
-{
-    /// <summary>
-    /// Authentication token for accessing the MCP server
-    /// </summary>
-    public string? AuthorizationToken
-    {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "authorization_token"); }
-        init { JsonModel.Set(this._rawData, "authorization_token", value); }
-    }
-
-    /// <summary>
-    /// Headers to send to the MCP server
-    /// </summary>
-    public IReadOnlyDictionary<string, string>? Headers
-    {
-        get
-        {
-            return JsonModel.GetNullableClass<Dictionary<string, string>>(this.RawData, "headers");
-        }
-        init { JsonModel.Set(this._rawData, "headers", value); }
-    }
-
-    /// <summary>
-    /// Timeout for the MCP server
-    /// </summary>
-    public long? Timeout
-    {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "timeout"); }
-        init { JsonModel.Set(this._rawData, "timeout", value); }
-    }
-
-    /// <summary>
-    /// Dictionary containing configuration settings for MCP tools
-    /// </summary>
-    public IReadOnlyDictionary<string, JsonElement>? ToolConfigurations
-    {
-        get
-        {
-            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
-                this.RawData,
-                "tool_configurations"
-            );
-        }
-        init { JsonModel.Set(this._rawData, "tool_configurations", value); }
-    }
-
-    /// <summary>
-    /// The transport protocol to use for the MCP server
-    /// </summary>
-    public string? Transport
-    {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "transport"); }
-        init { JsonModel.Set(this._rawData, "transport", value); }
-    }
-
-    /// <summary>
-    /// The type of connection, defaults to 'mcp'
-    /// </summary>
-    public string? Type
-    {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "type"); }
-        init { JsonModel.Set(this._rawData, "type", value); }
-    }
-
-    /// <summary>
-    /// The URL endpoint for the MCP server
-    /// </summary>
-    public string? Url
-    {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "url"); }
-        init { JsonModel.Set(this._rawData, "url", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.AuthorizationToken;
-        _ = this.Headers;
-        _ = this.Timeout;
-        _ = this.ToolConfigurations;
-        _ = this.Transport;
-        _ = this.Type;
-        _ = this.Url;
-    }
-
-    public McpConfig() { }
-
-    public McpConfig(McpConfig mcpConfig)
-        : base(mcpConfig) { }
-
-    public McpConfig(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = [.. rawData];
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    McpConfig(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = [.. rawData];
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="McpConfigFromRaw.FromRawUnchecked"/>
-    public static McpConfig FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class McpConfigFromRaw : IFromRawJson<McpConfig>
-{
-    /// <inheritdoc/>
-    public McpConfig FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        McpConfig.FromRawUnchecked(rawData);
-}
-
-/// <summary>
 /// The MCP connections to use for the agent. This is a list of MCP connections. Includes
 /// multiple MCP connections.
 /// </summary>
@@ -413,9 +291,9 @@ public sealed record class McpConfigs : JsonModel
     /// <summary>
     /// List of MCP connections
     /// </summary>
-    public required IReadOnlyList<Connection> Connections
+    public required IReadOnlyList<McpConnection> Connections
     {
-        get { return JsonModel.GetNotNullClass<List<Connection>>(this.RawData, "connections"); }
+        get { return JsonModel.GetNotNullClass<List<McpConnection>>(this.RawData, "connections"); }
         init { JsonModel.Set(this._rawData, "connections", value); }
     }
 
@@ -453,7 +331,7 @@ public sealed record class McpConfigs : JsonModel
     }
 
     [SetsRequiredMembers]
-    public McpConfigs(List<Connection> connections)
+    public McpConfigs(List<McpConnection> connections)
         : this()
     {
         this.Connections = connections;
@@ -465,123 +343,4 @@ class McpConfigsFromRaw : IFromRawJson<McpConfigs>
     /// <inheritdoc/>
     public McpConfigs FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         McpConfigs.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(JsonModelConverter<Connection, ConnectionFromRaw>))]
-public sealed record class Connection : JsonModel
-{
-    /// <summary>
-    /// Authentication token for accessing the MCP server
-    /// </summary>
-    public string? AuthorizationToken
-    {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "authorization_token"); }
-        init { JsonModel.Set(this._rawData, "authorization_token", value); }
-    }
-
-    /// <summary>
-    /// Headers to send to the MCP server
-    /// </summary>
-    public IReadOnlyDictionary<string, string>? Headers
-    {
-        get
-        {
-            return JsonModel.GetNullableClass<Dictionary<string, string>>(this.RawData, "headers");
-        }
-        init { JsonModel.Set(this._rawData, "headers", value); }
-    }
-
-    /// <summary>
-    /// Timeout for the MCP server
-    /// </summary>
-    public long? Timeout
-    {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "timeout"); }
-        init { JsonModel.Set(this._rawData, "timeout", value); }
-    }
-
-    /// <summary>
-    /// Dictionary containing configuration settings for MCP tools
-    /// </summary>
-    public IReadOnlyDictionary<string, JsonElement>? ToolConfigurations
-    {
-        get
-        {
-            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
-                this.RawData,
-                "tool_configurations"
-            );
-        }
-        init { JsonModel.Set(this._rawData, "tool_configurations", value); }
-    }
-
-    /// <summary>
-    /// The transport protocol to use for the MCP server
-    /// </summary>
-    public string? Transport
-    {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "transport"); }
-        init { JsonModel.Set(this._rawData, "transport", value); }
-    }
-
-    /// <summary>
-    /// The type of connection, defaults to 'mcp'
-    /// </summary>
-    public string? Type
-    {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "type"); }
-        init { JsonModel.Set(this._rawData, "type", value); }
-    }
-
-    /// <summary>
-    /// The URL endpoint for the MCP server
-    /// </summary>
-    public string? Url
-    {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "url"); }
-        init { JsonModel.Set(this._rawData, "url", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.AuthorizationToken;
-        _ = this.Headers;
-        _ = this.Timeout;
-        _ = this.ToolConfigurations;
-        _ = this.Transport;
-        _ = this.Type;
-        _ = this.Url;
-    }
-
-    public Connection() { }
-
-    public Connection(Connection connection)
-        : base(connection) { }
-
-    public Connection(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = [.. rawData];
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    Connection(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = [.. rawData];
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="ConnectionFromRaw.FromRawUnchecked"/>
-    public static Connection FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class ConnectionFromRaw : IFromRawJson<Connection>
-{
-    /// <inheritdoc/>
-    public Connection FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Connection.FromRawUnchecked(rawData);
 }
