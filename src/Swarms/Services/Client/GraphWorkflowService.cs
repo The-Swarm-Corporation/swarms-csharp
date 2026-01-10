@@ -3,17 +3,17 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Swarms.Core;
-using Swarms.Models.Client.Marketplace;
+using Swarms.Models.Client.GraphWorkflow;
 
 namespace Swarms.Services.Client;
 
 /// <inheritdoc/>
-public sealed class MarketplaceService : IMarketplaceService
+public sealed class GraphWorkflowService : IGraphWorkflowService
 {
-    readonly Lazy<IMarketplaceServiceWithRawResponse> _withRawResponse;
+    readonly Lazy<IGraphWorkflowServiceWithRawResponse> _withRawResponse;
 
     /// <inheritdoc/>
-    public IMarketplaceServiceWithRawResponse WithRawResponse
+    public IGraphWorkflowServiceWithRawResponse WithRawResponse
     {
         get { return _withRawResponse.Value; }
     }
@@ -21,58 +21,60 @@ public sealed class MarketplaceService : IMarketplaceService
     readonly ISwarmsClientClient _client;
 
     /// <inheritdoc/>
-    public IMarketplaceService WithOptions(Func<ClientOptions, ClientOptions> modifier)
+    public IGraphWorkflowService WithOptions(Func<ClientOptions, ClientOptions> modifier)
     {
-        return new MarketplaceService(this._client.WithOptions(modifier));
+        return new GraphWorkflowService(this._client.WithOptions(modifier));
     }
 
-    public MarketplaceService(ISwarmsClientClient client)
+    public GraphWorkflowService(ISwarmsClientClient client)
     {
         _client = client;
 
-        _withRawResponse = new(() => new MarketplaceServiceWithRawResponse(client.WithRawResponse));
+        _withRawResponse = new(() =>
+            new GraphWorkflowServiceWithRawResponse(client.WithRawResponse)
+        );
     }
 
     /// <inheritdoc/>
-    public async Task<MarketplaceCreateAgentResponse> CreateAgent(
-        MarketplaceCreateAgentParams? parameters = null,
+    public async Task<GraphWorkflowExecuteWorkflowResponse> ExecuteWorkflow(
+        GraphWorkflowExecuteWorkflowParams? parameters = null,
         CancellationToken cancellationToken = default
     )
     {
         using var response = await this
-            .WithRawResponse.CreateAgent(parameters, cancellationToken)
+            .WithRawResponse.ExecuteWorkflow(parameters, cancellationToken)
             .ConfigureAwait(false);
         return await response.Deserialize(cancellationToken).ConfigureAwait(false);
     }
 }
 
 /// <inheritdoc/>
-public sealed class MarketplaceServiceWithRawResponse : IMarketplaceServiceWithRawResponse
+public sealed class GraphWorkflowServiceWithRawResponse : IGraphWorkflowServiceWithRawResponse
 {
     readonly ISwarmsClientClientWithRawResponse _client;
 
     /// <inheritdoc/>
-    public IMarketplaceServiceWithRawResponse WithOptions(
+    public IGraphWorkflowServiceWithRawResponse WithOptions(
         Func<ClientOptions, ClientOptions> modifier
     )
     {
-        return new MarketplaceServiceWithRawResponse(this._client.WithOptions(modifier));
+        return new GraphWorkflowServiceWithRawResponse(this._client.WithOptions(modifier));
     }
 
-    public MarketplaceServiceWithRawResponse(ISwarmsClientClientWithRawResponse client)
+    public GraphWorkflowServiceWithRawResponse(ISwarmsClientClientWithRawResponse client)
     {
         _client = client;
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<MarketplaceCreateAgentResponse>> CreateAgent(
-        MarketplaceCreateAgentParams? parameters = null,
+    public async Task<HttpResponse<GraphWorkflowExecuteWorkflowResponse>> ExecuteWorkflow(
+        GraphWorkflowExecuteWorkflowParams? parameters = null,
         CancellationToken cancellationToken = default
     )
     {
         parameters ??= new();
 
-        HttpRequest<MarketplaceCreateAgentParams> request = new()
+        HttpRequest<GraphWorkflowExecuteWorkflowParams> request = new()
         {
             Method = HttpMethod.Post,
             Params = parameters,
@@ -83,7 +85,7 @@ public sealed class MarketplaceServiceWithRawResponse : IMarketplaceServiceWithR
             async (token) =>
             {
                 var deserializedResponse = await response
-                    .Deserialize<MarketplaceCreateAgentResponse>(token)
+                    .Deserialize<GraphWorkflowExecuteWorkflowResponse>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {

@@ -34,6 +34,7 @@ public sealed class ClientService : IClientService
         _tools = new(() => new ToolService(client));
         _marketplace = new(() => new MarketplaceService(client));
         _batchedGridWorkflow = new(() => new BatchedGridWorkflowService(client));
+        _graphWorkflow = new(() => new GraphWorkflowService(client));
     }
 
     readonly Lazy<IRateService> _rate;
@@ -71,6 +72,12 @@ public sealed class ClientService : IClientService
     {
         get { return _batchedGridWorkflow.Value; }
     }
+
+    readonly Lazy<IGraphWorkflowService> _graphWorkflow;
+    public IGraphWorkflowService GraphWorkflow
+    {
+        get { return _graphWorkflow.Value; }
+    }
 }
 
 /// <inheritdoc/>
@@ -94,6 +101,7 @@ public sealed class ClientServiceWithRawResponse : IClientServiceWithRawResponse
         _tools = new(() => new ToolServiceWithRawResponse(client));
         _marketplace = new(() => new MarketplaceServiceWithRawResponse(client));
         _batchedGridWorkflow = new(() => new BatchedGridWorkflowServiceWithRawResponse(client));
+        _graphWorkflow = new(() => new GraphWorkflowServiceWithRawResponse(client));
     }
 
     readonly Lazy<IRateServiceWithRawResponse> _rate;
@@ -130,5 +138,11 @@ public sealed class ClientServiceWithRawResponse : IClientServiceWithRawResponse
     public IBatchedGridWorkflowServiceWithRawResponse BatchedGridWorkflow
     {
         get { return _batchedGridWorkflow.Value; }
+    }
+
+    readonly Lazy<IGraphWorkflowServiceWithRawResponse> _graphWorkflow;
+    public IGraphWorkflowServiceWithRawResponse GraphWorkflow
+    {
+        get { return _graphWorkflow.Value; }
     }
 }

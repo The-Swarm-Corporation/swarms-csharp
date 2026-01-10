@@ -1,0 +1,521 @@
+using System;
+using System.Collections.Frozen;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Swarms.Core;
+using Swarms.Exceptions;
+using Swarms.Models.Agent;
+
+namespace Swarms.Models.Client.GraphWorkflow;
+
+/// <summary>
+/// Execute a graph workflow with directed agent nodes and edges. Enables complex
+/// multi-agent collaboration with parallel execution, automatic compilation, and
+/// comprehensive workflow orchestration.
+/// </summary>
+public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
+{
+    readonly FreezableDictionary<string, JsonElement> _rawBodyData = [];
+    public IReadOnlyDictionary<string, JsonElement> RawBodyData
+    {
+        get { return this._rawBodyData.Freeze(); }
+    }
+
+    /// <summary>
+    /// List of agent specifications to be used as nodes in the workflow graph.
+    /// </summary>
+    public IReadOnlyList<AgentSpec>? Agents
+    {
+        get { return JsonModel.GetNullableClass<List<AgentSpec>>(this.RawBodyData, "agents"); }
+        init { JsonModel.Set(this._rawBodyData, "agents", value); }
+    }
+
+    /// <summary>
+    /// Whether to automatically compile the workflow for optimization.
+    /// </summary>
+    public bool? AutoCompile
+    {
+        get { return JsonModel.GetNullableStruct<bool>(this.RawBodyData, "auto_compile"); }
+        init { JsonModel.Set(this._rawBodyData, "auto_compile", value); }
+    }
+
+    /// <summary>
+    /// The description of the graph workflow.
+    /// </summary>
+    public string? Description
+    {
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "description"); }
+        init { JsonModel.Set(this._rawBodyData, "description", value); }
+    }
+
+    /// <summary>
+    /// List of edges connecting nodes. Can be EdgeSpec objects or dictionaries with
+    /// 'source' and 'target' keys.
+    /// </summary>
+    public IReadOnlyList<Edge>? Edges
+    {
+        get { return JsonModel.GetNullableClass<List<Edge>>(this.RawBodyData, "edges"); }
+        init { JsonModel.Set(this._rawBodyData, "edges", value); }
+    }
+
+    /// <summary>
+    /// List of node IDs that serve as ending points for the workflow.
+    /// </summary>
+    public IReadOnlyList<string>? EndPoints
+    {
+        get { return JsonModel.GetNullableClass<List<string>>(this.RawBodyData, "end_points"); }
+        init { JsonModel.Set(this._rawBodyData, "end_points", value); }
+    }
+
+    /// <summary>
+    /// List of node IDs that serve as starting points for the workflow.
+    /// </summary>
+    public IReadOnlyList<string>? EntryPoints
+    {
+        get { return JsonModel.GetNullableClass<List<string>>(this.RawBodyData, "entry_points"); }
+        init { JsonModel.Set(this._rawBodyData, "entry_points", value); }
+    }
+
+    /// <summary>
+    /// Optional image path for vision-enabled agents.
+    /// </summary>
+    public string? Img
+    {
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "img"); }
+        init { JsonModel.Set(this._rawBodyData, "img", value); }
+    }
+
+    /// <summary>
+    /// The maximum number of execution loops for the workflow.
+    /// </summary>
+    public long? MaxLoops
+    {
+        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
+        init { JsonModel.Set(this._rawBodyData, "max_loops", value); }
+    }
+
+    /// <summary>
+    /// The name of the graph workflow.
+    /// </summary>
+    public string? Name
+    {
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "name"); }
+        init { JsonModel.Set(this._rawBodyData, "name", value); }
+    }
+
+    /// <summary>
+    /// The task to be executed by the workflow.
+    /// </summary>
+    public string? Task
+    {
+        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "task"); }
+        init { JsonModel.Set(this._rawBodyData, "task", value); }
+    }
+
+    /// <summary>
+    /// Whether to enable detailed logging.
+    /// </summary>
+    public bool? Verbose
+    {
+        get { return JsonModel.GetNullableStruct<bool>(this.RawBodyData, "verbose"); }
+        init { JsonModel.Set(this._rawBodyData, "verbose", value); }
+    }
+
+    public GraphWorkflowExecuteWorkflowParams() { }
+
+    public GraphWorkflowExecuteWorkflowParams(
+        GraphWorkflowExecuteWorkflowParams graphWorkflowExecuteWorkflowParams
+    )
+        : base(graphWorkflowExecuteWorkflowParams)
+    {
+        this._rawBodyData = [.. graphWorkflowExecuteWorkflowParams._rawBodyData];
+    }
+
+    public GraphWorkflowExecuteWorkflowParams(
+        IReadOnlyDictionary<string, JsonElement> rawHeaderData,
+        IReadOnlyDictionary<string, JsonElement> rawQueryData,
+        IReadOnlyDictionary<string, JsonElement> rawBodyData
+    )
+    {
+        this._rawHeaderData = [.. rawHeaderData];
+        this._rawQueryData = [.. rawQueryData];
+        this._rawBodyData = [.. rawBodyData];
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    GraphWorkflowExecuteWorkflowParams(
+        FrozenDictionary<string, JsonElement> rawHeaderData,
+        FrozenDictionary<string, JsonElement> rawQueryData,
+        FrozenDictionary<string, JsonElement> rawBodyData
+    )
+    {
+        this._rawHeaderData = [.. rawHeaderData];
+        this._rawQueryData = [.. rawQueryData];
+        this._rawBodyData = [.. rawBodyData];
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="IFromRawJson.FromRawUnchecked"/>
+    public static GraphWorkflowExecuteWorkflowParams FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawHeaderData,
+        IReadOnlyDictionary<string, JsonElement> rawQueryData,
+        IReadOnlyDictionary<string, JsonElement> rawBodyData
+    )
+    {
+        return new(
+            FrozenDictionary.ToFrozenDictionary(rawHeaderData),
+            FrozenDictionary.ToFrozenDictionary(rawQueryData),
+            FrozenDictionary.ToFrozenDictionary(rawBodyData)
+        );
+    }
+
+    public override Uri Url(ClientOptions options)
+    {
+        return new UriBuilder(
+            options.BaseUrl.ToString().TrimEnd('/') + "/v1/graph-workflow/completions"
+        )
+        {
+            Query = this.QueryString(options),
+        }.Uri;
+    }
+
+    internal override HttpContent? BodyContent()
+    {
+        return new StringContent(
+            JsonSerializer.Serialize(this.RawBodyData),
+            Encoding.UTF8,
+            "application/json"
+        );
+    }
+
+    internal override void AddHeadersToRequest(HttpRequestMessage request, ClientOptions options)
+    {
+        ParamsBase.AddDefaultHeaders(request, options);
+        foreach (var item in this.RawHeaderData)
+        {
+            ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
+        }
+    }
+}
+
+/// <summary>
+/// Schema for defining an edge between nodes in the workflow graph.
+/// </summary>
+[JsonConverter(typeof(EdgeConverter))]
+public record class Edge : ModelBase
+{
+    public object? Value { get; } = null;
+
+    JsonElement? _element = null;
+
+    public JsonElement Json
+    {
+        get { return this._element ??= JsonSerializer.SerializeToElement(this.Value); }
+    }
+
+    public Edge(EdgeSpec value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public Edge(IReadOnlyDictionary<string, JsonElement> value, JsonElement? element = null)
+    {
+        this.Value = FrozenDictionary.ToFrozenDictionary(value);
+        this._element = element;
+    }
+
+    public Edge(JsonElement element)
+    {
+        this._element = element;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="EdgeSpec"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"> or <see cref="Match"> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickSpec(out var value)) {
+    ///     // `value` is of type `EdgeSpec`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickSpec([NotNullWhen(true)] out EdgeSpec? value)
+    {
+        value = this.Value as EdgeSpec;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="IReadOnlyDictionary<string, JsonElement>"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"> or <see cref="Match"> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickJsonElements(out var value)) {
+    ///     // `value` is of type `IReadOnlyDictionary<string, JsonElement>`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickJsonElements(
+        [NotNullWhen(true)] out IReadOnlyDictionary<string, JsonElement>? value
+    )
+    {
+        value = this.Value as IReadOnlyDictionary<string, JsonElement>;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Calls the function parameter corresponding to the variant the instance was constructed with.
+    ///
+    /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Match">
+    /// if you need your function parameters to return something.</para>
+    ///
+    /// <exception cref="SwarmsClientInvalidDataException">
+    /// Thrown when the instance was constructed with an unknown variant (e.g. deserialized from raw data
+    /// that doesn't match any variant's expected shape).
+    /// </exception>
+    ///
+    /// <example>
+    /// <code>
+    /// instance.Switch(
+    ///     (EdgeSpec value) => {...},
+    ///     (IReadOnlyDictionary<string, JsonElement> value) => {...}
+    /// );
+    /// </code>
+    /// </example>
+    /// </summary>
+    public void Switch(
+        Action<EdgeSpec> spec,
+        Action<IReadOnlyDictionary<string, JsonElement>> jsonElements
+    )
+    {
+        switch (this.Value)
+        {
+            case EdgeSpec value:
+                spec(value);
+                break;
+            case IReadOnlyDictionary<string, JsonElement> value:
+                jsonElements(value);
+                break;
+            default:
+                throw new SwarmsClientInvalidDataException(
+                    "Data did not match any variant of Edge"
+                );
+        }
+    }
+
+    /// <summary>
+    /// Calls the function parameter corresponding to the variant the instance was constructed with and
+    /// returns its result.
+    ///
+    /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Switch">
+    /// if you don't need your function parameters to return a value.</para>
+    ///
+    /// <exception cref="SwarmsClientInvalidDataException">
+    /// Thrown when the instance was constructed with an unknown variant (e.g. deserialized from raw data
+    /// that doesn't match any variant's expected shape).
+    /// </exception>
+    ///
+    /// <example>
+    /// <code>
+    /// var result = instance.Match(
+    ///     (EdgeSpec value) => {...},
+    ///     (IReadOnlyDictionary<string, JsonElement> value) => {...}
+    /// );
+    /// </code>
+    /// </example>
+    /// </summary>
+    public T Match<T>(
+        Func<EdgeSpec, T> spec,
+        Func<IReadOnlyDictionary<string, JsonElement>, T> jsonElements
+    )
+    {
+        return this.Value switch
+        {
+            EdgeSpec value => spec(value),
+            IReadOnlyDictionary<string, JsonElement> value => jsonElements(value),
+            _ => throw new SwarmsClientInvalidDataException(
+                "Data did not match any variant of Edge"
+            ),
+        };
+    }
+
+    public static implicit operator Edge(EdgeSpec value) => new(value);
+
+    public static implicit operator Edge(Dictionary<string, JsonElement> value) =>
+        new((IReadOnlyDictionary<string, JsonElement>)value);
+
+    /// <summary>
+    /// Validates that the instance was constructed with a known variant and that this variant is valid
+    /// (based on its own <c>Validate</c> method).
+    ///
+    /// <para>This is useful for instances constructed from raw JSON data (e.g. deserialized from an API response).</para>
+    ///
+    /// <exception cref="SwarmsClientInvalidDataException">
+    /// Thrown when the instance does not pass validation.
+    /// </exception>
+    /// </summary>
+    public override void Validate()
+    {
+        if (this.Value == null)
+        {
+            throw new SwarmsClientInvalidDataException("Data did not match any variant of Edge");
+        }
+        this.Switch((spec) => spec.Validate(), (_) => { });
+    }
+
+    public virtual bool Equals(Edge? other)
+    {
+        return other != null && JsonElement.DeepEquals(this.Json, other.Json);
+    }
+
+    public override int GetHashCode()
+    {
+        return 0;
+    }
+
+    public override string ToString() =>
+        JsonSerializer.Serialize(this._element, ModelBase.ToStringSerializerOptions);
+}
+
+sealed class EdgeConverter : JsonConverter<Edge>
+{
+    public override Edge? Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
+        try
+        {
+            var deserialized = JsonSerializer.Deserialize<EdgeSpec>(element, options);
+            if (deserialized != null)
+            {
+                deserialized.Validate();
+                return new(deserialized, element);
+            }
+        }
+        catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
+                element,
+                options
+            );
+            if (deserialized != null)
+            {
+                return new(deserialized, element);
+            }
+        }
+        catch (Exception e) when (e is JsonException || e is SwarmsClientInvalidDataException)
+        {
+            // ignore
+        }
+
+        return new(element);
+    }
+
+    public override void Write(Utf8JsonWriter writer, Edge value, JsonSerializerOptions options)
+    {
+        JsonSerializer.Serialize(writer, value.Json, options);
+    }
+}
+
+/// <summary>
+/// Schema for defining an edge between nodes in the workflow graph.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<EdgeSpec, EdgeSpecFromRaw>))]
+public sealed record class EdgeSpec : JsonModel
+{
+    /// <summary>
+    /// The source node ID.
+    /// </summary>
+    public required string Source
+    {
+        get { return JsonModel.GetNotNullClass<string>(this.RawData, "source"); }
+        init { JsonModel.Set(this._rawData, "source", value); }
+    }
+
+    /// <summary>
+    /// The target node ID.
+    /// </summary>
+    public required string Target
+    {
+        get { return JsonModel.GetNotNullClass<string>(this.RawData, "target"); }
+        init { JsonModel.Set(this._rawData, "target", value); }
+    }
+
+    /// <summary>
+    /// Optional metadata for the edge.
+    /// </summary>
+    public IReadOnlyDictionary<string, JsonElement>? Metadata
+    {
+        get
+        {
+            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
+                this.RawData,
+                "metadata"
+            );
+        }
+        init { JsonModel.Set(this._rawData, "metadata", value); }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.Source;
+        _ = this.Target;
+        _ = this.Metadata;
+    }
+
+    public EdgeSpec() { }
+
+    public EdgeSpec(EdgeSpec edgeSpec)
+        : base(edgeSpec) { }
+
+    public EdgeSpec(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = [.. rawData];
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    EdgeSpec(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = [.. rawData];
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="EdgeSpecFromRaw.FromRawUnchecked"/>
+    public static EdgeSpec FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class EdgeSpecFromRaw : IFromRawJson<EdgeSpec>
+{
+    /// <inheritdoc/>
+    public EdgeSpec FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        EdgeSpec.FromRawUnchecked(rawData);
+}

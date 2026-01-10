@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Swarms.Core;
-using Swarms.Models.Client.Marketplace;
+using Swarms.Models.Client.GraphWorkflow;
 
 namespace Swarms.Services.Client;
 
@@ -11,49 +11,51 @@ namespace Swarms.Services.Client;
 /// changes in non-major versions. We may add new methods in the future that cause
 /// existing derived classes to break.
 /// </summary>
-public interface IMarketplaceService
+public interface IGraphWorkflowService
 {
     /// <summary>
     /// Returns a view of this service that provides access to raw HTTP responses
     /// for each method.
     /// </summary>
-    IMarketplaceServiceWithRawResponse WithRawResponse { get; }
+    IGraphWorkflowServiceWithRawResponse WithRawResponse { get; }
 
     /// <summary>
     /// Returns a view of this service with the given option modifications applied.
     ///
     /// <para>The original service is not modified.</para>
     /// </summary>
-    IMarketplaceService WithOptions(Func<ClientOptions, ClientOptions> modifier);
+    IGraphWorkflowService WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
     /// <summary>
-    /// Retrieve free agents from the marketplace.
+    /// Execute a graph workflow with directed agent nodes and edges. Enables complex
+    /// multi-agent collaboration with parallel execution, automatic compilation,
+    /// and comprehensive workflow orchestration.
     /// </summary>
-    Task<MarketplaceCreateAgentResponse> CreateAgent(
-        MarketplaceCreateAgentParams? parameters = null,
+    Task<GraphWorkflowExecuteWorkflowResponse> ExecuteWorkflow(
+        GraphWorkflowExecuteWorkflowParams? parameters = null,
         CancellationToken cancellationToken = default
     );
 }
 
 /// <summary>
-/// A view of <see cref="IMarketplaceService"/> that provides access to raw
+/// A view of <see cref="IGraphWorkflowService"/> that provides access to raw
 /// HTTP responses for each method.
 /// </summary>
-public interface IMarketplaceServiceWithRawResponse
+public interface IGraphWorkflowServiceWithRawResponse
 {
     /// <summary>
     /// Returns a view of this service with the given option modifications applied.
     ///
     /// <para>The original service is not modified.</para>
     /// </summary>
-    IMarketplaceServiceWithRawResponse WithOptions(Func<ClientOptions, ClientOptions> modifier);
+    IGraphWorkflowServiceWithRawResponse WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
     /// <summary>
-    /// Returns a raw HTTP response for `post /v1/marketplace/agents`, but is otherwise the
-    /// same as <see cref="IMarketplaceService.CreateAgent(MarketplaceCreateAgentParams?, CancellationToken)"/>.
+    /// Returns a raw HTTP response for `post /v1/graph-workflow/completions`, but is otherwise the
+    /// same as <see cref="IGraphWorkflowService.ExecuteWorkflow(GraphWorkflowExecuteWorkflowParams?, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<MarketplaceCreateAgentResponse>> CreateAgent(
-        MarketplaceCreateAgentParams? parameters = null,
+    Task<HttpResponse<GraphWorkflowExecuteWorkflowResponse>> ExecuteWorkflow(
+        GraphWorkflowExecuteWorkflowParams? parameters = null,
         CancellationToken cancellationToken = default
     );
 }

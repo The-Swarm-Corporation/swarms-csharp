@@ -35,6 +35,8 @@ public interface IClientService
     IMarketplaceService Marketplace { get; }
 
     IBatchedGridWorkflowService BatchedGridWorkflow { get; }
+
+    IGraphWorkflowService GraphWorkflow { get; }
 }
 
 /// <summary>
@@ -61,4 +63,6 @@ public interface IClientServiceWithRawResponse
     IMarketplaceServiceWithRawResponse Marketplace { get; }
 
     IBatchedGridWorkflowServiceWithRawResponse BatchedGridWorkflow { get; }
+
+    IGraphWorkflowServiceWithRawResponse GraphWorkflow { get; }
 }
