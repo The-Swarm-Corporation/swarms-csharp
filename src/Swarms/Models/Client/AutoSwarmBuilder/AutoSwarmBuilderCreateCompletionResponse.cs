@@ -29,8 +29,12 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : JsonModel
     /// </summary>
     public required bool Success
     {
-        get { return JsonModel.GetNotNullStruct<bool>(this.RawData, "success"); }
-        init { JsonModel.Set(this._rawData, "success", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<bool>("success");
+        }
+        init { this._rawData.Set("success", value); }
     }
 
     /// <summary>
@@ -38,8 +42,12 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : JsonModel
     /// </summary>
     public string? JobID
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "job_id"); }
-        init { JsonModel.Set(this._rawData, "job_id", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("job_id");
+        }
+        init { this._rawData.Set("job_id", value); }
     }
 
     /// <summary>
@@ -49,12 +57,16 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : JsonModel
     {
         get
         {
-            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
-                this.RawData,
-                "outputs"
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FrozenDictionary<string, JsonElement>>("outputs");
+        }
+        init
+        {
+            this._rawData.Set<FrozenDictionary<string, JsonElement>?>(
+                "outputs",
+                value == null ? null : FrozenDictionary.ToFrozenDictionary(value)
             );
         }
-        init { JsonModel.Set(this._rawData, "outputs", value); }
     }
 
     /// <summary>
@@ -62,8 +74,12 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : JsonModel
     /// </summary>
     public string? Timestamp
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "timestamp"); }
-        init { JsonModel.Set(this._rawData, "timestamp", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("timestamp");
+        }
+        init { this._rawData.Set("timestamp", value); }
     }
 
     /// <summary>
@@ -71,8 +87,12 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : JsonModel
     /// </summary>
     public string? Type
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "type"); }
-        init { JsonModel.Set(this._rawData, "type", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("type");
+        }
+        init { this._rawData.Set("type", value); }
     }
 
     /// <summary>
@@ -82,12 +102,16 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : JsonModel
     {
         get
         {
-            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
-                this.RawData,
-                "usage"
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FrozenDictionary<string, JsonElement>>("usage");
+        }
+        init
+        {
+            this._rawData.Set<FrozenDictionary<string, JsonElement>?>(
+                "usage",
+                value == null ? null : FrozenDictionary.ToFrozenDictionary(value)
             );
         }
-        init { JsonModel.Set(this._rawData, "usage", value); }
     }
 
     /// <inheritdoc/>
@@ -112,14 +136,14 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : JsonModel
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     AutoSwarmBuilderCreateCompletionResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 

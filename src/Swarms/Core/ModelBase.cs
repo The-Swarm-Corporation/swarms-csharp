@@ -22,6 +22,7 @@ public abstract record class ModelBase
     {
         Converters =
         {
+            new FrozenDictionaryConverterFactory(),
             new ApiEnumConverter<string, SwarmSpecSwarmType>(),
             new ApiEnumConverter<string, SwarmType>(),
             new ApiEnumConverter<string, ReasoningAgents::OutputType>(),

@@ -14,7 +14,7 @@ namespace Swarms.Models.Client.Marketplace;
 /// </summary>
 public sealed record class MarketplaceCreateAgentParams : ParamsBase
 {
-    readonly FreezableDictionary<string, JsonElement> _rawBodyData = [];
+    readonly JsonDictionary _rawBodyData = new();
     public IReadOnlyDictionary<string, JsonElement> RawBodyData
     {
         get { return this._rawBodyData.Freeze(); }
@@ -25,8 +25,12 @@ public sealed record class MarketplaceCreateAgentParams : ParamsBase
     /// </summary>
     public long? NumberOfItems
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "number_of_items"); }
-        init { JsonModel.Set(this._rawBodyData, "number_of_items", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<long>("number_of_items");
+        }
+        init { this._rawBodyData.Set("number_of_items", value); }
     }
 
     public MarketplaceCreateAgentParams() { }
@@ -34,7 +38,7 @@ public sealed record class MarketplaceCreateAgentParams : ParamsBase
     public MarketplaceCreateAgentParams(MarketplaceCreateAgentParams marketplaceCreateAgentParams)
         : base(marketplaceCreateAgentParams)
     {
-        this._rawBodyData = [.. marketplaceCreateAgentParams._rawBodyData];
+        this._rawBodyData = new(marketplaceCreateAgentParams._rawBodyData);
     }
 
     public MarketplaceCreateAgentParams(
@@ -43,9 +47,9 @@ public sealed record class MarketplaceCreateAgentParams : ParamsBase
         IReadOnlyDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._rawHeaderData = [.. rawHeaderData];
-        this._rawQueryData = [.. rawQueryData];
-        this._rawBodyData = [.. rawBodyData];
+        this._rawHeaderData = new(rawHeaderData);
+        this._rawQueryData = new(rawQueryData);
+        this._rawBodyData = new(rawBodyData);
     }
 
 #pragma warning disable CS8618
@@ -56,9 +60,9 @@ public sealed record class MarketplaceCreateAgentParams : ParamsBase
         FrozenDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._rawHeaderData = [.. rawHeaderData];
-        this._rawQueryData = [.. rawQueryData];
-        this._rawBodyData = [.. rawBodyData];
+        this._rawHeaderData = new(rawHeaderData);
+        this._rawQueryData = new(rawQueryData);
+        this._rawBodyData = new(rawBodyData);
     }
 #pragma warning restore CS8618
 

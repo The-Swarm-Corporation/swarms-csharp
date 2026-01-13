@@ -3,6 +3,7 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Core;
@@ -18,8 +19,12 @@ public sealed record class AgentCompletion : JsonModel
     /// </summary>
     public AgentSpec? AgentConfig
     {
-        get { return JsonModel.GetNullableClass<AgentSpec>(this.RawData, "agent_config"); }
-        init { JsonModel.Set(this._rawData, "agent_config", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<AgentSpec>("agent_config");
+        }
+        init { this._rawData.Set("agent_config", value); }
     }
 
     /// <summary>
@@ -28,8 +33,12 @@ public sealed record class AgentCompletion : JsonModel
     /// </summary>
     public AgentCompletionHistory? History
     {
-        get { return JsonModel.GetNullableClass<AgentCompletionHistory>(this.RawData, "history"); }
-        init { JsonModel.Set(this._rawData, "history", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<AgentCompletionHistory>("history");
+        }
+        init { this._rawData.Set("history", value); }
     }
 
     /// <summary>
@@ -37,8 +46,12 @@ public sealed record class AgentCompletion : JsonModel
     /// </summary>
     public string? Img
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "img"); }
-        init { JsonModel.Set(this._rawData, "img", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("img");
+        }
+        init { this._rawData.Set("img", value); }
     }
 
     /// <summary>
@@ -46,8 +59,18 @@ public sealed record class AgentCompletion : JsonModel
     /// </summary>
     public IReadOnlyList<string>? Imgs
     {
-        get { return JsonModel.GetNullableClass<List<string>>(this.RawData, "imgs"); }
-        init { JsonModel.Set(this._rawData, "imgs", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("imgs");
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<string>?>(
+                "imgs",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
     }
 
     /// <summary>
@@ -55,8 +78,12 @@ public sealed record class AgentCompletion : JsonModel
     /// </summary>
     public string? Task
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "task"); }
-        init { JsonModel.Set(this._rawData, "task", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("task");
+        }
+        init { this._rawData.Set("task", value); }
     }
 
     /// <summary>
@@ -64,8 +91,18 @@ public sealed record class AgentCompletion : JsonModel
     /// </summary>
     public IReadOnlyList<string>? ToolsEnabled
     {
-        get { return JsonModel.GetNullableClass<List<string>>(this.RawData, "tools_enabled"); }
-        init { JsonModel.Set(this._rawData, "tools_enabled", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tools_enabled");
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<string>?>(
+                "tools_enabled",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
     }
 
     /// <inheritdoc/>
@@ -86,14 +123,14 @@ public sealed record class AgentCompletion : JsonModel
 
     public AgentCompletion(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     AgentCompletion(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
@@ -137,11 +174,13 @@ public record class AgentCompletionHistory : ModelBase
     }
 
     public AgentCompletionHistory(
-        IReadOnlyList<Dictionary<string, string>> value,
+        IReadOnlyList<IReadOnlyDictionary<string, string>> value,
         JsonElement? element = null
     )
     {
-        this.Value = ImmutableArray.ToImmutableArray(value);
+        this.Value = ImmutableArray.ToImmutableArray(
+            Enumerable.Select(value, (item) => FrozenDictionary.ToFrozenDictionary(item))
+        );
         this._element = element;
     }
 
@@ -175,24 +214,24 @@ public record class AgentCompletionHistory : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="IReadOnlyList<Dictionary<string, string>>"/>.
+    /// type <see cref="IReadOnlyList<IReadOnlyDictionary<string, string>>"/>.
     ///
     /// <para>Consider using <see cref="Switch"> or <see cref="Match"> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickStrings(out var value)) {
-    ///     // `value` is of type `IReadOnlyList<Dictionary<string, string>>`
+    ///     // `value` is of type `IReadOnlyList<IReadOnlyDictionary<string, string>>`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
     public bool TryPickStrings(
-        [NotNullWhen(true)] out IReadOnlyList<Dictionary<string, string>>? value
+        [NotNullWhen(true)] out IReadOnlyList<IReadOnlyDictionary<string, string>>? value
     )
     {
-        value = this.Value as IReadOnlyList<Dictionary<string, string>>;
+        value = this.Value as IReadOnlyList<IReadOnlyDictionary<string, string>>;
         return value != null;
     }
 
@@ -211,14 +250,14 @@ public record class AgentCompletionHistory : ModelBase
     /// <code>
     /// instance.Switch(
     ///     (IReadOnlyDictionary<string, JsonElement> value) => {...},
-    ///     (IReadOnlyList<Dictionary<string, string>> value) => {...}
+    ///     (IReadOnlyList<IReadOnlyDictionary<string, string>> value) => {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public void Switch(
         Action<IReadOnlyDictionary<string, JsonElement>> jsonElements,
-        Action<IReadOnlyList<Dictionary<string, string>>> strings
+        Action<IReadOnlyList<IReadOnlyDictionary<string, string>>> strings
     )
     {
         switch (this.Value)
@@ -226,7 +265,7 @@ public record class AgentCompletionHistory : ModelBase
             case IReadOnlyDictionary<string, JsonElement> value:
                 jsonElements(value);
                 break;
-            case IReadOnlyList<Dictionary<string, string>> value:
+            case IReadOnlyList<IReadOnlyDictionary<string, string>> value:
                 strings(value);
                 break;
             default:
@@ -252,20 +291,20 @@ public record class AgentCompletionHistory : ModelBase
     /// <code>
     /// var result = instance.Match(
     ///     (IReadOnlyDictionary<string, JsonElement> value) => {...},
-    ///     (IReadOnlyList<Dictionary<string, string>> value) => {...}
+    ///     (IReadOnlyList<IReadOnlyDictionary<string, string>> value) => {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public T Match<T>(
         Func<IReadOnlyDictionary<string, JsonElement>, T> jsonElements,
-        Func<IReadOnlyList<Dictionary<string, string>>, T> strings
+        Func<IReadOnlyList<IReadOnlyDictionary<string, string>>, T> strings
     )
     {
         return this.Value switch
         {
             IReadOnlyDictionary<string, JsonElement> value => jsonElements(value),
-            IReadOnlyList<Dictionary<string, string>> value => strings(value),
+            IReadOnlyList<IReadOnlyDictionary<string, string>> value => strings(value),
             _ => throw new SwarmsClientInvalidDataException(
                 "Data did not match any variant of AgentCompletionHistory"
             ),
@@ -277,7 +316,7 @@ public record class AgentCompletionHistory : ModelBase
 
     public static implicit operator AgentCompletionHistory(
         List<Dictionary<string, string>> value
-    ) => new((IReadOnlyList<Dictionary<string, string>>)value);
+    ) => new((IReadOnlyList<IReadOnlyDictionary<string, string>>)value);
 
     /// <summary>
     /// Validates that the instance was constructed with a known variant and that this variant is valid
@@ -324,7 +363,7 @@ sealed class AgentCompletionHistoryConverter : JsonConverter<AgentCompletionHist
         var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
-            var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
+            var deserialized = JsonSerializer.Deserialize<FrozenDictionary<string, JsonElement>>(
                 element,
                 options
             );
@@ -340,10 +379,9 @@ sealed class AgentCompletionHistoryConverter : JsonConverter<AgentCompletionHist
 
         try
         {
-            var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, string>>>(
-                element,
-                options
-            );
+            var deserialized = JsonSerializer.Deserialize<
+                ImmutableArray<FrozenDictionary<string, string>>
+            >(element, options);
             if (deserialized != null)
             {
                 return new(deserialized, element);

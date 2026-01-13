@@ -3,6 +3,7 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Core;
@@ -26,8 +27,18 @@ public sealed record class MarketplaceCreateAgentResponse : JsonModel
     /// </summary>
     public required IReadOnlyList<Prompt> Prompts
     {
-        get { return JsonModel.GetNotNullClass<List<Prompt>>(this.RawData, "prompts"); }
-        init { JsonModel.Set(this._rawData, "prompts", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<ImmutableArray<Prompt>>("prompts");
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<Prompt>>(
+                "prompts",
+                ImmutableArray.ToImmutableArray(value)
+            );
+        }
     }
 
     /// <summary>
@@ -35,8 +46,12 @@ public sealed record class MarketplaceCreateAgentResponse : JsonModel
     /// </summary>
     public required long TotalCount
     {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "total_count"); }
-        init { JsonModel.Set(this._rawData, "total_count", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("total_count");
+        }
+        init { this._rawData.Set("total_count", value); }
     }
 
     /// <summary>
@@ -44,8 +59,12 @@ public sealed record class MarketplaceCreateAgentResponse : JsonModel
     /// </summary>
     public string? Status
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "status"); }
-        init { JsonModel.Set(this._rawData, "status", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("status");
+        }
+        init { this._rawData.Set("status", value); }
     }
 
     /// <summary>
@@ -53,8 +72,12 @@ public sealed record class MarketplaceCreateAgentResponse : JsonModel
     /// </summary>
     public string? Timestamp
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "timestamp"); }
-        init { JsonModel.Set(this._rawData, "timestamp", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("timestamp");
+        }
+        init { this._rawData.Set("timestamp", value); }
     }
 
     /// <inheritdoc/>
@@ -78,14 +101,14 @@ public sealed record class MarketplaceCreateAgentResponse : JsonModel
 
     public MarketplaceCreateAgentResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     MarketplaceCreateAgentResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
@@ -117,8 +140,12 @@ public sealed record class Prompt : JsonModel
     /// </summary>
     public required string ID
     {
-        get { return JsonModel.GetNotNullClass<string>(this.RawData, "id"); }
-        init { JsonModel.Set(this._rawData, "id", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("id");
+        }
+        init { this._rawData.Set("id", value); }
     }
 
     /// <summary>
@@ -126,8 +153,12 @@ public sealed record class Prompt : JsonModel
     /// </summary>
     public required string CreatedAt
     {
-        get { return JsonModel.GetNotNullClass<string>(this.RawData, "created_at"); }
-        init { JsonModel.Set(this._rawData, "created_at", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("created_at");
+        }
+        init { this._rawData.Set("created_at", value); }
     }
 
     /// <summary>
@@ -135,8 +166,12 @@ public sealed record class Prompt : JsonModel
     /// </summary>
     public required string UserID
     {
-        get { return JsonModel.GetNotNullClass<string>(this.RawData, "user_id"); }
-        init { JsonModel.Set(this._rawData, "user_id", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("user_id");
+        }
+        init { this._rawData.Set("user_id", value); }
     }
 
     /// <summary>
@@ -144,8 +179,12 @@ public sealed record class Prompt : JsonModel
     /// </summary>
     public Category? Category
     {
-        get { return JsonModel.GetNullableClass<Category>(this.RawData, "category"); }
-        init { JsonModel.Set(this._rawData, "category", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<Category>("category");
+        }
+        init { this._rawData.Set("category", value); }
     }
 
     /// <summary>
@@ -153,8 +192,12 @@ public sealed record class Prompt : JsonModel
     /// </summary>
     public string? Description
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "description"); }
-        init { JsonModel.Set(this._rawData, "description", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("description");
+        }
+        init { this._rawData.Set("description", value); }
     }
 
     /// <summary>
@@ -162,8 +205,12 @@ public sealed record class Prompt : JsonModel
     /// </summary>
     public Links? Links
     {
-        get { return JsonModel.GetNullableClass<Links>(this.RawData, "links"); }
-        init { JsonModel.Set(this._rawData, "links", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<Links>("links");
+        }
+        init { this._rawData.Set("links", value); }
     }
 
     /// <summary>
@@ -171,8 +218,12 @@ public sealed record class Prompt : JsonModel
     /// </summary>
     public string? Name
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "name"); }
-        init { JsonModel.Set(this._rawData, "name", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("name");
+        }
+        init { this._rawData.Set("name", value); }
     }
 
     /// <summary>
@@ -180,8 +231,12 @@ public sealed record class Prompt : JsonModel
     /// </summary>
     public string? PromptValue
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "prompt"); }
-        init { JsonModel.Set(this._rawData, "prompt", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("prompt");
+        }
+        init { this._rawData.Set("prompt", value); }
     }
 
     /// <summary>
@@ -189,8 +244,12 @@ public sealed record class Prompt : JsonModel
     /// </summary>
     public string? Status
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "status"); }
-        init { JsonModel.Set(this._rawData, "status", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("status");
+        }
+        init { this._rawData.Set("status", value); }
     }
 
     /// <summary>
@@ -198,8 +257,12 @@ public sealed record class Prompt : JsonModel
     /// </summary>
     public string? Tags
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "tags"); }
-        init { JsonModel.Set(this._rawData, "tags", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("tags");
+        }
+        init { this._rawData.Set("tags", value); }
     }
 
     /// <summary>
@@ -207,8 +270,12 @@ public sealed record class Prompt : JsonModel
     /// </summary>
     public UseCases? UseCases
     {
-        get { return JsonModel.GetNullableClass<UseCases>(this.RawData, "use_cases"); }
-        init { JsonModel.Set(this._rawData, "use_cases", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<UseCases>("use_cases");
+        }
+        init { this._rawData.Set("use_cases", value); }
     }
 
     /// <inheritdoc/>
@@ -234,14 +301,14 @@ public sealed record class Prompt : JsonModel
 
     public Prompt(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     Prompt(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
@@ -466,7 +533,7 @@ sealed class CategoryConverter : JsonConverter<Category?>
 
         try
         {
-            var deserialized = JsonSerializer.Deserialize<List<string>>(element, options);
+            var deserialized = JsonSerializer.Deserialize<ImmutableArray<string>>(element, options);
             if (deserialized != null)
             {
                 return new(deserialized, element);
@@ -505,9 +572,14 @@ public record class Links : ModelBase
         get { return this._element ??= JsonSerializer.SerializeToElement(this.Value); }
     }
 
-    public Links(IReadOnlyList<Dictionary<string, JsonElement>> value, JsonElement? element = null)
+    public Links(
+        IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value,
+        JsonElement? element = null
+    )
     {
-        this.Value = ImmutableArray.ToImmutableArray(value);
+        this.Value = ImmutableArray.ToImmutableArray(
+            Enumerable.Select(value, (item) => FrozenDictionary.ToFrozenDictionary(item))
+        );
         this._element = element;
     }
 
@@ -524,24 +596,24 @@ public record class Links : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="IReadOnlyList<Dictionary<string, JsonElement>>"/>.
+    /// type <see cref="IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>"/>.
     ///
     /// <para>Consider using <see cref="Switch"> or <see cref="Match"> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickJsonElements(out var value)) {
-    ///     // `value` is of type `IReadOnlyList<Dictionary<string, JsonElement>>`
+    ///     // `value` is of type `IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
     public bool TryPickJsonElements(
-        [NotNullWhen(true)] out IReadOnlyList<Dictionary<string, JsonElement>>? value
+        [NotNullWhen(true)] out IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>? value
     )
     {
-        value = this.Value as IReadOnlyList<Dictionary<string, JsonElement>>;
+        value = this.Value as IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>;
         return value != null;
     }
 
@@ -580,20 +652,20 @@ public record class Links : ModelBase
     /// <example>
     /// <code>
     /// instance.Switch(
-    ///     (IReadOnlyList<Dictionary<string, JsonElement>> value) => {...},
+    ///     (IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value) => {...},
     ///     (IReadOnlyList<string> value) => {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public void Switch(
-        Action<IReadOnlyList<Dictionary<string, JsonElement>>> jsonElements,
+        Action<IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>> jsonElements,
         Action<IReadOnlyList<string>> strings
     )
     {
         switch (this.Value)
         {
-            case IReadOnlyList<Dictionary<string, JsonElement>> value:
+            case IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value:
                 jsonElements(value);
                 break;
             case IReadOnlyList<string> value:
@@ -621,20 +693,20 @@ public record class Links : ModelBase
     /// <example>
     /// <code>
     /// var result = instance.Match(
-    ///     (IReadOnlyList<Dictionary<string, JsonElement>> value) => {...},
+    ///     (IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value) => {...},
     ///     (IReadOnlyList<string> value) => {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public T Match<T>(
-        Func<IReadOnlyList<Dictionary<string, JsonElement>>, T> jsonElements,
+        Func<IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>, T> jsonElements,
         Func<IReadOnlyList<string>, T> strings
     )
     {
         return this.Value switch
         {
-            IReadOnlyList<Dictionary<string, JsonElement>> value => jsonElements(value),
+            IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value => jsonElements(value),
             IReadOnlyList<string> value => strings(value),
             _ => throw new SwarmsClientInvalidDataException(
                 "Data did not match any variant of Links"
@@ -643,7 +715,7 @@ public record class Links : ModelBase
     }
 
     public static implicit operator Links(List<Dictionary<string, JsonElement>> value) =>
-        new((IReadOnlyList<Dictionary<string, JsonElement>>)value);
+        new((IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>)value);
 
     public static implicit operator Links(List<string> value) => new((IReadOnlyList<string>)value);
 
@@ -690,10 +762,9 @@ sealed class LinksConverter : JsonConverter<Links?>
         var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
-            var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
-                element,
-                options
-            );
+            var deserialized = JsonSerializer.Deserialize<
+                ImmutableArray<FrozenDictionary<string, JsonElement>>
+            >(element, options);
             if (deserialized != null)
             {
                 return new(deserialized, element);
@@ -706,7 +777,7 @@ sealed class LinksConverter : JsonConverter<Links?>
 
         try
         {
-            var deserialized = JsonSerializer.Deserialize<List<string>>(element, options);
+            var deserialized = JsonSerializer.Deserialize<ImmutableArray<string>>(element, options);
             if (deserialized != null)
             {
                 return new(deserialized, element);
@@ -748,11 +819,13 @@ public record class UseCases : ModelBase
     }
 
     public UseCases(
-        IReadOnlyList<Dictionary<string, JsonElement>> value,
+        IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value,
         JsonElement? element = null
     )
     {
-        this.Value = ImmutableArray.ToImmutableArray(value);
+        this.Value = ImmutableArray.ToImmutableArray(
+            Enumerable.Select(value, (item) => FrozenDictionary.ToFrozenDictionary(item))
+        );
         this._element = element;
     }
 
@@ -786,24 +859,24 @@ public record class UseCases : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="IReadOnlyList<Dictionary<string, JsonElement>>"/>.
+    /// type <see cref="IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>"/>.
     ///
     /// <para>Consider using <see cref="Switch"> or <see cref="Match"> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickJsonElements1(out var value)) {
-    ///     // `value` is of type `IReadOnlyList<Dictionary<string, JsonElement>>`
+    ///     // `value` is of type `IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
     public bool TryPickJsonElements1(
-        [NotNullWhen(true)] out IReadOnlyList<Dictionary<string, JsonElement>>? value
+        [NotNullWhen(true)] out IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>? value
     )
     {
-        value = this.Value as IReadOnlyList<Dictionary<string, JsonElement>>;
+        value = this.Value as IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>;
         return value != null;
     }
 
@@ -822,14 +895,14 @@ public record class UseCases : ModelBase
     /// <code>
     /// instance.Switch(
     ///     (IReadOnlyDictionary<string, JsonElement> value) => {...},
-    ///     (IReadOnlyList<Dictionary<string, JsonElement>> value) => {...}
+    ///     (IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value) => {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public void Switch(
         Action<IReadOnlyDictionary<string, JsonElement>> jsonElements,
-        Action<IReadOnlyList<Dictionary<string, JsonElement>>> jsonElements1
+        Action<IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>> jsonElements1
     )
     {
         switch (this.Value)
@@ -837,7 +910,7 @@ public record class UseCases : ModelBase
             case IReadOnlyDictionary<string, JsonElement> value:
                 jsonElements(value);
                 break;
-            case IReadOnlyList<Dictionary<string, JsonElement>> value:
+            case IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value:
                 jsonElements1(value);
                 break;
             default:
@@ -863,20 +936,20 @@ public record class UseCases : ModelBase
     /// <code>
     /// var result = instance.Match(
     ///     (IReadOnlyDictionary<string, JsonElement> value) => {...},
-    ///     (IReadOnlyList<Dictionary<string, JsonElement>> value) => {...}
+    ///     (IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value) => {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public T Match<T>(
         Func<IReadOnlyDictionary<string, JsonElement>, T> jsonElements,
-        Func<IReadOnlyList<Dictionary<string, JsonElement>>, T> jsonElements1
+        Func<IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>, T> jsonElements1
     )
     {
         return this.Value switch
         {
             IReadOnlyDictionary<string, JsonElement> value => jsonElements(value),
-            IReadOnlyList<Dictionary<string, JsonElement>> value => jsonElements1(value),
+            IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value => jsonElements1(value),
             _ => throw new SwarmsClientInvalidDataException(
                 "Data did not match any variant of UseCases"
             ),
@@ -887,7 +960,7 @@ public record class UseCases : ModelBase
         new((IReadOnlyDictionary<string, JsonElement>)value);
 
     public static implicit operator UseCases(List<Dictionary<string, JsonElement>> value) =>
-        new((IReadOnlyList<Dictionary<string, JsonElement>>)value);
+        new((IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>)value);
 
     /// <summary>
     /// Validates that the instance was constructed with a known variant and that this variant is valid
@@ -934,7 +1007,7 @@ sealed class UseCasesConverter : JsonConverter<UseCases?>
         var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
-            var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
+            var deserialized = JsonSerializer.Deserialize<FrozenDictionary<string, JsonElement>>(
                 element,
                 options
             );
@@ -950,10 +1023,9 @@ sealed class UseCasesConverter : JsonConverter<UseCases?>
 
         try
         {
-            var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
-                element,
-                options
-            );
+            var deserialized = JsonSerializer.Deserialize<
+                ImmutableArray<FrozenDictionary<string, JsonElement>>
+            >(element, options);
             if (deserialized != null)
             {
                 return new(deserialized, element);

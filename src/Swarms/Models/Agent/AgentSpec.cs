@@ -1,6 +1,8 @@
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Core;
@@ -16,8 +18,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public required string? AgentName
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "agent_name"); }
-        init { JsonModel.Set(this._rawData, "agent_name", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("agent_name");
+        }
+        init { this._rawData.Set("agent_name", value); }
     }
 
     /// <summary>
@@ -26,8 +32,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public bool? AutoGeneratePrompt
     {
-        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "auto_generate_prompt"); }
-        init { JsonModel.Set(this._rawData, "auto_generate_prompt", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("auto_generate_prompt");
+        }
+        init { this._rawData.Set("auto_generate_prompt", value); }
     }
 
     /// <summary>
@@ -36,8 +46,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public string? Description
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "description"); }
-        init { JsonModel.Set(this._rawData, "description", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("description");
+        }
+        init { this._rawData.Set("description", value); }
     }
 
     /// <summary>
@@ -48,9 +62,10 @@ public sealed record class AgentSpec : JsonModel
     {
         get
         {
-            return JsonModel.GetNullableStruct<bool>(this.RawData, "dynamic_temperature_enabled");
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("dynamic_temperature_enabled");
         }
-        init { JsonModel.Set(this._rawData, "dynamic_temperature_enabled", value); }
+        init { this._rawData.Set("dynamic_temperature_enabled", value); }
     }
 
     /// <summary>
@@ -61,12 +76,18 @@ public sealed record class AgentSpec : JsonModel
     {
         get
         {
-            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
-                this.RawData,
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FrozenDictionary<string, JsonElement>>(
                 "llm_args"
             );
         }
-        init { JsonModel.Set(this._rawData, "llm_args", value); }
+        init
+        {
+            this._rawData.Set<FrozenDictionary<string, JsonElement>?>(
+                "llm_args",
+                value == null ? null : FrozenDictionary.ToFrozenDictionary(value)
+            );
+        }
     }
 
     /// <summary>
@@ -75,8 +96,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public long? MaxLoops
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "max_loops"); }
-        init { JsonModel.Set(this._rawData, "max_loops", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("max_loops");
+        }
+        init { this._rawData.Set("max_loops", value); }
     }
 
     /// <summary>
@@ -85,8 +110,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public long? MaxTokens
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "max_tokens"); }
-        init { JsonModel.Set(this._rawData, "max_tokens", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("max_tokens");
+        }
+        init { this._rawData.Set("max_tokens", value); }
     }
 
     /// <summary>
@@ -94,8 +123,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public McpConnection? McpConfig
     {
-        get { return JsonModel.GetNullableClass<McpConnection>(this.RawData, "mcp_config"); }
-        init { JsonModel.Set(this._rawData, "mcp_config", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<McpConnection>("mcp_config");
+        }
+        init { this._rawData.Set("mcp_config", value); }
     }
 
     /// <summary>
@@ -104,8 +137,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public McpConfigs? McpConfigs
     {
-        get { return JsonModel.GetNullableClass<McpConfigs>(this.RawData, "mcp_configs"); }
-        init { JsonModel.Set(this._rawData, "mcp_configs", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<McpConfigs>("mcp_configs");
+        }
+        init { this._rawData.Set("mcp_configs", value); }
     }
 
     /// <summary>
@@ -113,8 +150,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public string? McpUrl
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "mcp_url"); }
-        init { JsonModel.Set(this._rawData, "mcp_url", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("mcp_url");
+        }
+        init { this._rawData.Set("mcp_url", value); }
     }
 
     /// <summary>
@@ -123,8 +164,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public string? ModelName
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "model_name"); }
-        init { JsonModel.Set(this._rawData, "model_name", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("model_name");
+        }
+        init { this._rawData.Set("model_name", value); }
     }
 
     /// <summary>
@@ -132,8 +177,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public string? ReasoningEffort
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "reasoning_effort"); }
-        init { JsonModel.Set(this._rawData, "reasoning_effort", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("reasoning_effort");
+        }
+        init { this._rawData.Set("reasoning_effort", value); }
     }
 
     /// <summary>
@@ -141,8 +190,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public bool? ReasoningEnabled
     {
-        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "reasoning_enabled"); }
-        init { JsonModel.Set(this._rawData, "reasoning_enabled", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("reasoning_enabled");
+        }
+        init { this._rawData.Set("reasoning_enabled", value); }
     }
 
     /// <summary>
@@ -151,8 +204,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public string? Role
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "role"); }
-        init { JsonModel.Set(this._rawData, "role", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("role");
+        }
+        init { this._rawData.Set("role", value); }
     }
 
     /// <summary>
@@ -160,8 +217,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public bool? StreamingOn
     {
-        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "streaming_on"); }
-        init { JsonModel.Set(this._rawData, "streaming_on", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("streaming_on");
+        }
+        init { this._rawData.Set("streaming_on", value); }
     }
 
     /// <summary>
@@ -170,8 +231,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public string? SystemPrompt
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "system_prompt"); }
-        init { JsonModel.Set(this._rawData, "system_prompt", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("system_prompt");
+        }
+        init { this._rawData.Set("system_prompt", value); }
     }
 
     /// <summary>
@@ -180,8 +245,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public double? Temperature
     {
-        get { return JsonModel.GetNullableStruct<double>(this.RawData, "temperature"); }
-        init { JsonModel.Set(this._rawData, "temperature", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("temperature");
+        }
+        init { this._rawData.Set("temperature", value); }
     }
 
     /// <summary>
@@ -189,8 +258,12 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public long? ThinkingTokens
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "thinking_tokens"); }
-        init { JsonModel.Set(this._rawData, "thinking_tokens", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("thinking_tokens");
+        }
+        init { this._rawData.Set("thinking_tokens", value); }
     }
 
     /// <summary>
@@ -198,23 +271,40 @@ public sealed record class AgentSpec : JsonModel
     /// </summary>
     public bool? ToolCallSummary
     {
-        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "tool_call_summary"); }
-        init { JsonModel.Set(this._rawData, "tool_call_summary", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("tool_call_summary");
+        }
+        init { this._rawData.Set("tool_call_summary", value); }
     }
 
     /// <summary>
     /// A dictionary of tools that the agent can use to complete its task.
     /// </summary>
-    public IReadOnlyList<Dictionary<string, JsonElement>>? ToolsListDictionary
+    public IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>? ToolsListDictionary
     {
         get
         {
-            return JsonModel.GetNullableClass<List<Dictionary<string, JsonElement>>>(
-                this.RawData,
-                "tools_list_dictionary"
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<
+                ImmutableArray<FrozenDictionary<string, JsonElement>>
+            >("tools_list_dictionary");
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<FrozenDictionary<string, JsonElement>>?>(
+                "tools_list_dictionary",
+                value == null
+                    ? null
+                    : ImmutableArray.ToImmutableArray(
+                        Enumerable.Select(
+                            value,
+                            (item) => FrozenDictionary.ToFrozenDictionary(item)
+                        )
+                    )
             );
         }
-        init { JsonModel.Set(this._rawData, "tools_list_dictionary", value); }
     }
 
     /// <inheritdoc/>
@@ -249,14 +339,14 @@ public sealed record class AgentSpec : JsonModel
 
     public AgentSpec(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     AgentSpec(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
@@ -293,8 +383,18 @@ public sealed record class McpConfigs : JsonModel
     /// </summary>
     public required IReadOnlyList<McpConnection> Connections
     {
-        get { return JsonModel.GetNotNullClass<List<McpConnection>>(this.RawData, "connections"); }
-        init { JsonModel.Set(this._rawData, "connections", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<ImmutableArray<McpConnection>>("connections");
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<McpConnection>>(
+                "connections",
+                ImmutableArray.ToImmutableArray(value)
+            );
+        }
     }
 
     /// <inheritdoc/>
@@ -313,14 +413,14 @@ public sealed record class McpConfigs : JsonModel
 
     public McpConfigs(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     McpConfigs(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 

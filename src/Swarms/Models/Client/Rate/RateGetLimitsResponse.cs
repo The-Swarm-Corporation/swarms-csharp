@@ -15,8 +15,12 @@ public sealed record class RateGetLimitsResponse : JsonModel
     /// </summary>
     public required Limits? Limits
     {
-        get { return JsonModel.GetNullableClass<Limits>(this.RawData, "limits"); }
-        init { JsonModel.Set(this._rawData, "limits", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<Limits>("limits");
+        }
+        init { this._rawData.Set("limits", value); }
     }
 
     /// <summary>
@@ -24,8 +28,12 @@ public sealed record class RateGetLimitsResponse : JsonModel
     /// </summary>
     public required RateLimits? RateLimits
     {
-        get { return JsonModel.GetNullableClass<RateLimits>(this.RawData, "rate_limits"); }
-        init { JsonModel.Set(this._rawData, "rate_limits", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<RateLimits>("rate_limits");
+        }
+        init { this._rawData.Set("rate_limits", value); }
     }
 
     /// <summary>
@@ -33,8 +41,12 @@ public sealed record class RateGetLimitsResponse : JsonModel
     /// </summary>
     public required string? Tier
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "tier"); }
-        init { JsonModel.Set(this._rawData, "tier", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("tier");
+        }
+        init { this._rawData.Set("tier", value); }
     }
 
     /// <summary>
@@ -42,8 +54,12 @@ public sealed record class RateGetLimitsResponse : JsonModel
     /// </summary>
     public required string? Timestamp
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "timestamp"); }
-        init { JsonModel.Set(this._rawData, "timestamp", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("timestamp");
+        }
+        init { this._rawData.Set("timestamp", value); }
     }
 
     /// <summary>
@@ -51,8 +67,12 @@ public sealed record class RateGetLimitsResponse : JsonModel
     /// </summary>
     public bool? Success
     {
-        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "success"); }
-        init { JsonModel.Set(this._rawData, "success", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("success");
+        }
+        init { this._rawData.Set("success", value); }
     }
 
     /// <inheritdoc/>
@@ -72,14 +92,14 @@ public sealed record class RateGetLimitsResponse : JsonModel
 
     public RateGetLimitsResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     RateGetLimitsResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
@@ -111,8 +131,12 @@ public sealed record class Limits : JsonModel
     /// </summary>
     public required long MaximumRequestsPerDay
     {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "maximum_requests_per_day"); }
-        init { JsonModel.Set(this._rawData, "maximum_requests_per_day", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("maximum_requests_per_day");
+        }
+        init { this._rawData.Set("maximum_requests_per_day", value); }
     }
 
     /// <summary>
@@ -120,8 +144,12 @@ public sealed record class Limits : JsonModel
     /// </summary>
     public required long MaximumRequestsPerHour
     {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "maximum_requests_per_hour"); }
-        init { JsonModel.Set(this._rawData, "maximum_requests_per_hour", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("maximum_requests_per_hour");
+        }
+        init { this._rawData.Set("maximum_requests_per_hour", value); }
     }
 
     /// <summary>
@@ -131,9 +159,10 @@ public sealed record class Limits : JsonModel
     {
         get
         {
-            return JsonModel.GetNotNullStruct<long>(this.RawData, "maximum_requests_per_minute");
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("maximum_requests_per_minute");
         }
-        init { JsonModel.Set(this._rawData, "maximum_requests_per_minute", value); }
+        init { this._rawData.Set("maximum_requests_per_minute", value); }
     }
 
     /// <summary>
@@ -141,8 +170,12 @@ public sealed record class Limits : JsonModel
     /// </summary>
     public required long TokensPerAgent
     {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "tokens_per_agent"); }
-        init { JsonModel.Set(this._rawData, "tokens_per_agent", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("tokens_per_agent");
+        }
+        init { this._rawData.Set("tokens_per_agent", value); }
     }
 
     /// <inheritdoc/>
@@ -161,14 +194,14 @@ public sealed record class Limits : JsonModel
 
     public Limits(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     Limits(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
@@ -197,8 +230,12 @@ public sealed record class RateLimits : JsonModel
     /// </summary>
     public required RateLimitWindow Day
     {
-        get { return JsonModel.GetNotNullClass<RateLimitWindow>(this.RawData, "day"); }
-        init { JsonModel.Set(this._rawData, "day", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<RateLimitWindow>("day");
+        }
+        init { this._rawData.Set("day", value); }
     }
 
     /// <summary>
@@ -206,8 +243,12 @@ public sealed record class RateLimits : JsonModel
     /// </summary>
     public required RateLimitWindow Hour
     {
-        get { return JsonModel.GetNotNullClass<RateLimitWindow>(this.RawData, "hour"); }
-        init { JsonModel.Set(this._rawData, "hour", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<RateLimitWindow>("hour");
+        }
+        init { this._rawData.Set("hour", value); }
     }
 
     /// <summary>
@@ -215,8 +256,12 @@ public sealed record class RateLimits : JsonModel
     /// </summary>
     public required RateLimitWindow Minute
     {
-        get { return JsonModel.GetNotNullClass<RateLimitWindow>(this.RawData, "minute"); }
-        init { JsonModel.Set(this._rawData, "minute", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<RateLimitWindow>("minute");
+        }
+        init { this._rawData.Set("minute", value); }
     }
 
     /// <inheritdoc/>
@@ -234,14 +279,14 @@ public sealed record class RateLimits : JsonModel
 
     public RateLimits(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     RateLimits(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 

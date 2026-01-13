@@ -20,8 +20,12 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : JsonMod
     /// </summary>
     public required string Description
     {
-        get { return JsonModel.GetNotNullClass<string>(this.RawData, "description"); }
-        init { JsonModel.Set(this._rawData, "description", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("description");
+        }
+        init { this._rawData.Set("description", value); }
     }
 
     /// <summary>
@@ -29,8 +33,12 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : JsonMod
     /// </summary>
     public required string JobID
     {
-        get { return JsonModel.GetNotNullClass<string>(this.RawData, "job_id"); }
-        init { JsonModel.Set(this._rawData, "job_id", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("job_id");
+        }
+        init { this._rawData.Set("job_id", value); }
     }
 
     /// <summary>
@@ -38,8 +46,12 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : JsonMod
     /// </summary>
     public required string Name
     {
-        get { return JsonModel.GetNotNullClass<string>(this.RawData, "name"); }
-        init { JsonModel.Set(this._rawData, "name", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("name");
+        }
+        init { this._rawData.Set("name", value); }
     }
 
     /// <summary>
@@ -47,8 +59,12 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : JsonMod
     /// </summary>
     public required JsonElement Outputs
     {
-        get { return JsonModel.GetNotNullStruct<JsonElement>(this.RawData, "outputs"); }
-        init { JsonModel.Set(this._rawData, "outputs", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("outputs");
+        }
+        init { this._rawData.Set("outputs", value); }
     }
 
     /// <summary>
@@ -56,8 +72,12 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : JsonMod
     /// </summary>
     public required string Status
     {
-        get { return JsonModel.GetNotNullClass<string>(this.RawData, "status"); }
-        init { JsonModel.Set(this._rawData, "status", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("status");
+        }
+        init { this._rawData.Set("status", value); }
     }
 
     /// <summary>
@@ -65,8 +85,12 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : JsonMod
     /// </summary>
     public required string Timestamp
     {
-        get { return JsonModel.GetNotNullClass<string>(this.RawData, "timestamp"); }
-        init { JsonModel.Set(this._rawData, "timestamp", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("timestamp");
+        }
+        init { this._rawData.Set("timestamp", value); }
     }
 
     /// <summary>
@@ -74,8 +98,12 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : JsonMod
     /// </summary>
     public required Usage Usage
     {
-        get { return JsonModel.GetNotNullClass<Usage>(this.RawData, "usage"); }
-        init { JsonModel.Set(this._rawData, "usage", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<Usage>("usage");
+        }
+        init { this._rawData.Set("usage", value); }
     }
 
     /// <inheritdoc/>
@@ -101,14 +129,14 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : JsonMod
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     BatchedGridWorkflowCompleteWorkflowResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
@@ -141,8 +169,12 @@ public sealed record class Usage : JsonModel
     /// </summary>
     public required double CostPerAgent
     {
-        get { return JsonModel.GetNotNullStruct<double>(this.RawData, "cost_per_agent"); }
-        init { JsonModel.Set(this._rawData, "cost_per_agent", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<double>("cost_per_agent");
+        }
+        init { this._rawData.Set("cost_per_agent", value); }
     }
 
     /// <summary>
@@ -150,8 +182,12 @@ public sealed record class Usage : JsonModel
     /// </summary>
     public required long InputTokens
     {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "input_tokens"); }
-        init { JsonModel.Set(this._rawData, "input_tokens", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("input_tokens");
+        }
+        init { this._rawData.Set("input_tokens", value); }
     }
 
     /// <summary>
@@ -159,8 +195,12 @@ public sealed record class Usage : JsonModel
     /// </summary>
     public required long OutputTokens
     {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "output_tokens"); }
-        init { JsonModel.Set(this._rawData, "output_tokens", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("output_tokens");
+        }
+        init { this._rawData.Set("output_tokens", value); }
     }
 
     /// <summary>
@@ -168,8 +208,12 @@ public sealed record class Usage : JsonModel
     /// </summary>
     public required double TokenCost
     {
-        get { return JsonModel.GetNotNullStruct<double>(this.RawData, "token_cost"); }
-        init { JsonModel.Set(this._rawData, "token_cost", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<double>("token_cost");
+        }
+        init { this._rawData.Set("token_cost", value); }
     }
 
     /// <summary>
@@ -177,8 +221,12 @@ public sealed record class Usage : JsonModel
     /// </summary>
     public required long TotalTokens
     {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "total_tokens"); }
-        init { JsonModel.Set(this._rawData, "total_tokens", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("total_tokens");
+        }
+        init { this._rawData.Set("total_tokens", value); }
     }
 
     /// <inheritdoc/>
@@ -198,14 +246,14 @@ public sealed record class Usage : JsonModel
 
     public Usage(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     Usage(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 

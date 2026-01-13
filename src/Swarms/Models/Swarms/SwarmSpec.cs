@@ -3,6 +3,7 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Swarms.Core;
@@ -20,8 +21,18 @@ public sealed record class SwarmSpec : JsonModel
     /// </summary>
     public IReadOnlyList<AgentSpec>? Agents
     {
-        get { return JsonModel.GetNullableClass<List<AgentSpec>>(this.RawData, "agents"); }
-        init { JsonModel.Set(this._rawData, "agents", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<AgentSpec>>("agents");
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<AgentSpec>?>(
+                "agents",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
     }
 
     /// <summary>
@@ -29,8 +40,12 @@ public sealed record class SwarmSpec : JsonModel
     /// </summary>
     public string? Description
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "description"); }
-        init { JsonModel.Set(this._rawData, "description", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("description");
+        }
+        init { this._rawData.Set("description", value); }
     }
 
     /// <summary>
@@ -40,9 +55,10 @@ public sealed record class SwarmSpec : JsonModel
     {
         get
         {
-            return JsonModel.GetNullableStruct<long>(this.RawData, "heavy_swarm_loops_per_agent");
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("heavy_swarm_loops_per_agent");
         }
-        init { JsonModel.Set(this._rawData, "heavy_swarm_loops_per_agent", value); }
+        init { this._rawData.Set("heavy_swarm_loops_per_agent", value); }
     }
 
     /// <summary>
@@ -52,12 +68,10 @@ public sealed record class SwarmSpec : JsonModel
     {
         get
         {
-            return JsonModel.GetNullableClass<string>(
-                this.RawData,
-                "heavy_swarm_question_agent_model_name"
-            );
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("heavy_swarm_question_agent_model_name");
         }
-        init { JsonModel.Set(this._rawData, "heavy_swarm_question_agent_model_name", value); }
+        init { this._rawData.Set("heavy_swarm_question_agent_model_name", value); }
     }
 
     /// <summary>
@@ -67,12 +81,10 @@ public sealed record class SwarmSpec : JsonModel
     {
         get
         {
-            return JsonModel.GetNullableClass<string>(
-                this.RawData,
-                "heavy_swarm_worker_model_name"
-            );
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("heavy_swarm_worker_model_name");
         }
-        init { JsonModel.Set(this._rawData, "heavy_swarm_worker_model_name", value); }
+        init { this._rawData.Set("heavy_swarm_worker_model_name", value); }
     }
 
     /// <summary>
@@ -80,8 +92,12 @@ public sealed record class SwarmSpec : JsonModel
     /// </summary>
     public string? Img
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "img"); }
-        init { JsonModel.Set(this._rawData, "img", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("img");
+        }
+        init { this._rawData.Set("img", value); }
     }
 
     /// <summary>
@@ -90,8 +106,12 @@ public sealed record class SwarmSpec : JsonModel
     /// </summary>
     public long? MaxLoops
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "max_loops"); }
-        init { JsonModel.Set(this._rawData, "max_loops", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("max_loops");
+        }
+        init { this._rawData.Set("max_loops", value); }
     }
 
     /// <summary>
@@ -99,8 +119,12 @@ public sealed record class SwarmSpec : JsonModel
     /// </summary>
     public SwarmSpecMessages? Messages
     {
-        get { return JsonModel.GetNullableClass<SwarmSpecMessages>(this.RawData, "messages"); }
-        init { JsonModel.Set(this._rawData, "messages", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<SwarmSpecMessages>("messages");
+        }
+        init { this._rawData.Set("messages", value); }
     }
 
     /// <summary>
@@ -109,8 +133,12 @@ public sealed record class SwarmSpec : JsonModel
     /// </summary>
     public string? Name
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "name"); }
-        init { JsonModel.Set(this._rawData, "name", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("name");
+        }
+        init { this._rawData.Set("name", value); }
     }
 
     /// <summary>
@@ -118,8 +146,12 @@ public sealed record class SwarmSpec : JsonModel
     /// </summary>
     public string? RearrangeFlow
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "rearrange_flow"); }
-        init { JsonModel.Set(this._rawData, "rearrange_flow", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("rearrange_flow");
+        }
+        init { this._rawData.Set("rearrange_flow", value); }
     }
 
     /// <summary>
@@ -128,8 +160,12 @@ public sealed record class SwarmSpec : JsonModel
     /// </summary>
     public string? Rules
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "rules"); }
-        init { JsonModel.Set(this._rawData, "rules", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("rules");
+        }
+        init { this._rawData.Set("rules", value); }
     }
 
     /// <summary>
@@ -138,8 +174,12 @@ public sealed record class SwarmSpec : JsonModel
     /// </summary>
     public string? ServiceTier
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "service_tier"); }
-        init { JsonModel.Set(this._rawData, "service_tier", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("service_tier");
+        }
+        init { this._rawData.Set("service_tier", value); }
     }
 
     /// <summary>
@@ -147,8 +187,12 @@ public sealed record class SwarmSpec : JsonModel
     /// </summary>
     public bool? Stream
     {
-        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "stream"); }
-        init { JsonModel.Set(this._rawData, "stream", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("stream");
+        }
+        init { this._rawData.Set("stream", value); }
     }
 
     /// <summary>
@@ -158,12 +202,12 @@ public sealed record class SwarmSpec : JsonModel
     {
         get
         {
-            return JsonModel.GetNullableClass<ApiEnum<string, SwarmSpecSwarmType>>(
-                this.RawData,
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, SwarmSpecSwarmType>>(
                 "swarm_type"
             );
         }
-        init { JsonModel.Set(this._rawData, "swarm_type", value); }
+        init { this._rawData.Set("swarm_type", value); }
     }
 
     /// <summary>
@@ -171,8 +215,12 @@ public sealed record class SwarmSpec : JsonModel
     /// </summary>
     public string? Task
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "task"); }
-        init { JsonModel.Set(this._rawData, "task", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("task");
+        }
+        init { this._rawData.Set("task", value); }
     }
 
     /// <summary>
@@ -180,8 +228,18 @@ public sealed record class SwarmSpec : JsonModel
     /// </summary>
     public IReadOnlyList<string>? Tasks
     {
-        get { return JsonModel.GetNullableClass<List<string>>(this.RawData, "tasks"); }
-        init { JsonModel.Set(this._rawData, "tasks", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tasks");
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<string>?>(
+                "tasks",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
     }
 
     /// <inheritdoc/>
@@ -215,14 +273,14 @@ public sealed record class SwarmSpec : JsonModel
 
     public SwarmSpec(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     SwarmSpec(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
@@ -256,11 +314,13 @@ public record class SwarmSpecMessages : ModelBase
     }
 
     public SwarmSpecMessages(
-        IReadOnlyList<Dictionary<string, JsonElement>> value,
+        IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value,
         JsonElement? element = null
     )
     {
-        this.Value = ImmutableArray.ToImmutableArray(value);
+        this.Value = ImmutableArray.ToImmutableArray(
+            Enumerable.Select(value, (item) => FrozenDictionary.ToFrozenDictionary(item))
+        );
         this._element = element;
     }
 
@@ -280,24 +340,24 @@ public record class SwarmSpecMessages : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="IReadOnlyList<Dictionary<string, JsonElement>>"/>.
+    /// type <see cref="IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>"/>.
     ///
     /// <para>Consider using <see cref="Switch"> or <see cref="Match"> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickJsonElements(out var value)) {
-    ///     // `value` is of type `IReadOnlyList<Dictionary<string, JsonElement>>`
+    ///     // `value` is of type `IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
     public bool TryPickJsonElements(
-        [NotNullWhen(true)] out IReadOnlyList<Dictionary<string, JsonElement>>? value
+        [NotNullWhen(true)] out IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>? value
     )
     {
-        value = this.Value as IReadOnlyList<Dictionary<string, JsonElement>>;
+        value = this.Value as IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>;
         return value != null;
     }
 
@@ -338,20 +398,20 @@ public record class SwarmSpecMessages : ModelBase
     /// <example>
     /// <code>
     /// instance.Switch(
-    ///     (IReadOnlyList<Dictionary<string, JsonElement>> value) => {...},
+    ///     (IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value) => {...},
     ///     (IReadOnlyDictionary<string, JsonElement> value) => {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public void Switch(
-        Action<IReadOnlyList<Dictionary<string, JsonElement>>> jsonElements,
+        Action<IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>> jsonElements,
         Action<IReadOnlyDictionary<string, JsonElement>> jsonElements1
     )
     {
         switch (this.Value)
         {
-            case IReadOnlyList<Dictionary<string, JsonElement>> value:
+            case IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value:
                 jsonElements(value);
                 break;
             case IReadOnlyDictionary<string, JsonElement> value:
@@ -379,20 +439,20 @@ public record class SwarmSpecMessages : ModelBase
     /// <example>
     /// <code>
     /// var result = instance.Match(
-    ///     (IReadOnlyList<Dictionary<string, JsonElement>> value) => {...},
+    ///     (IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value) => {...},
     ///     (IReadOnlyDictionary<string, JsonElement> value) => {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public T Match<T>(
-        Func<IReadOnlyList<Dictionary<string, JsonElement>>, T> jsonElements,
+        Func<IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>, T> jsonElements,
         Func<IReadOnlyDictionary<string, JsonElement>, T> jsonElements1
     )
     {
         return this.Value switch
         {
-            IReadOnlyList<Dictionary<string, JsonElement>> value => jsonElements(value),
+            IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> value => jsonElements(value),
             IReadOnlyDictionary<string, JsonElement> value => jsonElements1(value),
             _ => throw new SwarmsClientInvalidDataException(
                 "Data did not match any variant of SwarmSpecMessages"
@@ -402,7 +462,7 @@ public record class SwarmSpecMessages : ModelBase
 
     public static implicit operator SwarmSpecMessages(
         List<Dictionary<string, JsonElement>> value
-    ) => new((IReadOnlyList<Dictionary<string, JsonElement>>)value);
+    ) => new((IReadOnlyList<IReadOnlyDictionary<string, JsonElement>>)value);
 
     public static implicit operator SwarmSpecMessages(Dictionary<string, JsonElement> value) =>
         new((IReadOnlyDictionary<string, JsonElement>)value);
@@ -452,10 +512,9 @@ sealed class SwarmSpecMessagesConverter : JsonConverter<SwarmSpecMessages?>
         var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
-            var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
-                element,
-                options
-            );
+            var deserialized = JsonSerializer.Deserialize<
+                ImmutableArray<FrozenDictionary<string, JsonElement>>
+            >(element, options);
             if (deserialized != null)
             {
                 return new(deserialized, element);
@@ -468,7 +527,7 @@ sealed class SwarmSpecMessagesConverter : JsonConverter<SwarmSpecMessages?>
 
         try
         {
-            var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
+            var deserialized = JsonSerializer.Deserialize<FrozenDictionary<string, JsonElement>>(
                 element,
                 options
             );

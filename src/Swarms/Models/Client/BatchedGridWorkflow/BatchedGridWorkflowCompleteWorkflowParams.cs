@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text;
@@ -16,7 +17,7 @@ namespace Swarms.Models.Client.BatchedGridWorkflow;
 /// </summary>
 public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBase
 {
-    readonly FreezableDictionary<string, JsonElement> _rawBodyData = [];
+    readonly JsonDictionary _rawBodyData = new();
     public IReadOnlyDictionary<string, JsonElement> RawBodyData
     {
         get { return this._rawBodyData.Freeze(); }
@@ -29,12 +30,18 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     {
         get
         {
-            return JsonModel.GetNullableClass<List<AgentSpec>>(
-                this.RawBodyData,
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<ImmutableArray<AgentSpec>>(
                 "agent_completions"
             );
         }
-        init { JsonModel.Set(this._rawBodyData, "agent_completions", value); }
+        init
+        {
+            this._rawBodyData.Set<ImmutableArray<AgentSpec>?>(
+                "agent_completions",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
     }
 
     /// <summary>
@@ -42,8 +49,12 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public string? Description
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "description"); }
-        init { JsonModel.Set(this._rawBodyData, "description", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("description");
+        }
+        init { this._rawBodyData.Set("description", value); }
     }
 
     /// <summary>
@@ -51,8 +62,18 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public IReadOnlyList<string>? Imgs
     {
-        get { return JsonModel.GetNullableClass<List<string>>(this.RawBodyData, "imgs"); }
-        init { JsonModel.Set(this._rawBodyData, "imgs", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<ImmutableArray<string>>("imgs");
+        }
+        init
+        {
+            this._rawBodyData.Set<ImmutableArray<string>?>(
+                "imgs",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
     }
 
     /// <summary>
@@ -60,8 +81,12 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public long? MaxLoops
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
-        init { JsonModel.Set(this._rawBodyData, "max_loops", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<long>("max_loops");
+        }
+        init { this._rawBodyData.Set("max_loops", value); }
     }
 
     /// <summary>
@@ -69,8 +94,12 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public string? Name
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "name"); }
-        init { JsonModel.Set(this._rawBodyData, "name", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("name");
+        }
+        init { this._rawBodyData.Set("name", value); }
     }
 
     /// <summary>
@@ -78,8 +107,18 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     /// </summary>
     public IReadOnlyList<string>? Tasks
     {
-        get { return JsonModel.GetNullableClass<List<string>>(this.RawBodyData, "tasks"); }
-        init { JsonModel.Set(this._rawBodyData, "tasks", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<ImmutableArray<string>>("tasks");
+        }
+        init
+        {
+            this._rawBodyData.Set<ImmutableArray<string>?>(
+                "tasks",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
     }
 
     public BatchedGridWorkflowCompleteWorkflowParams() { }
@@ -89,7 +128,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     )
         : base(batchedGridWorkflowCompleteWorkflowParams)
     {
-        this._rawBodyData = [.. batchedGridWorkflowCompleteWorkflowParams._rawBodyData];
+        this._rawBodyData = new(batchedGridWorkflowCompleteWorkflowParams._rawBodyData);
     }
 
     public BatchedGridWorkflowCompleteWorkflowParams(
@@ -98,9 +137,9 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
         IReadOnlyDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._rawHeaderData = [.. rawHeaderData];
-        this._rawQueryData = [.. rawQueryData];
-        this._rawBodyData = [.. rawBodyData];
+        this._rawHeaderData = new(rawHeaderData);
+        this._rawQueryData = new(rawQueryData);
+        this._rawBodyData = new(rawBodyData);
     }
 
 #pragma warning disable CS8618
@@ -111,9 +150,9 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
         FrozenDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._rawHeaderData = [.. rawHeaderData];
-        this._rawQueryData = [.. rawQueryData];
-        this._rawBodyData = [.. rawBodyData];
+        this._rawHeaderData = new(rawHeaderData);
+        this._rawQueryData = new(rawQueryData);
+        this._rawBodyData = new(rawBodyData);
     }
 #pragma warning restore CS8618
 

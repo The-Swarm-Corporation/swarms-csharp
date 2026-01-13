@@ -12,13 +12,21 @@ public sealed record class SwarmGetLogsResponse : JsonModel
 {
     public long? Count
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "count"); }
-        init { JsonModel.Set(this._rawData, "count", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("count");
+        }
+        init { this._rawData.Set("count", value); }
     }
 
     public JsonElement? Logs
     {
-        get { return JsonModel.GetNullableStruct<JsonElement>(this.RawData, "logs"); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("logs");
+        }
         init
         {
             if (value == null)
@@ -26,20 +34,28 @@ public sealed record class SwarmGetLogsResponse : JsonModel
                 return;
             }
 
-            JsonModel.Set(this._rawData, "logs", value);
+            this._rawData.Set("logs", value);
         }
     }
 
     public string? Status
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "status"); }
-        init { JsonModel.Set(this._rawData, "status", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("status");
+        }
+        init { this._rawData.Set("status", value); }
     }
 
     public string? Timestamp
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "timestamp"); }
-        init { JsonModel.Set(this._rawData, "timestamp", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("timestamp");
+        }
+        init { this._rawData.Set("timestamp", value); }
     }
 
     /// <inheritdoc/>
@@ -58,14 +74,14 @@ public sealed record class SwarmGetLogsResponse : JsonModel
 
     public SwarmGetLogsResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     SwarmGetLogsResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 

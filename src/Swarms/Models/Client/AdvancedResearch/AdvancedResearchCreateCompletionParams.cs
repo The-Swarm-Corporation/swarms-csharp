@@ -16,7 +16,7 @@ namespace Swarms.Models.Client.AdvancedResearch;
 /// </summary>
 public sealed record class AdvancedResearchCreateCompletionParams : ParamsBase
 {
-    readonly FreezableDictionary<string, JsonElement> _rawBodyData = [];
+    readonly JsonDictionary _rawBodyData = new();
     public IReadOnlyDictionary<string, JsonElement> RawBodyData
     {
         get { return this._rawBodyData.Freeze(); }
@@ -27,8 +27,12 @@ public sealed record class AdvancedResearchCreateCompletionParams : ParamsBase
     /// </summary>
     public required Config? Config
     {
-        get { return JsonModel.GetNullableClass<Config>(this.RawBodyData, "config"); }
-        init { JsonModel.Set(this._rawBodyData, "config", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<Config>("config");
+        }
+        init { this._rawBodyData.Set("config", value); }
     }
 
     /// <summary>
@@ -36,8 +40,12 @@ public sealed record class AdvancedResearchCreateCompletionParams : ParamsBase
     /// </summary>
     public required string? Task
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "task"); }
-        init { JsonModel.Set(this._rawBodyData, "task", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("task");
+        }
+        init { this._rawBodyData.Set("task", value); }
     }
 
     /// <summary>
@@ -45,8 +53,12 @@ public sealed record class AdvancedResearchCreateCompletionParams : ParamsBase
     /// </summary>
     public string? Img
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "img"); }
-        init { JsonModel.Set(this._rawBodyData, "img", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("img");
+        }
+        init { this._rawBodyData.Set("img", value); }
     }
 
     public AdvancedResearchCreateCompletionParams() { }
@@ -56,7 +68,7 @@ public sealed record class AdvancedResearchCreateCompletionParams : ParamsBase
     )
         : base(advancedResearchCreateCompletionParams)
     {
-        this._rawBodyData = [.. advancedResearchCreateCompletionParams._rawBodyData];
+        this._rawBodyData = new(advancedResearchCreateCompletionParams._rawBodyData);
     }
 
     public AdvancedResearchCreateCompletionParams(
@@ -65,9 +77,9 @@ public sealed record class AdvancedResearchCreateCompletionParams : ParamsBase
         IReadOnlyDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._rawHeaderData = [.. rawHeaderData];
-        this._rawQueryData = [.. rawQueryData];
-        this._rawBodyData = [.. rawBodyData];
+        this._rawHeaderData = new(rawHeaderData);
+        this._rawQueryData = new(rawQueryData);
+        this._rawBodyData = new(rawBodyData);
     }
 
 #pragma warning disable CS8618
@@ -78,9 +90,9 @@ public sealed record class AdvancedResearchCreateCompletionParams : ParamsBase
         FrozenDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._rawHeaderData = [.. rawHeaderData];
-        this._rawQueryData = [.. rawQueryData];
-        this._rawBodyData = [.. rawBodyData];
+        this._rawHeaderData = new(rawHeaderData);
+        this._rawQueryData = new(rawQueryData);
+        this._rawBodyData = new(rawBodyData);
     }
 #pragma warning restore CS8618
 
@@ -138,8 +150,12 @@ public sealed record class Config : JsonModel
     /// </summary>
     public string? Description
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "description"); }
-        init { JsonModel.Set(this._rawData, "description", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("description");
+        }
+        init { this._rawData.Set("description", value); }
     }
 
     /// <summary>
@@ -147,8 +163,12 @@ public sealed record class Config : JsonModel
     /// </summary>
     public string? DirectorAgentName
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "director_agent_name"); }
-        init { JsonModel.Set(this._rawData, "director_agent_name", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("director_agent_name");
+        }
+        init { this._rawData.Set("director_agent_name", value); }
     }
 
     /// <summary>
@@ -156,8 +176,12 @@ public sealed record class Config : JsonModel
     /// </summary>
     public long? DirectorMaxLoops
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "director_max_loops"); }
-        init { JsonModel.Set(this._rawData, "director_max_loops", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("director_max_loops");
+        }
+        init { this._rawData.Set("director_max_loops", value); }
     }
 
     /// <summary>
@@ -165,8 +189,12 @@ public sealed record class Config : JsonModel
     /// </summary>
     public long? DirectorMaxTokens
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "director_max_tokens"); }
-        init { JsonModel.Set(this._rawData, "director_max_tokens", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("director_max_tokens");
+        }
+        init { this._rawData.Set("director_max_tokens", value); }
     }
 
     /// <summary>
@@ -174,8 +202,12 @@ public sealed record class Config : JsonModel
     /// </summary>
     public string? DirectorModelName
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "director_model_name"); }
-        init { JsonModel.Set(this._rawData, "director_model_name", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("director_model_name");
+        }
+        init { this._rawData.Set("director_model_name", value); }
     }
 
     /// <summary>
@@ -183,8 +215,12 @@ public sealed record class Config : JsonModel
     /// </summary>
     public long? ExaSearchMaxCharacters
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "exa_search_max_characters"); }
-        init { JsonModel.Set(this._rawData, "exa_search_max_characters", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("exa_search_max_characters");
+        }
+        init { this._rawData.Set("exa_search_max_characters", value); }
     }
 
     /// <summary>
@@ -192,8 +228,12 @@ public sealed record class Config : JsonModel
     /// </summary>
     public long? ExaSearchNumResults
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "exa_search_num_results"); }
-        init { JsonModel.Set(this._rawData, "exa_search_num_results", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("exa_search_num_results");
+        }
+        init { this._rawData.Set("exa_search_num_results", value); }
     }
 
     /// <summary>
@@ -201,8 +241,12 @@ public sealed record class Config : JsonModel
     /// </summary>
     public long? MaxLoops
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "max_loops"); }
-        init { JsonModel.Set(this._rawData, "max_loops", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("max_loops");
+        }
+        init { this._rawData.Set("max_loops", value); }
     }
 
     /// <summary>
@@ -210,8 +254,12 @@ public sealed record class Config : JsonModel
     /// </summary>
     public string? Name
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "name"); }
-        init { JsonModel.Set(this._rawData, "name", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("name");
+        }
+        init { this._rawData.Set("name", value); }
     }
 
     /// <summary>
@@ -219,8 +267,12 @@ public sealed record class Config : JsonModel
     /// </summary>
     public string? WorkerModelName
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "worker_model_name"); }
-        init { JsonModel.Set(this._rawData, "worker_model_name", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("worker_model_name");
+        }
+        init { this._rawData.Set("worker_model_name", value); }
     }
 
     /// <inheritdoc/>
@@ -245,14 +297,14 @@ public sealed record class Config : JsonModel
 
     public Config(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     Config(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 

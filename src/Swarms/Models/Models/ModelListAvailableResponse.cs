@@ -14,7 +14,11 @@ public sealed record class ModelListAvailableResponse : JsonModel
 {
     public JsonElement? Models
     {
-        get { return JsonModel.GetNullableStruct<JsonElement>(this.RawData, "models"); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("models");
+        }
         init
         {
             if (value == null)
@@ -22,14 +26,18 @@ public sealed record class ModelListAvailableResponse : JsonModel
                 return;
             }
 
-            JsonModel.Set(this._rawData, "models", value);
+            this._rawData.Set("models", value);
         }
     }
 
     public bool? Success
     {
-        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "success"); }
-        init { JsonModel.Set(this._rawData, "success", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("success");
+        }
+        init { this._rawData.Set("success", value); }
     }
 
     /// <inheritdoc/>
@@ -46,14 +54,14 @@ public sealed record class ModelListAvailableResponse : JsonModel
 
     public ModelListAvailableResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     ModelListAvailableResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 

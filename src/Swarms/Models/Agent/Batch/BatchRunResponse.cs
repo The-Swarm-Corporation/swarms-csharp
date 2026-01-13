@@ -15,8 +15,12 @@ public sealed record class BatchRunResponse : JsonModel
     /// </summary>
     public string? BatchID
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "batch_id"); }
-        init { JsonModel.Set(this._rawData, "batch_id", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("batch_id");
+        }
+        init { this._rawData.Set("batch_id", value); }
     }
 
     /// <summary>
@@ -24,8 +28,12 @@ public sealed record class BatchRunResponse : JsonModel
     /// </summary>
     public double? ExecutionTime
     {
-        get { return JsonModel.GetNullableStruct<double>(this.RawData, "execution_time"); }
-        init { JsonModel.Set(this._rawData, "execution_time", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("execution_time");
+        }
+        init { this._rawData.Set("execution_time", value); }
     }
 
     /// <summary>
@@ -33,7 +41,11 @@ public sealed record class BatchRunResponse : JsonModel
     /// </summary>
     public JsonElement? Results
     {
-        get { return JsonModel.GetNullableStruct<JsonElement>(this.RawData, "results"); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("results");
+        }
         init
         {
             if (value == null)
@@ -41,7 +53,7 @@ public sealed record class BatchRunResponse : JsonModel
                 return;
             }
 
-            JsonModel.Set(this._rawData, "results", value);
+            this._rawData.Set("results", value);
         }
     }
 
@@ -50,8 +62,12 @@ public sealed record class BatchRunResponse : JsonModel
     /// </summary>
     public string? Timestamp
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "timestamp"); }
-        init { JsonModel.Set(this._rawData, "timestamp", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("timestamp");
+        }
+        init { this._rawData.Set("timestamp", value); }
     }
 
     /// <summary>
@@ -59,8 +75,12 @@ public sealed record class BatchRunResponse : JsonModel
     /// </summary>
     public long? TotalRequests
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "total_requests"); }
-        init { JsonModel.Set(this._rawData, "total_requests", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("total_requests");
+        }
+        init { this._rawData.Set("total_requests", value); }
     }
 
     /// <inheritdoc/>
@@ -80,14 +100,14 @@ public sealed record class BatchRunResponse : JsonModel
 
     public BatchRunResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     BatchRunResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 

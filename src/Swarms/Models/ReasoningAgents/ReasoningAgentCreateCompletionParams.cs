@@ -16,7 +16,7 @@ namespace Swarms.Models.ReasoningAgents;
 /// </summary>
 public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
 {
-    readonly FreezableDictionary<string, JsonElement> _rawBodyData = [];
+    readonly JsonDictionary _rawBodyData = new();
     public IReadOnlyDictionary<string, JsonElement> RawBodyData
     {
         get { return this._rawBodyData.Freeze(); }
@@ -27,8 +27,12 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? AgentName
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "agent_name"); }
-        init { JsonModel.Set(this._rawBodyData, "agent_name", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("agent_name");
+        }
+        init { this._rawBodyData.Set("agent_name", value); }
     }
 
     /// <summary>
@@ -36,8 +40,12 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? Description
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "description"); }
-        init { JsonModel.Set(this._rawBodyData, "description", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("description");
+        }
+        init { this._rawBodyData.Set("description", value); }
     }
 
     /// <summary>
@@ -45,8 +53,12 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public long? MaxLoops
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
-        init { JsonModel.Set(this._rawBodyData, "max_loops", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<long>("max_loops");
+        }
+        init { this._rawBodyData.Set("max_loops", value); }
     }
 
     /// <summary>
@@ -54,8 +66,12 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public long? MemoryCapacity
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "memory_capacity"); }
-        init { JsonModel.Set(this._rawBodyData, "memory_capacity", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<long>("memory_capacity");
+        }
+        init { this._rawBodyData.Set("memory_capacity", value); }
     }
 
     /// <summary>
@@ -63,8 +79,12 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? ModelName
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "model_name"); }
-        init { JsonModel.Set(this._rawBodyData, "model_name", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("model_name");
+        }
+        init { this._rawBodyData.Set("model_name", value); }
     }
 
     /// <summary>
@@ -72,8 +92,12 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public long? NumKnowledgeItems
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "num_knowledge_items"); }
-        init { JsonModel.Set(this._rawBodyData, "num_knowledge_items", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<long>("num_knowledge_items");
+        }
+        init { this._rawBodyData.Set("num_knowledge_items", value); }
     }
 
     /// <summary>
@@ -81,8 +105,12 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public long? NumSamples
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "num_samples"); }
-        init { JsonModel.Set(this._rawBodyData, "num_samples", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<long>("num_samples");
+        }
+        init { this._rawBodyData.Set("num_samples", value); }
     }
 
     /// <summary>
@@ -92,12 +120,10 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            return JsonModel.GetNullableClass<ApiEnum<string, OutputType>>(
-                this.RawBodyData,
-                "output_type"
-            );
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<ApiEnum<string, OutputType>>("output_type");
         }
-        init { JsonModel.Set(this._rawBodyData, "output_type", value); }
+        init { this._rawBodyData.Set("output_type", value); }
     }
 
     /// <summary>
@@ -107,12 +133,10 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     {
         get
         {
-            return JsonModel.GetNullableClass<ApiEnum<string, SwarmType>>(
-                this.RawBodyData,
-                "swarm_type"
-            );
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<ApiEnum<string, SwarmType>>("swarm_type");
         }
-        init { JsonModel.Set(this._rawBodyData, "swarm_type", value); }
+        init { this._rawBodyData.Set("swarm_type", value); }
     }
 
     /// <summary>
@@ -120,8 +144,12 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? SystemPrompt
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "system_prompt"); }
-        init { JsonModel.Set(this._rawBodyData, "system_prompt", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("system_prompt");
+        }
+        init { this._rawBodyData.Set("system_prompt", value); }
     }
 
     /// <summary>
@@ -129,8 +157,12 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     /// </summary>
     public string? Task
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "task"); }
-        init { JsonModel.Set(this._rawBodyData, "task", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("task");
+        }
+        init { this._rawBodyData.Set("task", value); }
     }
 
     public ReasoningAgentCreateCompletionParams() { }
@@ -140,7 +172,7 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
     )
         : base(reasoningAgentCreateCompletionParams)
     {
-        this._rawBodyData = [.. reasoningAgentCreateCompletionParams._rawBodyData];
+        this._rawBodyData = new(reasoningAgentCreateCompletionParams._rawBodyData);
     }
 
     public ReasoningAgentCreateCompletionParams(
@@ -149,9 +181,9 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
         IReadOnlyDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._rawHeaderData = [.. rawHeaderData];
-        this._rawQueryData = [.. rawQueryData];
-        this._rawBodyData = [.. rawBodyData];
+        this._rawHeaderData = new(rawHeaderData);
+        this._rawQueryData = new(rawQueryData);
+        this._rawBodyData = new(rawBodyData);
     }
 
 #pragma warning disable CS8618
@@ -162,9 +194,9 @@ public sealed record class ReasoningAgentCreateCompletionParams : ParamsBase
         FrozenDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._rawHeaderData = [.. rawHeaderData];
-        this._rawQueryData = [.. rawQueryData];
-        this._rawBodyData = [.. rawBodyData];
+        this._rawHeaderData = new(rawHeaderData);
+        this._rawQueryData = new(rawQueryData);
+        this._rawBodyData = new(rawBodyData);
     }
 #pragma warning restore CS8618
 

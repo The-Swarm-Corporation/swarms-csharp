@@ -304,17 +304,15 @@ public class EdgeTest : TestBase
     [Fact]
     public void SpecValidationWorks()
     {
-        Edge value = new(
-            new EdgeSpec()
+        Edge value = new EdgeSpec()
+        {
+            Source = "source",
+            Target = "target",
+            Metadata = new Dictionary<string, JsonElement>()
             {
-                Source = "source",
-                Target = "target",
-                Metadata = new Dictionary<string, JsonElement>()
-                {
-                    { "foo", JsonSerializer.SerializeToElement("bar") },
-                },
-            }
-        );
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            },
+        };
         value.Validate();
     }
 
@@ -333,17 +331,15 @@ public class EdgeTest : TestBase
     [Fact]
     public void SpecSerializationRoundtripWorks()
     {
-        Edge value = new(
-            new EdgeSpec()
+        Edge value = new EdgeSpec()
+        {
+            Source = "source",
+            Target = "target",
+            Metadata = new Dictionary<string, JsonElement>()
             {
-                Source = "source",
-                Target = "target",
-                Metadata = new Dictionary<string, JsonElement>()
-                {
-                    { "foo", JsonSerializer.SerializeToElement("bar") },
-                },
-            }
-        );
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            },
+        };
         string element = JsonSerializer.Serialize(value);
         var deserialized = JsonSerializer.Deserialize<Edge>(element);
 

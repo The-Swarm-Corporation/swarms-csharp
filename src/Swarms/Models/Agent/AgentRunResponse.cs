@@ -15,8 +15,12 @@ public sealed record class AgentRunResponse : JsonModel
     /// </summary>
     public string? Description
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "description"); }
-        init { JsonModel.Set(this._rawData, "description", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("description");
+        }
+        init { this._rawData.Set("description", value); }
     }
 
     /// <summary>
@@ -24,8 +28,12 @@ public sealed record class AgentRunResponse : JsonModel
     /// </summary>
     public string? JobID
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "job_id"); }
-        init { JsonModel.Set(this._rawData, "job_id", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("job_id");
+        }
+        init { this._rawData.Set("job_id", value); }
     }
 
     /// <summary>
@@ -33,8 +41,12 @@ public sealed record class AgentRunResponse : JsonModel
     /// </summary>
     public string? Name
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "name"); }
-        init { JsonModel.Set(this._rawData, "name", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("name");
+        }
+        init { this._rawData.Set("name", value); }
     }
 
     /// <summary>
@@ -42,7 +54,11 @@ public sealed record class AgentRunResponse : JsonModel
     /// </summary>
     public JsonElement? Outputs
     {
-        get { return JsonModel.GetNullableStruct<JsonElement>(this.RawData, "outputs"); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("outputs");
+        }
         init
         {
             if (value == null)
@@ -50,7 +66,7 @@ public sealed record class AgentRunResponse : JsonModel
                 return;
             }
 
-            JsonModel.Set(this._rawData, "outputs", value);
+            this._rawData.Set("outputs", value);
         }
     }
 
@@ -59,8 +75,12 @@ public sealed record class AgentRunResponse : JsonModel
     /// </summary>
     public bool? Success
     {
-        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "success"); }
-        init { JsonModel.Set(this._rawData, "success", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("success");
+        }
+        init { this._rawData.Set("success", value); }
     }
 
     /// <summary>
@@ -68,8 +88,12 @@ public sealed record class AgentRunResponse : JsonModel
     /// </summary>
     public double? Temperature
     {
-        get { return JsonModel.GetNullableStruct<double>(this.RawData, "temperature"); }
-        init { JsonModel.Set(this._rawData, "temperature", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("temperature");
+        }
+        init { this._rawData.Set("temperature", value); }
     }
 
     /// <summary>
@@ -77,8 +101,12 @@ public sealed record class AgentRunResponse : JsonModel
     /// </summary>
     public string? Timestamp
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "timestamp"); }
-        init { JsonModel.Set(this._rawData, "timestamp", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("timestamp");
+        }
+        init { this._rawData.Set("timestamp", value); }
     }
 
     /// <summary>
@@ -88,12 +116,16 @@ public sealed record class AgentRunResponse : JsonModel
     {
         get
         {
-            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
-                this.RawData,
-                "usage"
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FrozenDictionary<string, JsonElement>>("usage");
+        }
+        init
+        {
+            this._rawData.Set<FrozenDictionary<string, JsonElement>?>(
+                "usage",
+                value == null ? null : FrozenDictionary.ToFrozenDictionary(value)
             );
         }
-        init { JsonModel.Set(this._rawData, "usage", value); }
     }
 
     /// <inheritdoc/>
@@ -116,14 +148,14 @@ public sealed record class AgentRunResponse : JsonModel
 
     public AgentRunResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     AgentRunResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 

@@ -1,5 +1,6 @@
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -14,14 +15,28 @@ public sealed record class SwarmCheckAvailableResponse : JsonModel
 {
     public bool? Success
     {
-        get { return JsonModel.GetNullableStruct<bool>(this.RawData, "success"); }
-        init { JsonModel.Set(this._rawData, "success", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("success");
+        }
+        init { this._rawData.Set("success", value); }
     }
 
     public IReadOnlyList<string>? SwarmTypes
     {
-        get { return JsonModel.GetNullableClass<List<string>>(this.RawData, "swarm_types"); }
-        init { JsonModel.Set(this._rawData, "swarm_types", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("swarm_types");
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<string>?>(
+                "swarm_types",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
     }
 
     /// <inheritdoc/>
@@ -38,14 +53,14 @@ public sealed record class SwarmCheckAvailableResponse : JsonModel
 
     public SwarmCheckAvailableResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     SwarmCheckAvailableResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 

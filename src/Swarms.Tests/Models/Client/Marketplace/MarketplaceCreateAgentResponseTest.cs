@@ -749,7 +749,7 @@ public class CategoryTest : TestBase
     [Fact]
     public void StringValidationWorks()
     {
-        Category value = new("string");
+        Category value = "string";
         value.Validate();
     }
 
@@ -763,7 +763,7 @@ public class CategoryTest : TestBase
     [Fact]
     public void StringSerializationRoundtripWorks()
     {
-        Category value = new("string");
+        Category value = "string";
         string element = JsonSerializer.Serialize(value);
         var deserialized = JsonSerializer.Deserialize<Category>(element);
 

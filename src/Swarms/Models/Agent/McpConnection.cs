@@ -15,8 +15,12 @@ public sealed record class McpConnection : JsonModel
     /// </summary>
     public string? AuthorizationToken
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "authorization_token"); }
-        init { JsonModel.Set(this._rawData, "authorization_token", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("authorization_token");
+        }
+        init { this._rawData.Set("authorization_token", value); }
     }
 
     /// <summary>
@@ -26,9 +30,16 @@ public sealed record class McpConnection : JsonModel
     {
         get
         {
-            return JsonModel.GetNullableClass<Dictionary<string, string>>(this.RawData, "headers");
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FrozenDictionary<string, string>>("headers");
         }
-        init { JsonModel.Set(this._rawData, "headers", value); }
+        init
+        {
+            this._rawData.Set<FrozenDictionary<string, string>?>(
+                "headers",
+                value == null ? null : FrozenDictionary.ToFrozenDictionary(value)
+            );
+        }
     }
 
     /// <summary>
@@ -36,8 +47,12 @@ public sealed record class McpConnection : JsonModel
     /// </summary>
     public long? Timeout
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "timeout"); }
-        init { JsonModel.Set(this._rawData, "timeout", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("timeout");
+        }
+        init { this._rawData.Set("timeout", value); }
     }
 
     /// <summary>
@@ -47,12 +62,18 @@ public sealed record class McpConnection : JsonModel
     {
         get
         {
-            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
-                this.RawData,
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FrozenDictionary<string, JsonElement>>(
                 "tool_configurations"
             );
         }
-        init { JsonModel.Set(this._rawData, "tool_configurations", value); }
+        init
+        {
+            this._rawData.Set<FrozenDictionary<string, JsonElement>?>(
+                "tool_configurations",
+                value == null ? null : FrozenDictionary.ToFrozenDictionary(value)
+            );
+        }
     }
 
     /// <summary>
@@ -60,8 +81,12 @@ public sealed record class McpConnection : JsonModel
     /// </summary>
     public string? Transport
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "transport"); }
-        init { JsonModel.Set(this._rawData, "transport", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("transport");
+        }
+        init { this._rawData.Set("transport", value); }
     }
 
     /// <summary>
@@ -69,8 +94,12 @@ public sealed record class McpConnection : JsonModel
     /// </summary>
     public string? Type
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "type"); }
-        init { JsonModel.Set(this._rawData, "type", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("type");
+        }
+        init { this._rawData.Set("type", value); }
     }
 
     /// <summary>
@@ -78,8 +107,12 @@ public sealed record class McpConnection : JsonModel
     /// </summary>
     public string? Url
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "url"); }
-        init { JsonModel.Set(this._rawData, "url", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("url");
+        }
+        init { this._rawData.Set("url", value); }
     }
 
     /// <inheritdoc/>
@@ -101,14 +134,14 @@ public sealed record class McpConnection : JsonModel
 
     public McpConnection(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     McpConnection(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 

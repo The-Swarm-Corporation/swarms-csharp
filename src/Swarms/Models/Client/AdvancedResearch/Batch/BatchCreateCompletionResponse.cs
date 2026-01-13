@@ -17,8 +17,12 @@ public sealed record class BatchCreateCompletionResponse : JsonModel
     /// </summary>
     public required string? ID
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "id"); }
-        init { JsonModel.Set(this._rawData, "id", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("id");
+        }
+        init { this._rawData.Set("id", value); }
     }
 
     /// <summary>
@@ -26,8 +30,12 @@ public sealed record class BatchCreateCompletionResponse : JsonModel
     /// </summary>
     public required long? CharactersPerSource
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "characters_per_source"); }
-        init { JsonModel.Set(this._rawData, "characters_per_source", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("characters_per_source");
+        }
+        init { this._rawData.Set("characters_per_source", value); }
     }
 
     /// <summary>
@@ -35,8 +43,12 @@ public sealed record class BatchCreateCompletionResponse : JsonModel
     /// </summary>
     public required string? Description
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "description"); }
-        init { JsonModel.Set(this._rawData, "description", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("description");
+        }
+        init { this._rawData.Set("description", value); }
     }
 
     /// <summary>
@@ -44,8 +56,12 @@ public sealed record class BatchCreateCompletionResponse : JsonModel
     /// </summary>
     public required string? Name
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "name"); }
-        init { JsonModel.Set(this._rawData, "name", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("name");
+        }
+        init { this._rawData.Set("name", value); }
     }
 
     /// <summary>
@@ -53,8 +69,12 @@ public sealed record class BatchCreateCompletionResponse : JsonModel
     /// </summary>
     public required JsonElement Outputs
     {
-        get { return JsonModel.GetNotNullStruct<JsonElement>(this.RawData, "outputs"); }
-        init { JsonModel.Set(this._rawData, "outputs", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("outputs");
+        }
+        init { this._rawData.Set("outputs", value); }
     }
 
     /// <summary>
@@ -62,8 +82,12 @@ public sealed record class BatchCreateCompletionResponse : JsonModel
     /// </summary>
     public required long? Sources
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawData, "sources"); }
-        init { JsonModel.Set(this._rawData, "sources", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("sources");
+        }
+        init { this._rawData.Set("sources", value); }
     }
 
     /// <summary>
@@ -71,8 +95,12 @@ public sealed record class BatchCreateCompletionResponse : JsonModel
     /// </summary>
     public required string? Timestamp
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawData, "timestamp"); }
-        init { JsonModel.Set(this._rawData, "timestamp", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("timestamp");
+        }
+        init { this._rawData.Set("timestamp", value); }
     }
 
     /// <summary>
@@ -82,12 +110,16 @@ public sealed record class BatchCreateCompletionResponse : JsonModel
     {
         get
         {
-            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
-                this.RawData,
-                "usage"
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FrozenDictionary<string, JsonElement>>("usage");
+        }
+        init
+        {
+            this._rawData.Set<FrozenDictionary<string, JsonElement>?>(
+                "usage",
+                value == null ? null : FrozenDictionary.ToFrozenDictionary(value)
             );
         }
-        init { JsonModel.Set(this._rawData, "usage", value); }
     }
 
     /// <inheritdoc/>
@@ -112,14 +144,14 @@ public sealed record class BatchCreateCompletionResponse : JsonModel
 
     public BatchCreateCompletionResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     BatchCreateCompletionResponse(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text;
@@ -19,7 +20,7 @@ namespace Swarms.Models.Client.GraphWorkflow;
 /// </summary>
 public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
 {
-    readonly FreezableDictionary<string, JsonElement> _rawBodyData = [];
+    readonly JsonDictionary _rawBodyData = new();
     public IReadOnlyDictionary<string, JsonElement> RawBodyData
     {
         get { return this._rawBodyData.Freeze(); }
@@ -30,8 +31,18 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
     /// </summary>
     public IReadOnlyList<AgentSpec>? Agents
     {
-        get { return JsonModel.GetNullableClass<List<AgentSpec>>(this.RawBodyData, "agents"); }
-        init { JsonModel.Set(this._rawBodyData, "agents", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<ImmutableArray<AgentSpec>>("agents");
+        }
+        init
+        {
+            this._rawBodyData.Set<ImmutableArray<AgentSpec>?>(
+                "agents",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
     }
 
     /// <summary>
@@ -39,8 +50,12 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
     /// </summary>
     public bool? AutoCompile
     {
-        get { return JsonModel.GetNullableStruct<bool>(this.RawBodyData, "auto_compile"); }
-        init { JsonModel.Set(this._rawBodyData, "auto_compile", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<bool>("auto_compile");
+        }
+        init { this._rawBodyData.Set("auto_compile", value); }
     }
 
     /// <summary>
@@ -48,8 +63,12 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
     /// </summary>
     public string? Description
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "description"); }
-        init { JsonModel.Set(this._rawBodyData, "description", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("description");
+        }
+        init { this._rawBodyData.Set("description", value); }
     }
 
     /// <summary>
@@ -58,8 +77,18 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
     /// </summary>
     public IReadOnlyList<Edge>? Edges
     {
-        get { return JsonModel.GetNullableClass<List<Edge>>(this.RawBodyData, "edges"); }
-        init { JsonModel.Set(this._rawBodyData, "edges", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<ImmutableArray<Edge>>("edges");
+        }
+        init
+        {
+            this._rawBodyData.Set<ImmutableArray<Edge>?>(
+                "edges",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
     }
 
     /// <summary>
@@ -67,8 +96,18 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
     /// </summary>
     public IReadOnlyList<string>? EndPoints
     {
-        get { return JsonModel.GetNullableClass<List<string>>(this.RawBodyData, "end_points"); }
-        init { JsonModel.Set(this._rawBodyData, "end_points", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<ImmutableArray<string>>("end_points");
+        }
+        init
+        {
+            this._rawBodyData.Set<ImmutableArray<string>?>(
+                "end_points",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
     }
 
     /// <summary>
@@ -76,8 +115,18 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
     /// </summary>
     public IReadOnlyList<string>? EntryPoints
     {
-        get { return JsonModel.GetNullableClass<List<string>>(this.RawBodyData, "entry_points"); }
-        init { JsonModel.Set(this._rawBodyData, "entry_points", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<ImmutableArray<string>>("entry_points");
+        }
+        init
+        {
+            this._rawBodyData.Set<ImmutableArray<string>?>(
+                "entry_points",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
     }
 
     /// <summary>
@@ -85,8 +134,12 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
     /// </summary>
     public string? Img
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "img"); }
-        init { JsonModel.Set(this._rawBodyData, "img", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("img");
+        }
+        init { this._rawBodyData.Set("img", value); }
     }
 
     /// <summary>
@@ -94,8 +147,12 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
     /// </summary>
     public long? MaxLoops
     {
-        get { return JsonModel.GetNullableStruct<long>(this.RawBodyData, "max_loops"); }
-        init { JsonModel.Set(this._rawBodyData, "max_loops", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<long>("max_loops");
+        }
+        init { this._rawBodyData.Set("max_loops", value); }
     }
 
     /// <summary>
@@ -103,8 +160,12 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
     /// </summary>
     public string? Name
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "name"); }
-        init { JsonModel.Set(this._rawBodyData, "name", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("name");
+        }
+        init { this._rawBodyData.Set("name", value); }
     }
 
     /// <summary>
@@ -112,8 +173,12 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
     /// </summary>
     public string? Task
     {
-        get { return JsonModel.GetNullableClass<string>(this.RawBodyData, "task"); }
-        init { JsonModel.Set(this._rawBodyData, "task", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("task");
+        }
+        init { this._rawBodyData.Set("task", value); }
     }
 
     /// <summary>
@@ -121,8 +186,12 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
     /// </summary>
     public bool? Verbose
     {
-        get { return JsonModel.GetNullableStruct<bool>(this.RawBodyData, "verbose"); }
-        init { JsonModel.Set(this._rawBodyData, "verbose", value); }
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<bool>("verbose");
+        }
+        init { this._rawBodyData.Set("verbose", value); }
     }
 
     public GraphWorkflowExecuteWorkflowParams() { }
@@ -132,7 +201,7 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
     )
         : base(graphWorkflowExecuteWorkflowParams)
     {
-        this._rawBodyData = [.. graphWorkflowExecuteWorkflowParams._rawBodyData];
+        this._rawBodyData = new(graphWorkflowExecuteWorkflowParams._rawBodyData);
     }
 
     public GraphWorkflowExecuteWorkflowParams(
@@ -141,9 +210,9 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
         IReadOnlyDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._rawHeaderData = [.. rawHeaderData];
-        this._rawQueryData = [.. rawQueryData];
-        this._rawBodyData = [.. rawBodyData];
+        this._rawHeaderData = new(rawHeaderData);
+        this._rawQueryData = new(rawQueryData);
+        this._rawBodyData = new(rawBodyData);
     }
 
 #pragma warning disable CS8618
@@ -154,9 +223,9 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
         FrozenDictionary<string, JsonElement> rawBodyData
     )
     {
-        this._rawHeaderData = [.. rawHeaderData];
-        this._rawQueryData = [.. rawQueryData];
-        this._rawBodyData = [.. rawBodyData];
+        this._rawHeaderData = new(rawHeaderData);
+        this._rawQueryData = new(rawQueryData);
+        this._rawBodyData = new(rawBodyData);
     }
 #pragma warning restore CS8618
 
@@ -418,7 +487,7 @@ sealed class EdgeConverter : JsonConverter<Edge>
 
         try
         {
-            var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
+            var deserialized = JsonSerializer.Deserialize<FrozenDictionary<string, JsonElement>>(
                 element,
                 options
             );
@@ -452,8 +521,12 @@ public sealed record class EdgeSpec : JsonModel
     /// </summary>
     public required string Source
     {
-        get { return JsonModel.GetNotNullClass<string>(this.RawData, "source"); }
-        init { JsonModel.Set(this._rawData, "source", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("source");
+        }
+        init { this._rawData.Set("source", value); }
     }
 
     /// <summary>
@@ -461,8 +534,12 @@ public sealed record class EdgeSpec : JsonModel
     /// </summary>
     public required string Target
     {
-        get { return JsonModel.GetNotNullClass<string>(this.RawData, "target"); }
-        init { JsonModel.Set(this._rawData, "target", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("target");
+        }
+        init { this._rawData.Set("target", value); }
     }
 
     /// <summary>
@@ -472,12 +549,18 @@ public sealed record class EdgeSpec : JsonModel
     {
         get
         {
-            return JsonModel.GetNullableClass<Dictionary<string, JsonElement>>(
-                this.RawData,
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FrozenDictionary<string, JsonElement>>(
                 "metadata"
             );
         }
-        init { JsonModel.Set(this._rawData, "metadata", value); }
+        init
+        {
+            this._rawData.Set<FrozenDictionary<string, JsonElement>?>(
+                "metadata",
+                value == null ? null : FrozenDictionary.ToFrozenDictionary(value)
+            );
+        }
     }
 
     /// <inheritdoc/>
@@ -495,14 +578,14 @@ public sealed record class EdgeSpec : JsonModel
 
     public EdgeSpec(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     EdgeSpec(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 

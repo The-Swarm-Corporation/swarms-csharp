@@ -15,8 +15,12 @@ public sealed record class RateLimitWindow : JsonModel
     /// </summary>
     public required long Count
     {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "count"); }
-        init { JsonModel.Set(this._rawData, "count", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("count");
+        }
+        init { this._rawData.Set("count", value); }
     }
 
     /// <summary>
@@ -24,8 +28,12 @@ public sealed record class RateLimitWindow : JsonModel
     /// </summary>
     public required bool Exceeded
     {
-        get { return JsonModel.GetNotNullStruct<bool>(this.RawData, "exceeded"); }
-        init { JsonModel.Set(this._rawData, "exceeded", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<bool>("exceeded");
+        }
+        init { this._rawData.Set("exceeded", value); }
     }
 
     /// <summary>
@@ -33,8 +41,12 @@ public sealed record class RateLimitWindow : JsonModel
     /// </summary>
     public required long Limit
     {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "limit"); }
-        init { JsonModel.Set(this._rawData, "limit", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("limit");
+        }
+        init { this._rawData.Set("limit", value); }
     }
 
     /// <summary>
@@ -42,8 +54,12 @@ public sealed record class RateLimitWindow : JsonModel
     /// </summary>
     public required long Remaining
     {
-        get { return JsonModel.GetNotNullStruct<long>(this.RawData, "remaining"); }
-        init { JsonModel.Set(this._rawData, "remaining", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("remaining");
+        }
+        init { this._rawData.Set("remaining", value); }
     }
 
     /// <summary>
@@ -51,8 +67,12 @@ public sealed record class RateLimitWindow : JsonModel
     /// </summary>
     public required string ResetTime
     {
-        get { return JsonModel.GetNotNullClass<string>(this.RawData, "reset_time"); }
-        init { JsonModel.Set(this._rawData, "reset_time", value); }
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("reset_time");
+        }
+        init { this._rawData.Set("reset_time", value); }
     }
 
     /// <inheritdoc/>
@@ -72,14 +92,14 @@ public sealed record class RateLimitWindow : JsonModel
 
     public RateLimitWindow(IReadOnlyDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
     RateLimitWindow(FrozenDictionary<string, JsonElement> rawData)
     {
-        this._rawData = [.. rawData];
+        this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
