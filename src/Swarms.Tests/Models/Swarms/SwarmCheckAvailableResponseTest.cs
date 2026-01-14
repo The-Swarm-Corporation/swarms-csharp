@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.Swarms;
 
 namespace Swarms.Tests.Models.Swarms;
@@ -28,8 +29,11 @@ public class SwarmCheckAvailableResponseTest : TestBase
     {
         var model = new SwarmCheckAvailableResponse { Success = true, SwarmTypes = ["string"] };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<SwarmCheckAvailableResponse>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<SwarmCheckAvailableResponse>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -39,8 +43,11 @@ public class SwarmCheckAvailableResponseTest : TestBase
     {
         var model = new SwarmCheckAvailableResponse { Success = true, SwarmTypes = ["string"] };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<SwarmCheckAvailableResponse>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<SwarmCheckAvailableResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         bool expectedSuccess = true;

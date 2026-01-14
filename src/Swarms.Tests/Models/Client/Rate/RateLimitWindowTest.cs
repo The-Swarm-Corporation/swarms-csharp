@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.Client.Rate;
 
 namespace Swarms.Tests.Models.Client.Rate;
@@ -42,8 +43,11 @@ public class RateLimitWindowTest : TestBase
             ResetTime = "reset_time",
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<RateLimitWindow>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<RateLimitWindow>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -60,8 +64,11 @@ public class RateLimitWindowTest : TestBase
             ResetTime = "reset_time",
         };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<RateLimitWindow>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<RateLimitWindow>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         long expectedCount = 0;

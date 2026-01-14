@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.Swarms;
 
 namespace Swarms.Tests.Models.Swarms;
@@ -39,8 +40,11 @@ public class SwarmGetLogsResponseTest : TestBase
             Timestamp = "timestamp",
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<SwarmGetLogsResponse>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<SwarmGetLogsResponse>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -56,8 +60,11 @@ public class SwarmGetLogsResponseTest : TestBase
             Timestamp = "timestamp",
         };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<SwarmGetLogsResponse>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<SwarmGetLogsResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         long expectedCount = 0;

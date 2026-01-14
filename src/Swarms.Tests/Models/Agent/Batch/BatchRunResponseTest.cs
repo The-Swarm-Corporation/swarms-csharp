@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.Agent.Batch;
 
 namespace Swarms.Tests.Models.Agent.Batch;
@@ -43,8 +44,11 @@ public class BatchRunResponseTest : TestBase
             TotalRequests = 0,
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<BatchRunResponse>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<BatchRunResponse>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -61,8 +65,11 @@ public class BatchRunResponseTest : TestBase
             TotalRequests = 0,
         };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<BatchRunResponse>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<BatchRunResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         string expectedBatchID = "batch_id";

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.Agent;
 
 namespace Swarms.Tests.Models.Agent;
@@ -249,8 +250,11 @@ public class AgentCompletionTest : TestBase
             ToolsEnabled = ["string"],
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<AgentCompletion>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<AgentCompletion>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -332,8 +336,11 @@ public class AgentCompletionTest : TestBase
             ToolsEnabled = ["string"],
         };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<AgentCompletion>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<AgentCompletion>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         AgentSpec expectedAgentConfig = new()
@@ -608,8 +615,11 @@ public class AgentCompletionHistoryTest : TestBase
                 { "foo", JsonSerializer.SerializeToElement("bar") },
             }
         );
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<AgentCompletionHistory>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<AgentCompletionHistory>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -620,8 +630,11 @@ public class AgentCompletionHistoryTest : TestBase
         AgentCompletionHistory value = new(
             [new Dictionary<string, string>() { { "foo", "string" } }]
         );
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<AgentCompletionHistory>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<AgentCompletionHistory>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }

@@ -310,7 +310,13 @@ public record class SwarmSpecMessages : ModelBase
 
     public JsonElement Json
     {
-        get { return this._element ??= JsonSerializer.SerializeToElement(this.Value); }
+        get
+        {
+            return this._element ??= JsonSerializer.SerializeToElement(
+                this.Value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public SwarmSpecMessages(
@@ -512,9 +518,10 @@ sealed class SwarmSpecMessagesConverter : JsonConverter<SwarmSpecMessages?>
         var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
-            var deserialized = JsonSerializer.Deserialize<
-                ImmutableArray<FrozenDictionary<string, JsonElement>>
-            >(element, options);
+            var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
+                element,
+                options
+            );
             if (deserialized != null)
             {
                 return new(deserialized, element);
@@ -527,7 +534,7 @@ sealed class SwarmSpecMessagesConverter : JsonConverter<SwarmSpecMessages?>
 
         try
         {
-            var deserialized = JsonSerializer.Deserialize<FrozenDictionary<string, JsonElement>>(
+            var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
                 element,
                 options
             );

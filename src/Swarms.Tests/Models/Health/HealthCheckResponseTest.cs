@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.Health;
 
 namespace Swarms.Tests.Models.Health;
@@ -20,8 +21,11 @@ public class HealthCheckResponseTest : TestBase
     {
         var model = new HealthCheckResponse { Status = "status" };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<HealthCheckResponse>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<HealthCheckResponse>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -31,8 +35,11 @@ public class HealthCheckResponseTest : TestBase
     {
         var model = new HealthCheckResponse { Status = "status" };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<HealthCheckResponse>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<HealthCheckResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         string expectedStatus = "status";

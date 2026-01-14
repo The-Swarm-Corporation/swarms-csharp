@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.Agent;
 
 namespace Swarms.Tests.Models.Agent;
@@ -260,8 +261,11 @@ public class HistoryTest : TestBase
                 { "foo", JsonSerializer.SerializeToElement("bar") },
             }
         );
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<History>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<History>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -270,8 +274,11 @@ public class HistoryTest : TestBase
     public void StringsSerializationRoundtripWorks()
     {
         History value = new([new Dictionary<string, string>() { { "foo", "string" } }]);
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<History>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<History>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }

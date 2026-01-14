@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.Client.AdvancedResearch.Batch;
 
 namespace Swarms.Tests.Models.Client.AdvancedResearch.Batch;
@@ -71,8 +72,11 @@ public class BatchCreateCompletionResponseTest : TestBase
             },
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<BatchCreateCompletionResponse>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<BatchCreateCompletionResponse>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -95,8 +99,11 @@ public class BatchCreateCompletionResponseTest : TestBase
             },
         };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<BatchCreateCompletionResponse>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<BatchCreateCompletionResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         string expectedID = "id";

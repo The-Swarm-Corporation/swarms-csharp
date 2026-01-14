@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.Client.Rate;
 
 namespace Swarms.Tests.Models.Client.Rate;
@@ -138,8 +139,11 @@ public class RateGetLimitsResponseTest : TestBase
             Success = true,
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<RateGetLimitsResponse>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<RateGetLimitsResponse>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -188,8 +192,11 @@ public class RateGetLimitsResponseTest : TestBase
             Success = true,
         };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<RateGetLimitsResponse>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<RateGetLimitsResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         Limits expectedLimits = new()
@@ -510,8 +517,8 @@ public class LimitsTest : TestBase
             TokensPerAgent = 0,
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Limits>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Limits>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -527,8 +534,8 @@ public class LimitsTest : TestBase
             TokensPerAgent = 0,
         };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Limits>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Limits>(element, ModelBase.SerializerOptions);
         Assert.NotNull(deserialized);
 
         long expectedMaximumRequestsPerDay = 0;
@@ -651,8 +658,11 @@ public class RateLimitsTest : TestBase
             },
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<RateLimits>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<RateLimits>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -688,8 +698,11 @@ public class RateLimitsTest : TestBase
             },
         };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<RateLimits>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<RateLimits>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         RateLimitWindow expectedDay = new()

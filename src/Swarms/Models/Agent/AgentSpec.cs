@@ -431,7 +431,7 @@ public sealed record class McpConfigs : JsonModel
     }
 
     [SetsRequiredMembers]
-    public McpConfigs(List<McpConnection> connections)
+    public McpConfigs(IReadOnlyList<McpConnection> connections)
         : this()
     {
         this.Connections = connections;

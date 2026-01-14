@@ -310,7 +310,7 @@ public sealed record class SwarmRunParams : ParamsBase
     internal override HttpContent? BodyContent()
     {
         return new StringContent(
-            JsonSerializer.Serialize(this.RawBodyData),
+            JsonSerializer.Serialize(this.RawBodyData, ModelBase.SerializerOptions),
             Encoding.UTF8,
             "application/json"
         );
@@ -338,7 +338,13 @@ public record class Messages : ModelBase
 
     public JsonElement Json
     {
-        get { return this._element ??= JsonSerializer.SerializeToElement(this.Value); }
+        get
+        {
+            return this._element ??= JsonSerializer.SerializeToElement(
+                this.Value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public Messages(
@@ -536,9 +542,10 @@ sealed class MessagesConverter : JsonConverter<Messages?>
         var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
-            var deserialized = JsonSerializer.Deserialize<
-                ImmutableArray<FrozenDictionary<string, JsonElement>>
-            >(element, options);
+            var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
+                element,
+                options
+            );
             if (deserialized != null)
             {
                 return new(deserialized, element);
@@ -551,7 +558,7 @@ sealed class MessagesConverter : JsonConverter<Messages?>
 
         try
         {
-            var deserialized = JsonSerializer.Deserialize<FrozenDictionary<string, JsonElement>>(
+            var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
                 element,
                 options
             );

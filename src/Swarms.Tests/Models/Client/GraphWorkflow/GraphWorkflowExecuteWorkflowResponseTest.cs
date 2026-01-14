@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.Client.GraphWorkflow;
 
 namespace Swarms.Tests.Models.Client.GraphWorkflow;
@@ -71,8 +72,11 @@ public class GraphWorkflowExecuteWorkflowResponseTest : TestBase
             Name = "name",
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<GraphWorkflowExecuteWorkflowResponse>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<GraphWorkflowExecuteWorkflowResponse>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -98,9 +102,10 @@ public class GraphWorkflowExecuteWorkflowResponseTest : TestBase
             Name = "name",
         };
 
-        string element = JsonSerializer.Serialize(model);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<GraphWorkflowExecuteWorkflowResponse>(
-            element
+            element,
+            ModelBase.SerializerOptions
         );
         Assert.NotNull(deserialized);
 
@@ -292,8 +297,8 @@ public class UsageTest : TestBase
             TotalTokens = 0,
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Usage>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Usage>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -310,8 +315,8 @@ public class UsageTest : TestBase
             TotalTokens = 0,
         };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Usage>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Usage>(element, ModelBase.SerializerOptions);
         Assert.NotNull(deserialized);
 
         double expectedCostPerAgent = 0;

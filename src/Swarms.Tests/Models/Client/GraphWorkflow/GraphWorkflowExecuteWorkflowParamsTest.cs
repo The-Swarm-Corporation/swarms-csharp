@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.Agent;
 using Swarms.Models.Client.GraphWorkflow;
 
@@ -340,8 +341,8 @@ public class EdgeTest : TestBase
                 { "foo", JsonSerializer.SerializeToElement("bar") },
             },
         };
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<Edge>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Edge>(element, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -355,8 +356,8 @@ public class EdgeTest : TestBase
                 { "foo", JsonSerializer.SerializeToElement("bar") },
             }
         );
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<Edge>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Edge>(element, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -409,8 +410,8 @@ public class EdgeSpecTest : TestBase
             },
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<EdgeSpec>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<EdgeSpec>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -428,8 +429,11 @@ public class EdgeSpecTest : TestBase
             },
         };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<EdgeSpec>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<EdgeSpec>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         string expectedSource = "source";

@@ -338,7 +338,13 @@ public record class Category : ModelBase
 
     public JsonElement Json
     {
-        get { return this._element ??= JsonSerializer.SerializeToElement(this.Value); }
+        get
+        {
+            return this._element ??= JsonSerializer.SerializeToElement(
+                this.Value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public Category(string value, JsonElement? element = null)
@@ -533,7 +539,7 @@ sealed class CategoryConverter : JsonConverter<Category?>
 
         try
         {
-            var deserialized = JsonSerializer.Deserialize<ImmutableArray<string>>(element, options);
+            var deserialized = JsonSerializer.Deserialize<List<string>>(element, options);
             if (deserialized != null)
             {
                 return new(deserialized, element);
@@ -569,7 +575,13 @@ public record class Links : ModelBase
 
     public JsonElement Json
     {
-        get { return this._element ??= JsonSerializer.SerializeToElement(this.Value); }
+        get
+        {
+            return this._element ??= JsonSerializer.SerializeToElement(
+                this.Value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public Links(
@@ -762,9 +774,10 @@ sealed class LinksConverter : JsonConverter<Links?>
         var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
-            var deserialized = JsonSerializer.Deserialize<
-                ImmutableArray<FrozenDictionary<string, JsonElement>>
-            >(element, options);
+            var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
+                element,
+                options
+            );
             if (deserialized != null)
             {
                 return new(deserialized, element);
@@ -777,7 +790,7 @@ sealed class LinksConverter : JsonConverter<Links?>
 
         try
         {
-            var deserialized = JsonSerializer.Deserialize<ImmutableArray<string>>(element, options);
+            var deserialized = JsonSerializer.Deserialize<List<string>>(element, options);
             if (deserialized != null)
             {
                 return new(deserialized, element);
@@ -809,7 +822,13 @@ public record class UseCases : ModelBase
 
     public JsonElement Json
     {
-        get { return this._element ??= JsonSerializer.SerializeToElement(this.Value); }
+        get
+        {
+            return this._element ??= JsonSerializer.SerializeToElement(
+                this.Value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public UseCases(IReadOnlyDictionary<string, JsonElement> value, JsonElement? element = null)
@@ -1007,7 +1026,7 @@ sealed class UseCasesConverter : JsonConverter<UseCases?>
         var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
-            var deserialized = JsonSerializer.Deserialize<FrozenDictionary<string, JsonElement>>(
+            var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
                 element,
                 options
             );
@@ -1023,9 +1042,10 @@ sealed class UseCasesConverter : JsonConverter<UseCases?>
 
         try
         {
-            var deserialized = JsonSerializer.Deserialize<
-                ImmutableArray<FrozenDictionary<string, JsonElement>>
-            >(element, options);
+            var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
+                element,
+                options
+            );
             if (deserialized != null)
             {
                 return new(deserialized, element);

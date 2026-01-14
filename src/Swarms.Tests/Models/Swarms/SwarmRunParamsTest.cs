@@ -365,8 +365,11 @@ public class MessagesTest : TestBase
                 },
             ]
         );
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<Messages>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Messages>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -380,8 +383,11 @@ public class MessagesTest : TestBase
                 { "foo", JsonSerializer.SerializeToElement("bar") },
             }
         );
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<Messages>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Messages>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }

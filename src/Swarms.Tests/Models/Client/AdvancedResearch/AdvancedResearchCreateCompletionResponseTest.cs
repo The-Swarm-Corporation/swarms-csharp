@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.Client.AdvancedResearch;
 
 namespace Swarms.Tests.Models.Client.AdvancedResearch;
@@ -71,9 +72,10 @@ public class AdvancedResearchCreateCompletionResponseTest : TestBase
             },
         };
 
-        string json = JsonSerializer.Serialize(model);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<AdvancedResearchCreateCompletionResponse>(
-            json
+            json,
+            ModelBase.SerializerOptions
         );
 
         Assert.Equal(model, deserialized);
@@ -97,9 +99,10 @@ public class AdvancedResearchCreateCompletionResponseTest : TestBase
             },
         };
 
-        string element = JsonSerializer.Serialize(model);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<AdvancedResearchCreateCompletionResponse>(
-            element
+            element,
+            ModelBase.SerializerOptions
         );
         Assert.NotNull(deserialized);
 

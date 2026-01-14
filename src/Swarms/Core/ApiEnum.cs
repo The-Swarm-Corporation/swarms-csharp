@@ -36,11 +36,23 @@ public record class ApiEnum<TRaw, TEnum>(JsonElement Json)
     /// <see cref="Json"/> to access the raw value.
     /// </exception>
     /// </summary>
-    public TRaw Raw() =>
-        JsonSerializer.Deserialize<TRaw>(this.Json, ModelBase.SerializerOptions)
-        ?? throw new SwarmsClientInvalidDataException(
-            string.Format("{0} cannot be null", nameof(this.Json))
-        );
+    public TRaw Raw()
+    {
+        try
+        {
+            return JsonSerializer.Deserialize<TRaw>(this.Json, ModelBase.SerializerOptions)
+                ?? throw new SwarmsClientInvalidDataException(
+                    $"{nameof(this.Json)} cannot be null"
+                );
+        }
+        catch (JsonException e)
+        {
+            throw new SwarmsClientInvalidDataException(
+                $"{this.Json} must be of type {typeof(TRaw).FullName}",
+                e
+            );
+        }
+    }
 
     /// <summary>
     /// Returns an enum member corresponding to this instance's value, or <c>(TEnum)(-1)</c> if the
@@ -48,8 +60,23 @@ public record class ApiEnum<TRaw, TEnum>(JsonElement Json)
     ///
     /// <para>Use <see cref="Raw"/> to access the raw <typeparamref name="TRaw"/> value.</para>.
     /// </summary>
-    public TEnum Value() =>
-        JsonSerializer.Deserialize<TEnum>(this.Json, ModelBase.SerializerOptions);
+    public TEnum Value()
+    {
+        try
+        {
+            return JsonSerializer.Deserialize<TEnum?>(this.Json, ModelBase.SerializerOptions)
+                ?? throw new SwarmsClientInvalidDataException(
+                    $"{nameof(this.Json)} cannot be null"
+                );
+        }
+        catch (JsonException e)
+        {
+            throw new SwarmsClientInvalidDataException(
+                $"{this.Json} must be of type {typeof(TRaw).FullName}",
+                e
+            );
+        }
+    }
 
     /// <summary>
     /// Verifies that this instance's raw value is a member of <typeparamref name="TEnum"/>.

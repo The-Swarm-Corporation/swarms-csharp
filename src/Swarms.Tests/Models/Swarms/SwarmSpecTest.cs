@@ -310,8 +310,8 @@ public class SwarmSpecTest : TestBase
             Tasks = ["string"],
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<SwarmSpec>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<SwarmSpec>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -408,8 +408,11 @@ public class SwarmSpecTest : TestBase
             Tasks = ["string"],
         };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<SwarmSpec>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<SwarmSpec>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         List<AgentSpec> expectedAgents =
@@ -794,8 +797,11 @@ public class SwarmSpecMessagesTest : TestBase
                 },
             ]
         );
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<SwarmSpecMessages>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<SwarmSpecMessages>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -809,8 +815,11 @@ public class SwarmSpecMessagesTest : TestBase
                 { "foo", JsonSerializer.SerializeToElement("bar") },
             }
         );
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<SwarmSpecMessages>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<SwarmSpecMessages>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }

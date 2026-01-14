@@ -173,7 +173,7 @@ public sealed record class AgentRunParams : ParamsBase
     internal override HttpContent? BodyContent()
     {
         return new StringContent(
-            JsonSerializer.Serialize(this.RawBodyData),
+            JsonSerializer.Serialize(this.RawBodyData, ModelBase.SerializerOptions),
             Encoding.UTF8,
             "application/json"
         );
@@ -202,7 +202,13 @@ public record class History : ModelBase
 
     public JsonElement Json
     {
-        get { return this._element ??= JsonSerializer.SerializeToElement(this.Value); }
+        get
+        {
+            return this._element ??= JsonSerializer.SerializeToElement(
+                this.Value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public History(IReadOnlyDictionary<string, JsonElement> value, JsonElement? element = null)
@@ -398,7 +404,7 @@ sealed class HistoryConverter : JsonConverter<History?>
         var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
-            var deserialized = JsonSerializer.Deserialize<FrozenDictionary<string, JsonElement>>(
+            var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
                 element,
                 options
             );
@@ -414,9 +420,10 @@ sealed class HistoryConverter : JsonConverter<History?>
 
         try
         {
-            var deserialized = JsonSerializer.Deserialize<
-                ImmutableArray<FrozenDictionary<string, string>>
-            >(element, options);
+            var deserialized = JsonSerializer.Deserialize<List<Dictionary<string, string>>>(
+                element,
+                options
+            );
             if (deserialized != null)
             {
                 return new(deserialized, element);

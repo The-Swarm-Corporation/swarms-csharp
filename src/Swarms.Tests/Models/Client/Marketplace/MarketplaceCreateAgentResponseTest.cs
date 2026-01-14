@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json;
+using Swarms.Core;
 using Swarms.Models.Client.Marketplace;
 
 namespace Swarms.Tests.Models.Client.Marketplace;
@@ -127,8 +128,11 @@ public class MarketplaceCreateAgentResponseTest : TestBase
             Timestamp = "timestamp",
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<MarketplaceCreateAgentResponse>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<MarketplaceCreateAgentResponse>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -172,8 +176,11 @@ public class MarketplaceCreateAgentResponseTest : TestBase
             Timestamp = "timestamp",
         };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<MarketplaceCreateAgentResponse>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<MarketplaceCreateAgentResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         List<Prompt> expectedPrompts =
@@ -533,8 +540,8 @@ public class PromptTest : TestBase
             ),
         };
 
-        string json = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Prompt>(json);
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Prompt>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -569,8 +576,8 @@ public class PromptTest : TestBase
             ),
         };
 
-        string element = JsonSerializer.Serialize(model);
-        var deserialized = JsonSerializer.Deserialize<Prompt>(element);
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Prompt>(element, ModelBase.SerializerOptions);
         Assert.NotNull(deserialized);
 
         string expectedID = "id";
@@ -764,8 +771,11 @@ public class CategoryTest : TestBase
     public void StringSerializationRoundtripWorks()
     {
         Category value = "string";
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<Category>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Category>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -774,8 +784,11 @@ public class CategoryTest : TestBase
     public void StringsSerializationRoundtripWorks()
     {
         Category value = new(["string"]);
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<Category>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Category>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -815,8 +828,8 @@ public class LinksTest : TestBase
                 },
             ]
         );
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<Links>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Links>(element, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -825,8 +838,8 @@ public class LinksTest : TestBase
     public void StringsSerializationRoundtripWorks()
     {
         Links value = new(["string"]);
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<Links>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Links>(element, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -869,8 +882,11 @@ public class UseCasesTest : TestBase
                 { "foo", JsonSerializer.SerializeToElement("bar") },
             }
         );
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<UseCases>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<UseCases>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -886,8 +902,11 @@ public class UseCasesTest : TestBase
                 },
             ]
         );
-        string element = JsonSerializer.Serialize(value);
-        var deserialized = JsonSerializer.Deserialize<UseCases>(element);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<UseCases>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }

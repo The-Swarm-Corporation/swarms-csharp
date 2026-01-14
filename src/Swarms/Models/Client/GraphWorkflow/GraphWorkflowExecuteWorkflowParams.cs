@@ -256,7 +256,7 @@ public sealed record class GraphWorkflowExecuteWorkflowParams : ParamsBase
     internal override HttpContent? BodyContent()
     {
         return new StringContent(
-            JsonSerializer.Serialize(this.RawBodyData),
+            JsonSerializer.Serialize(this.RawBodyData, ModelBase.SerializerOptions),
             Encoding.UTF8,
             "application/json"
         );
@@ -284,7 +284,13 @@ public record class Edge : ModelBase
 
     public JsonElement Json
     {
-        get { return this._element ??= JsonSerializer.SerializeToElement(this.Value); }
+        get
+        {
+            return this._element ??= JsonSerializer.SerializeToElement(
+                this.Value,
+                ModelBase.SerializerOptions
+            );
+        }
     }
 
     public Edge(EdgeSpec value, JsonElement? element = null)
@@ -487,7 +493,7 @@ sealed class EdgeConverter : JsonConverter<Edge>
 
         try
         {
-            var deserialized = JsonSerializer.Deserialize<FrozenDictionary<string, JsonElement>>(
+            var deserialized = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
                 element,
                 options
             );
