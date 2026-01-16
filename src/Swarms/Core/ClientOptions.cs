@@ -10,7 +10,7 @@ public struct ClientOptions()
     Lazy<Uri> _baseUrl = new(() =>
         new Uri(
             Environment.GetEnvironmentVariable("SWARMS_CLIENT_BASE_URL")
-                ?? "https://swarms-api-285321057562.us-east1.run.app"
+                ?? "https://api.swarms.world"
         )
     );
     public Uri BaseUrl

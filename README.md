@@ -62,10 +62,10 @@ Or using a combination of the two approaches.
 
 See this table for the available options:
 
-| Property  | Environment variable     | Required | Default value                                        |
-| --------- | ------------------------ | -------- | ---------------------------------------------------- |
-| `APIKey`  | `SWARMS_API_KEY`         | false    | -                                                    |
-| `BaseUrl` | `SWARMS_CLIENT_BASE_URL` | true     | `"https://swarms-api-285321057562.us-east1.run.app"` |
+| Property  | Environment variable     | Required | Default value                |
+| --------- | ------------------------ | -------- | ---------------------------- |
+| `APIKey`  | `SWARMS_API_KEY`         | false    | -                            |
+| `BaseUrl` | `SWARMS_CLIENT_BASE_URL` | true     | `"https://api.swarms.world"` |
 
 ### Modifying configuration
 
