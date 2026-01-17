@@ -42,4 +42,14 @@ public class MarketplaceCreateAgentParamsTest : TestBase
 
         Assert.Equal(new Uri("https://api.swarms.world/v1/marketplace/agents"), url);
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var parameters = new MarketplaceCreateAgentParams { NumberOfItems = 0 };
+
+        MarketplaceCreateAgentParams copied = new(parameters);
+
+        Assert.Equal(parameters, copied);
+    }
 }

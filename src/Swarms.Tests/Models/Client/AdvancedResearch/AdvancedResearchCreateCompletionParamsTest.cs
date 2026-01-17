@@ -127,6 +127,33 @@ public class AdvancedResearchCreateCompletionParamsTest : TestBase
 
         Assert.Equal(new Uri("https://api.swarms.world/v1/advanced-research/completions"), url);
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var parameters = new AdvancedResearchCreateCompletionParams
+        {
+            Config = new()
+            {
+                Description = "description",
+                DirectorAgentName = "director_agent_name",
+                DirectorMaxLoops = 0,
+                DirectorMaxTokens = 0,
+                DirectorModelName = "director_model_name",
+                ExaSearchMaxCharacters = 0,
+                ExaSearchNumResults = 0,
+                MaxLoops = 0,
+                Name = "name",
+                WorkerModelName = "worker_model_name",
+            },
+            Task = "task",
+            Img = "img",
+        };
+
+        AdvancedResearchCreateCompletionParams copied = new(parameters);
+
+        Assert.Equal(parameters, copied);
+    }
 }
 
 public class ConfigTest : TestBase

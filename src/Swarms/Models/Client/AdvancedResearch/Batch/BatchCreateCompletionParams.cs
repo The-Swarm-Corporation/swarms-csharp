@@ -14,8 +14,12 @@ namespace Swarms.Models.Client.AdvancedResearch.Batch;
 /// <summary>
 /// Execute multiple advanced research sessions concurrently with independent configurations
 /// for high-throughput research workflows.
+///
+/// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
+/// breaking changes in non-major versions. We may add new methods in the future that
+/// cause existing derived classes to break.</para>
 /// </summary>
-public sealed record class BatchCreateCompletionParams : ParamsBase
+public record class BatchCreateCompletionParams : ParamsBase
 {
     readonly JsonDictionary _rawBodyData = new();
     public IReadOnlyDictionary<string, JsonElement> RawBodyData
@@ -46,11 +50,14 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
 
     public BatchCreateCompletionParams() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public BatchCreateCompletionParams(BatchCreateCompletionParams batchCreateCompletionParams)
         : base(batchCreateCompletionParams)
     {
         this._rawBodyData = new(batchCreateCompletionParams._rawBodyData);
     }
+#pragma warning restore CS8618
 
     public BatchCreateCompletionParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
@@ -91,6 +98,28 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
         );
     }
 
+    public override string ToString() =>
+        JsonSerializer.Serialize(
+            new Dictionary<string, object?>()
+            {
+                ["HeaderData"] = this._rawHeaderData.Freeze(),
+                ["QueryData"] = this._rawQueryData.Freeze(),
+                ["BodyData"] = this._rawBodyData.Freeze(),
+            },
+            ModelBase.ToStringSerializerOptions
+        );
+
+    public virtual bool Equals(BatchCreateCompletionParams? other)
+    {
+        if (other == null)
+        {
+            return false;
+        }
+        return this._rawHeaderData.Equals(other._rawHeaderData)
+            && this._rawQueryData.Equals(other._rawQueryData)
+            && this._rawBodyData.Equals(other._rawBodyData);
+    }
+
     public override Uri Url(ClientOptions options)
     {
         return new UriBuilder(
@@ -118,6 +147,11 @@ public sealed record class BatchCreateCompletionParams : ParamsBase
             ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
         }
     }
+
+    public override int GetHashCode()
+    {
+        return 0;
+    }
 }
 
 [JsonConverter(typeof(JsonModelConverter<InputSchema, InputSchemaFromRaw>))]
@@ -126,14 +160,12 @@ public sealed record class InputSchema : JsonModel
     /// <summary>
     /// The configuration for the advanced research
     /// </summary>
-    public required global::Swarms.Models.Client.AdvancedResearch.Batch.Config? Config
+    public required Config? Config
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<global::Swarms.Models.Client.AdvancedResearch.Batch.Config>(
-                "config"
-            );
+            return this._rawData.GetNullableClass<Config>("config");
         }
         init { this._rawData.Set("config", value); }
     }
@@ -207,12 +239,7 @@ class InputSchemaFromRaw : IFromRawJson<InputSchema>
 /// <summary>
 /// The configuration for the advanced research
 /// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        global::Swarms.Models.Client.AdvancedResearch.Batch.Config,
-        global::Swarms.Models.Client.AdvancedResearch.Batch.ConfigFromRaw
-    >)
-)]
+[JsonConverter(typeof(JsonModelConverter<Config, ConfigFromRaw>))]
 public sealed record class Config : JsonModel
 {
     /// <summary>
@@ -362,7 +389,7 @@ public sealed record class Config : JsonModel
 
     public Config() { }
 
-    public Config(global::Swarms.Models.Client.AdvancedResearch.Batch.Config config)
+    public Config(Config config)
         : base(config) { }
 
     public Config(IReadOnlyDictionary<string, JsonElement> rawData)
@@ -378,19 +405,16 @@ public sealed record class Config : JsonModel
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="global::Swarms.Models.Client.AdvancedResearch.Batch.ConfigFromRaw.FromRawUnchecked"/>
-    public static global::Swarms.Models.Client.AdvancedResearch.Batch.Config FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="ConfigFromRaw.FromRawUnchecked"/>
+    public static Config FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class ConfigFromRaw : IFromRawJson<global::Swarms.Models.Client.AdvancedResearch.Batch.Config>
+class ConfigFromRaw : IFromRawJson<Config>
 {
     /// <inheritdoc/>
-    public global::Swarms.Models.Client.AdvancedResearch.Batch.Config FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => global::Swarms.Models.Client.AdvancedResearch.Batch.Config.FromRawUnchecked(rawData);
+    public Config FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Config.FromRawUnchecked(rawData);
 }

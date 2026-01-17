@@ -298,6 +298,102 @@ public class GraphWorkflowExecuteWorkflowParamsTest : TestBase
 
         Assert.Equal(new Uri("https://api.swarms.world/v1/graph-workflow/completions"), url);
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var parameters = new GraphWorkflowExecuteWorkflowParams
+        {
+            Agents =
+            [
+                new()
+                {
+                    AgentName = "agent_name",
+                    AutoGeneratePrompt = true,
+                    Description = "description",
+                    DynamicTemperatureEnabled = true,
+                    LlmArgs = new Dictionary<string, JsonElement>()
+                    {
+                        { "foo", JsonSerializer.SerializeToElement("bar") },
+                    },
+                    MaxLoops = 0,
+                    MaxTokens = 0,
+                    McpConfig = new()
+                    {
+                        AuthorizationToken = "authorization_token",
+                        Headers = new Dictionary<string, string>() { { "foo", "string" } },
+                        Timeout = 0,
+                        ToolConfigurations = new Dictionary<string, JsonElement>()
+                        {
+                            { "foo", JsonSerializer.SerializeToElement("bar") },
+                        },
+                        Transport = "transport",
+                        Type = "type",
+                        Url = "url",
+                    },
+                    McpConfigs = new(
+                        [
+                            new()
+                            {
+                                AuthorizationToken = "authorization_token",
+                                Headers = new Dictionary<string, string>() { { "foo", "string" } },
+                                Timeout = 0,
+                                ToolConfigurations = new Dictionary<string, JsonElement>()
+                                {
+                                    { "foo", JsonSerializer.SerializeToElement("bar") },
+                                },
+                                Transport = "transport",
+                                Type = "type",
+                                Url = "url",
+                            },
+                        ]
+                    ),
+                    McpUrl = "mcp_url",
+                    ModelName = "model_name",
+                    ReasoningEffort = "reasoning_effort",
+                    ReasoningEnabled = true,
+                    Role = "role",
+                    StreamingOn = true,
+                    SystemPrompt = "system_prompt",
+                    Temperature = 0,
+                    ThinkingTokens = 0,
+                    ToolCallSummary = true,
+                    ToolsListDictionary =
+                    [
+                        new Dictionary<string, JsonElement>()
+                        {
+                            { "foo", JsonSerializer.SerializeToElement("bar") },
+                        },
+                    ],
+                },
+            ],
+            AutoCompile = true,
+            Description = "description",
+            Edges =
+            [
+                new EdgeSpec()
+                {
+                    Source = "source",
+                    Target = "target",
+                    Metadata = new Dictionary<string, JsonElement>()
+                    {
+                        { "foo", JsonSerializer.SerializeToElement("bar") },
+                    },
+                },
+            ],
+            EndPoints = ["string"],
+            EntryPoints = ["string"],
+            Img = "img",
+            MaxLoops = 0,
+            Name = "name",
+            Task = "task",
+            Verbose = true,
+        };
+
+        GraphWorkflowExecuteWorkflowParams copied = new(parameters);
+
+        Assert.Equal(parameters, copied);
+    }
 }
 
 public class EdgeTest : TestBase

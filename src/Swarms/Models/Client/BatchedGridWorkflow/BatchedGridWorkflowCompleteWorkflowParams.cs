@@ -14,8 +14,12 @@ namespace Swarms.Models.Client.BatchedGridWorkflow;
 /// <summary>
 /// Complete a batched grid workflow with the specified input data. Enables you to
 /// run a grid workflow with multiple agents and tasks in a single request.
+///
+/// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
+/// breaking changes in non-major versions. We may add new methods in the future that
+/// cause existing derived classes to break.</para>
 /// </summary>
-public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBase
+public record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBase
 {
     readonly JsonDictionary _rawBodyData = new();
     public IReadOnlyDictionary<string, JsonElement> RawBodyData
@@ -123,6 +127,8 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
 
     public BatchedGridWorkflowCompleteWorkflowParams() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public BatchedGridWorkflowCompleteWorkflowParams(
         BatchedGridWorkflowCompleteWorkflowParams batchedGridWorkflowCompleteWorkflowParams
     )
@@ -130,6 +136,7 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
     {
         this._rawBodyData = new(batchedGridWorkflowCompleteWorkflowParams._rawBodyData);
     }
+#pragma warning restore CS8618
 
     public BatchedGridWorkflowCompleteWorkflowParams(
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
@@ -170,6 +177,28 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
         );
     }
 
+    public override string ToString() =>
+        JsonSerializer.Serialize(
+            new Dictionary<string, object?>()
+            {
+                ["HeaderData"] = this._rawHeaderData.Freeze(),
+                ["QueryData"] = this._rawQueryData.Freeze(),
+                ["BodyData"] = this._rawBodyData.Freeze(),
+            },
+            ModelBase.ToStringSerializerOptions
+        );
+
+    public virtual bool Equals(BatchedGridWorkflowCompleteWorkflowParams? other)
+    {
+        if (other == null)
+        {
+            return false;
+        }
+        return this._rawHeaderData.Equals(other._rawHeaderData)
+            && this._rawQueryData.Equals(other._rawQueryData)
+            && this._rawBodyData.Equals(other._rawBodyData);
+    }
+
     public override Uri Url(ClientOptions options)
     {
         return new UriBuilder(
@@ -196,5 +225,10 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowParams : ParamsBas
         {
             ParamsBase.AddHeaderElementToRequest(request, item.Key, item.Value);
         }
+    }
+
+    public override int GetHashCode()
+    {
+        return 0;
     }
 }

@@ -99,6 +99,25 @@ public class AutoSwarmBuilderCreateCompletionParamsTest : TestBase
 
         Assert.Equal(new Uri("https://api.swarms.world/v1/auto-swarm-builder/completions"), url);
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var parameters = new AutoSwarmBuilderCreateCompletionParams
+        {
+            Description = "description",
+            ExecutionType = ExecutionType.ReturnAgents,
+            MaxLoops = 0,
+            MaxTokens = 0,
+            ModelName = "model_name",
+            Name = "name",
+            Task = "task",
+        };
+
+        AutoSwarmBuilderCreateCompletionParams copied = new(parameters);
+
+        Assert.Equal(parameters, copied);
+    }
 }
 
 public class ExecutionTypeTest : TestBase

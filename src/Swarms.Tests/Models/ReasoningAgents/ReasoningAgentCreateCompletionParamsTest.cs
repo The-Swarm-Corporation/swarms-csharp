@@ -131,6 +131,29 @@ public class ReasoningAgentCreateCompletionParamsTest : TestBase
 
         Assert.Equal(new Uri("https://api.swarms.world/v1/reasoning-agent/completions"), url);
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var parameters = new ReasoningAgentCreateCompletionParams
+        {
+            AgentName = "agent_name",
+            Description = "description",
+            MaxLoops = 0,
+            MemoryCapacity = 0,
+            ModelName = "model_name",
+            NumKnowledgeItems = 0,
+            NumSamples = 0,
+            OutputType = OutputType.List,
+            SwarmType = SwarmType.ReasoningDuo,
+            SystemPrompt = "system_prompt",
+            Task = "task",
+        };
+
+        ReasoningAgentCreateCompletionParams copied = new(parameters);
+
+        Assert.Equal(parameters, copied);
+    }
 }
 
 public class OutputTypeTest : TestBase
