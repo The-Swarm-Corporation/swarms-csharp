@@ -172,4 +172,18 @@ public class ModelListAvailableResponseTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new ModelListAvailableResponse
+        {
+            Models = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Success = true,
+        };
+
+        ModelListAvailableResponse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }

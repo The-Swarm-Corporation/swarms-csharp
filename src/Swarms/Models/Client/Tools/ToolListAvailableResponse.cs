@@ -54,8 +54,11 @@ public sealed record class ToolListAvailableResponse : JsonModel
 
     public ToolListAvailableResponse() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public ToolListAvailableResponse(ToolListAvailableResponse toolListAvailableResponse)
         : base(toolListAvailableResponse) { }
+#pragma warning restore CS8618
 
     public ToolListAvailableResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {

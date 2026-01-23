@@ -613,8 +613,11 @@ public sealed record class EdgeSpec : JsonModel
 
     public EdgeSpec() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public EdgeSpec(EdgeSpec edgeSpec)
         : base(edgeSpec) { }
+#pragma warning restore CS8618
 
     public EdgeSpec(IReadOnlyDictionary<string, JsonElement> rawData)
     {

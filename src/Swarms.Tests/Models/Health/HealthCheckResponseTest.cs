@@ -96,4 +96,14 @@ public class HealthCheckResponseTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new HealthCheckResponse { Status = "status" };
+
+        HealthCheckResponse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }

@@ -326,8 +326,11 @@ public sealed record class Config : JsonModel
 
     public Config() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public Config(Config config)
         : base(config) { }
+#pragma warning restore CS8618
 
     public Config(IReadOnlyDictionary<string, JsonElement> rawData)
     {

@@ -388,6 +388,33 @@ public class InputSchemaTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new InputSchema
+        {
+            Config = new()
+            {
+                Description = "description",
+                DirectorAgentName = "director_agent_name",
+                DirectorMaxLoops = 0,
+                DirectorMaxTokens = 0,
+                DirectorModelName = "director_model_name",
+                ExaSearchMaxCharacters = 0,
+                ExaSearchNumResults = 0,
+                MaxLoops = 0,
+                Name = "name",
+                WorkerModelName = "worker_model_name",
+            },
+            Task = "task",
+            Img = "img",
+        };
+
+        InputSchema copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }
 
 public class ConfigTest : TestBase
@@ -611,5 +638,27 @@ public class ConfigTest : TestBase
         };
 
         model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Config
+        {
+            Description = "description",
+            DirectorAgentName = "director_agent_name",
+            DirectorMaxLoops = 0,
+            DirectorMaxTokens = 0,
+            DirectorModelName = "director_model_name",
+            ExaSearchMaxCharacters = 0,
+            ExaSearchNumResults = 0,
+            MaxLoops = 0,
+            Name = "name",
+            WorkerModelName = "worker_model_name",
+        };
+
+        Config copied = new(model);
+
+        Assert.Equal(model, copied);
     }
 }

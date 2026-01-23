@@ -118,8 +118,11 @@ public sealed record class AgentCompletion : JsonModel
 
     public AgentCompletion() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public AgentCompletion(AgentCompletion agentCompletion)
         : base(agentCompletion) { }
+#pragma warning restore CS8618
 
     public AgentCompletion(IReadOnlyDictionary<string, JsonElement> rawData)
     {

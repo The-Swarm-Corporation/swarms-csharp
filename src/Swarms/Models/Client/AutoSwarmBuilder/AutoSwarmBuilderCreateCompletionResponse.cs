@@ -127,10 +127,13 @@ public sealed record class AutoSwarmBuilderCreateCompletionResponse : JsonModel
 
     public AutoSwarmBuilderCreateCompletionResponse() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public AutoSwarmBuilderCreateCompletionResponse(
         AutoSwarmBuilderCreateCompletionResponse autoSwarmBuilderCreateCompletionResponse
     )
         : base(autoSwarmBuilderCreateCompletionResponse) { }
+#pragma warning restore CS8618
 
     public AutoSwarmBuilderCreateCompletionResponse(
         IReadOnlyDictionary<string, JsonElement> rawData

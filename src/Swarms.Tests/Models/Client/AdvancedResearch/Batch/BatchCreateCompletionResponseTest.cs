@@ -155,4 +155,27 @@ public class BatchCreateCompletionResponseTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new BatchCreateCompletionResponse
+        {
+            ID = "id",
+            CharactersPerSource = 0,
+            Description = "description",
+            Name = "name",
+            Outputs = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Sources = 0,
+            Timestamp = "timestamp",
+            Usage = new Dictionary<string, JsonElement>()
+            {
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            },
+        };
+
+        BatchCreateCompletionResponse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }

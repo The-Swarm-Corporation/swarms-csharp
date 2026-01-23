@@ -143,8 +143,11 @@ public sealed record class AgentRunResponse : JsonModel
 
     public AgentRunResponse() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public AgentRunResponse(AgentRunResponse agentRunResponse)
         : base(agentRunResponse) { }
+#pragma warning restore CS8618
 
     public AgentRunResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {

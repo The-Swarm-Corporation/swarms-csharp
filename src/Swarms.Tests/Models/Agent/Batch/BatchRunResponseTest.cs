@@ -232,4 +232,21 @@ public class BatchRunResponseTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new BatchRunResponse
+        {
+            BatchID = "batch_id",
+            ExecutionTime = 0,
+            Results = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Timestamp = "timestamp",
+            TotalRequests = 0,
+        };
+
+        BatchRunResponse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }

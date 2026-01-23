@@ -237,4 +237,26 @@ public class McpConnectionTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new McpConnection
+        {
+            AuthorizationToken = "authorization_token",
+            Headers = new Dictionary<string, string>() { { "foo", "string" } },
+            Timeout = 0,
+            ToolConfigurations = new Dictionary<string, JsonElement>()
+            {
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            },
+            Transport = "transport",
+            Type = "type",
+            Url = "url",
+        };
+
+        McpConnection copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }

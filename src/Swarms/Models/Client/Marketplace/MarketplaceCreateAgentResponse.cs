@@ -94,10 +94,13 @@ public sealed record class MarketplaceCreateAgentResponse : JsonModel
 
     public MarketplaceCreateAgentResponse() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public MarketplaceCreateAgentResponse(
         MarketplaceCreateAgentResponse marketplaceCreateAgentResponse
     )
         : base(marketplaceCreateAgentResponse) { }
+#pragma warning restore CS8618
 
     public MarketplaceCreateAgentResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -296,8 +299,11 @@ public sealed record class Prompt : JsonModel
 
     public Prompt() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public Prompt(Prompt prompt)
         : base(prompt) { }
+#pragma warning restore CS8618
 
     public Prompt(IReadOnlyDictionary<string, JsonElement> rawData)
     {

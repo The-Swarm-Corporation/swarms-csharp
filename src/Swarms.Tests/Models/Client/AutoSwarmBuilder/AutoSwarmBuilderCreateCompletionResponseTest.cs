@@ -239,4 +239,28 @@ public class AutoSwarmBuilderCreateCompletionResponseTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new AutoSwarmBuilderCreateCompletionResponse
+        {
+            Success = true,
+            JobID = "job_id",
+            Outputs = new Dictionary<string, JsonElement>()
+            {
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            },
+            Timestamp = "timestamp",
+            Type = "type",
+            Usage = new Dictionary<string, JsonElement>()
+            {
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            },
+        };
+
+        AutoSwarmBuilderCreateCompletionResponse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }

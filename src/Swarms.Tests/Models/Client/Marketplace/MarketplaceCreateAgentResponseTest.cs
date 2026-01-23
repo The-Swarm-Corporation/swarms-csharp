@@ -439,6 +439,50 @@ public class MarketplaceCreateAgentResponseTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new MarketplaceCreateAgentResponse
+        {
+            Prompts =
+            [
+                new()
+                {
+                    ID = "id",
+                    CreatedAt = "created_at",
+                    UserID = "user_id",
+                    Category = "string",
+                    Description = "description",
+                    Links = new(
+                        [
+                            new Dictionary<string, JsonElement>()
+                            {
+                                { "foo", JsonSerializer.SerializeToElement("bar") },
+                            },
+                        ]
+                    ),
+                    Name = "name",
+                    PromptValue = "prompt",
+                    Status = "status",
+                    Tags = "tags",
+                    UseCases = new(
+                        new Dictionary<string, JsonElement>()
+                        {
+                            { "foo", JsonSerializer.SerializeToElement("bar") },
+                        }
+                    ),
+                },
+            ],
+            TotalCount = 0,
+            Status = "status",
+            Timestamp = "timestamp",
+        };
+
+        MarketplaceCreateAgentResponse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }
 
 public class PromptTest : TestBase
@@ -748,6 +792,41 @@ public class PromptTest : TestBase
         };
 
         model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Prompt
+        {
+            ID = "id",
+            CreatedAt = "created_at",
+            UserID = "user_id",
+            Category = "string",
+            Description = "description",
+            Links = new(
+                [
+                    new Dictionary<string, JsonElement>()
+                    {
+                        { "foo", JsonSerializer.SerializeToElement("bar") },
+                    },
+                ]
+            ),
+            Name = "name",
+            PromptValue = "prompt",
+            Status = "status",
+            Tags = "tags",
+            UseCases = new(
+                new Dictionary<string, JsonElement>()
+                {
+                    { "foo", JsonSerializer.SerializeToElement("bar") },
+                }
+            ),
+        };
+
+        Prompt copied = new(model);
+
+        Assert.Equal(model, copied);
     }
 }
 

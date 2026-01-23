@@ -137,10 +137,13 @@ public sealed record class BatchCreateCompletionResponse : JsonModel
 
     public BatchCreateCompletionResponse() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public BatchCreateCompletionResponse(
         BatchCreateCompletionResponse batchCreateCompletionResponse
     )
         : base(batchCreateCompletionResponse) { }
+#pragma warning restore CS8618
 
     public BatchCreateCompletionResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {

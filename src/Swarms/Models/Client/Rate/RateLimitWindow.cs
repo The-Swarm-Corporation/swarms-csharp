@@ -87,8 +87,11 @@ public sealed record class RateLimitWindow : JsonModel
 
     public RateLimitWindow() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public RateLimitWindow(RateLimitWindow rateLimitWindow)
         : base(rateLimitWindow) { }
+#pragma warning restore CS8618
 
     public RateLimitWindow(IReadOnlyDictionary<string, JsonElement> rawData)
     {

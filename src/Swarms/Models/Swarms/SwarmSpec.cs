@@ -268,8 +268,11 @@ public sealed record class SwarmSpec : JsonModel
 
     public SwarmSpec() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public SwarmSpec(SwarmSpec swarmSpec)
         : base(swarmSpec) { }
+#pragma warning restore CS8618
 
     public SwarmSpec(IReadOnlyDictionary<string, JsonElement> rawData)
     {

@@ -256,6 +256,32 @@ public class GraphWorkflowExecuteWorkflowResponseTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new GraphWorkflowExecuteWorkflowResponse
+        {
+            JobID = "job_id",
+            Outputs = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Status = "status",
+            Timestamp = "timestamp",
+            Usage = new()
+            {
+                CostPerAgent = 0,
+                InputTokens = 0,
+                OutputTokens = 0,
+                TokenCost = 0,
+                TotalTokens = 0,
+            },
+            Description = "description",
+            Name = "name",
+        };
+
+        GraphWorkflowExecuteWorkflowResponse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }
 
 public class UsageTest : TestBase
@@ -345,5 +371,22 @@ public class UsageTest : TestBase
         };
 
         model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Usage
+        {
+            CostPerAgent = 0,
+            InputTokens = 0,
+            OutputTokens = 0,
+            TokenCost = 0,
+            TotalTokens = 0,
+        };
+
+        Usage copied = new(model);
+
+        Assert.Equal(model, copied);
     }
 }

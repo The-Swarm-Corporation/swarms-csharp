@@ -87,8 +87,11 @@ public sealed record class RateGetLimitsResponse : JsonModel
 
     public RateGetLimitsResponse() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public RateGetLimitsResponse(RateGetLimitsResponse rateGetLimitsResponse)
         : base(rateGetLimitsResponse) { }
+#pragma warning restore CS8618
 
     public RateGetLimitsResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -189,8 +192,11 @@ public sealed record class Limits : JsonModel
 
     public Limits() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public Limits(Limits limits)
         : base(limits) { }
+#pragma warning restore CS8618
 
     public Limits(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -274,8 +280,11 @@ public sealed record class RateLimits : JsonModel
 
     public RateLimits() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public RateLimits(RateLimits rateLimits)
         : base(rateLimits) { }
+#pragma warning restore CS8618
 
     public RateLimits(IReadOnlyDictionary<string, JsonElement> rawData)
     {

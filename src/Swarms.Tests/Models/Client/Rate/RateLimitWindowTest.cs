@@ -98,4 +98,21 @@ public class RateLimitWindowTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new RateLimitWindow
+        {
+            Count = 0,
+            Exceeded = true,
+            Limit = 0,
+            Remaining = 0,
+            ResetTime = "reset_time",
+        };
+
+        RateLimitWindow copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }

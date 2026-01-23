@@ -163,8 +163,11 @@ public sealed record class SwarmRunResponse : JsonModel
 
     public SwarmRunResponse() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public SwarmRunResponse(SwarmRunResponse swarmRunResponse)
         : base(swarmRunResponse) { }
+#pragma warning restore CS8618
 
     public SwarmRunResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {

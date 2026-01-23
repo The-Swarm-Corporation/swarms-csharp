@@ -120,10 +120,13 @@ public sealed record class BatchedGridWorkflowCompleteWorkflowResponse : JsonMod
 
     public BatchedGridWorkflowCompleteWorkflowResponse() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public BatchedGridWorkflowCompleteWorkflowResponse(
         BatchedGridWorkflowCompleteWorkflowResponse batchedGridWorkflowCompleteWorkflowResponse
     )
         : base(batchedGridWorkflowCompleteWorkflowResponse) { }
+#pragma warning restore CS8618
 
     public BatchedGridWorkflowCompleteWorkflowResponse(
         IReadOnlyDictionary<string, JsonElement> rawData
@@ -241,8 +244,11 @@ public sealed record class Usage : JsonModel
 
     public Usage() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public Usage(Usage usage)
         : base(usage) { }
+#pragma warning restore CS8618
 
     public Usage(IReadOnlyDictionary<string, JsonElement> rawData)
     {

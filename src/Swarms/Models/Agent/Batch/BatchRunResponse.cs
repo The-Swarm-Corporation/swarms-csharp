@@ -95,8 +95,11 @@ public sealed record class BatchRunResponse : JsonModel
 
     public BatchRunResponse() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public BatchRunResponse(BatchRunResponse batchRunResponse)
         : base(batchRunResponse) { }
+#pragma warning restore CS8618
 
     public BatchRunResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {

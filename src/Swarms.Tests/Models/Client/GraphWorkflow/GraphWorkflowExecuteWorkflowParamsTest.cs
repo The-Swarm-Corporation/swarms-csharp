@@ -612,4 +612,22 @@ public class EdgeSpecTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new EdgeSpec
+        {
+            Source = "source",
+            Target = "target",
+            Metadata = new Dictionary<string, JsonElement>()
+            {
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            },
+        };
+
+        EdgeSpec copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }

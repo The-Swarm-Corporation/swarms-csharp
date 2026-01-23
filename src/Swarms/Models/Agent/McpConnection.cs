@@ -129,8 +129,11 @@ public sealed record class McpConnection : JsonModel
 
     public McpConnection() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public McpConnection(McpConnection mcpConnection)
         : base(mcpConnection) { }
+#pragma warning restore CS8618
 
     public McpConnection(IReadOnlyDictionary<string, JsonElement> rawData)
     {

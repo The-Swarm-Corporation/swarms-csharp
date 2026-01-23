@@ -123,10 +123,13 @@ public sealed record class GraphWorkflowExecuteWorkflowResponse : JsonModel
 
     public GraphWorkflowExecuteWorkflowResponse() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public GraphWorkflowExecuteWorkflowResponse(
         GraphWorkflowExecuteWorkflowResponse graphWorkflowExecuteWorkflowResponse
     )
         : base(graphWorkflowExecuteWorkflowResponse) { }
+#pragma warning restore CS8618
 
     public GraphWorkflowExecuteWorkflowResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
@@ -242,8 +245,11 @@ public sealed record class Usage : JsonModel
 
     public Usage() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public Usage(Usage usage)
         : base(usage) { }
+#pragma warning restore CS8618
 
     public Usage(IReadOnlyDictionary<string, JsonElement> rawData)
     {

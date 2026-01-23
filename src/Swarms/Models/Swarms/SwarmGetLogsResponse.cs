@@ -69,8 +69,11 @@ public sealed record class SwarmGetLogsResponse : JsonModel
 
     public SwarmGetLogsResponse() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public SwarmGetLogsResponse(SwarmGetLogsResponse swarmGetLogsResponse)
         : base(swarmGetLogsResponse) { }
+#pragma warning restore CS8618
 
     public SwarmGetLogsResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {

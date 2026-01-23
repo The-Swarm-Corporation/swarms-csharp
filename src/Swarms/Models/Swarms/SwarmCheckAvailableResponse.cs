@@ -48,8 +48,11 @@ public sealed record class SwarmCheckAvailableResponse : JsonModel
 
     public SwarmCheckAvailableResponse() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public SwarmCheckAvailableResponse(SwarmCheckAvailableResponse swarmCheckAvailableResponse)
         : base(swarmCheckAvailableResponse) { }
+#pragma warning restore CS8618
 
     public SwarmCheckAvailableResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {

@@ -214,4 +214,20 @@ public class SwarmGetLogsResponseTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new SwarmGetLogsResponse
+        {
+            Count = 0,
+            Logs = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Status = "status",
+            Timestamp = "timestamp",
+        };
+
+        SwarmGetLogsResponse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }

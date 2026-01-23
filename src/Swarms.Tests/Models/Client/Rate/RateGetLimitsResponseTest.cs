@@ -480,6 +480,55 @@ public class RateGetLimitsResponseTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new RateGetLimitsResponse
+        {
+            Limits = new()
+            {
+                MaximumRequestsPerDay = 0,
+                MaximumRequestsPerHour = 0,
+                MaximumRequestsPerMinute = 0,
+                TokensPerAgent = 0,
+            },
+            RateLimits = new()
+            {
+                Day = new()
+                {
+                    Count = 0,
+                    Exceeded = true,
+                    Limit = 0,
+                    Remaining = 0,
+                    ResetTime = "reset_time",
+                },
+                Hour = new()
+                {
+                    Count = 0,
+                    Exceeded = true,
+                    Limit = 0,
+                    Remaining = 0,
+                    ResetTime = "reset_time",
+                },
+                Minute = new()
+                {
+                    Count = 0,
+                    Exceeded = true,
+                    Limit = 0,
+                    Remaining = 0,
+                    ResetTime = "reset_time",
+                },
+            },
+            Tier = "tier",
+            Timestamp = "timestamp",
+            Success = true,
+        };
+
+        RateGetLimitsResponse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }
 
 public class LimitsTest : TestBase
@@ -561,6 +610,22 @@ public class LimitsTest : TestBase
         };
 
         model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Limits
+        {
+            MaximumRequestsPerDay = 0,
+            MaximumRequestsPerHour = 0,
+            MaximumRequestsPerMinute = 0,
+            TokensPerAgent = 0,
+        };
+
+        Limits copied = new(model);
+
+        Assert.Equal(model, copied);
     }
 }
 
@@ -767,5 +832,41 @@ public class RateLimitsTest : TestBase
         };
 
         model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new RateLimits
+        {
+            Day = new()
+            {
+                Count = 0,
+                Exceeded = true,
+                Limit = 0,
+                Remaining = 0,
+                ResetTime = "reset_time",
+            },
+            Hour = new()
+            {
+                Count = 0,
+                Exceeded = true,
+                Limit = 0,
+                Remaining = 0,
+                ResetTime = "reset_time",
+            },
+            Minute = new()
+            {
+                Count = 0,
+                Exceeded = true,
+                Limit = 0,
+                Remaining = 0,
+                ResetTime = "reset_time",
+            },
+        };
+
+        RateLimits copied = new(model);
+
+        Assert.Equal(model, copied);
     }
 }

@@ -171,4 +171,29 @@ public class SwarmRunResponseTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new SwarmRunResponse
+        {
+            Description = "description",
+            ExecutionTime = 0,
+            JobID = "job_id",
+            NumberOfAgents = 0,
+            Output = JsonSerializer.Deserialize<JsonElement>("{}"),
+            ServiceTier = "service_tier",
+            Status = "status",
+            SwarmName = "swarm_name",
+            SwarmType = "swarm_type",
+            Usage = new Dictionary<string, JsonElement>()
+            {
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            },
+        };
+
+        SwarmRunResponse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }

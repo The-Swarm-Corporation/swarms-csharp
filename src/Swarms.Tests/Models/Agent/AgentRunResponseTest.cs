@@ -331,4 +331,27 @@ public class AgentRunResponseTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new AgentRunResponse
+        {
+            Description = "description",
+            JobID = "job_id",
+            Name = "name",
+            Outputs = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Success = true,
+            Temperature = 0,
+            Timestamp = "timestamp",
+            Usage = new Dictionary<string, JsonElement>()
+            {
+                { "foo", JsonSerializer.SerializeToElement("bar") },
+            },
+        };
+
+        AgentRunResponse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }

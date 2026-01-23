@@ -156,6 +156,32 @@ public class BatchedGridWorkflowCompleteWorkflowResponseTest : TestBase
 
         model.Validate();
     }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new BatchedGridWorkflowCompleteWorkflowResponse
+        {
+            Description = "description",
+            JobID = "job_id",
+            Name = "name",
+            Outputs = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Status = "status",
+            Timestamp = "timestamp",
+            Usage = new()
+            {
+                CostPerAgent = 0,
+                InputTokens = 0,
+                OutputTokens = 0,
+                TokenCost = 0,
+                TotalTokens = 0,
+            },
+        };
+
+        BatchedGridWorkflowCompleteWorkflowResponse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
 }
 
 public class UsageTest : TestBase
@@ -245,5 +271,22 @@ public class UsageTest : TestBase
         };
 
         model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Usage
+        {
+            CostPerAgent = 0,
+            InputTokens = 0,
+            OutputTokens = 0,
+            TokenCost = 0,
+            TotalTokens = 0,
+        };
+
+        Usage copied = new(model);
+
+        Assert.Equal(model, copied);
     }
 }

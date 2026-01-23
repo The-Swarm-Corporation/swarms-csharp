@@ -140,10 +140,13 @@ public sealed record class AdvancedResearchCreateCompletionResponse : JsonModel
 
     public AdvancedResearchCreateCompletionResponse() { }
 
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
     public AdvancedResearchCreateCompletionResponse(
         AdvancedResearchCreateCompletionResponse advancedResearchCreateCompletionResponse
     )
         : base(advancedResearchCreateCompletionResponse) { }
+#pragma warning restore CS8618
 
     public AdvancedResearchCreateCompletionResponse(
         IReadOnlyDictionary<string, JsonElement> rawData
