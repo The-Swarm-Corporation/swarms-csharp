@@ -496,10 +496,10 @@ public record class SwarmSpecMessages : ModelBase
         }
     }
 
-    public virtual bool Equals(SwarmSpecMessages? other)
-    {
-        return other != null && JsonElement.DeepEquals(this.Json, other.Json);
-    }
+    public virtual bool Equals(SwarmSpecMessages? other) =>
+        other != null
+        && this.VariantIndex() == other.VariantIndex()
+        && JsonElement.DeepEquals(this.Json, other.Json);
 
     public override int GetHashCode()
     {
@@ -508,6 +508,16 @@ public record class SwarmSpecMessages : ModelBase
 
     public override string ToString() =>
         JsonSerializer.Serialize(this._element, ModelBase.ToStringSerializerOptions);
+
+    int VariantIndex()
+    {
+        return this.Value switch
+        {
+            IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> _ => 0,
+            IReadOnlyDictionary<string, JsonElement> _ => 1,
+            _ => -1,
+        };
+    }
 }
 
 sealed class SwarmSpecMessagesConverter : JsonConverter<SwarmSpecMessages?>

@@ -507,10 +507,10 @@ public record class Category : ModelBase
         }
     }
 
-    public virtual bool Equals(Category? other)
-    {
-        return other != null && JsonElement.DeepEquals(this.Json, other.Json);
-    }
+    public virtual bool Equals(Category? other) =>
+        other != null
+        && this.VariantIndex() == other.VariantIndex()
+        && JsonElement.DeepEquals(this.Json, other.Json);
 
     public override int GetHashCode()
     {
@@ -519,6 +519,16 @@ public record class Category : ModelBase
 
     public override string ToString() =>
         JsonSerializer.Serialize(this._element, ModelBase.ToStringSerializerOptions);
+
+    int VariantIndex()
+    {
+        return this.Value switch
+        {
+            string _ => 0,
+            IReadOnlyList<string> _ => 1,
+            _ => -1,
+        };
+    }
 }
 
 sealed class CategoryConverter : JsonConverter<Category?>
@@ -755,10 +765,10 @@ public record class Links : ModelBase
         }
     }
 
-    public virtual bool Equals(Links? other)
-    {
-        return other != null && JsonElement.DeepEquals(this.Json, other.Json);
-    }
+    public virtual bool Equals(Links? other) =>
+        other != null
+        && this.VariantIndex() == other.VariantIndex()
+        && JsonElement.DeepEquals(this.Json, other.Json);
 
     public override int GetHashCode()
     {
@@ -767,6 +777,16 @@ public record class Links : ModelBase
 
     public override string ToString() =>
         JsonSerializer.Serialize(this._element, ModelBase.ToStringSerializerOptions);
+
+    int VariantIndex()
+    {
+        return this.Value switch
+        {
+            IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> _ => 0,
+            IReadOnlyList<string> _ => 1,
+            _ => -1,
+        };
+    }
 }
 
 sealed class LinksConverter : JsonConverter<Links?>
@@ -1007,10 +1027,10 @@ public record class UseCases : ModelBase
         }
     }
 
-    public virtual bool Equals(UseCases? other)
-    {
-        return other != null && JsonElement.DeepEquals(this.Json, other.Json);
-    }
+    public virtual bool Equals(UseCases? other) =>
+        other != null
+        && this.VariantIndex() == other.VariantIndex()
+        && JsonElement.DeepEquals(this.Json, other.Json);
 
     public override int GetHashCode()
     {
@@ -1019,6 +1039,16 @@ public record class UseCases : ModelBase
 
     public override string ToString() =>
         JsonSerializer.Serialize(this._element, ModelBase.ToStringSerializerOptions);
+
+    int VariantIndex()
+    {
+        return this.Value switch
+        {
+            IReadOnlyDictionary<string, JsonElement> _ => 0,
+            IReadOnlyList<IReadOnlyDictionary<string, JsonElement>> _ => 1,
+            _ => -1,
+        };
+    }
 }
 
 sealed class UseCasesConverter : JsonConverter<UseCases?>

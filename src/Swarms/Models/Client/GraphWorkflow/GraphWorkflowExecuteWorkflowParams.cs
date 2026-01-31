@@ -488,10 +488,10 @@ public record class Edge : ModelBase
         this.Switch((spec) => spec.Validate(), (_) => { });
     }
 
-    public virtual bool Equals(Edge? other)
-    {
-        return other != null && JsonElement.DeepEquals(this.Json, other.Json);
-    }
+    public virtual bool Equals(Edge? other) =>
+        other != null
+        && this.VariantIndex() == other.VariantIndex()
+        && JsonElement.DeepEquals(this.Json, other.Json);
 
     public override int GetHashCode()
     {
@@ -500,6 +500,16 @@ public record class Edge : ModelBase
 
     public override string ToString() =>
         JsonSerializer.Serialize(this._element, ModelBase.ToStringSerializerOptions);
+
+    int VariantIndex()
+    {
+        return this.Value switch
+        {
+            EdgeSpec _ => 0,
+            IReadOnlyDictionary<string, JsonElement> _ => 1,
+            _ => -1,
+        };
+    }
 }
 
 sealed class EdgeConverter : JsonConverter<Edge>

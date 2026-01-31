@@ -347,10 +347,10 @@ public record class AgentCompletionHistory : ModelBase
         }
     }
 
-    public virtual bool Equals(AgentCompletionHistory? other)
-    {
-        return other != null && JsonElement.DeepEquals(this.Json, other.Json);
-    }
+    public virtual bool Equals(AgentCompletionHistory? other) =>
+        other != null
+        && this.VariantIndex() == other.VariantIndex()
+        && JsonElement.DeepEquals(this.Json, other.Json);
 
     public override int GetHashCode()
     {
@@ -359,6 +359,16 @@ public record class AgentCompletionHistory : ModelBase
 
     public override string ToString() =>
         JsonSerializer.Serialize(this._element, ModelBase.ToStringSerializerOptions);
+
+    int VariantIndex()
+    {
+        return this.Value switch
+        {
+            IReadOnlyDictionary<string, JsonElement> _ => 0,
+            IReadOnlyList<IReadOnlyDictionary<string, string>> _ => 1,
+            _ => -1,
+        };
+    }
 }
 
 sealed class AgentCompletionHistoryConverter : JsonConverter<AgentCompletionHistory?>
