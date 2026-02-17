@@ -31,13 +31,6 @@ public record struct ClientOptions()
     /// The base URL to use for every request.
     ///
     /// <para>Defaults to the production environment: <see cref="EnvironmentUrl.Production"/></para>
-    ///
-    /// <para>
-    /// The following other environments are available:
-    /// <list type="bullet">
-    ///   <item>sandbox: <see cref="EnvironmentUrl.Sandbox"/></item>
-    /// </list>
-    /// </para>
     /// </summary>
     public string BaseUrl
     {

@@ -211,17 +211,6 @@ var response = await client
 Console.WriteLine(response);
 ```
 
-### Environments
-
-The SDK sends requests to the production environment by default. To send requests to a different environment, configure the client like so:
-
-```csharp
-using Swarms;
-using Swarms.Core;
-
-SwarmsClientClient client = new() { BaseUrl = EnvironmentUrl.Sandbox };
-```
-
 ## Undocumented API functionality
 
 The SDK is typed for convenient usage of the documented API. However, it also supports working with undocumented or not yet supported parts of the API.
