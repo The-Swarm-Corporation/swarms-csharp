@@ -7,7 +7,7 @@ namespace Swarms.Tests.Services.Swarms;
 
 public class BatchServiceTest : TestBase
 {
-    [Fact(Skip = "Prism tests are disabled")]
+    [Fact(Skip = "Mock server tests are disabled")]
     public async Task Run_Works()
     {
         await this.client.Swarms.Batch.Run(

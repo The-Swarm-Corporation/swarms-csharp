@@ -4,7 +4,7 @@ namespace Swarms.Tests.Services.Client.AdvancedResearch;
 
 public class BatchServiceTest : TestBase
 {
-    [Fact(Skip = "Prism tests are disabled")]
+    [Fact(Skip = "Mock server tests are disabled")]
     public async Task CreateCompletion_Works()
     {
         var response = await this.client.Client.AdvancedResearch.Batch.CreateCompletion(

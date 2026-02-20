@@ -4,7 +4,7 @@ namespace Swarms.Tests.Services;
 
 public class ReasoningAgentServiceTest : TestBase
 {
-    [Fact(Skip = "Prism tests are disabled")]
+    [Fact(Skip = "Mock server tests are disabled")]
     public async Task CreateCompletion_Works()
     {
         await this.client.ReasoningAgents.CreateCompletion(
@@ -13,7 +13,7 @@ public class ReasoningAgentServiceTest : TestBase
         );
     }
 
-    [Fact(Skip = "Prism tests are disabled")]
+    [Fact(Skip = "Mock server tests are disabled")]
     public async Task ListTypes_Works()
     {
         await this.client.ReasoningAgents.ListTypes(new(), TestContext.Current.CancellationToken);

@@ -4,7 +4,7 @@ namespace Swarms.Tests.Services;
 
 public class SwarmServiceTest : TestBase
 {
-    [Fact(Skip = "Prism tests are disabled")]
+    [Fact(Skip = "Mock server tests are disabled")]
     public async Task CheckAvailable_Works()
     {
         var response = await this.client.Swarms.CheckAvailable(
@@ -14,7 +14,7 @@ public class SwarmServiceTest : TestBase
         response.Validate();
     }
 
-    [Fact(Skip = "Prism tests are disabled")]
+    [Fact(Skip = "Mock server tests are disabled")]
     public async Task GetLogs_Works()
     {
         var response = await this.client.Swarms.GetLogs(
@@ -24,7 +24,7 @@ public class SwarmServiceTest : TestBase
         response.Validate();
     }
 
-    [Fact(Skip = "Prism tests are disabled")]
+    [Fact(Skip = "Mock server tests are disabled")]
     public async Task Run_Works()
     {
         var response = await this.client.Swarms.Run(new(), TestContext.Current.CancellationToken);

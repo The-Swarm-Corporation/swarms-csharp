@@ -4,7 +4,7 @@ namespace Swarms.Tests.Services.Client;
 
 public class ToolServiceTest : TestBase
 {
-    [Fact(Skip = "Prism tests are disabled")]
+    [Fact(Skip = "Mock server tests are disabled")]
     public async Task ListAvailable_Works()
     {
         var response = await this.client.Client.Tools.ListAvailable(

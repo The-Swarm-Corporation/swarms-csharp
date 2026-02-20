@@ -4,7 +4,7 @@ namespace Swarms.Tests.Services.Client;
 
 public class RateServiceTest : TestBase
 {
-    [Fact(Skip = "Prism tests are disabled")]
+    [Fact(Skip = "Mock server tests are disabled")]
     public async Task GetLimits_Works()
     {
         var response = await this.client.Client.Rate.GetLimits(
